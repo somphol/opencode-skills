@@ -1,0 +1,28 @@
+{
+  "skills": [
+    {
+      "name": "city-miniature",
+      "source": "~/Projects/city-miniature/skills/city-miniature",
+      "description": "Build or adapt an interactive 3D miniature of a city as one offline HTML file \u2014 street grid, landmarks, traffic, day/night, bilingual UI \u2014 from a working San Francisco template.",
+      "license": "see repository"
+    },
+    {
+      "name": "session-export",
+      "source": "~/.config/opencode/skills/session-export",
+      "description": "Export OpenCode session transcripts to Markdown with a maintained table of contents and a JSON index, sanitized so credentials and personal data never reach the archive.",
+      "license": "see repository"
+    },
+    {
+      "name": "session-to-skill",
+      "source": "~/.config/opencode/skills/session-to-skill",
+      "description": "Turn a finished session or project into a reusable OpenCode skill \u2014 extract the working artifact as a template, write the instructions and references, and prove it by scaffolding a fresh project from it.",
+      "license": "see repository"
+    },
+    {
+      "name": "skill-publish",
+      "source": "~/.config/opencode/skills/skill-publish",
+      "description": "Publish an OpenCode skill to GitHub \u2014 validate it, lay it out as skills/<id>/, write the handoff and attribution notes, and serve it through an HTTP catalog with GitHub Pages.",
+      "license": "see repository"
+    }
+  ]
+}

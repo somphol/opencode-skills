@@ -1,0 +1,100 @@
+{
+  "name": "OpenCode skills by somphol",
+  "skills": [
+    {
+      "name": "city-miniature",
+      "version": "88ed7a77e9a5",
+      "description": "Build or adapt an interactive 3D miniature of a city as one offline HTML file — street grid, landmarks, traffic, day/night, bilingual UI — from a working San Francisco template.",
+      "license": "see repository",
+      "files": [
+        "ATTRIBUTION.md",
+        "SKILL.md",
+        "assets/san-francisco-diorama/README.md",
+        "assets/san-francisco-diorama/index.html",
+        "assets/san-francisco-diorama/package-lock.json",
+        "assets/san-francisco-diorama/package.json",
+        "assets/san-francisco-diorama/scripts/inline-build.mjs",
+        "assets/san-francisco-diorama/scripts/lib/checks.mjs",
+        "assets/san-francisco-diorama/scripts/lib/messages.mjs",
+        "assets/san-francisco-diorama/scripts/notices.mjs",
+        "assets/san-francisco-diorama/scripts/record.mjs",
+        "assets/san-francisco-diorama/scripts/shoot.mjs",
+        "assets/san-francisco-diorama/scripts/verify.mjs",
+        "assets/san-francisco-diorama/src/App.tsx",
+        "assets/san-francisco-diorama/src/aiProfiles.ts",
+        "assets/san-francisco-diorama/src/archetypes.ts",
+        "assets/san-francisco-diorama/src/architecture.ts",
+        "assets/san-francisco-diorama/src/cameraSafety.ts",
+        "assets/san-francisco-diorama/src/capture.tsx",
+        "assets/san-francisco-diorama/src/chryslerArch.ts",
+        "assets/san-francisco-diorama/src/city.ts",
+        "assets/san-francisco-diorama/src/cityLife.ts",
+        "assets/san-francisco-diorama/src/config.ts",
+        "assets/san-francisco-diorama/src/i18n/strings.json",
+        "assets/san-francisco-diorama/src/landmarks.ts",
+        "assets/san-francisco-diorama/src/lib/params.d.mts",
+        "assets/san-francisco-diorama/src/lib/params.mjs",
+        "assets/san-francisco-diorama/src/main.tsx",
+        "assets/san-francisco-diorama/src/models.ts",
+        "assets/san-francisco-diorama/src/newArchetypes.ts",
+        "assets/san-francisco-diorama/src/params.ts",
+        "assets/san-francisco-diorama/src/skill-config.ts",
+        "assets/san-francisco-diorama/src/streets.ts",
+        "assets/san-francisco-diorama/src/style.css",
+        "assets/san-francisco-diorama/src/ui/BrandMark.tsx",
+        "assets/san-francisco-diorama/src/ui/icons.tsx",
+        "assets/san-francisco-diorama/src/urbanEnvironment.ts",
+        "assets/san-francisco-diorama/src/urbanPlan.ts",
+        "assets/san-francisco-diorama/src/waterMotion.ts",
+        "assets/san-francisco-diorama/tests/diversity.ts",
+        "assets/san-francisco-diorama/tests/geometry.ts",
+        "assets/san-francisco-diorama/tests/life.ts",
+        "assets/san-francisco-diorama/tests/planning.ts",
+        "assets/san-francisco-diorama/tests/run.mjs",
+        "assets/san-francisco-diorama/tsconfig.json",
+        "assets/san-francisco-diorama/vite.config.ts",
+        "references/build-log.md",
+        "references/hosting.md",
+        "references/lessons.md",
+        "references/method.md",
+        "references/verification.md",
+        "results/san-francisco-diorama/index.html",
+        "scripts/new-project.mjs"
+      ]
+    },
+    {
+      "name": "session-export",
+      "version": "c494f41ca1ee",
+      "description": "Export OpenCode session transcripts to Markdown with a maintained table of contents and a JSON index, sanitized so credentials and personal data never reach the archive.",
+      "license": "see repository",
+      "files": [
+        "SKILL.md",
+        "references/sanitizing.md",
+        "scripts/export-sessions.mjs"
+      ]
+    },
+    {
+      "name": "session-to-skill",
+      "version": "4aa0351b519e",
+      "description": "Turn a finished session or project into a reusable OpenCode skill — extract the working artifact as a template, write the instructions and references, and prove it by scaffolding a fresh project from it.",
+      "license": "see repository",
+      "files": [
+        "SKILL.md",
+        "scripts/scaffold-skill.mjs"
+      ]
+    },
+    {
+      "name": "skill-publish",
+      "version": "e8349a52a522",
+      "description": "Publish an OpenCode skill to GitHub — validate it, lay it out as skills/<id>/, write the handoff and attribution notes, and serve it through an HTTP catalog with GitHub Pages.",
+      "license": "see repository",
+      "files": [
+        "SKILL.md",
+        "references/catalog-format.md",
+        "references/github-setup.md",
+        "scripts/check-skill.mjs",
+        "scripts/sync-catalog.mjs"
+      ]
+    }
+  ]
+}
