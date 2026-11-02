@@ -52,5 +52,10 @@ rg -n "ghp_|sk-|@[a-z]+\\.|/Users/" /tmp/check/sessions | head
 
 ## The hard rule
 
-Never initialise a git repository in the archive, never add a remote, never copy a transcript into a
-repository that is published. Sanitized is not the same as safe to publish.
+**Every exported `.md` must be sanitized.** The exporter refuses `--raw` without `--unsafe`, the
+archive's front matter must say `sanitized: true`, and `check-archive.mjs` re-reads the files and fails
+on anything that looks like a secret. `push-archive.mjs` runs that check before every push and then
+verifies the remote is private.
+
+Sanitized is not the same as safe to publish: the archive is local master plus an optional private
+mirror, never a public repository.

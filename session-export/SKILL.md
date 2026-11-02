@@ -9,8 +9,9 @@ version: 1.0.0
 Turn OpenCode sessions into a readable, searchable local archive: one Markdown file per session, a
 `TOC.md` index with dates, summaries and tags, and an `index.json` for filtering.
 
-The archive is **local only**. It contains command lines, file contents and tool output; it must never
-be published to GitHub, private or public.
+The local directory is the **master copy**. A **private** GitHub mirror is allowed as a backup; a
+public one never is. Transcripts contain command lines, file contents and tool output, so every
+exported file must be sanitized before it is written, and the push guard verifies that again.
 
 ## When to use
 
@@ -57,10 +58,26 @@ replaces:
 - `password=…`, `token: …`, `api_key=…`, `client_secret=…` assignments, and secret-named `.env` lines
 - emails, `/Users/<name>` paths, `/private/var/folders` temp paths, public IPv4s, card-shaped digits
 
-`--raw` disables it. **Sanitizing is not permission to publish**: the scrubber is pattern based and
-cannot prove that command output is free of sensitive data.
+`--raw` is refused unless `--unsafe` is also passed, so an unsanitized file cannot be produced by
+accident. **Every file in `sessions/` must say `sanitized: true`.** Sanitizing is still not permission
+to publish: the scrubber is pattern based and cannot prove that command output is free of sensitive
+data.
 
 Read `references/sanitizing.md` before extending the rules.
+
+## Before pushing anywhere
+
+```sh
+node scripts/check-archive.mjs          # re-reads the files, fails on anything unsanitized
+node scripts/push-archive.mjs --dry-run # checks the remote is private, pushes nothing
+node scripts/push-archive.mjs           # gate + private check + git push
+```
+
+`check-archive.mjs` is independent of the exporter: it opens every `sessions/*.md`, requires
+`sanitized: true` in the front matter, and scans for tokens, JWTs, private keys, emails, home paths and
+public IPs. `push-archive.mjs` runs it first and refuses to push if it fails, then queries the GitHub
+API and refuses any repository that is not private. A repository can be flipped to public later, which
+is why the check runs on every push rather than once.
 
 ## Reading the archive
 
@@ -76,3 +93,5 @@ rg -n "parcel" ~/opencode-transcripts/sessions
 - Very large sessions take a few seconds each; export writes to a temporary file because a
   multi-megabyte export can be truncated when piped through a buffer.
 - The archive is a snapshot: re-run after sessions change.
+- The push guard needs a stored GitHub credential and a `github.com` remote; without one it refuses.
+- There is no remote-side enforcement: if someone pushes around the guard, the check never runs.

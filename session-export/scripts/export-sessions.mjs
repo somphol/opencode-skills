@@ -1,12 +1,11 @@
 #!/usr/bin/env node
 // Exports OpenCode session transcripts to Markdown and regenerates TOC.md / index.json.
 //
-//   node export-sessions.mjs [--out ~/opencode-transcripts]
 //   node export-sessions.mjs               # every top-level session in this project
 //   node export-sessions.mjs --limit 5     # newest 5
 //   node export-sessions.mjs --only ses_…  # one session
 //   node export-sessions.mjs --reasoning   # include model reasoning (hidden by default)
-//   node export-sessions.mjs --raw         # keep secrets (default is sanitized)
+//   node export-sessions.mjs --raw         # refused unless --unsafe is also passed
 //
 // Sanitizing keeps the prose and tool commands but removes credentials, keys, emails, home paths
 // and public IPs. Transcripts are written to sessions/<date>--<slug>--<id8>.md.
@@ -17,10 +16,12 @@ import { dirname, join, resolve } from 'node:path'
 import { fileURLToPath } from 'node:url'
 
 const argv = process.argv.slice(2)
+const optArg = (name) => {
+  const i = argv.indexOf(`--${name}`)
+  return i >= 0 ? argv[i + 1] : undefined
+}
 const ROOT = resolve(
-  (argv.includes('--out') ? argv[argv.indexOf('--out') + 1] : undefined) ??
-    process.env.OPENCODE_TRANSCRIPTS ??
-    join(process.env.HOME ?? process.cwd(), 'opencode-transcripts'),
+  optArg('out') ?? process.env.OPENCODE_TRANSCRIPTS ?? join(process.env.HOME ?? process.cwd(), 'opencode-transcripts'),
 )
 const OUT = join(ROOT, 'sessions')
 const flag = (name) => argv.includes(`--${name}`)
@@ -31,6 +32,10 @@ const opt = (name) => {
 
 const withReasoning = flag('reasoning')
 const RAW = flag('raw')
+if (RAW && !flag('unsafe')) {
+  console.error('--raw writes an unsanitized transcript. Every exported file must be sanitized.\nIf you really need one for an inspection, add --unsafe and delete it afterwards.')
+  process.exit(2)
+}
 const only = opt('only')
 const workdir = opt('dir') ?? process.env.HOME ?? process.cwd()
 const limit = Number(opt('limit') ?? 0)

@@ -64,13 +64,15 @@
     },
     {
       "name": "session-export",
-      "version": "c494f41ca1ee",
+      "version": "5e23637a5d1e",
       "description": "Export OpenCode session transcripts to Markdown with a maintained table of contents and a JSON index, sanitized so credentials and personal data never reach the archive.",
       "license": "see repository",
       "files": [
         "SKILL.md",
         "references/sanitizing.md",
-        "scripts/export-sessions.mjs"
+        "scripts/check-archive.mjs",
+        "scripts/export-sessions.mjs",
+        "scripts/push-archive.mjs"
       ]
     },
     {
