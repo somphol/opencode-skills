@@ -33,15 +33,29 @@ skill catalog that OpenCode can load from one URL.
 A catalog is a base URL with `index.json`. OpenCode fetches `<base>/<name>/<file>` for each
 listed file. The folder name is the skill ID.
 
-Recommended layout:
+Two layouts work. The published `opencode-skills` catalog uses the root-level layout:
 
 ```text
 <catalog>/
 ├── README.md
 ├── AGENTS.md
-├── ATTRIBUTION.md
-├── LICENSE
-├── docs/preview.png
+├── index.json
+└── cinematic-3d-release/
+    ├── SKILL.md
+    ├── ATTRIBUTION.md
+    ├── assets/
+    ├── references/
+    └── scripts/
+```
+
+Base URL: `https://<user>.github.io/<catalog>/`.
+
+The nested alternative keeps the catalog under `skills/`:
+
+```text
+<catalog>/
+├── README.md
+├── AGENTS.md
 └── skills/
     ├── index.json
     └── cinematic-3d-release/
@@ -54,7 +68,10 @@ Recommended layout:
 
 Base URL: `https://<user>.github.io/<catalog>/skills/`.
 
-`skills/index.json`:
+Either works as long as `index.json` sits at the URL users add to their config and each
+skill folder is `<base>/<name>/`.
+
+`index.json`:
 
 ```json
 {
@@ -92,9 +109,11 @@ Client config:
 
 ```jsonc
 {
-  "skills": ["https://<user>.github.io/<catalog>/skills/"]
+  "skills": ["https://<user>.github.io/<catalog>/"]
 }
 ```
+
+Append `/skills/` if you used the nested layout.
 
 ## Create the GitHub repository without gh
 
