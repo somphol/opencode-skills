@@ -143,6 +143,53 @@
         "scripts/new-project.mjs",
         "scripts/verify.mjs"
       ]
+    },
+    {
+      "name": "cinematic-3d-release",
+      "version": "391a40724d70",
+      "description": "Add cinematic camera choreography, step-by-step playback, and release-grade documentation to a static Three.js app, then verify and publish it.",
+      "license": "MIT",
+      "files": [
+        "ATTRIBUTION.md",
+        "LICENSE",
+        "SKILL.md",
+        "assets/cube-lab/AGENTS.md",
+        "assets/cube-lab/CHANGELOG.md",
+        "assets/cube-lab/CODE_OF_CONDUCT.md",
+        "assets/cube-lab/CONTRIBUTING.md",
+        "assets/cube-lab/LICENSE",
+        "assets/cube-lab/README.md",
+        "assets/cube-lab/SECURITY.md",
+        "assets/cube-lab/SUPPORT.md",
+        "assets/cube-lab/THIRD_PARTY_NOTICES.md",
+        "assets/cube-lab/build.py",
+        "assets/cube-lab/project-docs/ACCESSIBILITY.md",
+        "assets/cube-lab/project-docs/ARCHITECTURE.md",
+        "assets/cube-lab/project-docs/BROWSER_SUPPORT.md",
+        "assets/cube-lab/project-docs/DECISIONS.md",
+        "assets/cube-lab/project-docs/DESIGN.md",
+        "assets/cube-lab/project-docs/FAQ.md",
+        "assets/cube-lab/project-docs/PERFORMANCE.md",
+        "assets/cube-lab/project-docs/README.md",
+        "assets/cube-lab/project-docs/RELEASE.md",
+        "assets/cube-lab/project-docs/REPRODUCTION.md",
+        "assets/cube-lab/project-docs/ROADMAP.md",
+        "assets/cube-lab/project-docs/TESTING.md",
+        "assets/cube-lab/src/app.js",
+        "assets/cube-lab/src/index.template.html",
+        "assets/cube-lab/src/styles.css",
+        "assets/cube-lab/src/vendor/cube.min.js",
+        "assets/cube-lab/src/vendor/solve.js",
+        "references/build-log.md",
+        "references/hosting.md",
+        "references/lessons.md",
+        "references/method.md",
+        "references/release-docs.md",
+        "references/verification.md",
+        "scripts/new-project.mjs",
+        "scripts/new-project.sh",
+        "scripts/verify.mjs"
+      ]
     }
   ]
 }

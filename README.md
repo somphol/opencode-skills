@@ -22,6 +22,7 @@ so a changed skill refreshes in the client's cache.
 | [`session-to-skill`](session-to-skill/SKILL.md) | Turn a finished session or project into a reusable skill: extract the template, write the instructions, prove it by scaffolding. |
 | [`skill-publish`](skill-publish/SKILL.md) | Publish a skill to GitHub: validate, lay out `skills/<id>/`, write handoff and attribution notes, serve an HTTP catalog via Pages. |
 | [`khan-trig-studio`](khan-trig-studio/SKILL.md) | Build a bilingual, offline trigonometry studio with three canvas modules, exact math, practice persistence, headless checks and a Pages release. |
+| [`cinematic-3d-release`](cinematic-3d-release/SKILL.md) | Turn a static Three.js app into a release-grade product: cinematic camera director, Step playback, release docs, reproduction blueprint and a build check. |
 
 ## Local install instead
 

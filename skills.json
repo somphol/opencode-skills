@@ -29,6 +29,12 @@
       "source": "~/.config/opencode/skills/khan-trig-studio",
       "description": "Build a bilingual, offline, canvas-based Khan Trig Companion studio with three interactive modules, exact math, practice persistence, headless checks and a GitHub Pages release.",
       "license": "MIT"
+    },
+    {
+      "name": "cinematic-3d-release",
+      "source": "~/.config/opencode/skills/cinematic-3d-release",
+      "description": "Add cinematic camera choreography, step-by-step playback, and release-grade documentation to a static Three.js app, then verify and publish it.",
+      "license": "MIT"
     }
   ]
 }
