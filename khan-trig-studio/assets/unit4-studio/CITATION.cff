@@ -1,0 +1,31 @@
+cff-version: 1.2.0
+message: "If you use this studio in teaching, outreach or research, please cite it as below."
+type: software
+title: "Khan Trig Companion: Unit 4 Equations & Identities Studio"
+version: 1.0.2
+date-released: 2026-11-03
+authors:
+  - family-names: Boonjing
+    given-names: Somphol
+license: MIT
+repository-code: "https://github.com/somphol/khan-trig-unit4-equations-identities-studio"
+url: "https://somphol.github.io/khan-trig-unit4-equations-identities-studio/"
+abstract: >-
+  A dependency-free, bilingual (English and Thai) interactive companion for
+  Khan Academy Trigonometry Unit 4. Three canvas studios cover inverse
+  trigonometric functions with restricted domains, Pythagorean identity
+  simplification with geometric area models, and trigonometric equations with
+  multiple solutions, plus identity proofs, streaks and badges. The site runs
+  entirely in the browser and stores progress locally.
+keywords:
+  - trigonometry
+  - inverse trigonometric functions
+  - principal value
+  - Pythagorean identities
+  - trigonometric equations
+  - unit circle
+  - mathematics education
+  - interactive learning
+  - bilingual education
+  - Thai
+  - HTML5 Canvas

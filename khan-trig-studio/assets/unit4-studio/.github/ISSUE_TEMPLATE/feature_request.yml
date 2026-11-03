@@ -1,0 +1,61 @@
+name: Feature request
+description: Suggest a learning, accessibility or quality improvement
+title: "[Feature]: "
+labels: ["enhancement"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Feature requests are most useful when they name the learner problem, not only the solution. Please keep the project dependency-free and offline-capable.
+
+  - type: dropdown
+    id: area
+    attributes:
+      label: Area
+      options:
+        - Pedagogy or content
+        - Thai translation
+        - Accessibility
+        - Visual design
+        - Inverse graph
+        - Identity steps
+        - Equation solver
+        - Documentation or tooling
+        - Other
+    validations:
+      required: true
+
+  - type: textarea
+    id: problem
+    attributes:
+      label: Learner problem
+      description: What is confusing, missing or inaccessible today?
+    validations:
+      required: true
+
+  - type: textarea
+    id: proposal
+    attributes:
+      label: Proposed change
+      description: Describe the interaction and the expected learning outcome.
+    validations:
+      required: true
+
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Alternatives considered
+    validations:
+      required: false
+
+  - type: checkboxes
+    id: constraints
+    attributes:
+      label: Project constraints
+      options:
+        - label: The proposal can work offline without new dependencies.
+          required: true
+        - label: The proposal can be translated into English and Thai.
+          required: true
+        - label: I checked the roadmap and existing issues.
+          required: true

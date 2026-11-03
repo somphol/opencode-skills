@@ -1,0 +1,88 @@
+name: Bug report
+description: Report a reproducible defect in the studio
+title: "[Bug]: "
+labels: ["bug"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for helping improve the studio. Please search existing issues first, and do **not** report security problems here — see [SECURITY.md](../blob/main/SECURITY.md).
+
+  - type: dropdown
+    id: module
+    attributes:
+      label: Module
+      description: Where did the problem appear?
+      options:
+        - Inverse Functions & Restricted Domains
+        - Identity Lab
+        - Equation Solver
+        - HUD, tabs, language or export
+        - Documentation or CI
+    validations:
+      required: true
+
+  - type: textarea
+    id: steps
+    attributes:
+      label: Steps to reproduce
+      description: Exact function, sliders, expression or answer.
+      placeholder: |
+        1. Open the live demo
+        2. Choose cos / arccos with domain [−π/2, π/2]
+        3. ...
+    validations:
+      required: true
+
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected behaviour
+    validations:
+      required: true
+
+  - type: textarea
+    id: actual
+    attributes:
+      label: Actual behaviour
+      description: Include a screenshot or short recording if possible.
+    validations:
+      required: true
+
+  - type: input
+    id: environment
+    attributes:
+      label: Browser and OS
+      placeholder: Chrome 156 / macOS 15, Safari iOS 26
+    validations:
+      required: true
+
+  - type: dropdown
+    id: language
+    attributes:
+      label: Interface language
+      options:
+        - English
+        - Thai
+        - Both
+    validations:
+      required: true
+
+  - type: textarea
+    id: console
+    attributes:
+      label: Console output
+      description: Paste any errors from the browser console or Network tab.
+      render: shell
+    validations:
+      required: false
+
+  - type: checkboxes
+    id: confirmations
+    attributes:
+      label: Confirmations
+      options:
+        - label: I searched existing issues and did not find a duplicate.
+          required: true
+        - label: This report does not contain security-sensitive details.
+          required: true

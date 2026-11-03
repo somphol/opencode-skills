@@ -18,7 +18,7 @@ skill when its `version` string changes, which `sync.mjs` derives from the conte
 ## Architecture
 
 - `skills.json` — the source list: `name`, local `source` path, `description`, `license`. This is the
-  only file edited by hand. `city-miniature` comes from its own repository; the other three come from
+  only file edited by hand. `city-miniature` comes from its own repository; the other skills come from
   the installed skill directories, so editing those skills and re-syncing keeps the catalog current.
 - `sync.mjs` — copies sources (skipping `node_modules`, build output, `docs`, dotfiles) and writes
   `index.json`.
@@ -55,3 +55,5 @@ skill when its `version` string changes, which `sync.mjs` derives from the conte
 - `city-miniature` source of truth: <https://github.com/somphol/city-miniature>
 - Installed copy of that skill: `~/.config/opencode/skills/city-miniature`
 - Session transcripts: local only, `~/opencode-transcripts`; never published.
+- `khan-trig-studio` source: `~/.config/opencode/skills/khan-trig-studio`; reference app at
+  <https://github.com/somphol/khan-trig-unit4-equations-identities-studio>.

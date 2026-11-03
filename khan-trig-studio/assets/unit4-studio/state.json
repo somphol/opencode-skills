@@ -1,0 +1,84 @@
+{
+  "project": "Khan Trig Companion: Unit 4 Equations & Identities Studio",
+  "session": {
+    "id": "ses_e60a2ea01ffewQMjVLNWKAti2n",
+    "startedAt": "2026-11-03T04:36:38Z",
+    "capturedAt": "2026-11-03T04:49:04Z",
+    "elapsedSeconds": 746,
+    "elapsed": "12m 26s",
+    "note": "Wall-clock build time from the first Unit 4 tool call to this capture. The app, the GitHub repository and the first GitHub Pages deployment were complete before capture; only the state commit and release metadata followed."
+  },
+  "model": {
+    "name": "DeepSeek V4.1 Flash",
+    "id": "deepseek-v4.1-flash",
+    "provider": "opencode-go"
+  },
+  "usage": {
+    "basis": "Delta from the Unit 4 start snapshot of the shared OpenCode session (2026-11-03T04:36:38Z), not cumulative Unit 1/2/3 usage.",
+    "inputTokens": 109123,
+    "outputTokens": 55792,
+    "reasoningTokens": 39596,
+    "cacheReadTokens": 15232512,
+    "cacheWriteTokens": 0,
+    "totalTokens": 15437023,
+    "costUSD": 0,
+    "note": "Read from the OpenCode session database. totalTokens is the sum of all five counters, including cache reads; cache reads are repeated prompt context and dominate the figure. costUSD is 0 on the flat-rate plan."
+  },
+  "artifacts": {
+    "sourceFiles": [
+      "index.html",
+      "style.css",
+      "script.js"
+    ],
+    "lineCounts": {
+      "index.html": 321,
+      "style.css": 787,
+      "script.js": 1989
+    },
+    "supportingFiles": [
+      "README.md",
+      "AGENTS.md",
+      "CHANGELOG.md",
+      "LICENSE",
+      "state.json",
+      ".nojekyll",
+      ".gitignore",
+      "assets/hero.jpg"
+    ]
+  },
+  "verification": {
+    "method": "Headless Chrome 156 over the DevTools Protocol, plus node --check",
+    "checks": [
+      "arcsin(0.5) returns π/6, 30.0°, 0.5236 with a valid principal branch",
+      "arcsin(1.5) reports outside range and an undefined result",
+      "Domain [−π, π] reports not one-to-one and removes the inverse",
+      "arccos(0.5) returns π/3; arctan(1) returns π/4",
+      "Dragging the branch point updates the inverse input and result",
+      "sec²θ − tan²θ simplifies over two legal substitutions to 1",
+      "sin³θ + sinθcos²θ advances through factor and identity steps",
+      "Area model draws squares for 1, tan²θ and sec²θ without label collisions",
+      "Basic equation √3tanθ − 3 = 0 accepts π/3, 4π/3",
+      "Quadratic 4sin²θ − 1 = 0 accepts π/6, 5π/6, 7π/6, 11π/6",
+      "Identity proof sin³θ + sinθcos²θ accepts sinθ with three explanation steps",
+      "Answer options disable correctly and new problems reset the form",
+      "EN ⇄ TH switch updates tabs, prompts, instructions and identity steps",
+      "Reload restores language, streak, correct count and all three completed tabs",
+      "Export produces an application/json Blob",
+      "390 px mobile viewport: no horizontal overflow on inverse and identity modules"
+    ],
+    "consoleErrors": 0
+  },
+  "deployment": {
+    "repository": "https://github.com/somphol/khan-trig-unit4-equations-identities-studio",
+    "pages": "https://somphol.github.io/khan-trig-unit4-equations-identities-studio/",
+    "host": "GitHub Pages",
+    "branch": "main",
+    "path": "/"
+  },
+  "credits": {
+    "tool": "OpenCode",
+    "toolURL": "https://opencode.ai",
+    "model": "DeepSeek V4.1 Flash",
+    "modelID": "opencode-go/deepseek-v4.1-flash"
+  }
+}

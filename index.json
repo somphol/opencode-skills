@@ -98,6 +98,51 @@
         "scripts/check-skill.mjs",
         "scripts/sync-catalog.mjs"
       ]
+    },
+    {
+      "name": "khan-trig-studio",
+      "version": "779b29ad165e",
+      "description": "Build a bilingual, offline, canvas-based Khan Trig Companion studio with three interactive modules, exact math, practice persistence, headless checks and a GitHub Pages release.",
+      "license": "MIT",
+      "files": [
+        "ATTRIBUTION.md",
+        "LICENSE",
+        "SKILL.md",
+        "assets/unit4-studio/AGENTS.md",
+        "assets/unit4-studio/CHANGELOG.md",
+        "assets/unit4-studio/CITATION.cff",
+        "assets/unit4-studio/CODE_OF_CONDUCT.md",
+        "assets/unit4-studio/CONTRIBUTING.md",
+        "assets/unit4-studio/LICENSE",
+        "assets/unit4-studio/README.md",
+        "assets/unit4-studio/ROADMAP.md",
+        "assets/unit4-studio/SECURITY.md",
+        "assets/unit4-studio/SUPPORT.md",
+        "assets/unit4-studio/assets/hero.jpg",
+        "assets/unit4-studio/index.html",
+        "assets/unit4-studio/project-docs/ACCESSIBILITY.md",
+        "assets/unit4-studio/project-docs/ARCHITECTURE.md",
+        "assets/unit4-studio/project-docs/CONTENT.md",
+        "assets/unit4-studio/project-docs/DEPLOYMENT.md",
+        "assets/unit4-studio/project-docs/DESIGN.md",
+        "assets/unit4-studio/project-docs/RELEASE.md",
+        "assets/unit4-studio/project-docs/REPRODUCTION.md",
+        "assets/unit4-studio/project-docs/SESSION_LOG.md",
+        "assets/unit4-studio/project-docs/TESTING.md",
+        "assets/unit4-studio/script.js",
+        "assets/unit4-studio/scripts/browser-check.mjs",
+        "assets/unit4-studio/scripts/check.mjs",
+        "assets/unit4-studio/state.json",
+        "assets/unit4-studio/style.css",
+        "references/build-log.md",
+        "references/lessons.md",
+        "references/method.md",
+        "references/release.md",
+        "references/units.md",
+        "references/verification.md",
+        "scripts/new-project.mjs",
+        "scripts/verify.mjs"
+      ]
     }
   ]
 }

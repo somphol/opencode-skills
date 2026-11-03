@@ -23,6 +23,12 @@
       "source": "~/.config/opencode/skills/skill-publish",
       "description": "Publish an OpenCode skill to GitHub \u2014 validate it, lay it out as skills/<id>/, write the handoff and attribution notes, and serve it through an HTTP catalog with GitHub Pages.",
       "license": "see repository"
+    },
+    {
+      "name": "khan-trig-studio",
+      "source": "~/.config/opencode/skills/khan-trig-studio",
+      "description": "Build a bilingual, offline, canvas-based Khan Trig Companion studio with three interactive modules, exact math, practice persistence, headless checks and a GitHub Pages release.",
+      "license": "MIT"
     }
   ]
 }

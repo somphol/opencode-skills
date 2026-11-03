@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="color-scheme" content="dark" />
+<meta name="theme-color" content="#070b16" />
+<title>Khan Trig Companion · Unit 4 Equations &amp; Identities Studio</title>
+<meta name="description" content="An interactive, bilingual companion for Khan Academy Trigonometry Unit 4: inverse functions, restricted domains, Pythagorean identities and multi-solution equations." />
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%23070b16'/%3E%3Cpath d='M14 44 C22 18 42 18 50 44' fill='none' stroke='%2300E5FF' stroke-width='4' stroke-linecap='round'/%3E%3Cpath d='M14 44 H50' stroke='%23FF5722' stroke-width='3'/%3E%3Ccircle cx='32' cy='26' r='4' fill='%23FFD600'/%3E%3C/svg%3E" />
+<link rel="stylesheet" href="style.css" />
+</head>
+<body>
+<div class="aurora" aria-hidden="true"></div>
+
+<div class="app">
+  <header class="hud">
+    <div class="brand">
+      <span class="brand-mark" aria-hidden="true">
+        <svg viewBox="0 0 64 64" width="44" height="44" role="img" aria-label="Sine curve">
+          <path d="M12 40 C20 16 44 16 52 40" fill="none" stroke="var(--cos)" stroke-width="3.5" stroke-linecap="round" />
+          <path d="M12 44 H52" stroke="var(--sin)" stroke-width="3" stroke-linecap="round" />
+          <circle cx="32" cy="24" r="4" fill="var(--theta)" />
+        </svg>
+      </span>
+      <div class="brand-text">
+        <h1 data-i18n="appTitle">Khan Trig Companion</h1>
+        <p><span data-i18n="unitLabel">Unit 4</span> · <span data-i18n="appSubtitle">Equations &amp; Identities Studio</span></p>
+      </div>
+    </div>
+
+    <div class="hud-stats" aria-label="Progress summary">
+      <div class="stat">
+        <span class="stat-label" data-i18n="streak">Streak</span>
+        <strong id="streakValue">0</strong>
+      </div>
+      <div class="stat">
+        <span class="stat-label" data-i18n="best">Best</span>
+        <strong id="bestValue">0</strong>
+      </div>
+      <div class="stat">
+        <span class="stat-label" data-i18n="mastery">Mastery</span>
+        <strong id="masteryValue">0%</strong>
+      </div>
+    </div>
+
+    <div class="hud-actions">
+      <button id="langToggle" class="btn btn-ghost" type="button" aria-label="Switch language between English and Thai" title="EN / TH">
+        <span aria-hidden="true">🌐</span>
+        <span id="langLabel">EN ⇄ TH</span>
+      </button>
+      <button id="exportBtn" class="btn btn-primary" type="button" data-i18n-title="exportTitle" title="Download your saved progress">
+        <span aria-hidden="true">💾</span>
+        <span data-i18n="export">Export Progress JSON</span>
+      </button>
+    </div>
+  </header>
+
+  <nav class="tabs" role="tablist" aria-label="Learning modules">
+    <button class="tab is-active" role="tab" aria-selected="true" aria-controls="panel-inverse" id="tab-inverse" data-module="inverse" type="button">
+      <span class="tab-index">01</span>
+      <span class="tab-label" data-i18n="navInverse">Inverse Functions</span>
+      <span class="tab-check" aria-hidden="true">✓</span>
+    </button>
+    <button class="tab" role="tab" aria-selected="false" aria-controls="panel-identity" id="tab-identity" data-module="identity" type="button" tabindex="-1">
+      <span class="tab-index">02</span>
+      <span class="tab-label" data-i18n="navIdentity">Identity Lab</span>
+      <span class="tab-check" aria-hidden="true">✓</span>
+    </button>
+    <button class="tab" role="tab" aria-selected="false" aria-controls="panel-solver" id="tab-solver" data-module="solver" type="button" tabindex="-1">
+      <span class="tab-index">03</span>
+      <span class="tab-label" data-i18n="navSolver">Equation Solver</span>
+      <span class="tab-check" aria-hidden="true">✓</span>
+    </button>
+  </nav>
+
+  <main>
+    <!-- ============================= MODULE 1 ============================= -->
+    <section class="panel is-active" id="panel-inverse" role="tabpanel" aria-labelledby="tab-inverse">
+      <div class="panel-head">
+        <div>
+          <h2 data-i18n="i.title">Inverse Functions &amp; Restricted Domains</h2>
+          <p class="lede" data-i18n="i.desc">A periodic curve is not one-to-one. Restrict the domain to a principal branch, mirror it across y = x, and a single inverse angle appears.</p>
+        </div>
+        <div class="pill" data-i18n="i.goal">Goal: why arcsin, arccos and arctan need restrictions</div>
+      </div>
+
+      <div class="grid inverse-grid">
+        <article class="card canvas-card">
+          <div class="canvas-head">
+            <div class="legend" aria-hidden="true">
+              <span class="legend-item"><i class="dot dot-cos"></i><span data-i18n="i.legendCurve">Original curve</span></span>
+              <span class="legend-item"><i class="dot dot-theta"></i><span data-i18n="i.legendBranch">Restricted branch</span></span>
+              <span class="legend-item"><i class="dot dot-one"></i><span data-i18n="i.legendInverse">Inverse curve</span></span>
+              <span class="legend-item"><i class="dot dot-sin"></i><span data-i18n="i.legendPoint">Active point</span></span>
+            </div>
+          </div>
+          <div class="canvas-wrap canvas-wrap-inverse">
+            <canvas id="invCanvas" role="img" aria-label="Original trigonometric curve with a restricted branch on the left and its inverse curve on the right. Drag the point or use the sliders."></canvas>
+            <div class="canvas-hint" data-i18n="i.hint">Drag the point on the branch · sliders give the same control</div>
+          </div>
+        </article>
+
+        <aside class="stack">
+          <article class="card controls-card">
+            <div class="fn-row" role="group" aria-label="Inverse function">
+              <button class="fn-btn is-active" type="button" data-fn="sin">sin / arcsin</button>
+              <button class="fn-btn" type="button" data-fn="cos">cos / arccos</button>
+              <button class="fn-btn" type="button" data-fn="tan">tan / arctan</button>
+            </div>
+
+            <div class="control">
+              <div class="control-head">
+                <label for="domMin"><span data-i18n="i.domainMin">Domain start</span></label>
+                <output id="domMinOut" class="control-out" for="domMin">−π/2</output>
+              </div>
+              <input id="domMin" class="range range-cos" type="range" min="-24" max="24" step="1" value="-6" />
+            </div>
+
+            <div class="control">
+              <div class="control-head">
+                <label for="domMax"><span data-i18n="i.domainMax">Domain end</span></label>
+                <output id="domMaxOut" class="control-out" for="domMax">π/2</output>
+              </div>
+              <input id="domMax" class="range range-cos" type="range" min="-24" max="24" step="1" value="6" />
+            </div>
+
+            <div class="control">
+              <div class="control-head">
+                <label for="invInput"><span data-i18n="i.input">Inverse input x</span></label>
+                <output id="invInputOut" class="control-out" for="invInput">0.50</output>
+              </div>
+              <input id="invInput" class="range range-sin" type="range" min="-1.5" max="1.5" step="0.01" value="0.5" />
+              <div class="range-scale"><span id="inputMin">−1.5</span><span>0</span><span id="inputMax">1.5</span></div>
+            </div>
+          </article>
+
+          <article class="card branch-card">
+            <div class="branch-head">
+              <h3 class="card-title" data-i18n="i.branch">Principal branch</h3>
+              <span class="status-badge is-good" id="domainBadge">valid</span>
+            </div>
+            <div class="branch-rows">
+              <div><span data-i18n="i.principalDomain">Domain</span><strong id="principalDomain">[−π/2, π/2]</strong></div>
+              <div><span data-i18n="i.principalRange">Range</span><strong id="principalRange">[−1, 1]</strong></div>
+              <div><span data-i18n="i.yourDomain">Your domain</span><strong id="yourDomain">[−π/2, π/2]</strong></div>
+            </div>
+            <p class="micro" id="domainNote">One-to-one on the selected domain, so the inverse is a function.</p>
+          </article>
+
+          <article class="card result-card">
+            <div class="branch-head">
+              <h3 class="card-title" data-i18n="i.result">Inverse result</h3>
+              <span class="status-badge is-good" id="inputBadge">in domain</span>
+            </div>
+            <div class="result-equation" id="resultEquation">arcsin(0.50) = π/6</div>
+            <div class="result-grid inverse-results">
+              <div class="result-cell"><span data-i18n="degrees">Degrees</span><strong id="resDegrees">30.0°</strong></div>
+              <div class="result-cell"><span data-i18n="radians">Radians</span><strong id="resRadians">0.5236</strong></div>
+              <div class="result-cell"><span data-i18n="exact">Exact</span><strong id="resExact">π/6</strong></div>
+            </div>
+            <p class="micro" id="inputNote">The input lies inside the range of sine, so arcsin returns one principal angle.</p>
+          </article>
+        </aside>
+      </div>
+    </section>
+
+    <!-- ============================= MODULE 2 ============================= -->
+    <section class="panel" id="panel-identity" role="tabpanel" aria-labelledby="tab-identity" hidden>
+      <div class="panel-head">
+        <div>
+          <h2 data-i18n="p.title">Pythagorean Identities &amp; Simplification Lab</h2>
+          <p class="lede" data-i18n="p.desc">Choose an expression, then build the simplification one legal substitution at a time. The area model shows why the identity is true.</p>
+        </div>
+        <div class="pill" data-i18n="p.goal">Goal: transform, don't guess</div>
+      </div>
+
+      <div class="grid lab-grid">
+        <article class="card canvas-card">
+          <div class="canvas-wrap canvas-wrap-model">
+            <canvas id="modelCanvas" role="img" aria-label="Area model: squares built on the sides of a right triangle, labelled with the squared trigonometric lengths."></canvas>
+          </div>
+          <div class="identity-list" id="identityList">
+            <p class="identity-row">sin<sup>2</sup>θ + cos<sup>2</sup>θ = 1</p>
+            <p class="identity-row">1 + tan<sup>2</sup>θ = sec<sup>2</sup>θ</p>
+            <p class="identity-row">1 + cot<sup>2</sup>θ = csc<sup>2</sup>θ</p>
+          </div>
+        </article>
+
+        <aside class="stack">
+          <article class="card lab-card">
+            <div class="expr-chips" id="exprChips" role="group" aria-label="Expression selector"></div>
+            <div class="current-expr-label" data-i18n="p.current">Current expression</div>
+            <div class="current-expr" id="currentExpr">sec²θ − tan²θ</div>
+
+            <div class="step-prompt" id="stepPrompt"></div>
+            <div class="choice-grid" id="choiceGrid"></div>
+            <div class="feedback" id="identityFeedback" role="status" aria-live="polite" hidden></div>
+
+            <div class="lab-foot">
+              <div class="progress-dots" id="progressDots" aria-hidden="true"></div>
+              <button class="btn btn-ghost btn-small" id="resetExpr" type="button">↺ <span data-i18n="p.reset">Reset expression</span></button>
+            </div>
+          </article>
+
+          <article class="card note-card">
+            <h3 class="card-title" data-i18n="p.why">Why it works</h3>
+            <p class="micro" id="identityNote">Divide the Pythagorean identity by cos²θ to obtain 1 + tan²θ = sec²θ.</p>
+          </article>
+        </aside>
+      </div>
+    </section>
+
+    <!-- ============================= MODULE 3 ============================= -->
+    <section class="panel" id="panel-solver" role="tabpanel" aria-labelledby="tab-solver" hidden>
+      <div class="panel-head">
+        <div>
+          <h2 data-i18n="q.title">Khan Practice Sandbox &amp; Equation Solver</h2>
+          <p class="lede" data-i18n="q.desc">Solve equations on [0, 2π), factor quadratic forms, and verify identities. The circle reveals every valid intersection.</p>
+        </div>
+        <div class="pill" data-i18n="q.goal">Goal: all solutions, not just one</div>
+      </div>
+
+      <div class="grid solver-grid">
+        <article class="card practice-card">
+          <div class="mode-row" role="group" aria-label="Problem mode">
+            <button class="mode-btn is-active" type="button" data-qmode="basic">
+              <span aria-hidden="true">◔</span> <span data-i18n="q.modeBasic">Basic Equations</span>
+            </button>
+            <button class="mode-btn" type="button" data-qmode="quadratic">
+              <span aria-hidden="true">𝑥²</span> <span data-i18n="q.modeQuadratic">Quadratic Form</span>
+            </button>
+            <button class="mode-btn" type="button" data-qmode="identity">
+              <span aria-hidden="true">≡</span> <span data-i18n="q.modeIdentity">Identity Proofs</span>
+            </button>
+          </div>
+
+          <div class="problem-head">
+            <span class="problem-tag" id="problemTag">BASIC EQUATION</span>
+            <button class="btn btn-ghost btn-small" id="newProblemBtn" type="button">🎲 <span data-i18n="q.new">New problem</span></button>
+          </div>
+
+          <p class="problem-text" id="problemText">Loading…</p>
+          <p class="problem-equation" id="problemEquation"></p>
+          <p class="problem-instruction" id="problemInstruction"></p>
+
+          <form class="answer-row" id="answerForm" autocomplete="off">
+            <label class="sr-only" for="answerInput" data-i18n="q.answerLabel">Your answer</label>
+            <input id="answerInput" class="answer-input" type="text" inputmode="text" data-i18n-placeholder="q.placeholder" placeholder="e.g. π/6, 5π/6" />
+            <button class="btn btn-primary" id="checkBtn" type="submit" data-i18n="q.check">Check Answer</button>
+          </form>
+          <p class="answer-hint micro" id="answerHint" data-i18n="q.answerHint">Use radians: π/6, 5π/6 or decimals. Separate solutions with commas.</p>
+
+          <div class="options" id="optionsGrid" role="group" aria-label="Answer options" hidden></div>
+
+          <div class="feedback" id="feedback" role="status" aria-live="polite" hidden></div>
+
+          <div class="solution-block">
+            <button class="btn btn-ghost" id="stepsBtn" type="button">
+              💡 <span data-i18n="q.showSteps">Show Step-by-Step Visual Solution</span>
+            </button>
+            <ol class="steps" id="stepsList" aria-live="polite"></ol>
+          </div>
+        </article>
+
+        <aside class="stack">
+          <article class="card solution-canvas-card">
+            <h3 class="card-title" id="solutionTitle" data-i18n="q.circle">Unit circle solutions</h3>
+            <div class="canvas-wrap canvas-wrap-solutions">
+              <canvas id="solutionCanvas" role="img" aria-label="Unit circle with the valid solution angles, or an area model for identity proofs."></canvas>
+            </div>
+          </article>
+
+          <article class="card score-card">
+            <h3 class="card-title" data-i18n="q.progress">Your progress</h3>
+            <div class="score-grid">
+              <div class="score-cell">
+                <span data-i18n="streak">Streak</span>
+                <strong id="quizStreak">0</strong>
+              </div>
+              <div class="score-cell">
+                <span data-i18n="best">Best</span>
+                <strong id="quizBest">0</strong>
+              </div>
+              <div class="score-cell">
+                <span data-i18n="q.correct">Correct</span>
+                <strong id="quizCorrect">0</strong>
+              </div>
+            </div>
+            <div class="mastery-block">
+              <div class="mastery-head">
+                <span data-i18n="mastery">Mastery</span>
+                <strong id="quizMastery">0%</strong>
+              </div>
+              <div class="mastery-track"><div class="mastery-fill" id="masteryFill" style="width:0%"></div></div>
+              <p class="micro" data-i18n="q.masteryHint">15 correct answers unlock Unit 4 mastery.</p>
+            </div>
+          </article>
+
+          <article class="card badges-card">
+            <h3 class="card-title" data-i18n="q.badges">Mastery badges</h3>
+            <div class="badge-grid" id="badgeGrid"></div>
+          </article>
+        </aside>
+      </div>
+    </section>
+  </main>
+
+  <footer class="foot">
+    <span>≡ <span data-i18n="footerBuilt">Built for active learning</span></span>
+    <span class="dot-sep">·</span>
+    <span id="footCredit">OpenCode × deepseek-v4.1-flash</span>
+  </footer>
+</div>
+
+<div class="toast" id="toast" role="status" aria-live="polite" hidden></div>
+<noscript><p class="noscript">This studio needs JavaScript enabled. / ห้องเรียนนี้ต้องเปิดใช้งาน JavaScript</p></noscript>
+
+<script src="script.js"></script>
+</body>
+</html>
