@@ -151,6 +151,150 @@ Thumbs.db
 *.log
 `)
 
+// Hidden directories are not listed by the catalog index, so the scaffold
+// recreates the GitHub templates and CI workflow for catalog installs.
+const githubDir = join(dest, '.github')
+mkdirSync(join(githubDir, 'ISSUE_TEMPLATE'), { recursive: true })
+mkdirSync(join(githubDir, 'workflows'), { recursive: true })
+writeFileSync(join(githubDir, 'CODEOWNERS'), `# Default owner for everything in the repository.
+* @${owner}
+`)
+writeFileSync(join(githubDir, 'PULL_REQUEST_TEMPLATE.md'), `## Summary
+
+<!-- What changes, and which learner problem does it solve? -->
+
+## Modules touched
+
+- [ ] Module 1
+- [ ] Module 2
+- [ ] Module 3
+- [ ] HUD / navigation / export
+- [ ] Docs / CI only
+
+## Verification
+
+- [ ] \`node --check script.js\`
+- [ ] \`node scripts/check.mjs\`
+- [ ] \`node scripts/browser-check.mjs\`
+- [ ] Tested at 1440 px and 390 px
+- [ ] Tested both EN and TH
+- [ ] No new dependency, CDN, font or network request
+`)
+writeFileSync(join(githubDir, 'ISSUE_TEMPLATE', 'bug_report.yml'), `name: Bug report
+description: Report a reproducible defect in the studio
+title: "[Bug]: "
+labels: ["bug"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Please search existing issues first, and do not report security problems here.
+  - type: dropdown
+    id: module
+    attributes:
+      label: Module
+      options:
+        - Module 1
+        - Module 2
+        - Module 3
+        - HUD, tabs, language or export
+        - Documentation or CI
+    validations:
+      required: true
+  - type: textarea
+    id: steps
+    attributes:
+      label: Steps to reproduce
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected behaviour
+    validations:
+      required: true
+  - type: textarea
+    id: actual
+    attributes:
+      label: Actual behaviour
+    validations:
+      required: true
+  - type: input
+    id: environment
+    attributes:
+      label: Browser and OS
+    validations:
+      required: true
+  - type: checkboxes
+    id: confirmations
+    attributes:
+      label: Confirmations
+      options:
+        - label: I searched existing issues.
+          required: true
+        - label: This is not a security report.
+          required: true
+`)
+writeFileSync(join(githubDir, 'ISSUE_TEMPLATE', 'feature_request.yml'), `name: Feature request
+description: Suggest a learning, accessibility or quality improvement
+title: "[Feature]: "
+labels: ["enhancement"]
+body:
+  - type: textarea
+    id: problem
+    attributes:
+      label: Learner problem
+    validations:
+      required: true
+  - type: textarea
+    id: proposal
+    attributes:
+      label: Proposed change
+    validations:
+      required: true
+  - type: checkboxes
+    id: constraints
+    attributes:
+      label: Project constraints
+      options:
+        - label: The proposal can work offline without new dependencies.
+          required: true
+        - label: The proposal can be translated into English and Thai.
+          required: true
+`)
+writeFileSync(join(githubDir, 'ISSUE_TEMPLATE', 'config.yml'), `blank_issues_enabled: false
+contact_links:
+  - name: Support
+    url: https://github.com/${owner}/${slug}/blob/main/SUPPORT.md
+    about: Read the support guide before opening an issue.
+  - name: Security
+    url: https://github.com/${owner}/${slug}/blob/main/SECURITY.md
+    about: Report vulnerabilities privately.
+`)
+writeFileSync(join(githubDir, 'workflows', 'ci.yml'), `name: Verify
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  static-checks:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+      - run: node --check script.js
+      - run: node scripts/check.mjs
+`)
+
 const projectName = `Khan Trig Companion: Unit ${unit} ${studioName}`
 const state = {
   project: projectName,

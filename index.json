@@ -101,7 +101,7 @@
     },
     {
       "name": "khan-trig-studio",
-      "version": "779b29ad165e",
+      "version": "e8403d06584f",
       "description": "Build a bilingual, offline, canvas-based Khan Trig Companion studio with three interactive modules, exact math, practice persistence, headless checks and a GitHub Pages release.",
       "license": "MIT",
       "files": [
