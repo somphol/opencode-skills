@@ -57,6 +57,9 @@ python3 -m http.server 8000
 Open <http://localhost:8000> and <http://localhost:8000/index.html?selftest>. The self-test
 must report `RESULT PASS`. If it does not, stop and read `references/verification.md`.
 
+The scaffold assumes `python3`. On Windows, copy `assets/cube-lab/` manually and run
+`py -3 build.py` (or `python build.py`) instead.
+
 ### 2. Read the method before editing
 
 Read `references/method.md` for the construction order and invariants. Then adapt in this

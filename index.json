@@ -146,7 +146,7 @@
     },
     {
       "name": "cinematic-3d-release",
-      "version": "46c35f85f035",
+      "version": "e26325e4d686",
       "description": "Add cinematic camera choreography, step-by-step playback, and release-grade documentation to a static Three.js app, then verify and publish it.",
       "license": "MIT",
       "files": [
