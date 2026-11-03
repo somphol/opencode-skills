@@ -1,8 +1,11 @@
 # Hosting
 
+The output is one static HTML file. The hosting pattern is reusable; the slug, locales, URL
+parameters and copy are the target city's.
+
 ## Single-file build
 
-`npm run build:single` runs three steps:
+The reference uses three steps:
 
 1. `tsc --noEmit && vite build` — one JS chunk, one CSS file, every asset inlined.
 2. `node scripts/notices.mjs dist/THIRD_PARTY_NOTICES.txt` — licence texts of the production
@@ -10,7 +13,8 @@
 3. `node scripts/inline-build.mjs dist dist-single/index.html` — JS into one inline module script,
    CSS into one `<style>`, notices into an HTML comment.
 
-Output: `dist-single/index.html`, about 1 MB, no external references.
+A new project can use the same pattern with its own scripts. Output: `dist-single/index.html`,
+roughly 0.5–1.5 MB, no external references.
 
 ## GitHub Pages
 
@@ -18,13 +22,15 @@ Works unchanged. Pages cannot set response headers, so the strict CSP below is n
 that only removes the sandbox, and a self-contained page makes no requests anyway.
 
 ```sh
-cp dist-single/index.html /path/to/repo/index.html
+cp dist-single/index.html /path/to/repo/docs/index.html
 ```
 
-Then *Settings → Pages → Deploy from a branch → main / (root)*. The page appears at
-`https://<user>.github.io/<repo>/`. It also works from a subpath: every reference is relative.
+Then *Settings → Pages → Deploy from a branch → main / docs* (or `main / (root)`). The page appears
+at `https://<user>.github.io/<repo>/`. It also works from a subpath: every reference is relative.
+Keep a `.nojekyll` file in the published folder if you use a docs folder.
 
-Do not share the `raw.githubusercontent.com` URL (served as `text/plain`); use the Pages URL.
+Do not publish the reference build or share a `raw.githubusercontent.com` URL (served as
+`text/plain`); use the Pages URL of the target project.
 
 ## Sandbox CSP
 
@@ -40,15 +46,26 @@ mark, because they are blocked by the sandbox.
 
 ## URL parameters
 
-- `lang=en|zh-CN` (aliases `zh`, `zh-cn`, `zh-hans`, `zh_CN`) — English is the default
+Use the target's own set; the reference's are examples:
+
+- `lang=<target locales>` — the default and the aliases
 - `embed=1` — hides header, title column and collectible line
 - `quality=low|high` — forces a rendering tier
 - `capture=1` — deterministic stepping for recordings
-- `view=topdown|lower|midtown|bridge|alcatraz` — debug starting viewpoint, ignored in capture mode
+- `view=<target debug views>` — debug starting viewpoint, ignored in capture mode
+
+Document the actual values in the project README. Do not keep the reference's `?view=bridge` or
+locale aliases unless they mean something in the target city.
 
 ## Embedding handshake
 
 Only when `window.parent !== window`: after the first frame the page posts
-`{ type: 'san-francisco-miniature:ready', version }` with target `'*'`; on failure it posts
-`{ type: '…:error', code: 'webgl' }`. Check `event.source`, not the origin, because the frame's
-origin is opaque.
+`{ type: '<target-slug>:ready', version }` with target `'*'`; on failure it posts
+`{ type: '<target-slug>:error', code: 'webgl' }`. Check `event.source`, not the origin, because the
+frame's origin is opaque.
+
+## Caching
+
+The file name is stable, so a browser or CDN may cache the old build. After a deploy, hard-refresh or
+append a version query string; for a CDN, purge the path or use a short cache TTL for `index.html`.
+The scene has no service worker and no versioned API.

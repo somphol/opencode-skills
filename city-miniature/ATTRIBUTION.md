@@ -1,5 +1,17 @@
 # Attribution
 
+## Recommended practice
+
+The San Francisco diorama is a **reference implementation**, not a starter. Use it to understand the
+mechanism — the road-first plan, instanced facades, camera flights, virtual clock, capture API,
+verification and single-file build — then build the target city from scratch. Copying the scene and
+changing coordinates produces a reskin; the Bangkok build is the case study, first rejected as a
+reskin and then rebuilt from scratch. See [references/build-log.md](references/build-log.md) and the
+public example at <https://github.com/somphol/bangkok-miniature>.
+
+`scripts/new-project.mjs` creates a blank, city-agnostic starter. It copies no scene code,
+geography, landmarks or copy from the San Francisco asset.
+
 ## The template is derived work
 
 The San Francisco diorama in `assets/san-francisco-diorama` and the published build in
@@ -26,6 +38,17 @@ The San Francisco diorama in `assets/san-francisco-diorama` and the published bu
 - bridge traffic derived from the landmark's yaw, and the fixed parcel/road clearance rules
 - all English and Chinese copy for San Francisco
 - `scripts/verify.mjs`, the frame-rate-independent interaction check, and this documentation
+
+### What is new in this skill revision
+
+- The workflow now starts with a city brief and a blank starter, not a copy of the San Francisco
+  project.
+- `references/city-brief.md` records the target's geography, districts, landmarks, street pattern,
+  architecture, transport, palette, copy and verification targets before code is written.
+- `references/build-log.md` documents the Bangkok reskin that was rejected and the from-scratch
+  rebuild that replaced it.
+- The verification guidance separates the reusable approach from the target's expected values.
+- `scripts/new-project.mjs` creates a blank, city-agnostic starter and copies no scene content.
 
 ### Licence status
 
@@ -63,5 +86,5 @@ npm run build:single
 
 ## Imagery
 
-`docs/preview.png` is a screenshot of this project's own build, rendered by
-`node scripts/verify.mjs`'s sibling capture step. No third-party photography is used.
+`docs/preview.png` in the source repository is a screenshot of the reference build. No third-party
+photography is used.

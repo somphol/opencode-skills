@@ -17,7 +17,7 @@ so a changed skill refreshes in the client's cache.
 
 | Skill | What it does |
 | --- | --- |
-| [`city-miniature`](city-miniature/SKILL.md) — [live demo](https://somphol.github.io/san-francisco-miniature/) | Build an interactive 3D miniature of a city as one self-contained HTML file. Ships a working San Francisco diorama (8 landmarks, rotated street grid, traffic, day/night, English/Chinese). |
+| [`city-miniature`](city-miniature/SKILL.md) — [Bangkok example](https://somphol.github.io/bangkok-miniature/) | Build an interactive 3D miniature of a city **from scratch** as one self-contained HTML file. The San Francisco diorama is a mechanism reference; the blank starter and city brief are the workflow. |
 | [`session-export`](session-export/SKILL.md) | Export OpenCode sessions to Markdown with a maintained TOC and JSON index, sanitized. Local master, optional private mirror. |
 | [`session-to-skill`](session-to-skill/SKILL.md) | Turn a finished session or project into a reusable skill: extract the template, write the instructions, prove it by scaffolding. |
 | [`skill-publish`](skill-publish/SKILL.md) | Publish a skill to GitHub: validate, lay out `skills/<id>/`, write handoff and attribution notes, serve an HTTP catalog via Pages. |

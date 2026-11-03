@@ -3,8 +3,8 @@
   "skills": [
     {
       "name": "city-miniature",
-      "version": "88ed7a77e9a5",
-      "description": "Build or adapt an interactive 3D miniature of a city as one offline HTML file — street grid, landmarks, traffic, day/night, bilingual UI — from a working San Francisco template.",
+      "version": "2e38f910e2c6",
+      "description": "Build an interactive 3D miniature of a city from scratch as one offline HTML file — city-specific geography, landmarks, traffic, day/night and bilingual UI. Existing miniatures are mechanism references only, never templates to reskin.",
       "license": "see repository",
       "files": [
         "ATTRIBUTION.md",
@@ -54,6 +54,7 @@
         "assets/san-francisco-diorama/tsconfig.json",
         "assets/san-francisco-diorama/vite.config.ts",
         "references/build-log.md",
+        "references/city-brief.md",
         "references/hosting.md",
         "references/lessons.md",
         "references/method.md",

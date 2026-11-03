@@ -46,7 +46,7 @@ skill when its `version` string changes, which `sync.mjs` derives from the conte
 ## Known issues
 
 - The catalog is a full copy, not a reference: every skill's assets are duplicated in this repository
-  (currently ~1.4 MB for `city-miniature`). Fine at this size; revisit if it grows.
+  (currently ~2.2 MB for `city-miniature`). Fine at this size; revisit if it grows.
 - Pages caching means a client may need to wait for the CDN, not the push.
 
 ## Continuity

@@ -3,7 +3,7 @@
     {
       "name": "city-miniature",
       "source": "~/Projects/city-miniature/skills/city-miniature",
-      "description": "Build or adapt an interactive 3D miniature of a city as one offline HTML file \u2014 street grid, landmarks, traffic, day/night, bilingual UI \u2014 from a working San Francisco template.",
+      "description": "Build an interactive 3D miniature of a city from scratch as one offline HTML file \u2014 city-specific geography, landmarks, traffic, day/night and bilingual UI. Existing miniatures are mechanism references only, never templates to reskin.",
       "license": "see repository"
     },
     {

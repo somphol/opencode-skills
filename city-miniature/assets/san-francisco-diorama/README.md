@@ -1,5 +1,10 @@
 # San Francisco Diorama
 
+> **Reference implementation, not a starter.** Read this project for the mechanism — the road-first
+> plan, instanced facades, camera flights, virtual clock, capture API, verification and single-file
+> build. Do not copy its scene, geography, landmarks, copy or tests into a new city. Create a blank
+> starter with the skill's `scripts/new-project.mjs` and build the target city from scratch.
+
 An interactive React/TypeScript/three.js miniature of San Francisco: a road-first plan with a
 rotated downtown grid and Market Street cutting across it, ten architecture families, eight
 dedicated landmarks, traffic, pedestrians, boats on the bay, and day and night lighting. Builds
