@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#0b1118">
+<title>Bangkok 3D — Interactive Urban Tourist Guide &amp; Explorer Studio</title>
+<meta name="description" content="A hand-built 3D tourist guide to Bangkok: fly over the Chao Phraya, walk the Rattanakosin streets, ride an automated river tour, and explore five landmarks in English and Thai.">
+<meta name="color-scheme" content="dark">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%230b1118'/%3E%3Cpath d='M32 8l5 12 12 3-9 9 2 13-10-6-10 6 2-13-9-9 12-3z' fill='%23e6bf76'/%3E%3Ccircle cx='32' cy='39' r='4' fill='%230b1118'/%3E%3C/svg%3E">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<meta name="author" content="Somphol Boonjing">
+<link rel="canonical" href="https://somphol.github.io/bangkok-3d-tour-guide/">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Bangkok 3D">
+<meta property="og:title" content="Bangkok 3D — Interactive Urban Tourist Guide &amp; Explorer Studio">
+<meta property="og:description" content="Fly over the Chao Phraya, walk Rattanakosin, and ride a river tour between five Bangkok landmarks. Bilingual EN/TH, three lighting presets, procedural Three.js city.">
+<meta property="og:url" content="https://somphol.github.io/bangkok-3d-tour-guide/">
+<meta property="og:image" content="https://somphol.github.io/bangkok-3d-tour-guide/screenshots/02-drone-day.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Bangkok 3D — Interactive Urban Tourist Guide">
+<meta name="twitter:description" content="A bilingual 3D miniature of Bangkok: drone, street walk and river tour.">
+<meta name="twitter:image" content="https://somphol.github.io/bangkok-3d-tour-guide/screenshots/02-drone-day.jpg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Chonburi&family=Kanit:wght@300;400;500;600;700&family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css?v=1.2.0">
+</head>
+<body class="is-intro">
+<div id="app">
+
+  <canvas id="scene" tabindex="-1" aria-label="Interactive 3D city of Bangkok"></canvas>
+  <div class="atmosphere" aria-hidden="true"></div>
+
+  <header class="topbar" id="topbar">
+    <button class="brand" id="brandBtn" aria-label="Open the about panel">
+      <span class="brand-seal"><span>BKK</span></span>
+      <span class="brand-copy">
+        <strong>Bangkok&nbsp;3D</strong>
+        <small data-i18n="brand.tagline">Urban explorer studio</small>
+      </span>
+    </button>
+
+    <nav class="mode-switch" id="modeSwitch" aria-label="Navigation mode">
+      <button class="mode-btn is-active" data-mode="drone" title="Drone flyover (1)">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3l3 6 6 1-4.5 4.4 1 6.1L12 17.4 6.5 20.5l1-6.1L3 10l6-1z"/></svg>
+        <span><b data-i18n="mode.drone">Drone</b><small data-i18n="mode.droneSub">City flyover</small></span>
+      </button>
+      <button class="mode-btn" data-mode="walk" title="Street walk (2)">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="13" cy="4.5" r="2.1"/><path d="M11 8l3.2 1.1 2.3 3.4-1.7 1.2-2-2.3-.6 3.4 2.5 2.7.7 4.5-2.1.4-.8-3.8-2.6-2.6-1.4 4.4-2-.7 1.8-5.5z"/></svg>
+        <span><b data-i18n="mode.walk">Walk</b><small data-i18n="mode.walkSub">First person</small></span>
+      </button>
+      <button class="mode-btn" data-mode="tour" title="Transit tour (3)">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 4h14a2 2 0 012 2v9a2 2 0 01-2 2h-1l1.5 3h-2.2L15.8 17H8.2L6.7 20H4.5L6 17H5a2 2 0 01-2-2V6a2 2 0 012-2zm0 2v6h14V6z"/><circle cx="8" cy="13.4" r="1.1"/><circle cx="16" cy="13.4" r="1.1"/></svg>
+        <span><b data-i18n="mode.tour">Transit</b><small data-i18n="mode.tourSub">River tour</small></span>
+      </button>
+    </nav>
+
+    <div class="top-actions">
+      <button class="icon-btn lang-btn" id="langBtn" aria-label="Switch language" title="ภาษาไทย / English (L)">
+        <span id="langLabel">ไทย</span>
+      </button>
+
+      <div class="time-switch" id="timeSwitch" role="group" aria-label="Time of day">
+        <button data-preset="day" class="is-active" title="Midday (T)">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4.2"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3M4.9 4.9l2.1 2.1M17 17l2.1 2.1M19.1 4.9L17 7M7 17l-2.1 2.1" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+          <span data-i18n="time.day">Midday</span>
+        </button>
+        <button data-preset="golden" title="Golden hour (T)">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 17h16M7 17a5 5 0 0110 0M12 4v3M4.5 8.5L6.6 10M19.5 8.5L17.4 10" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+          <span data-i18n="time.golden">Golden</span>
+        </button>
+        <button data-preset="night" title="Neon night (T)">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 14.5A8 8 0 019.5 4 8.2 8.2 0 1020 14.5z"/></svg>
+          <span data-i18n="time.night">Night</span>
+        </button>
+      </div>
+
+      <button class="icon-btn" id="audioBtn" aria-label="Toggle sound" title="Sound on/off (M)">
+        <svg class="ico-sound" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 9v6h4l5 4V5L8 9H4z"/><path class="wave" d="M16 8.5a5 5 0 010 7M18.5 6a8.5 8.5 0 010 12" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/><path class="mute" d="M16 9l5 6M21 9l-5 6" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+      </button>
+      <button class="icon-btn" id="helpBtn" aria-label="Help and shortcuts" title="Help (H)">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="8.4" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M9.6 9.2a2.5 2.5 0 114 2c-.9.6-1.6 1.1-1.6 2.3" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/><circle cx="12" cy="17" r="1"/></svg>
+      </button>
+    </div>
+  </header>
+
+  <aside class="trail-panel glass" id="trailPanel" aria-label="Landmark trail">
+    <div class="panel-head">
+      <div>
+        <p class="eyebrow" data-i18n="trail.eyebrow">Rattanakosin &amp; beyond</p>
+        <h2 data-i18n="trail.title">Landmark trail</h2>
+      </div>
+      <button class="panel-close" id="trailClose" aria-label="Hide landmark trail">×</button>
+    </div>
+    <div class="trail-progress">
+      <div class="progress-track"><span id="progressFill"></span></div>
+      <span id="progressText">0 / 5</span>
+    </div>
+    <div class="route-count"><span aria-hidden="true">✦</span> <span id="routeText">0 on route</span></div>
+    <ol class="landmark-list" id="landmarkList"></ol>
+    <div class="panel-foot">
+      <button class="ghost-btn" id="saveBtn"><span aria-hidden="true">💾</span><span data-i18n="trail.save">Save route</span></button>
+      <button class="ghost-btn" id="loadBtn"><span aria-hidden="true">📂</span><span data-i18n="trail.load">Load route</span></button>
+      <input type="file" id="importFile" accept="application/json,.json" hidden>
+    </div>
+    <p class="autosave-note" data-i18n="trail.autosave">Progress is saved in this browser automatically.</p>
+  </aside>
+  <button class="trail-fab" id="trailFab" aria-label="Show landmark trail">
+    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 6h16M4 12h16M4 18h10" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+    <span id="trailFabCount">0/5</span>
+  </button>
+
+  <div class="minimap-card glass" id="minimapCard">
+    <div class="minimap-head">
+      <span data-i18n="map.title">River map</span>
+      <span class="north">N</span>
+    </div>
+    <canvas id="minimap" width="196" height="196" aria-label="Top-down map of Bangkok with landmarks"></canvas>
+    <div class="minimap-foot"><span data-i18n="map.label">Chao Phraya · Rattanakosin</span><button id="recenterBtn" title="Recenter the drone" aria-label="Recenter">⌖</button></div>
+  </div>
+
+  <div class="labels" id="labels" aria-hidden="true"></div>
+  <div class="scene-tooltip" id="tooltip" role="status"></div>
+
+  <div class="bottom-hud" id="bottomHud">
+    <div class="hint-bar glass" id="hintBar">
+      <span class="hint-key" id="hintKey">DRAG</span>
+      <span id="hintText">Orbit the city · scroll to zoom · right-drag to pan</span>
+    </div>
+    <div class="tour-bar glass" id="tourBar" hidden>
+      <button class="tour-play" id="tourPlayBtn" aria-label="Pause tour">❚❚</button>
+      <div class="tour-mid">
+        <div class="tour-topline"><span id="tourStopLabel">Stop 1 / 5</span><span id="tourName">—</span></div>
+        <div class="tour-track" id="tourTrack">
+          <span class="tour-route-line"></span>
+          <span class="tour-boat" id="tourBoat">▲</span>
+          <i class="tour-node" data-stop="0"></i><i class="tour-node" data-stop="1"></i><i class="tour-node" data-stop="2"></i><i class="tour-node" data-stop="3"></i><i class="tour-node" data-stop="4"></i>
+        </div>
+      </div>
+      <button class="tour-next" id="tourNextBtn" title="Next stop (N)"><span data-i18n="tour.next">Next</span> →</button>
+    </div>
+  </div>
+
+  <div class="walk-pad glass" id="walkPad" hidden aria-label="Walk controls">
+    <button class="walk-pad-btn pad-up" data-move="forward" aria-label="Walk forward" data-i18n-aria="walk.forward">↑</button>
+    <button class="walk-pad-btn pad-left" data-move="left" aria-label="Strafe left" data-i18n-aria="walk.left">←</button>
+    <span class="walk-pad-centre" aria-hidden="true">WALK</span>
+    <button class="walk-pad-btn pad-right" data-move="right" aria-label="Strafe right" data-i18n-aria="walk.right">→</button>
+    <button class="walk-pad-btn pad-down" data-move="back" aria-label="Walk backward" data-i18n-aria="walk.back">↓</button>
+  </div>
+  <div class="walk-hint glass" id="walkHint" hidden>
+    <strong data-i18n="walk.click">Drag to look around</strong>
+    <span data-i18n="walk.esc">Arrow keys or WASD to walk · scroll to zoom · E to inspect</span>
+  </div>
+  <div class="crosshair" id="crosshair" hidden></div>
+
+  <div class="scrim" id="scrim"></div>
+  <aside class="drawer" id="drawer" aria-hidden="true" role="dialog" aria-modal="true" aria-labelledby="drawerTitle">
+    <div class="drawer-hero" id="drawerHero">
+      <div class="drawer-pattern" aria-hidden="true"></div>
+      <button class="drawer-close" id="drawerClose" aria-label="Close guide">×</button>
+      <div class="drawer-index" id="drawerIndex">01</div>
+      <div class="drawer-heading">
+        <p class="eyebrow" id="drawerKicker">Riverside icon</p>
+        <h2 id="drawerTitle">Wat Arun</h2>
+        <p class="drawer-local" id="drawerLocal">วัดอรุณราชวราราม</p>
+      </div>
+    </div>
+    <div class="drawer-body" id="drawerBody">
+      <p class="drawer-tagline" id="drawerTagline"></p>
+      <div class="story" id="drawerStory"></div>
+      <blockquote class="fact" id="drawerFact"></blockquote>
+      <section class="visitor-notes">
+        <h3><span aria-hidden="true">✦</span> <span data-i18n="drawer.visit">Visitor notes</span></h3>
+        <div class="tip-grid" id="drawerTips"></div>
+      </section>
+      <section class="your-notes">
+        <div class="your-notes-head">
+          <h3 data-i18n="drawer.notes">Your notes</h3>
+          <span id="noteStatus"></span>
+        </div>
+        <textarea id="noteInput" rows="3" data-i18n-ph="drawer.notesPh" placeholder="What do you want to remember?"></textarea>
+        <div class="note-actions">
+          <button class="primary-btn small" id="visitedBtn"><span aria-hidden="true">✓</span> <span data-i18n="drawer.mark">Mark visited</span></button>
+          <button class="ghost-btn small" id="itineraryBtn"><span aria-hidden="true">＋</span> <span data-i18n="drawer.addRoute">Add to route</span></button>
+          <button class="icon-btn narrate-btn" id="narrateBtn" title="Listen to the story">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 9v6h4l5 4V5L8 9H4z"/><path d="M16.5 8.5a5 5 0 010 7" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg>
+          </button>
+        </div>
+      </section>
+      <div class="drawer-nav">
+        <button class="ghost-btn" id="prevLandmark">← <span data-i18n="drawer.prev">Previous</span></button>
+        <button class="primary-btn" id="flyBtn"><span data-i18n="drawer.fly">Fly here</span> ✈</button>
+        <button class="ghost-btn" id="nextLandmark"><span data-i18n="drawer.next">Next</span> →</button>
+      </div>
+      <p class="drawer-disclaimer" data-i18n="drawer.disclaimer">A stylised, geographically compressed model. Fees and hours change — check official sources before you travel.</p>
+    </div>
+  </aside>
+
+  <section class="intro" id="intro" aria-label="Welcome">
+    <div class="intro-scrim"></div>
+    <div class="intro-inner">
+      <div class="intro-top">
+        <span class="intro-mark">BKK <i>·</i> 13.75° N</span>
+        <div class="intro-lang">
+          <button data-lang="en" class="is-active">EN</button>
+          <button data-lang="th">ไทย</button>
+        </div>
+      </div>
+      <div class="intro-copy">
+        <p class="eyebrow" data-i18n="intro.eyebrow">The city of angels, in three dimensions</p>
+        <h1><span data-i18n="intro.titleTop">Bangkok</span> <em>3D</em></h1>
+        <p class="intro-thai" data-i18n="intro.thai">กรุงเทพมหานคร · เมืองฟ้าเมืองทอง</p>
+        <p class="intro-lede" data-i18n="intro.lede">Fly over the Chao Phraya, walk the old Rattanakosin lanes, and let a river boat carry you between five landmarks. Every temple has a story; every story has a Thai voice.</p>
+        <div class="intro-chips">
+          <span data-i18n="intro.chip1">5 landmarks</span>
+          <span data-i18n="intro.chip2">3 camera modes</span>
+          <span data-i18n="intro.chip3">EN / ไทย</span>
+          <span data-i18n="intro.chip4">Day · dusk · night</span>
+        </div>
+        <div class="intro-actions">
+          <button class="primary-btn large" id="startBtn"><span data-i18n="intro.start">Enter the city</span><span aria-hidden="true">→</span></button>
+          <button class="ghost-btn large" id="tourStartBtn" data-i18n="intro.tour">Take the river tour</button>
+        </div>
+        <p class="intro-note" data-i18n="intro.note">Best with sound on. Drag to orbit, or press 2 to walk the streets.</p>
+      </div>
+      <div class="intro-foot">
+        <span data-i18n="intro.foot">A miniature built by hand · not a survey map</span>
+        <span class="credit">Made with <a href="https://opencode.ai" target="_blank" rel="noopener">OpenCode</a> · <span id="modelCredit">DeepSeek V4.1 Flash</span></span>
+      </div>
+    </div>
+  </section>
+
+  <div class="loading" id="loading">
+    <div class="loading-mark">BKK</div>
+    <p id="loadingText">Weaving the city…</p>
+    <div class="loading-track"><span id="loadingFill"></span></div>
+  </div>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <div class="modal-wrap" id="helpModal" hidden>
+    <div class="modal glass" role="dialog" aria-modal="true" aria-labelledby="helpTitle">
+      <button class="drawer-close" id="helpClose" aria-label="Close help">×</button>
+      <p class="eyebrow" data-i18n="help.eyebrow">Field guide</p>
+      <h2 id="helpTitle" data-i18n="help.title">How to explore</h2>
+      <div class="help-grid">
+        <div><h3 data-i18n="help.modes">Modes</h3><p data-i18n="help.modesText">Drone orbits the skyline. Walk drops you onto the river promenade with drag-to-look and arrow keys or WASD. Transit follows a spline along the river and stops at each landmark.</p></div>
+        <div><h3 data-i18n="help.time">Light</h3><p data-i18n="help.timeText">Midday, golden hour and neon night change the sky, sun, fog, water and every lit window.</p></div>
+        <div><h3 data-i18n="help.keys">Keys</h3><p><kbd>1</kbd><kbd>2</kbd><kbd>3</kbd> modes · <kbd>↑</kbd><kbd>←</kbd><kbd>↓</kbd><kbd>→</kbd> / <kbd>WASD</kbd> walk · <kbd>Shift</kbd> run · <kbd>E</kbd> inspect · <kbd>Space</kbd> pause tour · <kbd>N</kbd> next stop · <kbd>L</kbd> language · <kbd>T</kbd> time · <kbd>M</kbd> sound · <kbd>H</kbd> help</p></div>
+        <div><h3 data-i18n="help.save">Saving</h3><p data-i18n="help.saveText">Visited stamps, notes and your route live in localStorage. Save Route downloads a portable JSON file; Load Route restores it on another device.</p></div>
+      </div>
+      <div class="help-credit">
+        <span data-i18n="help.credit">Built with OpenCode and DeepSeek V4.1 Flash. Three.js r128. Geography is compressed and interpretive.</span>
+        <a href="https://github.com/somphol/bangkok-3d-tour-guide" target="_blank" rel="noopener">GitHub ↗</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="selftest" id="selftest" hidden></div>
+  <div class="webgl-error" id="webglError" hidden>
+    <h2>WebGL is unavailable</h2>
+    <p>This experience needs a WebGL-capable browser. Try a current version of Chrome, Safari, Edge or Firefox with hardware acceleration enabled.</p>
+  </div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
+<script src="script.js?v=1.2.0"></script>
+</body>
+</html>

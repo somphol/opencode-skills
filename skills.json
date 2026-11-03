@@ -7,6 +7,12 @@
       "license": "see repository"
     },
     {
+      "name": "city-3d-tour-guide",
+      "source": "~/.config/opencode/skills/city-3d-tour-guide",
+      "description": "Build a bilingual, static Three.js city tourist guide with five procedural landmarks, drone/walk/transit modes, drag-look controls, lighting, spatial audio, JSON persistence, verification and a professional release.",
+      "license": "MIT"
+    },
+    {
       "name": "session-export",
       "source": "~/.config/opencode/skills/session-export",
       "description": "Export OpenCode session transcripts to Markdown with a maintained table of contents and a JSON index, sanitized so credentials and personal data never reach the archive.",

@@ -64,6 +64,38 @@
       ]
     },
     {
+      "name": "city-3d-tour-guide",
+      "version": "99d50fe0662e",
+      "description": "Build a bilingual, static Three.js city tourist guide with five procedural landmarks, drone/walk/transit modes, drag-look controls, lighting, spatial audio, JSON persistence, verification and a professional release.",
+      "license": "MIT",
+      "files": [
+        "ATTRIBUTION.md",
+        "LICENSE",
+        "SKILL.md",
+        "assets/bangkok-3d-tour-guide/LICENSE",
+        "assets/bangkok-3d-tour-guide/README.md",
+        "assets/bangkok-3d-tour-guide/THIRD_PARTY_NOTICES.md",
+        "assets/bangkok-3d-tour-guide/index.html",
+        "assets/bangkok-3d-tour-guide/screenshots/drone-day.jpg",
+        "assets/bangkok-3d-tour-guide/screenshots/drone-night.jpg",
+        "assets/bangkok-3d-tour-guide/screenshots/guide.jpg",
+        "assets/bangkok-3d-tour-guide/screenshots/thai-guide.jpg",
+        "assets/bangkok-3d-tour-guide/screenshots/walk.jpg",
+        "assets/bangkok-3d-tour-guide/script.js",
+        "assets/bangkok-3d-tour-guide/style.css",
+        "preview.jpg",
+        "references/build-log.md",
+        "references/city-brief.md",
+        "references/hosting.md",
+        "references/lessons.md",
+        "references/method.md",
+        "references/release-docs.md",
+        "references/verification.md",
+        "scripts/check.mjs",
+        "scripts/new-project.mjs"
+      ]
+    },
+    {
       "name": "session-export",
       "version": "5e23637a5d1e",
       "description": "Export OpenCode session transcripts to Markdown with a maintained table of contents and a JSON index, sanitized so credentials and personal data never reach the archive.",
