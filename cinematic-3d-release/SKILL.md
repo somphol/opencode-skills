@@ -14,6 +14,18 @@ set that lets another agent rebuild it.
 Use it as a **mechanism reference**, not a template to reskin. Replace the subject, copy,
 and branding; keep the architecture, camera rules, Step gate, and documentation shape.
 
+## Install
+
+Add the catalog to `opencode.jsonc`:
+
+```jsonc
+{
+  "skills": ["https://somphol.github.io/opencode-skills/"]
+}
+```
+
+Or copy this directory to `~/.config/opencode/skills/cinematic-3d-release`.
+
 ## When to use
 
 - A static Three.js/WebGL app already has a deterministic action sequence (solver playback,
