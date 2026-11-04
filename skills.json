@@ -3,7 +3,7 @@
     {
       "name": "city-miniature",
       "source": "~/Projects/city-miniature/skills/city-miniature",
-      "description": "Build an interactive 3D miniature of a city from scratch as one offline HTML file \u2014 city-specific geography, landmarks, traffic, day/night and bilingual UI. Existing miniatures are mechanism references only, never templates to reskin.",
+      "description": "Build an interactive 3D miniature of a city from scratch as one offline HTML file — city-specific geography, landmarks, traffic, day/night and bilingual UI. Existing miniatures are mechanism references only, never templates to reskin.",
       "license": "see repository"
     },
     {
@@ -21,13 +21,13 @@
     {
       "name": "session-to-skill",
       "source": "~/.config/opencode/skills/session-to-skill",
-      "description": "Turn a finished session or project into a reusable OpenCode skill \u2014 extract the working artifact as a template, write the instructions and references, and prove it by scaffolding a fresh project from it.",
+      "description": "Turn a finished session or project into a reusable OpenCode skill — extract the working artifact as a template, write the instructions and references, and prove it by scaffolding a fresh project from it.",
       "license": "see repository"
     },
     {
       "name": "skill-publish",
       "source": "~/.config/opencode/skills/skill-publish",
-      "description": "Publish an OpenCode skill to GitHub \u2014 validate it, lay it out as skills/<id>/, write the handoff and attribution notes, and serve it through an HTTP catalog with GitHub Pages.",
+      "description": "Publish an OpenCode skill to GitHub — validate it, lay it out as skills/<id>/, write the handoff and attribution notes, and serve it through an HTTP catalog with GitHub Pages.",
       "license": "see repository"
     },
     {
@@ -40,6 +40,12 @@
       "name": "cinematic-3d-release",
       "source": "~/.config/opencode/skills/cinematic-3d-release",
       "description": "Add cinematic camera choreography, step-by-step playback, and release-grade documentation to a static Three.js app, then verify and publish it.",
+      "license": "MIT"
+    },
+    {
+      "name": "leab-tui-studio",
+      "source": "~/.config/opencode/skills/leab-tui-studio",
+      "description": "Build a bilingual, static 3D trick-taking studio for a traditional tile or card game — research and freeze the rules, write a pure engine, add a 3D table, heuristic AI, coach, persistence, headless verification and a release-grade handoff.",
       "license": "MIT"
     }
   ]
