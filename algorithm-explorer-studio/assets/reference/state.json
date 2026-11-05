@@ -3,11 +3,12 @@
   "release": "1.0.0",
   "session": {
     "id": "ses_e537b0205ffeMnEgyEl4LkoM06",
+    "title": "Algorithm Explorer learning app",
     "startedAt": "2026-11-05T16:22:39Z",
-    "capturedAt": "2026-11-05T16:22:39Z",
-    "elapsedSeconds": 1,
-    "elapsed": "0m 1s",
-    "note": "Placeholder; replaced with the final OpenCode session capture after release verification."
+    "capturedAt": "2026-11-05T17:11:04Z",
+    "elapsedSeconds": 2905,
+    "elapsed": "48m 25s",
+    "note": "Built in one OpenCode session: curriculum data, 15 pure step engines, 15 procedural Three.js scenes, three-tab UI, quiz, practice tracker, 106-check verification, documentation, GitHub Pages release and a published skill. One Keychain credential read covered both repository pushes."
   },
   "model": {
     "name": "DeepSeek V4.1 Flash",
@@ -15,14 +16,14 @@
     "provider": "opencode-go"
   },
   "usage": {
-    "inputTokens": 1,
-    "outputTokens": 1,
-    "reasoningTokens": 1,
-    "cacheReadTokens": 1,
-    "cacheWriteTokens": 1,
-    "totalTokens": 5,
-    "costUSD": 0,
-    "note": "Placeholder; read from the OpenCode session database at capture time."
+    "inputTokens": 261223,
+    "outputTokens": 149014,
+    "reasoningTokens": 43428,
+    "cacheReadTokens": 20692608,
+    "cacheWriteTokens": 2324,
+    "totalTokens": 21148597,
+    "costUSD": 0.0,
+    "note": "Read from the OpenCode session database (session_v2). totalTokens sums all five counters; repeated prompt cache reads dominate the figure. costUSD is 0 on the flat-rate plan."
   },
   "artifacts": {
     "sourceFiles": [
@@ -33,17 +34,63 @@
       "js/scene.js",
       "js/app.js"
     ],
+    "lineCounts": {
+      "index.html": 301,
+      "css/style.css": 528,
+      "js/data.js": 1029,
+      "js/algorithms.js": 641,
+      "js/scene.js": 1290,
+      "js/app.js": 743,
+      "total": 4532
+    },
     "supportingFiles": [
       "README.md",
       "AGENTS.md",
       "CHANGELOG.md",
-      "docs/",
-      "tests/",
-      "scripts/",
-      "assets/",
-      "state.json"
-    ],
-    "lineCounts": {}
+      "CONTRIBUTING.md",
+      "CODE_OF_CONDUCT.md",
+      "SECURITY.md",
+      "SUPPORT.md",
+      "LICENSE",
+      "THIRD_PARTY_NOTICES.md",
+      "state.json",
+      "docs/README.md",
+      "docs/ARCHITECTURE.md",
+      "docs/REPRODUCTION.md",
+      "docs/CURRICULUM.md",
+      "docs/DESIGN.md",
+      "docs/TESTING.md",
+      "docs/DEPLOYMENT.md",
+      "docs/DECISIONS.md",
+      "docs/ACCESSIBILITY.md",
+      "docs/PERFORMANCE.md",
+      "docs/PRIVACY.md",
+      "docs/FAQ.md",
+      "docs/ROADMAP.md",
+      "tests/engine.test.mjs",
+      "tests/static.test.mjs",
+      "tests/browser.test.mjs",
+      "tests/lib/harness.mjs",
+      "tests/lib/fixtures.mjs",
+      "scripts/screenshot.mjs",
+      ".github/workflows/ci.yml",
+      ".github/ISSUE_TEMPLATE/bug_report.yml",
+      ".github/ISSUE_TEMPLATE/feature_request.yml",
+      ".github/pull_request_template.md",
+      ".gitignore",
+      ".editorconfig",
+      ".nojekyll",
+      "robots.txt",
+      "sitemap.xml",
+      "assets/favicon.svg",
+      "assets/studio.png",
+      "assets/tree.png",
+      "assets/quiz.png",
+      "assets/practice.png",
+      "assets/mobile.png",
+      "assets/og-card.png",
+      "assets/og.html"
+    ]
   },
   "verification": {
     "method": "Dependency-free Node suites plus headless Chrome over the DevTools Protocol",
@@ -53,7 +100,15 @@
     "selfTestChecks": 24,
     "totalChecks": 106,
     "consoleErrors": 0,
-    "notes": "Placeholder counts; final run recorded after release verification."
+    "liveBrowserChecks": 35,
+    "checks": [
+      "Engine: 15 defaults, canonical answers, parsers, custom cases, frame contract",
+      "Static: shell, script order, docs, links, state shape, no secrets or hidden network calls",
+      "Browser: boot, all 15 scenes, transport, custom input, code tabs, quiz full round",
+      "Browser: practice filters/persistence, dialogs, keyboard, 390px mobile, zero console errors",
+      "In-page: 24 runtime DOM/engine/canvas checks",
+      "Live: the same 35-check browser suite passed against GitHub Pages"
+    ]
   },
   "deployment": {
     "repository": "https://github.com/somphol/algorithm-explorer",
@@ -61,14 +116,27 @@
     "host": "GitHub Pages",
     "branch": "main",
     "path": "/",
-    "status": "pending"
+    "status": "live",
+    "verifiedAt": "2026-11-05T17:11:04Z",
+    "note": "Pages built from main / root. The 35-check browser suite passed against the live URL with zero console errors."
   },
   "credits": {
     "tool": "OpenCode",
     "toolURL": "https://opencode.ai",
     "model": "DeepSeek V4.1 Flash",
     "modelID": "opencode-go/deepseek-v4.1-flash",
-    "engine": "Three.js r128 (MIT)",
+    "engine": "Three.js r128 + OrbitControls 0.128.0 (MIT)",
     "license": "MIT"
+  },
+  "skill": {
+    "name": "algorithm-explorer-studio",
+    "title": "Algorithm Explorer Studio",
+    "status": "published",
+    "catalog": "https://somphol.github.io/opencode-skills/",
+    "source": "https://github.com/somphol/opencode-skills/tree/main/algorithm-explorer-studio",
+    "local": "~/.config/opencode/skills/algorithm-explorer-studio",
+    "version": "427ac6209cea",
+    "validation": "check-skill OK (65 files); scaffold produced a clean project that passed 47/47 Node and 35/35 browser checks.",
+    "note": "Skill contains the full reference implementation, method/lessons/verification/release references and new-project/verify scripts."
   }
 }

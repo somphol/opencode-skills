@@ -396,7 +396,7 @@
     },
     {
       "name": "algorithm-explorer-studio",
-      "version": "427ac6209cea",
+      "version": "a04b34b77da3",
       "description": "Build a release-grade, zero-asset 3D algorithm-pattern explorer: 15 deterministic step engines, 15 procedural Three.js scenes, mark-synchronized Python/JS/C++ code, a 30-question quiz, local practice tracking, 106-check verification and a GitHub Pages release.",
       "license": "MIT",
       "files": [
