@@ -8,42 +8,6 @@
     {
       "id": "archive-h1",
       "slot": "H-1",
-      "title": "Berceuse, Op. 56 No. 1",
-      "artist": "Gabriel Fauré · Commons performance",
-      "url": "https://upload.wikimedia.org/wikipedia/commons/transcoded/5/5c/Berceuse_by_Gabriel_Faur%C3%A9_op56_no1.ogg/Berceuse_by_Gabriel_Faur%C3%A9_op56_no1.ogg.mp3",
-      "duration": 215,
-      "license": "Public domain",
-      "credit": "Wikimedia Commons",
-      "source": "https://commons.wikimedia.org/wiki/File:Berceuse_by_Gabriel_Faur%C3%A9_op56_no1.ogg",
-      "accent": "#d9a441"
-    },
-    {
-      "id": "archive-h2",
-      "slot": "H-2",
-      "title": "Berceuse",
-      "artist": "Christian Cappelen · Commons performance",
-      "url": "https://upload.wikimedia.org/wikipedia/commons/transcoded/a/a0/%22Berceuse%22%2C_by_Christian_Cappelen.oga/%22Berceuse%22%2C_by_Christian_Cappelen.oga.mp3",
-      "duration": 115,
-      "license": "Public domain",
-      "credit": "Wikimedia Commons",
-      "source": "https://commons.wikimedia.org/wiki/File:%22Berceuse%22%2C_by_Christian_Cappelen.oga",
-      "accent": "#7fa9a2"
-    },
-    {
-      "id": "archive-h3",
-      "slot": "H-3",
-      "title": "Berceuse (Dolly Suite)",
-      "artist": "Gabriel Fauré · Commons performance",
-      "url": "https://upload.wikimedia.org/wikipedia/commons/transcoded/d/d5/Gabriel_Faur%C3%A9_-_Berceuse_dalla_suite_Dolly.ogg/Gabriel_Faur%C3%A9_-_Berceuse_dalla_suite_Dolly.ogg.mp3",
-      "duration": 189,
-      "license": "Public domain",
-      "credit": "Wikimedia Commons",
-      "source": "https://commons.wikimedia.org/wiki/File:Gabriel_Faur%C3%A9_-_Berceuse_dalla_suite_Dolly.ogg",
-      "accent": "#9a86c9"
-    },
-    {
-      "id": "archive-h4",
-      "slot": "H-4",
       "title": "Berceuse, Op. 57",
       "artist": "Frédéric Chopin · Commons performance",
       "url": "https://upload.wikimedia.org/wikipedia/commons/transcoded/d/d5/Chopin-Berceuse.ogg/Chopin-Berceuse.ogg.mp3",
@@ -54,8 +18,8 @@
       "accent": "#e0b48f"
     },
     {
-      "id": "archive-h5",
-      "slot": "H-5",
+      "id": "archive-h2",
+      "slot": "H-2",
       "title": "Träumerei, Op. 15 No. 7",
       "artist": "Robert Schumann · Commons performance",
       "url": "https://upload.wikimedia.org/wikipedia/commons/transcoded/0/06/Robert_Schumann_-_scenes_from_childhood%2C_op._15_-_vii._dreaming.ogg/Robert_Schumann_-_scenes_from_childhood%2C_op._15_-_vii._dreaming.ogg.mp3",
@@ -64,6 +28,42 @@
       "credit": "Wikimedia Commons",
       "source": "https://commons.wikimedia.org/wiki/File:Robert_Schumann_-_scenes_from_childhood%2C_op._15_-_vii._dreaming.ogg",
       "accent": "#a6c9a1"
+    },
+    {
+      "id": "archive-h3",
+      "slot": "H-3",
+      "title": "Berceuse, Op. 56 No. 1",
+      "artist": "Gabriel Fauré · Commons performance",
+      "url": "https://upload.wikimedia.org/wikipedia/commons/transcoded/5/5c/Berceuse_by_Gabriel_Faur%C3%A9_op56_no1.ogg/Berceuse_by_Gabriel_Faur%C3%A9_op56_no1.ogg.mp3",
+      "duration": 215,
+      "license": "Public domain",
+      "credit": "Wikimedia Commons",
+      "source": "https://commons.wikimedia.org/wiki/File:Berceuse_by_Gabriel_Faur%C3%A9_op56_no1.ogg",
+      "accent": "#d9a441"
+    },
+    {
+      "id": "archive-h4",
+      "slot": "H-4",
+      "title": "Berceuse",
+      "artist": "Christian Cappelen · Commons performance",
+      "url": "https://upload.wikimedia.org/wikipedia/commons/transcoded/a/a0/%22Berceuse%22%2C_by_Christian_Cappelen.oga/%22Berceuse%22%2C_by_Christian_Cappelen.oga.mp3",
+      "duration": 115,
+      "license": "Public domain",
+      "credit": "Wikimedia Commons",
+      "source": "https://commons.wikimedia.org/wiki/File:%22Berceuse%22%2C_by_Christian_Cappelen.oga",
+      "accent": "#7fa9a2"
+    },
+    {
+      "id": "archive-h5",
+      "slot": "H-5",
+      "title": "Berceuse (Dolly Suite)",
+      "artist": "Gabriel Fauré · Commons performance",
+      "url": "https://upload.wikimedia.org/wikipedia/commons/transcoded/d/d5/Gabriel_Faur%C3%A9_-_Berceuse_dalla_suite_Dolly.ogg/Gabriel_Faur%C3%A9_-_Berceuse_dalla_suite_Dolly.ogg.mp3",
+      "duration": 189,
+      "license": "Public domain",
+      "credit": "Wikimedia Commons",
+      "source": "https://commons.wikimedia.org/wiki/File:Gabriel_Faur%C3%A9_-_Berceuse_dalla_suite_Dolly.ogg",
+      "accent": "#9a86c9"
     },
     {
       "id": "archive-h6",

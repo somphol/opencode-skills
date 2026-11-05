@@ -93,11 +93,11 @@
 
 | Slot | Title | Artist | Length | Licence | Source |
 | --- | --- | --- | ---: | --- | --- |
-| H-1 | Berceuse, Op. 56 No. 1 | Gabriel Fauré · Commons performance | 3:35 | Public domain | [Commons](https://commons.wikimedia.org/wiki/File:Berceuse_by_Gabriel_Faur%C3%A9_op56_no1.ogg) |
-| H-2 | Berceuse | Christian Cappelen · Commons performance | 1:55 | Public domain | [Commons](https://commons.wikimedia.org/wiki/File:%22Berceuse%22%2C_by_Christian_Cappelen.oga) |
-| H-3 | Berceuse (Dolly Suite) | Gabriel Fauré · Commons performance | 3:09 | Public domain | [Commons](https://commons.wikimedia.org/wiki/File:Gabriel_Faur%C3%A9_-_Berceuse_dalla_suite_Dolly.ogg) |
-| H-4 | Berceuse, Op. 57 | Frédéric Chopin · Commons performance | 4:50 | Public domain | [Commons](https://commons.wikimedia.org/wiki/File:Chopin-Berceuse.ogg) |
-| H-5 | Träumerei, Op. 15 No. 7 | Robert Schumann · Commons performance | 3:23 | Public domain | [Commons](https://commons.wikimedia.org/wiki/File:Robert_Schumann_-_scenes_from_childhood%2C_op._15_-_vii._dreaming.ogg) |
+| H-1 | Berceuse, Op. 57 | Frédéric Chopin · Commons performance | 4:50 | Public domain | [Commons](https://commons.wikimedia.org/wiki/File:Chopin-Berceuse.ogg) |
+| H-2 | Träumerei, Op. 15 No. 7 | Robert Schumann · Commons performance | 3:23 | Public domain | [Commons](https://commons.wikimedia.org/wiki/File:Robert_Schumann_-_scenes_from_childhood%2C_op._15_-_vii._dreaming.ogg) |
+| H-3 | Berceuse, Op. 56 No. 1 | Gabriel Fauré · Commons performance | 3:35 | Public domain | [Commons](https://commons.wikimedia.org/wiki/File:Berceuse_by_Gabriel_Faur%C3%A9_op56_no1.ogg) |
+| H-4 | Berceuse | Christian Cappelen · Commons performance | 1:55 | Public domain | [Commons](https://commons.wikimedia.org/wiki/File:%22Berceuse%22%2C_by_Christian_Cappelen.oga) |
+| H-5 | Berceuse (Dolly Suite) | Gabriel Fauré · Commons performance | 3:09 | Public domain | [Commons](https://commons.wikimedia.org/wiki/File:Gabriel_Faur%C3%A9_-_Berceuse_dalla_suite_Dolly.ogg) |
 | H-6 | Clair de Lune | Claude Debussy · Commons performance | 5:04 | Public domain | [Commons](https://commons.wikimedia.org/wiki/File:Clair_de_lune_(Claude_Debussy)_Suite_bergamasque.ogg) |
 | H-7 | Gymnopédie No. 1 | Erik Satie · Michael Laucke | 2:52 | Public domain | [Commons](https://commons.wikimedia.org/wiki/File:Satie_Gymnopedie_No_1_performed_by_Michael_Laucke.flac) |
 | H-8 | Moonlight Sonata: Adagio | Ludwig van Beethoven · Commons performance | 5:36 | Public domain | [Commons](https://commons.wikimedia.org/wiki/File:Ludwig_van_Beethoven_-_sonata_no._14_in_c_sharp_minor_%27moonlight%27%2C_op._27_no._2_-_i._adagio_sostenuto.ogg) |

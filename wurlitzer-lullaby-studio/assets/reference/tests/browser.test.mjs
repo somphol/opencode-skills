@@ -145,8 +145,8 @@ try {
       source: document.getElementById('overlay-source').href,
       queue: document.getElementById('overlay-queue').textContent
     }))()`);
-    assert.equal(info.current, 'archive-h1');
-    assert.equal(info.slot, 'H-1');
+    assert.equal(info.current, 'archive-h3');
+    assert.equal(info.slot, 'H-3');
     assert.ok(['loading', 'playing'].includes(info.status));
     assert.equal(info.overlay, true);
     assert.match(info.title, /Berceuse/);

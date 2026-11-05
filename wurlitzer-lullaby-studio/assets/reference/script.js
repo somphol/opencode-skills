@@ -531,8 +531,8 @@ const THEMES = [
 
 const FIRST_RUN_KEY = 'wurlitzer-lullaby-studio:visited';
 const DEFAULT_QUEUE = [
-  'archive-h1', 'archive-h2', 'archive-h4', 'archive-h6',
-  'archive-h7', 'archive-h5', 'archive-h8', 'archive-i1',
+  'archive-h3', 'archive-h4', 'archive-h1', 'archive-h6',
+  'archive-h7', 'archive-h2', 'archive-h8', 'archive-i1',
 ];
 
 const T = (id, slot, en, th, artist, artistTh, bpm, wave, notes, accent = '#e6c07b') => ({
