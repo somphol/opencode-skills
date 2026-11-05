@@ -1,6 +1,6 @@
 /* Cute3D — Procedural Code-Only Animal Studio
  * ---------------------------------------------------------------------------
- * Everything you can see is generated at runtime: four animal characters,
+ * Everything you can see is generated at runtime: seven animal characters,
  * their accessories, the studio props and every sound. No model files, no
  * texture files, no audio files. The only remote dependency is Three.js from a CDN.
  *
@@ -12,17 +12,22 @@
 
 /* ENGINE:START */
 const createStudioEngine = () => {
-  const ANIMALS = ['bear', 'bunny', 'penguin', 'shiba'];
+  const ANIMALS = ['bear', 'bunny', 'penguin', 'shiba', 'koala', 'conure', 'fold'];
   const EXPRESSIONS = ['happy', 'sleepy', 'curious', 'wiggle'];
   const ACCESSORIES = ['bowtie', 'partyHat', 'glasses'];
   const COLOR_KEYS = ['main', 'belly', 'blush'];
   const PRESET_LIMIT = 10;
+  const COAT_LEVELS = ['off', 'soft', 'plush'];
+  const DEFAULT_COAT = 'soft';
 
   const DEFAULT_COLORS = {
     bear: { main: '#c08a6d', belly: '#ffe9df', blush: '#ff9db6' },
     bunny: { main: '#f0d3c2', belly: '#fff6ef', blush: '#ffa8bf' },
     penguin: { main: '#4a5774', belly: '#fdf8f0', blush: '#ffa9b8' },
     shiba: { main: '#dfa163', belly: '#fff4e4', blush: '#ff9f8f' },
+    koala: { main: '#9aa0a6', belly: '#f6f0e7', blush: '#e8a3a8' },
+    conure: { main: '#f7c948', belly: '#ff9c2f', blush: '#ff7a4d' },
+    fold: { main: '#b9b2ab', belly: '#f7efe7', blush: '#e8a0aa' },
   };
 
   const PALETTES = [
@@ -150,6 +155,8 @@ const createStudioEngine = () => {
     return Math.abs(hash);
   };
 
+  const sanitizeCoat = (value) => (COAT_LEVELS.includes(value) ? value : DEFAULT_COAT);
+
   const sanitizeAccessories = (raw) => {
     const source = raw && typeof raw === 'object' ? raw : {};
     const accessories = {};
@@ -164,6 +171,7 @@ const createStudioEngine = () => {
     const colors = sanitizeColors(raw.colors, animal);
     const accessories = sanitizeAccessories(raw.accessories);
     const expression = EXPRESSIONS.includes(raw.expression) ? raw.expression : 'happy';
+    const coat = sanitizeCoat(raw.coat);
     let name = typeof raw.name === 'string' ? raw.name.trim().slice(0, 42) : '';
     if (!name) name = `${animal} preset`;
     let id = typeof raw.id === 'string' ? raw.id : '';
@@ -171,7 +179,7 @@ const createStudioEngine = () => {
       id = `p-${hashString(`${animal}|${name}|${JSON.stringify(colors)}`).toString(36)}`;
     }
     const createdAt = Number.isFinite(raw.createdAt) ? Math.max(0, raw.createdAt) : 0;
-    return { id, name, animal, colors, accessories, expression, createdAt };
+    return { id, name, animal, colors, accessories, expression, coat, createdAt };
   };
 
   const sanitizePresets = (raw) => {
@@ -204,6 +212,7 @@ const createStudioEngine = () => {
     const worn = ACCESSORIES.filter((key) => state.accessories && state.accessories[key]);
     params.set('o', worn.join(','));
     params.set('l', state.lang === 'th' ? 'th' : 'en');
+    params.set('f', sanitizeCoat(state.coat));
     return params.toString();
   };
 
@@ -240,7 +249,8 @@ const createStudioEngine = () => {
       ),
     );
     const lang = params.get('l') === 'th' ? 'th' : 'en';
-    return { animal, expression, colors, accessories, lang, valid: Boolean(animal) };
+    const coat = sanitizeCoat(params.get('f'));
+    return { animal, expression, colors, accessories, lang, coat, valid: Boolean(animal) };
   };
 
   const soundPattern = (kind) => {
@@ -297,6 +307,8 @@ const createStudioEngine = () => {
     EXPRESSIONS,
     ACCESSORIES,
     COLOR_KEYS,
+    COAT_LEVELS,
+    DEFAULT_COAT,
     PRESET_LIMIT,
     DEFAULT_COLORS,
     PALETTES,
@@ -316,6 +328,7 @@ const createStudioEngine = () => {
     expressionPose,
     sanitizeColors,
     sanitizeAccessories,
+    sanitizeCoat,
     sanitizePreset,
     sanitizePresets,
     snapshotFilename,
@@ -342,14 +355,15 @@ const I18N = {
     'stage.react': 'React',
     'panel.open': 'Customize',
     'panel.title': 'Studio',
-    'panel.sub': 'Four friends, zero model files.',
+    'panel.sub': 'Seven friends, zero model files.',
     'section.animals': 'Characters',
-    'section.animalsNote': '4 originals',
+    'section.animalsNote': '7 originals',
     'section.expression': 'Expression',
     'section.expressionNote': 'Tap to try',
     'section.colors': 'Colours',
     'section.accessories': 'Accessories',
     'section.accessoriesNote': 'Code-built',
+    'section.coat': 'Coat detail',
     'section.studio': 'Studio tools',
     'animal.bear': 'Chibi Bear',
     'animal.bearTrait': 'Huggable',
@@ -359,6 +373,12 @@ const I18N = {
     'animal.penguinTrait': 'Waddly',
     'animal.shiba': 'Shiba',
     'animal.shibaTrait': 'Cheerful',
+    'animal.koala': 'Koala',
+    'animal.koalaTrait': 'Dreamy',
+    'animal.conure': 'Sun Conure',
+    'animal.conureTrait': 'Radiant',
+    'animal.fold': 'Scottish Fold',
+    'animal.foldTrait': 'Plush',
     'expr.happy': 'Happy',
     'expr.sleepy': 'Sleepy',
     'expr.curious': 'Curious',
@@ -372,6 +392,11 @@ const I18N = {
     'acc.hatNote': 'Instant celebration',
     'acc.glasses': 'Glasses',
     'acc.glassesNote': 'Very studious',
+    'coat.off': 'Smooth',
+    'coat.soft': 'Soft',
+    'coat.plush': 'Plush',
+    'coat.hint': 'Real fur and feather volume, generated strand by strand.',
+    'coat.strands': '{n} strands',
     'tool.snapshot': 'Take Snapshot PNG',
     'tool.save': 'Save preset',
     'tool.share': 'Copy link',
@@ -390,6 +415,12 @@ const I18N = {
     'pet.penguin.tagline': 'A tiny waddler with a big, warm heart.',
     'pet.shiba.name': 'Sunny the Shiba',
     'pet.shiba.tagline': 'Curled tail, bright eyes, endless good cheer.',
+    'pet.koala.name': 'Kumo the Koala',
+    'pet.koala.tagline': 'Fluffy ears, slow blinks, endless tree dreams.',
+    'pet.conure.name': 'Sol the Sun Conure',
+    'pet.conure.tagline': 'A pocket of sunshine with emerald wings.',
+    'pet.fold.name': 'Biscuit the Scottish Fold',
+    'pet.fold.tagline': 'Folded ears, round eyes, the softest biscuit.',
     'a11y.skip': 'Skip to controls',
     'a11y.sound': 'Toggle sound effects',
     'a11y.lang': 'Switch between English and Thai',
@@ -404,6 +435,7 @@ const I18N = {
     'a11y.blushColor': 'Blush colour',
     'a11y.palettes': 'Colour presets',
     'a11y.accessories': 'Toggle accessories',
+    'a11y.coat': 'Choose fur or feather detail',
     'toast.animal': 'Say hello to {name}!',
     'toast.expression': 'Expression: {name}',
     'toast.snapshot': 'Snapshot saved — {file}',
@@ -419,12 +451,13 @@ const I18N = {
     'toast.soundOff': 'Sound effects muted.',
     'toast.lang': 'Language set to English.',
     'toast.colorsReset': 'Colours reset.',
+    'toast.coat': 'Coat: {name}',
     'toast.webgl': 'WebGL could not start in this browser.',
     'preset.auto': '{name} look',
     'preset.meta': '{animal} · {accessories}',
     'preset.none': 'no accessories',
     'meta.title': 'Cute3D — Procedural Code-Only Animal Studio',
-    'meta.desc': 'A zero-asset 3D animal studio with four original code-built pets, bilingual English/ไทย UI, procedural audio and transparent PNG snapshots.',
+    'meta.desc': 'A zero-asset 3D animal studio with seven original code-built pets, bilingual English/ไทย UI, procedural audio and transparent PNG snapshots.',
   },
   th: {
     'brand.sub': 'สตูดิโอสัตว์ 3D จากโค้ด',
@@ -437,14 +470,15 @@ const I18N = {
     'stage.react': 'เล่นด้วย',
     'panel.open': 'แต่งตัว',
     'panel.title': 'สตูดิโอ',
-    'panel.sub': 'สี่เพื่อนน้อย ไม่มีไฟล์โมเดล',
+    'panel.sub': 'เจ็ดเพื่อนน้อย ไม่มีไฟล์โมเดล',
     'section.animals': 'ตัวละคร',
-    'section.animalsNote': 'สี่ต้นฉบับ',
+    'section.animalsNote': 'เจ็ดต้นฉบับ',
     'section.expression': 'อารมณ์',
     'section.expressionNote': 'ลองกดดู',
     'section.colors': 'สีสัน',
     'section.accessories': 'เครื่องประดับ',
     'section.accessoriesNote': 'สร้างจากโค้ด',
+    'section.coat': 'รายละเอียดขน',
     'section.studio': 'เครื่องมือ',
     'animal.bear': 'หมีจิบิ',
     'animal.bearTrait': 'กอดนุ่ม',
@@ -454,6 +488,12 @@ const I18N = {
     'animal.penguinTrait': 'เดินเป๋',
     'animal.shiba': 'ชิบะ',
     'animal.shibaTrait': 'ร่าเริง',
+    'animal.koala': 'โคอาล่า',
+    'animal.koalaTrait': 'ขี้ฝัน',
+    'animal.conure': 'ซันคอนัวร์',
+    'animal.conureTrait': 'สดใส',
+    'animal.fold': 'สก็อตติชโฟลด์',
+    'animal.foldTrait': 'นุ่มฟู',
     'expr.happy': 'มีความสุข',
     'expr.sleepy': 'ง่วงนอน',
     'expr.curious': 'สงสัย',
@@ -467,6 +507,11 @@ const I18N = {
     'acc.hatNote': 'ฉลองได้ทุกวัน',
     'acc.glasses': 'แว่นตา',
     'acc.glassesNote': 'ขยันเรียนมาก',
+    'coat.off': 'เรียบ',
+    'coat.soft': 'นุ่ม',
+    'coat.plush': 'ฟูหนา',
+    'coat.hint': 'ขนและขนนกจริง สร้างทีละเส้นจากโค้ด',
+    'coat.strands': '{n} เส้น',
     'tool.snapshot': 'บันทึกภาพ PNG',
     'tool.save': 'บันทึกพรีเซ็ต',
     'tool.share': 'คัดลอกลิงก์',
@@ -485,6 +530,12 @@ const I18N = {
     'pet.penguin.tagline': 'ตัวเล็กเดินเป๋ แต่หัวใจอบอุ่นมาก',
     'pet.shiba.name': 'ซันนี่ ชิบะ',
     'pet.shiba.tagline': 'หางม้วน ตาใส ร่าเริงไม่หยุด',
+    'pet.koala.name': 'คูโมะ โคอาล่า',
+    'pet.koala.tagline': 'หูฟู ตาช้า ฝันถึงต้นไม้ทั้งวัน',
+    'pet.conure.name': 'โซล ซันคอนัวร์',
+    'pet.conure.tagline': 'แสงแดดก้อนน้อยพร้อมปีกมรกต',
+    'pet.fold.name': 'บิสกิต สก็อตติชโฟลด์',
+    'pet.fold.tagline': 'หูพับ ตากลม นุ่มเหมือนบิสกิต',
     'a11y.skip': 'ข้ามไปที่แผงควบคุม',
     'a11y.sound': 'เปิดหรือปิดเสียงประกอบ',
     'a11y.lang': 'สลับภาษาอังกฤษและภาษาไทย',
@@ -499,6 +550,7 @@ const I18N = {
     'a11y.blushColor': 'สีแก้ม',
     'a11y.palettes': 'ชุดสีสำเร็จรูป',
     'a11y.accessories': 'เปิดปิดเครื่องประดับ',
+    'a11y.coat': 'เลือกความละเอียดของขนหรือขนนก',
     'toast.animal': 'ทักทาย {name} กันหน่อย!',
     'toast.expression': 'อารมณ์: {name}',
     'toast.snapshot': 'บันทึกภาพแล้ว — {file}',
@@ -514,12 +566,13 @@ const I18N = {
     'toast.soundOff': 'ปิดเสียงประกอบแล้ว',
     'toast.lang': 'เปลี่ยนภาษาเป็นภาษาไทยแล้ว',
     'toast.colorsReset': 'รีเซ็ตสีแล้ว',
+    'toast.coat': 'ขน: {name}',
     'toast.webgl': 'เบราว์เซอร์นี้ไม่สามารถเปิด WebGL ได้',
     'preset.auto': 'ลุคของ{name}',
     'preset.meta': '{animal} · {accessories}',
     'preset.none': 'ไม่ใส่เครื่องประดับ',
     'meta.title': 'Cute3D — สตูดิโอสัตว์ 3D จากโค้ด',
-    'meta.desc': 'สตูดิโอสัตว์ 3D ที่ไม่ใช้ไฟล์โมเดลเลย สี่ตัวละครต้นฉบับสร้างจากโค้ด รองรับสองภาษา เสียงสังเคราะห์ และภาพ PNG พื้นหลังโปร่งใส',
+    'meta.desc': 'สตูดิโอสัตว์ 3D ที่ไม่ใช้ไฟล์โมเดลเลย เจ็ดตัวละครต้นฉบับสร้างจากโค้ด รองรับสองภาษา เสียงสังเคราะห์ และภาพ PNG พื้นหลังโปร่งใส',
   },
 };
 /* I18N:END */
@@ -531,8 +584,8 @@ import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
 const ENGINE = createStudioEngine();
 const {
   ANIMALS, EXPRESSIONS, ACCESSORIES, COLOR_KEYS, PRESET_LIMIT,
-  DEFAULT_COLORS, PALETTES, clamp, damp, lerp, smoothstep, easeOutCubic,
-  normalizeHex, mixHex, shade, blinkScale, expressionPose, sanitizeColors,
+  DEFAULT_COLORS, PALETTES, COAT_LEVELS, DEFAULT_COAT, clamp, damp, lerp, smoothstep, easeOutCubic,
+  normalizeHex, mixHex, shade, blinkScale, expressionPose, sanitizeColors, sanitizeCoat,
   sanitizePresets, snapshotFilename, encodeShareState, decodeShareState,
   soundPattern, clampSnapshotSize, formatMeshLabel,
 } = ENGINE;
@@ -543,7 +596,7 @@ const STORE = {
   lang: 'cute3d:lang:v1',
 };
 
-const ANIMAL_EMOJI = { bear: '🧸', bunny: '🐰', penguin: '🐧', shiba: '🐕' };
+const ANIMAL_EMOJI = { bear: '🧸', bunny: '🐰', penguin: '🐧', shiba: '🐕', koala: '🐨', conure: '🦜', fold: '🐱' };
 
 const $ = (selector, root = document) => root.querySelector(selector);
 const $$ = (selector, root = document) => Array.from(root.querySelectorAll(selector));
@@ -558,6 +611,7 @@ const defaultState = () => ({
   expression: 'happy',
   lang: 'en',
   sound: true,
+  coat: DEFAULT_COAT,
   colors: Object.fromEntries(ANIMALS.map((id) => [id, { ...DEFAULT_COLORS[id] }])),
   accessories: { bowtie: false, partyHat: false, glasses: false },
 });
@@ -586,6 +640,7 @@ if (stored && typeof stored === 'object') {
   if (EXPRESSIONS.includes(stored.expression)) state.expression = stored.expression;
   if (stored.lang === 'th' || stored.lang === 'en') state.lang = stored.lang;
   if (typeof stored.sound === 'boolean') state.sound = stored.sound;
+  state.coat = sanitizeCoat(stored.coat);
   for (const id of ANIMALS) state.colors[id] = sanitizeColors(stored.colors?.[id], id);
   if (stored.accessories && typeof stored.accessories === 'object') {
     for (const key of ACCESSORIES) state.accessories[key] = Boolean(stored.accessories[key]);
@@ -1252,7 +1307,655 @@ const buildShiba = (materials) => {
   };
 };
 
-const BUILDERS = { bear: buildBear, bunny: buildBunny, penguin: buildPenguin, shiba: buildShiba };
+/* ------------------------------------------------------- feathers & coats */
+
+const featherGeoCache = new Map();
+
+const featherGeometry = (baseHex, tipHex) => {
+  const key = `${baseHex}|${tipHex}`;
+  if (featherGeoCache.has(key)) return featherGeoCache.get(key);
+  const base = new THREE.Color(baseHex).convertSRGBToLinear();
+  const tip = new THREE.Color(tipHex).convertSRGBToLinear();
+  const rows = 10;
+  const positions = [];
+  const colors = [];
+  const indices = [];
+  for (let row = 0; row <= rows; row += 1) {
+    const t = row / rows;
+    const width = 0.015 + 0.28 * Math.pow(Math.sin(Math.PI * t), 0.72) * (1 - t * 0.18);
+    const z = 0.02 + 0.13 * t * t + 0.045 * Math.sin(Math.PI * t);
+    const edge = base.clone().lerp(tip, t).multiplyScalar(0.78);
+    const centre = base.clone().lerp(tip, t).lerp(new THREE.Color('#ffffff'), 0.18);
+    positions.push(-width, t, z, 0, t, z + 0.018, width, t, z);
+    colors.push(edge.r, edge.g, edge.b, centre.r, centre.g, centre.b, edge.r, edge.g, edge.b);
+    if (row < rows) {
+      const a = row * 3;
+      const b = a + 3;
+      indices.push(a, b, a + 1, b, b + 1, a + 1, a + 1, b + 1, a + 2, b + 1, b + 2, a + 2);
+    }
+  }
+  const geo = new THREE.BufferGeometry();
+  geo.setAttribute('position', new THREE.Float32BufferAttribute(positions, 3));
+  geo.setAttribute('color', new THREE.Float32BufferAttribute(colors, 3));
+  geo.setIndex(indices);
+  geo.computeVertexNormals();
+  geo.userData.shared = true;
+  featherGeoCache.set(key, geo);
+  return geo;
+};
+
+
+const featherMaterial = () => new THREE.MeshStandardMaterial({
+  color: 0xffffff,
+  vertexColors: true,
+  side: THREE.DoubleSide,
+  roughness: 0.76,
+  metalness: 0,
+});
+
+const featherMesh = (geometry, material, { pos, rot, scale, name = '' }) => {
+  const mesh = new THREE.Mesh(geometry, material);
+  mesh.position.set(pos[0], pos[1], pos[2]);
+  mesh.rotation.set(rot[0], rot[1], rot[2]);
+  mesh.scale.set(scale[0], scale[1], scale[2]);
+  mesh.castShadow = true;
+  mesh.receiveShadow = true;
+  if (name) mesh.name = name;
+  mesh.userData.baseScale = mesh.scale.clone();
+  return mesh;
+};
+
+const buildConureWing = (side) => {
+  const group = new THREE.Group();
+  group.position.set(side * 0.69, 1.36, 0.02);
+  group.rotation.set(0.02, side * 0.42, side * 0.1);
+  const green = featherGeometry('#5cbf72', '#2f8a50');
+  const lime = featherGeometry('#b7cf48', '#e0d95b');
+  const material = featherMaterial();
+  for (let i = 0; i < 6; i += 1) {
+    const t = i / 5;
+    const feather = featherMesh(green, material, {
+      pos: [side * (0.01 + t * 0.025), -0.02 - t * 0.13, -0.02 + t * 0.1],
+      rot: [0.14 * t, side * 0.16, Math.PI + side * (0.16 + t * 0.2)],
+      scale: [0.78 + t * 0.2, 0.62 + t * 0.22, 1],
+      name: `wing-feather-${side > 0 ? 'right' : 'left'}-${i}`,
+    });
+    feather.castShadow = false;
+    group.add(feather);
+  }
+  for (let i = 0; i < 4; i += 1) {
+    const t = i / 3;
+    const covert = featherMesh(lime, material, {
+      pos: [side * (0.01 + t * 0.02), 0.16 - t * 0.09, 0.1 - t * 0.02],
+      rot: [0.1, side * 0.2, Math.PI + side * (0.34 - t * 0.18)],
+      scale: [0.55 + t * 0.1, 0.3 + t * 0.1, 1],
+      name: 'wing-covert',
+    });
+    covert.castShadow = false;
+    group.add(covert);
+  }
+  const wingGreen = new THREE.MeshStandardMaterial({ color: new THREE.Color('#4fae63'), roughness: 0.88 });
+  const coverA = new THREE.Mesh(SHARED_GEO.sphere, wingGreen);
+  coverA.scale.set(0.26, 0.46, 0.12);
+  coverA.position.set(side * 0.02, -0.12, 0.03);
+  coverA.castShadow = false;
+  coverA.receiveShadow = true;
+  const coverB = new THREE.Mesh(SHARED_GEO.sphere, wingGreen);
+  coverB.scale.set(0.2, 0.3, 0.1);
+  coverB.position.set(side * 0.05, 0.06, 0.05);
+  coverB.castShadow = false;
+  coverB.receiveShadow = true;
+  group.add(coverA, coverB);
+  group.traverse((node) => {
+    if (node.isMesh) node.receiveShadow = true;
+  });
+  return group;
+};
+
+const buildKoala = (materials) => {
+  const group = new THREE.Group();
+  const body = sphere(materials, 'main', { pos: [0, 1.0, 0], scale: [0.92, 1.0, 0.82], name: 'body' });
+  const belly = sphere(materials, 'belly', { pos: [0, 0.98, 0.56], scale: [0.58, 0.66, 0.3], name: 'belly' });
+  const legL = sphere(materials, 'main', { pos: [-0.37, 0.28, 0.06], scale: [0.31, 0.27, 0.31], name: 'leg-left' });
+  const legR = sphere(materials, 'main', { pos: [0.37, 0.28, 0.06], scale: [0.31, 0.27, 0.31], name: 'leg-right' });
+  const padL = sphere(materials, 'blush', { pos: [-0.37, 0.26, 0.32], scale: [0.14, 0.1, 0.04], name: 'pad-left' });
+  const padR = sphere(materials, 'blush', { pos: [0.37, 0.26, 0.32], scale: [0.14, 0.1, 0.04], name: 'pad-right' });
+  const armL = capsule(0.16, 0.44, materials, 'main', { pos: [-0.95, 1.12, 0.1], rot: [0.1, 0, 0.68], name: 'arm-left' });
+  const armR = capsule(0.16, 0.44, materials, 'main', { pos: [0.95, 1.12, 0.1], rot: [0.1, 0, -0.68], name: 'arm-right' });
+  const tailPivot = new THREE.Group();
+  tailPivot.position.set(0, 0.72, -0.7);
+  tailPivot.add(sphere(materials, 'main', { pos: [0, 0, -0.06], scale: [0.19, 0.19, 0.18], name: 'tail' }));
+
+  const head = new THREE.Group();
+  head.position.set(0, 2.06, 0.02);
+  head.name = 'head';
+  head.add(sphere(materials, 'main', { scale: [0.84, 0.78, 0.76], name: 'head-mesh' }));
+
+  const makeEar = (side) => {
+    const pivot = new THREE.Group();
+    pivot.position.set(side * 0.7, 0.34, -0.02);
+    pivot.rotation.z = side * 0.18;
+    const outer = sphere(materials, 'main', { pos: [0, 0.26, 0], scale: [0.34, 0.4, 0.18], name: `ear-${side < 0 ? 'left' : 'right'}` });
+    const inner = sphere(materials, 'belly', { pos: [0, 0.26, 0.12], scale: [0.22, 0.28, 0.06], name: 'inner-ear' });
+    pivot.add(outer, inner);
+    return pivot;
+  };
+  const earL = makeEar(-1);
+  const earR = makeEar(1);
+  const eyeL = sphere(materials, 'eye', { pos: [-0.29, 0.07, 0.66], scale: [0.085, 0.095, 0.07], name: 'eye-left' });
+  const eyeR = sphere(materials, 'eye', { pos: [0.29, 0.07, 0.66], scale: [0.085, 0.095, 0.07], name: 'eye-right' });
+  const glintL = sphere(materials, 'glint', { pos: [-0.31, 0.11, 0.72], scale: [0.028, 0.028, 0.02], name: 'glint-left' });
+  const glintR = sphere(materials, 'glint', { pos: [0.26, 0.11, 0.72], scale: [0.028, 0.028, 0.02], name: 'glint-right' });
+  const muzzle = sphere(materials, 'belly', { pos: [0, -0.1, 0.56], scale: [0.42, 0.3, 0.3], name: 'muzzle' });
+  const nose = sphere(materials, 'nose', { pos: [0, 0.01, 0.8], scale: [0.24, 0.18, 0.14], name: 'nose' });
+  const mouth = torusArc(0.08, 0.016, Math.PI, null, null, {
+    pos: [0, -0.22, 0.8], rot: [0, 0, Math.PI], material: materials.nose, name: 'mouth',
+  });
+  const cheekL = sphere(materials, 'blush', { pos: [-0.5, -0.08, 0.54], scale: [0.15, 0.12, 0.05], name: 'cheek-left' });
+  const cheekR = sphere(materials, 'blush', { pos: [0.5, -0.08, 0.54], scale: [0.15, 0.12, 0.05], name: 'cheek-right' });
+
+  head.add(earL, earR, eyeL, eyeR, glintL, glintR, muzzle, nose, mouth, cheekL, cheekR);
+
+  const neck = anchor(group, [0, 1.42, 0.8], 'anchor-neck');
+  const hat = anchor(head, [0, 0.58, 0.12], 'anchor-hat');
+  const glasses = anchor(head, [0, 0.07, 0.72], 'anchor-glasses');
+
+  group.add(body, belly, legL, legR, padL, padR, armL, armR, tailPivot, head, neck);
+
+  return {
+    id: 'koala', group, head, body, belly, ears: [earL, earR], eyes: [eyeL, eyeR],
+    glints: [glintL, glintR], tail: tailPivot, feet: [legL, legR], arms: [armL, armR],
+    cheeks: [cheekL, cheekR], mouth, anchors: { neck, hat, glasses }, materials,
+    base: { belly: belly.scale.clone(), headRotX: 0, headRotZ: 0, tailRot: 0 },
+    seed: 13, accessories: {}, blinkSeed: 15, fluffSeed: 23,
+  };
+};
+
+const buildConure = (materials) => {
+  const group = new THREE.Group();
+  const green = mat('fixed', '#2f8a50', { roughness: 0.8 });
+  const greenDark = mat('fixed', '#1c5c3a', { roughness: 0.85 });
+  const blue = mat('fixed', '#2f6fb2', { roughness: 0.8 });
+  const beakDark = mat('fixed', '#2b2629', { roughness: 0.45 });
+  const body = sphere(materials, 'main', { pos: [0, 1.0, 0], scale: [0.8, 1.0, 0.72], name: 'body' });
+  const belly = sphere(materials, 'belly', { pos: [0, 0.98, 0.5], scale: [0.6, 0.74, 0.28], name: 'belly' });
+  const mantle = sphere(materials, 'fixed', { pos: [0, 1.18, -0.22], scale: [0.72, 0.8, 0.5], name: 'mantle', material: green });
+  const footL = sphere(materials, 'foot', { pos: [-0.28, 0.1, 0.18], scale: [0.2, 0.09, 0.3], name: 'foot-left' });
+  const footR = sphere(materials, 'foot', { pos: [0.28, 0.1, 0.18], scale: [0.2, 0.09, 0.3], name: 'foot-right' });
+
+  const head = new THREE.Group();
+  head.position.set(0, 2.02, 0.02);
+  head.name = 'head';
+  head.add(sphere(materials, 'main', { scale: [0.66, 0.62, 0.62], name: 'head-mesh' }));
+  const patchL = sphere(materials, 'cream', { pos: [-0.27, 0.06, 0.54], scale: [0.2, 0.17, 0.07], name: 'eye-patch-left' });
+  const patchR = sphere(materials, 'cream', { pos: [0.27, 0.06, 0.54], scale: [0.2, 0.17, 0.07], name: 'eye-patch-right' });
+  const eyeL = sphere(materials, 'eye', { pos: [-0.27, 0.06, 0.62], scale: [0.075, 0.085, 0.06], name: 'eye-left' });
+  const eyeR = sphere(materials, 'eye', { pos: [0.27, 0.06, 0.62], scale: [0.075, 0.085, 0.06], name: 'eye-right' });
+  const glintL = sphere(materials, 'glint', { pos: [-0.29, 0.1, 0.68], scale: [0.024, 0.024, 0.018], name: 'glint-left' });
+  const glintR = sphere(materials, 'glint', { pos: [0.24, 0.1, 0.68], scale: [0.024, 0.024, 0.018], name: 'glint-right' });
+  const cheekL = sphere(materials, 'blush', { pos: [-0.4, -0.1, 0.46], scale: [0.13, 0.11, 0.05], name: 'cheek-left' });
+  const cheekR = sphere(materials, 'blush', { pos: [0.4, -0.1, 0.46], scale: [0.13, 0.11, 0.05], name: 'cheek-right' });
+  const beak = mesh(SHARED_GEO.cone, beakDark, {
+    pos: [0, -0.12, 0.7], rot: [0.15, 0, Math.PI], scale: [0.14, 0.3, 0.13], name: 'beak',
+  });
+  const mouth = new THREE.Group();
+
+  head.add(patchL, patchR, eyeL, eyeR, glintL, glintR, cheekL, cheekR, beak, mouth);
+
+  const wingL = buildConureWing(-1);
+  const wingR = buildConureWing(1);
+  group.add(wingL, wingR);
+
+  const tailPivot = new THREE.Group();
+  tailPivot.position.set(0, 0.72, -0.32);
+  tailPivot.rotation.x = -2.72;
+  const tailMat = featherMaterial();
+  for (let i = 0; i < 6; i += 1) {
+    const t = (i - 2.5) / 2.5;
+    const feather = featherMesh(featherGeometry('#2f8a50', '#3b74c8'), tailMat, {
+      pos: [t * 0.07, 0.02, -0.02 + Math.abs(t) * 0.02],
+      rot: [0, 0, t * 0.16],
+      scale: [0.8, 1.5 + (1 - Math.abs(t)) * 0.4, 1],
+      name: `tail-feather-${i}`,
+    });
+    tailPivot.add(feather);
+  }
+  const tailCovert = featherMesh(featherGeometry('#9cbf3c', '#2f8a50'), tailMat, {
+    pos: [0, 0.02, 0.05], rot: [0, 0, 0], scale: [0.7, 0.62, 1], name: 'tail-covert',
+  });
+  tailPivot.add(tailCovert);
+  group.add(tailPivot);
+  const tailLow = new THREE.Group();
+  tailLow.position.set(0, 0.32, -0.18);
+  tailLow.rotation.x = -2.96;
+  const tailLowMat = featherMaterial();
+  for (let i = 0; i < 3; i += 1) {
+    const t = i - 1;
+    const tip = featherMesh(featherGeometry('#2f8a50', '#3b74c8'), tailLowMat, {
+      pos: [t * 0.07, 0, -0.02 + Math.abs(t) * 0.02],
+      rot: [0, 0, t * 0.18],
+      scale: [0.55, 0.85 + (1 - Math.abs(t)) * 0.2, 1],
+      name: `tail-tip-${i}`,
+    });
+    tailLow.add(tip);
+  }
+  group.add(tailLow);
+  const rump = sphere(materials, 'fixed', { pos: [0, 0.72, -0.42], scale: [0.3, 0.26, 0.2], name: 'rump', material: blue });
+  group.add(rump);
+
+  const neck = anchor(group, [0, 1.5, 0.72], 'anchor-neck');
+  const hat = anchor(head, [0, 0.54, 0.08], 'anchor-hat');
+  const glasses = anchor(head, [0, 0.06, 0.68], 'anchor-glasses');
+
+  group.add(body, belly, mantle, footL, footR, head, neck);
+
+  return {
+    id: 'conure', group, head, body, belly, ears: [wingL, wingR], eyes: [eyeL, eyeR],
+    glints: [glintL, glintR], tail: tailPivot, feet: [footL, footR], arms: [wingL, wingR],
+    cheeks: [cheekL, cheekR], mouth, anchors: { neck, hat, glasses }, materials,
+    base: { belly: belly.scale.clone(), headRotX: 0, headRotZ: 0, tailRot: -2.72 },
+    seed: 17, accessories: {}, blinkSeed: 19, fluffSeed: 29, fixedMaterials: { green, greenDark, blue },
+  };
+};
+
+const buildFold = (materials) => {
+  const group = new THREE.Group();
+  const body = sphere(materials, 'main', { pos: [0, 0.99, 0], scale: [0.86, 0.94, 0.82], name: 'body' });
+  const belly = sphere(materials, 'belly', { pos: [0, 0.97, 0.58], scale: [0.55, 0.62, 0.26], name: 'belly' });
+  const legL = capsule(0.13, 0.22, materials, 'main', { pos: [-0.34, 0.22, 0.02], rot: [0.08, 0, 0], name: 'leg-left' });
+  const legR = capsule(0.13, 0.22, materials, 'main', { pos: [0.34, 0.22, 0.02], rot: [0.08, 0, 0], name: 'leg-right' });
+  const pawL = sphere(materials, 'belly', { pos: [-0.34, 0.11, 0.13], scale: [0.15, 0.1, 0.17], name: 'paw-left' });
+  const pawR = sphere(materials, 'belly', { pos: [0.34, 0.11, 0.13], scale: [0.15, 0.1, 0.17], name: 'paw-right' });
+  const armL = capsule(0.12, 0.32, materials, 'main', { pos: [-0.84, 1.0, 0.12], rot: [0.2, 0, 0.5], name: 'arm-left' });
+  const armR = capsule(0.12, 0.32, materials, 'main', { pos: [0.84, 1.0, 0.12], rot: [0.2, 0, -0.5], name: 'arm-right' });
+
+  const tailPivot = new THREE.Group();
+  tailPivot.position.set(0, 1.14, -0.6);
+  tailPivot.rotation.z = -0.25;
+  const tailCurl = torusArc(0.26, 0.1, Math.PI * 1.4, materials, 'main', {
+    pos: [0, 0, -0.06], rot: [0.2, Math.PI / 2, 0], name: 'tail',
+  });
+  const tailTip = sphere(materials, 'belly', { pos: [0.08, 0.2, -0.12], scale: [0.1, 0.1, 0.1], name: 'tail-tip' });
+  tailPivot.add(tailCurl, tailTip);
+
+  const head = new THREE.Group();
+  head.position.set(0, 2.0, 0.02);
+  head.name = 'head';
+  head.add(sphere(materials, 'main', { scale: [0.82, 0.74, 0.72], name: 'head-mesh' }));
+
+  const makeEar = (side) => {
+    const pivot = new THREE.Group();
+    pivot.position.set(side * 0.44, 0.52, 0.5);
+    pivot.rotation.set(-0.32, 0, side * 0.14);
+    const outer = sphere(materials, 'main', { pos: [0, 0, 0], scale: [0.27, 0.2, 0.09], name: `ear-${side < 0 ? 'left' : 'right'}` });
+    const inner = sphere(materials, 'inner', { pos: [0, 0, 0.07], scale: [0.18, 0.13, 0.045], name: 'inner-ear' });
+    pivot.add(outer, inner);
+    return pivot;
+  };
+  const earL = makeEar(-1);
+  const earR = makeEar(1);
+
+  const eyeL = sphere(materials, 'eye', { pos: [-0.28, 0.08, 0.63], scale: [0.1, 0.105, 0.08], name: 'eye-left' });
+  const eyeR = sphere(materials, 'eye', { pos: [0.28, 0.08, 0.63], scale: [0.1, 0.105, 0.08], name: 'eye-right' });
+  const glintL = sphere(materials, 'glint', { pos: [-0.31, 0.12, 0.7], scale: [0.03, 0.03, 0.02], name: 'glint-left' });
+  const glintR = sphere(materials, 'glint', { pos: [0.25, 0.12, 0.7], scale: [0.03, 0.03, 0.02], name: 'glint-right' });
+  const muzzle = sphere(materials, 'belly', { pos: [0, -0.13, 0.57], scale: [0.33, 0.24, 0.28], name: 'muzzle' });
+  const nose = sphere(materials, 'accent', { pos: [0, -0.03, 0.81], scale: [0.09, 0.065, 0.06], name: 'nose' });
+  const mouth = torusArc(0.075, 0.014, Math.PI, null, null, {
+    pos: [0, -0.2, 0.82], rot: [0, 0, Math.PI], material: materials.nose, name: 'mouth',
+  });
+  const cheekL = sphere(materials, 'blush', { pos: [-0.49, -0.08, 0.54], scale: [0.15, 0.11, 0.05], name: 'cheek-left' });
+  const cheekR = sphere(materials, 'blush', { pos: [0.49, -0.08, 0.54], scale: [0.15, 0.11, 0.05], name: 'cheek-right' });
+  const whiskers = [];
+  for (const side of [-1, 1]) {
+    for (let i = 0; i < 4; i += 1) {
+      const whisker = mesh(new THREE.CylinderGeometry(0.006, 0.004, 0.44, 5), materials.cream, {
+        pos: [side * 0.44, -0.13 - i * 0.035, 0.66],
+        rot: [0, side * (-0.3 + i * 0.16), Math.PI / 2 - side * 0.12],
+        name: 'whisker',
+      });
+      whiskers.push(whisker);
+    }
+  }
+
+  head.add(earL, earR, eyeL, eyeR, glintL, glintR, muzzle, nose, mouth, cheekL, cheekR, ...whiskers);
+
+  const neck = anchor(group, [0, 1.43, 0.76], 'anchor-neck');
+  const hat = anchor(head, [0, 0.56, 0.1], 'anchor-hat');
+  const glasses = anchor(head, [0, 0.08, 0.7], 'anchor-glasses');
+
+  group.add(body, belly, legL, legR, pawL, pawR, armL, armR, tailPivot, head, neck);
+
+  return {
+    id: 'fold', group, head, body, belly, ears: [earL, earR], eyes: [eyeL, eyeR],
+    glints: [glintL, glintR], tail: tailPivot, feet: [legL, legR], arms: [armL, armR],
+    cheeks: [cheekL, cheekR], mouth, anchors: { neck, hat, glasses }, materials,
+    base: { belly: belly.scale.clone(), headRotX: 0, headRotZ: 0, tailRot: 0 },
+    seed: 21, accessories: {}, blinkSeed: 23, fluffSeed: 31,
+  };
+};
+
+const BUILDERS = { bear: buildBear, bunny: buildBunny, penguin: buildPenguin, shiba: buildShiba, koala: buildKoala, conure: buildConure, fold: buildFold };
+
+
+/* ------------------------------------------------------------ coat system */
+
+const COAT_SCALE = {
+  off: { count: 0, length: 0, radius: 0 },
+  soft: { count: 0.55, length: 0.82, radius: 0.9 },
+  plush: { count: 1, length: 1.12, radius: 1.12 },
+};
+
+const COAT_CONFIG = {
+  bear: {
+    kind: 'fur',
+    zones: [
+      { mesh: 'body', role: 'main', count: 460, len: [0.05, 0.11], radius: [0.006, 0.012], minY: -0.45, droop: 0.3, tilt: 0.5 },
+      { mesh: 'belly', role: 'belly', count: 150, len: [0.035, 0.08], radius: [0.005, 0.009], minZ: 0.15, droop: 0.15, tilt: 0.4 },
+      { mesh: 'head-mesh', role: 'main', count: 230, len: [0.04, 0.09], radius: [0.005, 0.01], minY: -0.05, maxZ: 0.52, droop: 0.12, tilt: 0.5 },
+      { mesh: 'ear-left', role: 'main', count: 70, len: [0.04, 0.09], radius: [0.005, 0.01], droop: 0.1, tilt: 0.7 },
+      { mesh: 'ear-right', role: 'main', count: 70, len: [0.04, 0.09], radius: [0.005, 0.01], droop: 0.1, tilt: 0.7 },
+      { mesh: 'tail', role: 'main', count: 55, len: [0.04, 0.1], radius: [0.005, 0.01], droop: 0.2, tilt: 0.7 },
+    ],
+  },
+  bunny: {
+    kind: 'fur',
+    zones: [
+      { mesh: 'body', role: 'main', count: 420, len: [0.045, 0.1], radius: [0.005, 0.011], minY: -0.4, droop: 0.28, tilt: 0.5 },
+      { mesh: 'belly', role: 'belly', count: 140, len: [0.03, 0.07], radius: [0.004, 0.008], minZ: 0.1, droop: 0.12, tilt: 0.4 },
+      { mesh: 'head-mesh', role: 'main', count: 200, len: [0.035, 0.08], radius: [0.005, 0.009], minY: -0.05, maxZ: 0.55, droop: 0.1, tilt: 0.5 },
+      { mesh: 'ear-left', role: 'main', count: 110, len: [0.08, 0.18], radius: [0.005, 0.01], droop: 0.05, tilt: 0.6 },
+      { mesh: 'ear-right', role: 'main', count: 110, len: [0.08, 0.18], radius: [0.005, 0.01], droop: 0.05, tilt: 0.6 },
+      { mesh: 'tail', role: 'belly', count: 80, len: [0.05, 0.12], radius: [0.006, 0.012], droop: 0.2, tilt: 0.8 },
+    ],
+  },
+  penguin: {
+    kind: 'feather',
+    zones: [
+      { mesh: 'body', role: 'main', count: 300, len: [0.04, 0.09], radius: [0.006, 0.012], minY: -0.35, droop: 0.3, tilt: 0.5 },
+      { mesh: 'belly', role: 'belly', count: 200, len: [0.03, 0.07], radius: [0.005, 0.01], minZ: 0.1, droop: 0.15, tilt: 0.4 },
+      { mesh: 'head-mesh', role: 'main', count: 160, len: [0.03, 0.07], radius: [0.005, 0.01], minY: 0, maxZ: 0.35, droop: 0.1, tilt: 0.5 },
+      { mesh: 'tail', role: 'main', count: 60, len: [0.03, 0.08], radius: [0.005, 0.01], droop: 0.2, tilt: 0.6 },
+    ],
+  },
+  shiba: {
+    kind: 'fur',
+    zones: [
+      { mesh: 'body', role: 'main', count: 520, len: [0.05, 0.12], radius: [0.006, 0.012], minY: -0.4, droop: 0.32, tilt: 0.5 },
+      { mesh: 'belly', role: 'belly', count: 160, len: [0.03, 0.08], radius: [0.005, 0.009], minZ: 0.1, droop: 0.15, tilt: 0.4 },
+      { mesh: 'head-mesh', role: 'main', count: 250, len: [0.04, 0.1], radius: [0.005, 0.01], minY: -0.02, maxZ: 0.5, droop: 0.12, tilt: 0.5 },
+      { mesh: 'cheek-left', role: 'blush', count: 50, len: [0.03, 0.08], radius: [0.004, 0.008], droop: 0.1, tilt: 0.5 },
+      { mesh: 'cheek-right', role: 'blush', count: 50, len: [0.03, 0.08], radius: [0.004, 0.008], droop: 0.1, tilt: 0.5 },
+      { mesh: 'tail', role: 'main', count: 150, len: [0.05, 0.14], radius: [0.006, 0.012], droop: 0.18, tilt: 0.8 },
+    ],
+  },
+  koala: {
+    kind: 'fur',
+    zones: [
+      { mesh: 'body', role: 'main', count: 680, len: [0.08, 0.18], radius: [0.007, 0.015], minY: -0.45, droop: 0.35, tilt: 0.55 },
+      { mesh: 'belly', role: 'belly', count: 220, len: [0.04, 0.1], radius: [0.005, 0.011], minZ: 0.1, droop: 0.18, tilt: 0.45 },
+      { mesh: 'head-mesh', role: 'main', count: 400, len: [0.07, 0.15], radius: [0.006, 0.013], minY: -0.02, maxZ: 0.5, droop: 0.15, tilt: 0.55 },
+      { mesh: 'ear-left', role: 'main', count: 220, len: [0.12, 0.26], radius: [0.007, 0.014], droop: 0.05, tilt: 0.8 },
+      { mesh: 'ear-right', role: 'main', count: 220, len: [0.12, 0.26], radius: [0.007, 0.014], droop: 0.05, tilt: 0.8 },
+      { mesh: 'tail', role: 'main', count: 80, len: [0.05, 0.12], radius: [0.006, 0.012], droop: 0.2, tilt: 0.8 },
+    ],
+  },
+  conure: {
+    kind: 'feather',
+    zones: [
+      { mesh: 'body', role: 'main', count: 280, len: [0.05, 0.11], radius: [0.008, 0.015], minY: -0.35, maxZ: 0.2, droop: 0.25, tilt: 0.45 },
+      { mesh: 'belly', role: 'belly', count: 240, len: [0.04, 0.09], radius: [0.007, 0.014], minZ: 0.1, droop: 0.16, tilt: 0.4 },
+      { mesh: 'head-mesh', role: 'main', count: 200, len: [0.035, 0.08], radius: [0.006, 0.012], minY: 0, maxZ: 0.45, droop: 0.1, tilt: 0.45 },
+    ],
+  },
+  fold: {
+    kind: 'fur',
+    zones: [
+      { mesh: 'body', role: 'main', count: 620, len: [0.07, 0.16], radius: [0.006, 0.014], minY: -0.4, droop: 0.3, tilt: 0.5 },
+      { mesh: 'belly', role: 'belly', count: 220, len: [0.04, 0.1], radius: [0.005, 0.011], minZ: 0.1, droop: 0.16, tilt: 0.4 },
+      { mesh: 'head-mesh', role: 'main', count: 380, len: [0.06, 0.14], radius: [0.006, 0.012], minY: 0, maxZ: 0.48, droop: 0.12, tilt: 0.55 },
+      { mesh: 'cheek-left', role: 'belly', count: 120, len: [0.08, 0.16], radius: [0.005, 0.011], droop: 0.08, tilt: 0.6 },
+      { mesh: 'cheek-right', role: 'belly', count: 120, len: [0.08, 0.16], radius: [0.005, 0.011], droop: 0.08, tilt: 0.6 },
+      { mesh: 'tail', role: 'main', count: 120, len: [0.05, 0.13], radius: [0.006, 0.012], droop: 0.15, tilt: 0.8 },
+    ],
+  },
+};
+
+const mulberry32 = (seed) => {
+  let value = seed >>> 0;
+  return () => {
+    value = (value + 0x6d2b79f5) | 0;
+    let t = Math.imul(value ^ (value >>> 15), 1 | value);
+    t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t;
+    return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
+  };
+};
+
+const makeShellAlphaTexture = (kind, seed) => {
+  const canvas = document.createElement('canvas');
+  canvas.width = 256;
+  canvas.height = 256;
+  const ctx = canvas.getContext('2d');
+  ctx.clearRect(0, 0, 256, 256);
+  let value = seed;
+  const rand = () => {
+    value = (value * 1664525 + 1013904223) % 4294967296;
+    return value / 4294967296;
+  };
+  if (kind === 'feather') {
+    for (let row = 0; row < 18; row += 1) {
+      for (let col = 0; col < 14; col += 1) {
+        const x = col * 19 + (row % 2) * 9 + rand() * 4;
+        const y = row * 15 + rand() * 4;
+        ctx.strokeStyle = `rgba(255,255,255,${0.5 + rand() * 0.5})`;
+        ctx.lineWidth = 1.4 + rand() * 1.2;
+        ctx.beginPath();
+        ctx.arc(x, y, 5 + rand() * 5, Math.PI * 0.15, Math.PI * 0.85);
+        ctx.stroke();
+      }
+    }
+  } else {
+    for (let i = 0; i < 3200; i += 1) {
+      const x = rand() * 256;
+      const y = rand() * 256;
+      const length = 4 + rand() * 9;
+      const slant = (rand() - 0.5) * 0.5;
+      const gradient = ctx.createLinearGradient(x, y, x + slant * length, y - length);
+      gradient.addColorStop(0, 'rgba(255,255,255,0.35)');
+      gradient.addColorStop(0.25, `rgba(255,255,255,${0.7 + rand() * 0.3})`);
+      gradient.addColorStop(1, 'rgba(255,255,255,0.08)');
+      ctx.strokeStyle = gradient;
+      ctx.lineWidth = 0.8 + rand() * 1.5;
+      ctx.beginPath();
+      ctx.moveTo(x, y);
+      ctx.quadraticCurveTo(x + slant * length * 0.5, y - length * 0.6, x + slant * length, y - length);
+      ctx.stroke();
+    }
+  }
+  const texture = new THREE.CanvasTexture(canvas);
+  texture.wrapS = THREE.RepeatWrapping;
+  texture.wrapT = THREE.RepeatWrapping;
+  texture.anisotropy = 4;
+  return texture;
+};
+
+const makeBumpTexture = (kind, seed) => {
+  const canvas = document.createElement('canvas');
+  canvas.width = 256;
+  canvas.height = 256;
+  const ctx = canvas.getContext('2d');
+  ctx.fillStyle = '#808080';
+  ctx.fillRect(0, 0, 256, 256);
+  let value = seed;
+  const rand = () => {
+    value = (value * 1664525 + 1013904223) % 4294967296;
+    return value / 4294967296;
+  };
+  if (kind === 'feather') {
+    for (let row = 0; row < 26; row += 1) {
+      for (let col = 0; col < 20; col += 1) {
+        ctx.strokeStyle = rand() > 0.5 ? 'rgba(255,255,255,0.55)' : 'rgba(0,0,0,0.45)';
+        ctx.lineWidth = 1.5;
+        ctx.beginPath();
+        ctx.arc(col * 13 + (row % 2) * 6, row * 10, 5, Math.PI * 0.15, Math.PI * 0.85);
+        ctx.stroke();
+      }
+    }
+  } else {
+    for (let i = 0; i < 2200; i += 1) {
+      const x = rand() * 256;
+      const y = rand() * 256;
+      const length = 6 + rand() * 10;
+      ctx.strokeStyle = rand() > 0.5 ? 'rgba(255,255,255,0.45)' : 'rgba(0,0,0,0.4)';
+      ctx.lineWidth = 1.1;
+      ctx.beginPath();
+      ctx.moveTo(x, y);
+      ctx.lineTo(x + (rand() - 0.5) * 4, y - length);
+      ctx.stroke();
+    }
+  }
+  const texture = new THREE.CanvasTexture(canvas);
+  texture.wrapS = THREE.RepeatWrapping;
+  texture.wrapT = THREE.RepeatWrapping;
+  texture.anisotropy = 4;
+  return texture;
+};
+
+const BUMP_TEX = { fur: makeBumpTexture('fur', 11), feather: makeBumpTexture('feather', 29) };
+
+const SHELL_TEX = {
+  fur: [makeShellAlphaTexture('fur', 17), makeShellAlphaTexture('fur', 43), makeShellAlphaTexture('fur', 79)],
+  feather: [makeShellAlphaTexture('feather', 31), makeShellAlphaTexture('feather', 67)],
+};
+
+const disposeCoat = (instance) => {
+  if (!instance?.fluff) return;
+  for (const mesh of instance.fluff) {
+    if (mesh.parent) mesh.parent.remove(mesh);
+    if (mesh.material) {
+      if (mesh.material.userData.fluff && mesh.material.alphaMap) mesh.material.alphaMap.dispose();
+      mesh.material.dispose();
+    }
+    if (mesh.geometry && !mesh.geometry.userData.shared) mesh.geometry.dispose();
+    mesh.dispose?.();
+  }
+  instance.fluff = [];
+  instance.fluffCount = 0;
+  instance.fluffMaterials = new Map();
+};
+
+const strandRoleColor = (instance, role) => {
+  const materials = instance.materials;
+  const map = {
+    main: materials.main,
+    belly: materials.belly,
+    blush: materials.blush,
+    inner: materials.inner,
+    accent: materials.accent,
+    cream: materials.cream,
+  };
+  return map[role]?.color ?? materials.main.color;
+};
+
+const coatMaterial = (kind, color, layer, shells, cutCode, texture) => {
+  const material = new THREE.MeshStandardMaterial({
+    color: new THREE.Color(color),
+    alphaMap: texture,
+    bumpMap: BUMP_TEX[kind],
+    bumpScale: kind === 'feather' ? 0.008 : 0.02,
+    alphaTest: 0.22 + (layer / Math.max(1, shells - 1)) * 0.26,
+    roughness: kind === 'feather' ? 0.82 : 0.96,
+    metalness: 0,
+    side: THREE.FrontSide,
+  });
+  material.userData.fluff = true;
+  material.userData.layer = layer;
+  material.userData.role = null;
+  if (cutCode) {
+    material.onBeforeCompile = (shader) => {
+      shader.vertexShader = 'varying vec3 vFurPos;\n' + shader.vertexShader.replace(
+        '#include <begin_vertex>',
+        '#include <begin_vertex>\nvFurPos = position;',
+      );
+      shader.fragmentShader = `varying vec3 vFurPos;\n${shader.fragmentShader.replace(
+        '#include <clipping_planes_fragment>',
+        `#include <clipping_planes_fragment>\n${cutCode}`,
+      )}`;
+    };
+    material.customProgramCacheKey = () => `fur-shell-${cutCode.length}-${cutCode.charCodeAt(2)}`;
+  }
+  return material;
+};
+
+const addCoatZone = (instance, zone, level, rand) => {
+  const mesh = instance.group.getObjectByName(zone.mesh);
+  if (!mesh || !mesh.isMesh) return 0;
+  const config = COAT_CONFIG[instance.id];
+  const usesFeather = config?.kind === 'feather';
+  const plush = level === 'plush';
+  const shells = plush ? 10 : 5;
+  const thickness = (zone.thickness || (usesFeather ? 0.045 : 0.085)) * (plush ? 1 : 0.55);
+  const textureSet = SHELL_TEX[usesFeather ? 'feather' : 'fur'];
+  const cutCode = zone.mesh === 'head-mesh' ? 'if (vFurPos.z > 0.58) discard;' :
+    zone.mesh === 'body' ? 'if (vFurPos.z > 0.2 && length(vec2(vFurPos.x / 0.78, (vFurPos.y + 0.05) / 0.8)) < 1.0) discard;' :
+    zone.mesh.startsWith('ear-') ? 'if (vFurPos.z > 0.35) discard;' : '';
+  const baseColor = strandRoleColor(instance, zone.role);
+  for (let layer = 0; layer < shells; layer += 1) {
+    const texture = textureSet[layer % textureSet.length].clone();
+    texture.needsUpdate = true;
+    texture.offset.set(rand() * 0.6, rand() * 0.6);
+    texture.rotation = rand() * Math.PI * 2;
+    texture.center.set(0.5, 0.5);
+    const material = coatMaterial(usesFeather ? 'feather' : 'fur', baseColor, layer, shells, cutCode, texture);
+    material.userData.role = zone.role;
+    const shell = new THREE.Mesh(mesh.geometry, material);
+    shell.position.copy(mesh.position);
+    shell.quaternion.copy(mesh.quaternion);
+    const scale = 1.004 + ((layer + 1) / shells) * thickness;
+    shell.scale.copy(mesh.scale).multiplyScalar(scale);
+    shell.name = `coat-${zone.mesh}-${layer}`;
+    shell.castShadow = false;
+    shell.receiveShadow = false;
+    shell.renderOrder = 1;
+    mesh.parent.add(shell);
+    instance.fluff.push(shell);
+    const roleMaterials = instance.fluffMaterials.get(zone.role) || [];
+    roleMaterials.push(material);
+    instance.fluffMaterials.set(zone.role, roleMaterials);
+  }
+  return shells * 180;
+};
+
+const applyCoat = (instance, level) => {
+  if (!instance) return 0;
+  const next = sanitizeCoat(level);
+  if (instance.coatLevel === next && instance.fluff?.length) return instance.fluffCount;
+  disposeCoat(instance);
+  instance.coatLevel = next;
+  if (next === 'off') {
+    instance.fluffCount = 0;
+    return 0;
+  }
+  const config = COAT_CONFIG[instance.id];
+  if (!config) return 0;
+  const rand = mulberry32((instance.fluffSeed || 11) * 97);
+  let count = 0;
+  for (const zone of config.zones) count += addCoatZone(instance, zone, next, rand);
+  instance.fluffCount = count;
+  return count;
+};
+
+const refreshCoatColors = (instance) => {
+  if (!instance?.fluffMaterials) return;
+  const white = new THREE.Color('#ffffff');
+  for (const [role, materials] of instance.fluffMaterials.entries()) {
+    const color = strandRoleColor(instance, role);
+    for (const material of materials) {
+      const layer = material.userData.layer || 0;
+      material.color.copy(color).multiplyScalar(0.94 + layer * 0.007).lerp(white, Math.min(0.04, layer * 0.004));
+    }
+  }
+};
 
 /* --------------------------------------------------------------- rig setup */
 
@@ -1269,6 +1972,7 @@ const disposeRig = (instance) => {
     const disposeMaterial = (material) => {
       if (!material || material.userData.shared || seenMaterials.has(material)) return;
       seenMaterials.add(material);
+      if (material.userData.fluff && material.alphaMap) material.alphaMap.dispose();
       material.dispose();
     };
     if (Array.isArray(node.material)) node.material.forEach(disposeMaterial);
@@ -1282,6 +1986,9 @@ const buildAnimal = (id, colors) => {
   const instance = BUILDERS[id](materials);
   instance.group.userData.animalId = id;
   instance.earBases = instance.ears.map((ear) => ear.rotation.z);
+  instance.fluff = [];
+  instance.fluffMaterials = new Map();
+  applyCoat(instance, sanitizeCoat(state.coat));
   for (const key of ACCESSORIES) {
     const accessory = ACCESSORY_BUILDERS[key]();
     accessory.visible = false;
@@ -1305,6 +2012,7 @@ const applyColors = (instance, colors) => {
   mats.inner.color.set(mixHex(colors.blush, '#ffffff', 0.28));
   mats.accent.color.set(shade(colors.blush, -0.18));
   mats.cream.color.set(mixHex(colors.belly, '#ffffff', 0.35));
+  refreshCoatColors(instance);
 };
 
 const applyAccessories = () => {
@@ -1381,6 +2089,7 @@ const applyI18n = () => {
   if (desc) desc.setAttribute('content', t('meta.desc'));
   updatePetCard();
   renderPresets();
+  syncCoatButtons();
 };
 
 /* --------------------------------------------------------------- controls */
@@ -1426,6 +2135,19 @@ const syncExpressionButtons = () => {
   }
 };
 
+const syncCoatButtons = () => {
+  for (const button of $$('[data-coat]')) {
+    const active = button.dataset.coat === state.coat;
+    button.classList.toggle('is-active', active);
+    button.setAttribute('aria-pressed', String(active));
+  }
+  const count = $('#coat-strand-count');
+  if (count) {
+    const n = (rig?.fluffCount || 0).toLocaleString(state.lang === 'th' ? 'th-TH' : 'en-US');
+    count.textContent = t('coat.strands', { n });
+  }
+};
+
 const syncSoundButtons = () => {
   for (const id of ['#sound-toggle', '#sound-toggle-panel']) {
     const button = $(id);
@@ -1460,6 +2182,7 @@ const setAnimal = (id, { quiet = false } = {}) => {
   applyAccessories();
   syncColorInputs(colors);
   syncAnimalButtons();
+  syncCoatButtons();
   updatePetCard();
   updateMeshCount();
   if (window.__cute3d) window.__cute3d.rig = rig;
@@ -1488,6 +2211,17 @@ const setSound = (on, { quiet = false } = {}) => {
   persistState();
   if (state.sound) audio.play('chime');
   if (!quiet) toast(t(state.sound ? 'toast.soundOn' : 'toast.soundOff'), state.sound ? '🔔' : '🔕');
+};
+
+const setCoat = (level, { quiet = false } = {}) => {
+  if (!COAT_LEVELS.includes(level) || !rig) return;
+  state.coat = level;
+  applyCoat(rig, level);
+  applyColors(rig, state.colors[state.animal]);
+  syncCoatButtons();
+  persistState();
+  audio.play('pop');
+  if (!quiet) toast(t('toast.coat', { name: t(`coat.${level}`) }), '🧶');
 };
 
 const setAccessory = (key, value, { quiet = false } = {}) => {
@@ -1665,6 +2399,7 @@ const savePreset = () => {
     colors: { ...state.colors[state.animal] },
     accessories: { ...state.accessories },
     expression: state.expression,
+    coat: state.coat,
     createdAt: Date.now(),
   };
   presets = sanitizePresets([preset, ...presets]);
@@ -1680,7 +2415,10 @@ const applyPreset = (id) => {
   state.colors[preset.animal] = { ...preset.colors };
   state.accessories = { ...preset.accessories };
   state.expression = preset.expression;
+  state.coat = sanitizeCoat(preset.coat);
   setAnimal(preset.animal, { quiet: true });
+  applyCoat(rig, state.coat);
+  syncCoatButtons();
   applyColors(rig, preset.colors);
   syncColorInputs(preset.colors);
   syncAccessoryButtons();
@@ -1761,6 +2499,7 @@ const buildShareUrl = () => {
     expression: state.expression,
     accessories: state.accessories,
     lang: state.lang,
+    coat: state.coat,
   });
   url.hash = '';
   return url.toString();
@@ -1788,6 +2527,7 @@ const on = (selector, event, handler) => {
 on('[data-animal]', 'click', (event) => setAnimal(event.currentTarget.dataset.animal));
 $('#animal-select')?.addEventListener('change', (event) => setAnimal(event.target.value));
 on('[data-expr]', 'click', (event) => setExpression(event.currentTarget.dataset.expr));
+on('[data-coat]', 'click', (event) => setCoat(event.currentTarget.dataset.coat));
 on('[data-accessory]', 'click', (event) => {
   const key = event.currentTarget.dataset.accessory;
   setAccessory(key, !state.accessories[key]);
@@ -1869,6 +2609,10 @@ document.addEventListener('keydown', (event) => {
   }
   if (event.key.toLowerCase() === 's') downloadSnapshot();
   if (event.key.toLowerCase() === 'l') setLang(state.lang === 'en' ? 'th' : 'en');
+  if (event.key.toLowerCase() === 'c') {
+    const index = COAT_LEVELS.indexOf(state.coat);
+    setCoat(COAT_LEVELS[(index + 1) % COAT_LEVELS.length]);
+  }
 });
 
 stageEl.addEventListener('pointerdown', () => {
@@ -2031,7 +2775,7 @@ const runSelfTest = async () => {
   await check('Shadows enabled (PCFSoft)', () => renderer.shadowMap.enabled && renderer.shadowMap.type === THREE.PCFSoftShadowMap);
   await check('Canvas uses alpha', () => renderer.getContext().getContextAttributes().alpha === true);
   await check('OrbitControls damping on', () => controls.enableDamping === true);
-  await check('All four animal builders', () =>
+  await check('All seven animal builders', () =>
     ANIMALS.every((id) => typeof BUILDERS[id] === 'function' && countMeshes(BUILDERS[id](makeMaterials(DEFAULT_COLORS[id])).group) > 18),
   );
   await check('Rigs expose eyes, ears, tail, belly', () => {
@@ -2079,15 +2823,25 @@ const runSelfTest = async () => {
   );
   await check('Share state round-trips', () => {
     const encoded = encodeShareState({
-      animal: 'shiba', expression: 'curious', lang: 'th',
+      animal: 'shiba', expression: 'curious', lang: 'th', coat: 'plush',
       colors: { main: '#112233', belly: '#445566', blush: '#778899' },
       accessories: { bowtie: true, partyHat: false, glasses: true },
     });
     const decoded = decodeShareState(encoded);
     return decoded.animal === 'shiba' && decoded.expression === 'curious' && decoded.lang === 'th' &&
-      decoded.colors.main === '#112233' && decoded.accessories.bowtie && decoded.accessories.glasses;
+      decoded.coat === 'plush' && decoded.colors.main === '#112233' &&
+      decoded.accessories.bowtie && decoded.accessories.glasses;
   });
   await check('Snapshot filename is safe', () => /^cute3d-[a-z]+-\d{4}-\d{2}-\d{2}\.png$/.test(snapshotFilename('bear', new Date('2026-11-04T12:00:00Z'))));
+  await check('Coat builds strands and smooth mode clears them', () => {
+    const instance = buildAnimal('koala', DEFAULT_COLORS.koala);
+    const plush = applyCoat(instance, 'plush');
+    const built = instance.fluff.length > 2 && plush > 300;
+    applyCoat(instance, 'off');
+    const cleared = instance.fluff.length === 0 && instance.fluffCount === 0;
+    disposeRig(instance);
+    return built && cleared;
+  });
   await check('Three accessories are built', () =>
     ACCESSORIES.every((key) => {
       const node = ACCESSORY_BUILDERS[key]();
@@ -2153,6 +2907,7 @@ const applyShareFromUrl = () => {
   state.lang = shared.lang;
   state.colors[shared.animal] = shared.colors;
   state.accessories = shared.accessories;
+  state.coat = shared.coat;
   return true;
 };
 
@@ -2171,6 +2926,7 @@ const boot = () => {
   syncAnimalButtons();
   syncExpressionButtons();
   syncAccessoryButtons();
+  syncCoatButtons();
   syncSoundButtons();
   updatePetCard();
   updateMeshCount();
@@ -2190,7 +2946,7 @@ const boot = () => {
 
   window.__cute3d = {
     ready: true,
-    version: '1.0.0',
+    version: '1.1.0',
     engine: ENGINE,
     state,
     scene,
@@ -2207,6 +2963,8 @@ const boot = () => {
     setExpression: (expression) => setExpression(expression, { quiet: true }),
     setAccessory: (key, value) => setAccessory(key, value, { quiet: true }),
     setColors: (colors) => setColors(colors, { quiet: true }),
+    setCoat: (level) => setCoat(level, { quiet: true }),
+    strandCount: () => rig?.fluffCount || 0,
     setLang: (lang) => setLang(lang, { quiet: true }),
     setSound: (on) => setSound(on, { quiet: true }),
     react: reactPet,

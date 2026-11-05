@@ -1,17 +1,18 @@
 ---
 name: Cute3D Animal Studio
-description: Build a release-grade, zero-asset 3D animal character studio with original procedural Three.js pets, idle and click animations, live colours and accessories, synthesized Web Audio, a bilingual EN/TH UI, local presets, transparent PNG export, four test layers and a GitHub Pages release.
-version: 1.0.0
+description: Build a release-grade, zero-asset 3D animal character studio with seven original procedural Three.js pets, layered fur and feather coat shells, idle and click animations, live colours and accessories, synthesized Web Audio, a bilingual EN/TH UI, local presets, transparent PNG export, four test layers and a GitHub Pages release.
+version: 1.1.0
 ---
 
 # Cute3D Animal Studio
 
-Turn "make me a cute 3D animal studio" into a shipped product: four original characters built only
-from Three.js primitives, a pastel soft-shadow studio, breathing/blinking/jumping life, a bilingual
-customizer, local presets, transparent PNG export, real tests and a live URL.
+Turn "make me a cute 3D animal studio" into a shipped product: seven original characters built only
+from Three.js primitives, a layered fur/feather coat system, a pastel soft-shadow studio,
+breathing/blinking/jumping life, a bilingual customizer, local presets, transparent PNG export, real
+tests and a live URL.
 
 This skill is written from a completed build: **Cute3D: Procedural Code-Only Animal Studio** —
-19 engine, 76 repository, 23 browser and 19 in-page checks, zero console errors. The shipped reference
+19 engine, 80 repository, 24 browser and 20 in-page checks, zero console errors. The shipped reference
 source is in `assets/reference/`; the live product is at
 <https://somphol.github.io/cute3d-animal-studio/>.
 
@@ -35,11 +36,11 @@ Do not stop at "it renders". A release has all of these:
 | Gate | Command | Expected |
 | --- | --- | --- |
 | Engine | `node --test tests/engine.test.mjs` | 19/19 |
-| Repository | `node --test tests/static.test.mjs` | 76/76 |
-| Browser | `node tests/browser.test.mjs` | 23/23, zero console errors |
-| In-page | `/?selftest` | 19/19 |
-| Live copy | `TEST_URL=https://… node tests/browser.test.mjs` | 23/23 |
-| Visuals | `node scripts/screenshot.mjs` | 8 fresh assets |
+| Repository | `node --test tests/static.test.mjs` | 80/80 |
+| Browser | `node tests/browser.test.mjs` | 24/24, zero console errors |
+| In-page | `/?selftest` | 20/20 |
+| Live copy | `TEST_URL=https://… node tests/browser.test.mjs` | 24/24 |
+| Visuals | `node scripts/screenshot.mjs` | 11 fresh assets |
 | Docs | README, AGENTS, 14 docs, community files | links resolve |
 | Metadata | `state.json`, licence, sitemap, OG card | shape valid |
 | Handoff | `AGENTS.md` in the **same push** | current |
@@ -49,10 +50,12 @@ If a number is lower, fix the cause; never edit the claim.
 ## Non-negotiables
 
 1. **No external art.** No `.glb/.gltf/.obj`, textures, HDRIs, audio files or icon fonts. Everything is
-   spheres, capsules, cones, torus arcs and oscillators. The only runtime dependency is Three.js,
-   pinned in an import map.
+   spheres, capsules, cones, torus arcs, procedural fur shells and oscillators. Canvas-generated fur
+   textures are allowed; downloaded ones are not. The only runtime dependency is Three.js, pinned in an
+   import map.
 2. **Original characters only.** Button eyes, blush and rounded muzzles are fine; third-party mascots,
-   palettes, names and silhouettes are not. Run the repository test's trademark guard.
+   palettes, names and silhouettes are not. Run the repository test's trademark guard. Seven species
+   ship: bear, bunny, penguin, shiba, koala, sun conure and Scottish Fold.
 3. **Keep the engine pure.** Maths and validation live between `/* ENGINE:START */` and
    `/* ENGINE:END */` with no DOM, `window`, `THREE`, `localStorage` or imports. Node slices it with
    `new Function`.
@@ -63,7 +66,9 @@ If a number is lower, fix the cause; never edit the claim.
 6. **Attach accessories to head/neck anchors.** Never re-add a head-parented anchor to the animal group.
 7. **Test the look, not just the DOM.** Assert transparency, accessory visibility, eye scale, line
    counts, i18n parity and zero console errors.
-8. **Ship the handoff.** `AGENTS.md` with commands, architecture, decisions, known issues and continuity
+8. **Coat is shell-based.** Do not replace it with solid strands, particles or small cards: they read as
+   wire, dust and paper. See `references/RIGS.md` and `references/SCENE.md`.
+9. **Ship the handoff.** `AGENTS.md` with commands, architecture, decisions, known issues and continuity
    must be in the same push as the release.
 
 ## Build sequence
@@ -75,15 +80,17 @@ If a number is lower, fix the cause; never edit the claim.
    pedestal, shadow disc, decorative props, CSS backdrop.
 4. **Materials and helpers:** shared unit sphere/cone/circle, capsule/torus helpers, role-tagged
    materials, `baseScale` on every mesh.
-5. **Four rigs:** bear 25, bunny 27, penguin 19, shiba 29 meshes. Follow the rig contract in
-   `references/RIGS.md`; keep belly patches forward.
-6. **Accessories:** bowtie, party hat, glasses; parent to `anchors.neck/hat/glasses`.
-7. **Animation:** damped expression blend, float, breath, deterministic blink, ear/tail, reaction.
-8. **UI:** six panel sections, native colour inputs, palettes, presets, language toggle, toasts,
-   mobile sheet, keyboard shortcuts.
-9. **Snapshot/share:** dedicated square camera, transparent 2048² PNG, query-string look.
-10. **Tests:** engine, repository, browser, in-page self-test. Add a screenshot generator.
-11. **Docs and release:** README, AGENTS, docs set, OG card, Pages, live suite, skill mirror.
+5. **Seven rigs:** bear 25, bunny 27, penguin 19, shiba 26, koala 23, conure 50, fold 32 base meshes.
+   Follow the rig contract in `references/RIGS.md`; keep belly patches forward and counts distinct.
+6. **Coat:** layered shells (5 soft / 10 plush), canvas strand alpha + bump, shader masks for face/ears/
+   belly. Add a `COAT_CONFIG` entry per animal; never hard-code fur into a builder.
+7. **Accessories:** bowtie, party hat, glasses; parent to `anchors.neck/hat/glasses`.
+8. **Animation:** damped expression blend, float, breath, deterministic blink, ear/tail, reaction.
+9. **UI:** seven panel sections (coat before colours? after expression), native colour inputs, palettes,
+   presets, language toggle, toasts, mobile sheet, keyboard shortcuts.
+10. **Snapshot/share:** dedicated square camera, transparent 2048² PNG, query-string look incl. `f=`.
+11. **Tests:** engine, repository, browser, in-page self-test. Add a screenshot generator.
+12. **Docs and release:** README, AGENTS, docs set, OG card, Pages, live suite, skill mirror.
 
 ## Rig contract
 

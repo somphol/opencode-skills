@@ -61,3 +61,11 @@ ratio, clear colour and visibility. Never touch the main camera or controls.
 
 Characters stand on y = 0, are ~3.3 units tall and fit within x ±1.1. The stage is at least 380 px tall
 on desktop and fills the remaining viewport on mobile. `ResizeObserver` handles size and orientation.
+
+## Coat rendering
+
+- Shells are MeshStandardMaterial with `alphaMap` (canvas strands), `alphaTest` 0.22→0.48 by layer,
+  `bumpMap` and `bumpScale` 0.02 (fur) / 0.008 (feather).
+- They do not cast shadows, do not write transparency, and render as opaque alpha-tested geometry.
+- Soft = 5 layers, Plush = 10; thickness 0.085 fur / 0.045 feather.
+- The head and body shells inject object-space discard masks (face, inner ears, belly oval).

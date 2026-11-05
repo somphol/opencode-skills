@@ -69,7 +69,7 @@
     {
       "name": "cute3d-animal-studio",
       "source": "~/.config/opencode/skills/cute3d-animal-studio",
-      "description": "Build a release-grade, zero-asset 3D animal character studio with original procedural Three.js pets, idle and click animations, live colours and accessories, synthesized Web Audio, a bilingual EN/TH UI, local presets, transparent PNG export, four test layers and a GitHub Pages release.",
+      "description": "Build a release-grade, zero-asset 3D animal character studio with seven original procedural Three.js pets, layered fur and feather coat shells, idle and click animations, live colours and accessories, synthesized Web Audio, a bilingual EN/TH UI, local presets, transparent PNG export, four test layers and a GitHub Pages release.",
       "license": "MIT"
     },
     {

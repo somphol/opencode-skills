@@ -97,3 +97,41 @@ at z −0.24; dark material.
 
 All accessory groups start hidden and are switched with `.visible`. Parent: bowtie → neck; hat →
 anchors.hat; glasses → anchors.glasses.
+
+## Koala (base 23 meshes)
+
+- Body `(0.92, 1.00, 0.82)` at y 1.00; cream belly `(0.58, 0.66, 0.30)` at z 0.56.
+- Huge ears: pivots ±0.70, y 0.34; outer sphere `(0.34, 0.40, 0.18)` at local y 0.26; inner cream
+  `(0.22, 0.28, 0.06)` at z 0.12.
+- Head y 2.06, sphere `(0.84, 0.78, 0.76)`; broad nose `(0.24, 0.18, 0.14)` at z 0.80; cream muzzle.
+- Eyes ±0.29, z 0.66; blush ±0.50.
+- Coat: long silver shells on body/head/ears/tail; ear mask reveals the cream inner ear.
+
+## Sun Conure (base 50 meshes)
+
+- Yellow body `(0.80, 1.00, 0.72)` at 1.00; orange chest `(0.60, 0.74, 0.28)` at z 0.50; green mantle.
+- Head y 2.02, sphere `(0.66, 0.62, 0.62)`; cream eye patches ±0.27 at z 0.54; eyes z 0.62.
+- Charcoal beak: cone `(0.14, 0.30, 0.13)` at `(0, -0.12, 0.70)`, tip down, slight forward tilt.
+- Wings: group at ±0.69, y 1.36, rotation Y ±0.42; 6 green flight feathers + 4 lime coverts, plus two
+  green ellipsoid coverts. Feather geometry is a 10-row leaf with a raised shaft, vertex-coloured from
+  base to tip (`featherGeometry(base, tip)`).
+- Tail: 6 green→blue feathers at z −0.32, rotated down/back, plus a 3-feather low fan and a blue rump.
+- Coat: feather shells on body, chest and head; no face mask beyond z 0.58.
+
+## Scottish Fold (base 32 meshes)
+
+- Body `(0.86, 0.94, 0.82)` at 0.99; cream belly at z 0.58; silver fur.
+- Head y 2.00, sphere `(0.82, 0.74, 0.72)`; large eyes ±0.28, z 0.63.
+- Folded ears: pivots ±0.44, y 0.52, **z 0.50**, rotation X −0.32, Z ±0.14; outer flattened
+  `(0.27, 0.20, 0.09)`, pink inner `(0.18, 0.13, 0.045)` at z 0.07.
+- Eight whiskers (4 per side), cream cylinders at z 0.66; pink nose; cream muzzle.
+- Tail: torus curl + cream tip. Coat: dense silver shells on body/head/cheeks/tail; cream cheek fur.
+
+## Coat system
+
+- `COAT_CONFIG` zones: `{ mesh, role, count, len, radius, minY, maxZ }`.
+- `applyCoat(rig, level)`: clone each zone mesh 5 (soft) / 10 (plush) times, scale to
+  `1.004 + layer/shells * thickness`, assign a canvas strand alpha + bump material.
+- Masks: head `z > 0.58`, ears `z > 0.35`, body oval `length(vec2(x/0.78,(y+0.05)/0.8)) < 1`.
+- `rig.fluff` / `rig.fluffMaterials`; dispose alphaMap clones, never shared geometry.
+- State: `coat: 'off'|'soft'|'plush'`; share `f=`.

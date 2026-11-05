@@ -1,6 +1,6 @@
 # Cute3D Animal Studio — skill
 
-A reusable playbook for building a zero-asset 3D animal character studio with Three.js. It packages
+A reusable playbook for building a zero-asset 3D animal character studio with Three.js, seven pets and a layered fur/feather coat system. It packages
 the shipped source, the scene/rig numbers, the UI and export contract, the verification gates and the
 release procedure from a completed build.
 

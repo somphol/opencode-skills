@@ -61,3 +61,10 @@ hint chip up 78 px so it does not sit under the button.
 Skip link, `:focus-visible`, `aria-pressed` on toggles, live toasts, reduced motion, forced-colours
 borders, keyboard `1`–`4`, `Space`, `S`, `L`, `Esc`. Suppress shortcuts when a button/link/input has
 focus so native activation still works.
+
+## Coat controls
+
+Section order: characters → expression → **coat detail** → colours → accessories → studio tools.
+Three buttons with `data-coat="off|soft|plush"`, `aria-pressed`, and a live `#coat-strand-count`.
+State key `coat`, share parameter `f`, presets include it. Smooth removes every shell; Soft and Plush
+rebuild them. Keyboard `C` cycles the levels.

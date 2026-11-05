@@ -797,6 +797,61 @@ a:hover {
   color: var(--rose-deep);
 }
 
+/* coat */
+
+.coat-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 6px;
+}
+
+.coat-btn {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 3px;
+  padding: 9px 4px 8px;
+  border: 1px solid transparent;
+  border-radius: 13px;
+  background: rgba(255, 255, 255, 0.45);
+  color: var(--ink-soft);
+  font-size: 10.5px;
+  font-weight: 800;
+  transition: transform 0.18s var(--ease-spring), background 0.18s, border-color 0.18s;
+}
+
+.coat-mark {
+  font-size: 17px;
+  line-height: 1.1;
+  color: var(--ink-faint);
+  transition: color 0.18s, transform 0.18s;
+}
+
+.coat-btn:hover {
+  transform: translateY(-2px);
+  background: #fff;
+}
+
+.coat-btn.is-active {
+  border-color: rgba(53, 42, 46, 0.12);
+  background: #fff;
+  color: var(--ink);
+  box-shadow: 0 5px 14px rgba(92, 60, 70, 0.08);
+}
+
+.coat-btn.is-active .coat-mark {
+  color: var(--rose-deep);
+  transform: scale(1.1);
+}
+
+.coat-hint {
+  margin: 9px 0 0;
+  color: var(--ink-faint);
+  font-size: 10.5px;
+  font-weight: 600;
+  line-height: 1.4;
+}
+
 /* expressions */
 
 .expr-grid {

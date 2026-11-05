@@ -5,10 +5,10 @@
 | Layer | Command | Expected |
 | --- | --- | --- |
 | Engine | `node --test tests/engine.test.mjs` | 19/19 |
-| Repository | `node --test tests/static.test.mjs` | 76/76 |
-| Browser | `node tests/browser.test.mjs` | 23/23, zero console errors |
-| In-page | `/?selftest` | 19/19 |
-| Live | `TEST_URL=https://… node tests/browser.test.mjs` | 23/23 |
+| Repository | `node --test tests/static.test.mjs` | 80/80 |
+| Browser | `node tests/browser.test.mjs` | 24/24, zero console errors |
+| In-page | `/?selftest` | 20/20 |
+| Live | `TEST_URL=https://… node tests/browser.test.mjs` | 24/24 |
 
 Run `npm run verify` for engine + repository + browser.
 
@@ -35,15 +35,15 @@ A dependency-free CDP harness parses `tests/lib/harness.mjs`:
   temporary profile (no macOS Keychain prompts);
 - evaluates JS, clicks elements, dispatches mouse events and downloads files.
 
-Key assertions: canvas, four distinct rigs, eye scale changes, live material colour, accessory
-visibility, Thai translation, preset persistence, reaction jump/spin, raycast tap, transparent
-snapshot, downloaded filename, share round-trip, keyboard, reload persistence, mobile sheet,
-reduced motion and zero console errors.
+Key assertions: canvas, seven distinct rigs, coat levels and fibre counts, eye scale changes, live
+material colour, accessory visibility, Thai translation, preset persistence, reaction jump/spin,
+raycast tap, transparent snapshot, downloaded filename, share round-trip, keyboard, reload
+persistence, mobile sheet, reduced motion and zero console errors.
 
 ## In-page self-test
 
-`/?selftest` builds all four rigs, renders a 512² snapshot, validates dictionary parity,
-sanitisation and share encoding, then shows a 19-row overlay and sets `window.__selftest`.
+`/?selftest` builds all seven rigs, renders a 512² snapshot, validates dictionary parity,
+sanitisation and share encoding, then shows a 20-row overlay and sets `window.__selftest`.
 
 ## Live release gate
 
@@ -51,12 +51,12 @@ sanitisation and share encoding, then shows a 19-row overlay and sets `window.__
 TEST_URL=https://somphol.github.io/your-repo/ node tests/browser.test.mjs
 ```
 
-Do not announce a release until this passes 23/23. The transparency and download checks work against
+Do not announce a release until this passes 24/24. The transparency and download checks work against
 Pages.
 
 ## Visual regression
 
-`node scripts/screenshot.mjs` regenerates the eight assets from the real render, including the
+`node scripts/screenshot.mjs` regenerates the eleven assets from the real render, including the
 1200×630 OG card composed in-page. Commit the new images with any visual change.
 
 ## Hello-world checks

@@ -6,21 +6,21 @@
   <meta name="theme-color" content="#fdf1f4">
   <meta name="color-scheme" content="light">
   <title>Cute3D — Procedural Code-Only Animal Studio</title>
-  <meta name="description" content="A zero-asset 3D animal studio. Meet four original code-built pets, orbit the studio, dress them up, change their colours and download a transparent PNG. Bilingual English/ไทย, procedural audio, no model files.">
+  <meta name="description" content="A zero-asset 3D animal studio. Meet seven original code-built pets, orbit the studio, dress them up, change their colours and download a transparent PNG. Bilingual English/ไทย, procedural audio, no model files.">
   <meta name="author" content="Somphol Boonjing">
   <meta name="keywords" content="three.js, procedural, 3D, code-only, animal, character studio, WebGL, bilingual">
   <link rel="canonical" href="https://somphol.github.io/cute3d-animal-studio/">
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="Cute3D Animal Studio">
   <meta property="og:title" content="Cute3D — Procedural Code-Only Animal Studio">
-  <meta property="og:description" content="Four original pets, zero 3D assets. Orbit, customize, animate and download a transparent PNG — all generated in the browser.">
+  <meta property="og:description" content="Seven original pets, zero 3D assets. Orbit, customize, animate and download a transparent PNG — all generated in the browser.">
   <meta property="og:url" content="https://somphol.github.io/cute3d-animal-studio/">
   <meta property="og:image" content="https://somphol.github.io/cute3d-animal-studio/assets/og-card.png">
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="Cute3D — Procedural Code-Only Animal Studio">
-  <meta name="twitter:description" content="Four original pets, zero 3D assets. Procedural Three.js characters you can customize and download.">
+  <meta name="twitter:description" content="Seven original pets, zero 3D assets. Seven procedural Three.js characters with plush fur and feathers, customizable and downloadable.">
   <meta name="twitter:image" content="https://somphol.github.io/cute3d-animal-studio/assets/og-card.png">
   <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
   <link rel="apple-touch-icon" href="assets/favicon.svg">
@@ -129,7 +129,7 @@
       <div class="panel-head">
         <div>
           <h2 class="panel-title" data-i18n="panel.title">Studio</h2>
-          <p class="panel-sub" data-i18n="panel.sub">Four friends, zero model files.</p>
+          <p class="panel-sub" data-i18n="panel.sub">Seven friends, zero model files.</p>
         </div>
         <button class="panel-close" id="panel-close" type="button" aria-label="Close panel" data-i18n-aria="a11y.close">✕</button>
       </div>
@@ -138,7 +138,7 @@
         <section class="panel-section" aria-labelledby="sec-animals">
           <div class="section-head">
             <h3 id="sec-animals" data-i18n="section.animals">Characters</h3>
-            <span class="section-note" data-i18n="section.animalsNote">4 originals</span>
+            <span class="section-note" data-i18n="section.animalsNote">7 originals</span>
           </div>
           <div class="select-row">
             <span class="select-emoji" id="select-emoji" aria-hidden="true">🧸</span>
@@ -147,6 +147,9 @@
               <option value="bunny" data-i18n="animal.bunny">Bunny</option>
               <option value="penguin" data-i18n="animal.penguin">Penguin</option>
               <option value="shiba" data-i18n="animal.shiba">Shiba</option>
+              <option value="koala" data-i18n="animal.koala">Koala</option>
+              <option value="conure" data-i18n="animal.conure">Sun Conure</option>
+              <option value="fold" data-i18n="animal.fold">Scottish Fold</option>
             </select>
             <span class="select-chevron" aria-hidden="true">▾</span>
           </div>
@@ -171,6 +174,21 @@
               <span class="animal-name" data-i18n="animal.shiba">Shiba</span>
               <span class="animal-trait" data-i18n="animal.shibaTrait">Cheerful</span>
             </button>
+            <button class="animal-card" type="button" data-animal="koala" aria-pressed="false">
+              <span class="animal-thumb" aria-hidden="true">🐨</span>
+              <span class="animal-name" data-i18n="animal.koala">Koala</span>
+              <span class="animal-trait" data-i18n="animal.koalaTrait">Dreamy</span>
+            </button>
+            <button class="animal-card" type="button" data-animal="conure" aria-pressed="false">
+              <span class="animal-thumb" aria-hidden="true">🦜</span>
+              <span class="animal-name" data-i18n="animal.conure">Sun Conure</span>
+              <span class="animal-trait" data-i18n="animal.conureTrait">Radiant</span>
+            </button>
+            <button class="animal-card" type="button" data-animal="fold" aria-pressed="false">
+              <span class="animal-thumb" aria-hidden="true">🐱</span>
+              <span class="animal-name" data-i18n="animal.fold">Scottish Fold</span>
+              <span class="animal-trait" data-i18n="animal.foldTrait">Plush</span>
+            </button>
           </div>
         </section>
 
@@ -193,6 +211,28 @@
               <span aria-hidden="true">🐾</span><span data-i18n="expr.wiggle">Wiggle</span>
             </button>
           </div>
+        </section>
+
+        <section class="panel-section" aria-labelledby="sec-coat">
+          <div class="section-head">
+            <h3 id="sec-coat" data-i18n="section.coat">Coat detail</h3>
+            <span class="section-note" id="coat-strand-count">0 strands</span>
+          </div>
+          <div class="coat-grid" id="coat-grid" role="group" aria-label="Choose fur or feather detail" data-i18n-aria="a11y.coat">
+            <button class="coat-btn" type="button" data-coat="off" aria-pressed="false">
+              <span class="coat-mark" aria-hidden="true">◌</span>
+              <span data-i18n="coat.off">Smooth</span>
+            </button>
+            <button class="coat-btn is-active" type="button" data-coat="soft" aria-pressed="true">
+              <span class="coat-mark" aria-hidden="true">✧</span>
+              <span data-i18n="coat.soft">Soft</span>
+            </button>
+            <button class="coat-btn" type="button" data-coat="plush" aria-pressed="false">
+              <span class="coat-mark" aria-hidden="true">❋</span>
+              <span data-i18n="coat.plush">Plush</span>
+            </button>
+          </div>
+          <p class="coat-hint" data-i18n="coat.hint">Real fur and feather volume, generated strand by strand.</p>
         </section>
 
         <section class="panel-section" aria-labelledby="sec-colors">
@@ -265,6 +305,7 @@
             </button>
           </div>
         </section>
+
 
         <section class="panel-section" aria-labelledby="sec-studio">
           <div class="section-head">

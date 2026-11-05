@@ -58,8 +58,8 @@ is added as a skill source.
 
 ## Final checklist
 
-- [ ] 19 engine / 76 repository / 23 browser / 19 in-page
-- [ ] Live suite 23/23
+- [ ] 19 engine / 80 repository / 24 browser / 20 in-page
+- [ ] Live suite 24/24
 - [ ] zero console errors
 - [ ] assets regenerated from the app
 - [ ] `state.json` line counts and token totals current
