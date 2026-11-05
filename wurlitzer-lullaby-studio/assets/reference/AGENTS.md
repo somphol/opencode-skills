@@ -78,7 +78,7 @@ block and run it in Node. It must never reference `document`, `window`, `THREE`,
 - **All audio is royalty-free.** Synth tracks are original arrangements of public-domain melodies
   or original compositions; archive tracks must say `license: "Public domain"` and carry a Commons
   `source` URL. Do not add a copyrighted recording, lyric or arrangement.
-- **The first-listen queue is archive-only.** `DEFAULT_QUEUE` holds eight real performances; it is
+- **The first-listen queue is archive-only.** `DEFAULT_QUEUE` holds all 32 archive performances; it is
   the first-run default and auto-advances. Do not put synth loops in it (they never end).
 - **Source links are part of the product.** The now-playing card and the cinematic title card expose
   the origin URL; keep `rel="noopener noreferrer"` and do not fetch the source.

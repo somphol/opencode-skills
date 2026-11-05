@@ -45,8 +45,9 @@ as `aria-label`/`title` on the swatches, and text-size buttons have descriptive 
 ## Now-playing card and source links
 
 The cinematic card is `aria-live="polite"` and `role`-free (a section with a heading), so a track
-change is announced without stealing focus. It does not trap focus and disappears after nine seconds;
-the persistent now-playing card in the studio panel carries the same title and source link. Source
+change is announced without stealing focus. It does not trap focus and stays until the listener
+dismisses it with the × button or stops the jukebox; the persistent now-playing card in the studio
+panel carries the same title and source link. Source
 links use `target="_blank"` and `rel="noopener noreferrer"` and are keyboard reachable. The first-run
 prompt is a real button with a visible label, not a click-anywhere trick.
 

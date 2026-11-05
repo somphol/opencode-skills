@@ -105,7 +105,7 @@ The rack is an 88-slot surface (A-1…K-8) split into eleven collection pages. `
 active collection, the title/artist search, and the favourites filter; the 3D rack always shows the
 first eight rows of the active page. Choosing a record from another collection switches the page.
 The planner uses `scene.refreshRack(entries, lang)` with exactly eight `{slot, track}` rows.
-The first-listen queue (`DEFAULT_QUEUE`) holds eight archive IDs; it is the first-run default and
+The first-listen queue (`DEFAULT_QUEUE`) holds 32 archive IDs; it is the first-run default and
 auto-advances on stream `ended`. The cinematic now-playing card is a separate overlay fed by
 `updateNowDetails()`.
 

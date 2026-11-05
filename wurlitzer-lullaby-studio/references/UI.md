@@ -34,10 +34,10 @@ Do not nest the star inside the open button.
 
 ## First-listen queue and title card
 
-On first run, load `DEFAULT_QUEUE` (eight archive IDs) and show a gold start button. On click, start
+On first run, load `DEFAULT_QUEUE` (all 32 archive IDs) and show a gold start button. On click, start
 the queue and auto-advance on `ended`. `queueMode` makes next/previous follow the queue. The cinematic
 card is an `aria-live` section with a 30–56 px title, performer, slot/collection/engine/duration,
-queue position, licence and a Commons source link; it fades after nine seconds and pauses on hover.
+queue position, licence and a Commons source link; it stays until the × button or stop — no auto-hide.
 Keep a persistent source link in the now-playing card too.
 
 ## Themes and text size

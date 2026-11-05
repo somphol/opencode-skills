@@ -143,7 +143,7 @@ recording.
 
 ## ADR-014 — First-listen queue plus a gesture prompt
 
-**Decision:** on first open, load an eight-track archive queue and show a gold “Start the first-listen
+**Decision:** on first open, load a 32-track archive queue and show a gold “Start the first-listen
 playlist” button. On click, start the queue; auto-advance on `ended`.
 
 **Why:** browsers block audible autoplay. A prompt preserves the intent (“the app opens with these
@@ -151,4 +151,4 @@ songs”) without lying about autoplay or swallowing the blocked-play error. Arc
 because they end and advance naturally; synth loops never end.
 
 **Consequence:** `DEFAULT_QUEUE` is archive-only, `queueMode` controls next/previous, and a separate
-localStorage key records the first run. The prompt is not a modal and does not block the instrument.
+localStorage key records the first run. The prompt is not a modal and does not block the instrument. The title card stays until the listener dismisses it (×) or stops playback; there is no auto-hide timer.

@@ -531,8 +531,9 @@ const THEMES = [
 
 const FIRST_RUN_KEY = 'wurlitzer-lullaby-studio:visited';
 const DEFAULT_QUEUE = [
-  'archive-h3', 'archive-h4', 'archive-h1', 'archive-h6',
-  'archive-h7', 'archive-h2', 'archive-h8', 'archive-i1',
+  'archive-h3', 'archive-h4',
+  ...['h1', 'h2', 'h5', 'h6', 'h7', 'h8'].map((slot) => `archive-${slot}`),
+  ...['i', 'j', 'k'].flatMap((letter) => [1, 2, 3, 4, 5, 6, 7, 8].map((n) => `archive-${letter}${n}`)),
 ];
 
 const T = (id, slot, en, th, artist, artistTh, bpm, wave, notes, accent = '#e6c07b') => ({
@@ -2405,6 +2406,7 @@ class WurlitzerApp {
     this.startedOnce = false;
     this._overlayTimer = null;
     this._overlayTrack = null;
+    this._overlayDismissed = false;
     this._firstGesture = null;
 
     this.audio = new JukeboxAudio(this.settings, {
@@ -2573,8 +2575,7 @@ class WurlitzerApp {
     on('stage-caption', 'keydown', (event) => {
       if (event.key === 'Enter' || event.key === ' ') { event.preventDefault(); this.showNowOverlay(true); }
     });
-    $('now-overlay')?.addEventListener('pointerenter', () => clearTimeout(this._overlayTimer));
-    $('now-overlay')?.addEventListener('pointerleave', () => this.scheduleOverlayHide());
+    on('now-overlay-close', 'click', () => this.hideNowOverlay());
     on('prev-btn', 'click', () => this.stepTrack(-1));
     on('next-btn', 'click', () => this.stepTrack(1));
     on('stop-btn', 'click', () => this.stop());
@@ -2872,7 +2873,9 @@ class WurlitzerApp {
 
     const overlay = $('now-overlay');
     const visible = overlay?.classList.contains('is-visible');
-    if (this.startedOnce && (!visible && (this._overlayTrack !== track.id || playing))) {
+    const changed = this._overlayTrack !== track.id;
+    if (changed) this._overlayDismissed = false;
+    if (this.startedOnce && !visible && (changed || (playing && !this._overlayDismissed))) {
       this.showNowOverlay();
     }
     this._overlayTrack = track.id;
@@ -2881,18 +2884,14 @@ class WurlitzerApp {
   showNowOverlay() {
     const overlay = $('now-overlay');
     if (!overlay || !this.current) return;
+    this._overlayDismissed = false;
     overlay.hidden = false;
     requestAnimationFrame(() => overlay.classList.add('is-visible'));
-    this.scheduleOverlayHide();
-  }
-
-  scheduleOverlayHide() {
-    clearTimeout(this._overlayTimer);
-    this._overlayTimer = setTimeout(() => this.hideNowOverlay(), 9000);
   }
 
   hideNowOverlay() {
     const overlay = $('now-overlay');
+    this._overlayDismissed = true;
     clearTimeout(this._overlayTimer);
     this._overlayTimer = null;
     if (!overlay) return;
@@ -3254,6 +3253,7 @@ class WurlitzerApp {
       this.startDefaultPlaylist();
       return;
     }
+    this._overlayDismissed = false;
     if (!this.current) {
       this.current = this.trackBySlot.get('A-1') || this.tracks[0];
     }
@@ -3769,7 +3769,7 @@ class WurlitzerApp {
     });
     check('First-listen queue is complete', () => {
       const queue = this.queueTracks();
-      return queue.length === 8 && queue.every((track) => track.engine === 'stream' && track.license === 'Public domain');
+      return queue.length === 32 && queue.every((track) => track.engine === 'stream' && track.license === 'Public domain');
     });
     check('Archive source link is exposed', () => {
       const track = this.trackBySlot.get('H-1');

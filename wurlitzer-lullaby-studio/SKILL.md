@@ -102,7 +102,7 @@ python3 -m http.server 8000
 ```
 
 The scaffold copies the full reference: three source files, `data/playlist.json`, tests, docs,
-community files and `state.json`. Decide the product name, the 50-track catalogue, the eight collection pages, the archive count, languages and whether coin mode is on by default. The reference uses Free Play as default.
+community files and `state.json`. Decide the product name, the 50-track synth catalogue, eleven collection pages (32 archive performances in the reference), the first-listen queue, languages and whether coin mode is on by default. The reference uses Free Play as default.
 
 ### Phase 1 — pure engine and tracks
 
@@ -111,7 +111,7 @@ Build the marker blocks before the visuals:
 - `I18N` — at least 100 keys, identical in EN and TH.
 - `ENGINE` — note maths, sequence parsing, `fadeGain`, `formatClock`, slots, `buildRack`,
   `normalizeSettings`, `validateManifest`, `nextTrackId`, `exportPayload`.
-- `TRACKS` — 50 objects across eight collections, with `slot` A-1…G-2, `collection`, `bpm`, `wave`, `gain`, `accent`, `rights`, bilingual
+- `TRACKS` — 50 objects across seven synth collections, with `slot` A-1…G-2, `collection`, `bpm`, `wave`, `gain`, `accent`, `rights`, bilingual
   title/artist and a `notes` string (`G4:2 B4:1`).
 
 Run `node --test tests/engine.test.mjs`. Do not start the cabinet until the engine is green.
@@ -264,12 +264,13 @@ Expose `debugSetRemaining(seconds)` so a browser test can prove 0.5 at 60 s with
 
 ### First-listen queue and source links
 
-1. Keep `DEFAULT_QUEUE` archive-only: real performances end and auto-advance; synth loops do not.
+1. Keep `DEFAULT_QUEUE` archive-only and include all 32 performances: real performances end and auto-advance; synth loops do not.
 2. On first run, show a gold start button; browsers block audible autoplay, so never call `play()`
    before a gesture and never swallow the rejection.
 3. `stepTrack()` follows the queue while `queueMode` is true; selecting a non-queue record exits it.
 4. Feed the overlay from `updateNowDetails()`: big title, artist, slot, collection, engine, duration,
-   queue position, licence and source link. Keep a persistent source link in the now-playing card.
+   queue position, licence and source link. The card stays until the × button or stop; do not add an
+   auto-hide timer. Keep a persistent source link in the now-playing card.
 
 ### Bilingual pass
 

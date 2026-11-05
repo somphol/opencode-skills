@@ -52,8 +52,9 @@ page, matching the 3D rack; All shows all 88 slots and search spans every collec
 
 The **cinematic now-playing card** is a temporary top banner: 30–56 px serif title, performer,
 slot/collection/engine/duration/queue metadata, licence and a source link. It fades in on a record
-change, stays for nine seconds (paused on hover), and never blocks the instrument. The first-run
-prompt is a single gold pill, not a modal, because the browser still requires a gesture.
+change and **stays until the listener dismisses it (×) or stops the jukebox**; it never auto-hides.
+The first-run prompt is a single gold pill, not a modal, because the browser still requires a
+gesture.
 
 Four themes recolor the whole product without changing the geometry:
 

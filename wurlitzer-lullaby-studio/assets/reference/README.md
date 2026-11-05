@@ -110,7 +110,7 @@ manifest of CORS-enabled, public-domain archive recordings.
 - **Accessibility** — semantic buttons, ARIA slider knobs, visible focus rings, skip link, reduced
   motion, keyboard operation and a screen-reader live status.
 - **Diagnostics** — open `?selftest` for 27 in-page checks rendered as a pass/fail list.
-- **First-listen playlist** — on first open the jukebox loads a queue of real archive performances;
+- **First-listen playlist** — on first open the jukebox loads all 32 real archive performances;
   browsers require a gesture, so a gold “Start the first-listen playlist” prompt appears.
 
 ---
@@ -278,7 +278,7 @@ Details: [ACCESSIBILITY](docs/ACCESSIBILITY.md) · [PERFORMANCE](docs/PERFORMANC
 ## Credits
 
 Built in a single **OpenCode** session with **DeepSeek V4.1 Flash**
-(`opencode-go/deepseek-v4.1-flash`): **1h 16m 51s** and **77.4M tokens** (cache reads dominate) at the
+(`opencode-go/deepseek-v4.1-flash`): **1h 19m 36s** and **82.5M tokens** (cache reads dominate) at the
 at the time of the final 1.2.0 capture. Exact counters, file inventory and verification live in
 [state.json](state.json).
 Three.js 0.169.0 (MIT). The fifty synthesized arrangements are public-domain melodies or original

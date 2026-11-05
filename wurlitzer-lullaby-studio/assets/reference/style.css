@@ -1796,3 +1796,19 @@ body[data-font="xlarge"] #overlay-title { font-size: clamp(38px, 4.8vw, 68px); }
 
 body.og-mode .start-playlist,
 body.og-mode .now-overlay { display: none !important; }
+
+.overlay-close {
+  position: absolute;
+  top: 7px;
+  right: 9px;
+  width: 24px;
+  height: 24px;
+  padding: 0;
+  border: 1px solid rgba(230, 192, 123, 0.25);
+  border-radius: 50%;
+  background: rgba(8, 11, 18, 0.65);
+  color: var(--muted);
+  font-size: 14px;
+  line-height: 1;
+}
+.overlay-close:hover { color: var(--cream); border-color: rgba(230, 192, 123, 0.5); }
