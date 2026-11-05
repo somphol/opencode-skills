@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#fdf1f4">
+  <meta name="color-scheme" content="light">
+  <title>Cute3D — Procedural Code-Only Animal Studio</title>
+  <meta name="description" content="A zero-asset 3D animal studio. Meet four original code-built pets, orbit the studio, dress them up, change their colours and download a transparent PNG. Bilingual English/ไทย, procedural audio, no model files.">
+  <meta name="author" content="Somphol Boonjing">
+  <meta name="keywords" content="three.js, procedural, 3D, code-only, animal, character studio, WebGL, bilingual">
+  <link rel="canonical" href="https://somphol.github.io/cute3d-animal-studio/">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Cute3D Animal Studio">
+  <meta property="og:title" content="Cute3D — Procedural Code-Only Animal Studio">
+  <meta property="og:description" content="Four original pets, zero 3D assets. Orbit, customize, animate and download a transparent PNG — all generated in the browser.">
+  <meta property="og:url" content="https://somphol.github.io/cute3d-animal-studio/">
+  <meta property="og:image" content="https://somphol.github.io/cute3d-animal-studio/assets/og-card.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Cute3D — Procedural Code-Only Animal Studio">
+  <meta name="twitter:description" content="Four original pets, zero 3D assets. Procedural Three.js characters you can customize and download.">
+  <meta name="twitter:image" content="https://somphol.github.io/cute3d-animal-studio/assets/og-card.png">
+  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="assets/favicon.svg">
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="stylesheet" href="style.css">
+  <script type="importmap">
+    {
+      "imports": {
+        "three": "https://cdn.jsdelivr.net/npm/three@0.169.0/build/three.module.js",
+        "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.169.0/examples/jsm/"
+      }
+    }
+  </script>
+</head>
+<body>
+  <a class="skip-link" href="#panel" data-i18n="a11y.skip">Skip to controls</a>
+
+  <div class="app" id="app">
+    <div class="backdrop" aria-hidden="true">
+      <span class="blob blob-1"></span>
+      <span class="blob blob-2"></span>
+      <span class="blob blob-3"></span>
+      <span class="grain"></span>
+    </div>
+
+    <header class="topbar">
+      <div class="brand">
+        <span class="brand-mark" aria-hidden="true">
+          <svg viewBox="0 0 64 64" focusable="false">
+            <circle cx="24" cy="20" r="9" fill="#a9745b"/>
+            <circle cx="40" cy="20" r="9" fill="#a9745b"/>
+            <circle cx="24" cy="20" r="5" fill="#ffc2d4"/>
+            <circle cx="40" cy="20" r="5" fill="#ffc2d4"/>
+            <circle cx="32" cy="37" r="17" fill="#c08a6d"/>
+            <circle cx="25" cy="34" r="2.6" fill="#2b1d1a"/>
+            <circle cx="39" cy="34" r="2.6" fill="#2b1d1a"/>
+            <ellipse cx="32" cy="42" rx="6" ry="4.5" fill="#ffe9df"/>
+            <circle cx="32" cy="40" r="2" fill="#4a2c25"/>
+            <circle cx="19" cy="41" r="3.4" fill="#ff9db6" opacity=".8"/>
+            <circle cx="45" cy="41" r="3.4" fill="#ff9db6" opacity=".8"/>
+          </svg>
+        </span>
+        <span class="brand-text">
+          <span class="brand-name">Cute<span class="brand-accent">3D</span></span>
+          <span class="brand-sub" data-i18n="brand.sub">Procedural Animal Studio</span>
+        </span>
+      </div>
+
+      <div class="topbar-actions">
+        <span class="live-pill" title="WebGL">
+          <span class="live-dot" aria-hidden="true"></span>
+          <span data-i18n="status.live">Live procedural</span>
+        </span>
+        <button class="icon-btn" id="sound-toggle" type="button" aria-pressed="true" aria-label="Toggle sound" data-i18n-aria="a11y.sound">
+          <span class="sound-icon" data-sound-state="on" aria-hidden="true">♪</span>
+          <span class="btn-label" data-i18n="common.sound">Sound</span>
+        </button>
+        <button class="lang-toggle" id="lang-toggle" type="button" aria-label="Switch language" data-i18n-aria="a11y.lang">
+          <span class="lang-opt is-active" data-lang-opt="en">EN</span>
+          <span class="lang-arrow" aria-hidden="true">⇄</span>
+          <span class="lang-opt" data-lang-opt="th">TH</span>
+        </button>
+      </div>
+    </header>
+
+    <main class="stage-shell">
+      <div class="stage" id="stage" role="img" data-i18n-aria="a11y.stage" aria-label="Interactive 3D animal studio">
+        <div class="stage-loading" id="stage-loading">
+          <span class="loader-pet" aria-hidden="true"></span>
+          <p data-i18n="status.loading">Waking up the pets…</p>
+        </div>
+      </div>
+
+      <div class="stage-hud" aria-hidden="true">
+        <div class="hint-chip" id="hint-chip">
+          <span class="hint-icon" aria-hidden="true">✋</span>
+          <span data-i18n="stage.hint">Drag to orbit · Scroll to zoom · Click the pet</span>
+        </div>
+        <div class="stage-counter">
+          <span id="mesh-count">0</span>
+          <span data-i18n="stage.meshes">meshes</span>
+        </div>
+      </div>
+
+      <div class="pet-card" id="pet-card">
+        <span class="pet-emoji" id="pet-emoji" aria-hidden="true">🧸</span>
+        <div class="pet-card-text">
+          <h1 class="pet-name" id="pet-name">Mochi the Chibi Bear</h1>
+          <p class="pet-tagline" id="pet-tagline">Soft, round, and always ready for a hug.</p>
+        </div>
+        <button class="pet-action" id="pet-action" type="button" aria-label="Make the pet react" data-i18n-aria="a11y.react">
+          <span aria-hidden="true">✦</span>
+          <span data-i18n="stage.react">React</span>
+        </button>
+      </div>
+
+      <div class="mobile-panel-toggle">
+        <button class="panel-toggle-btn" id="panel-toggle" type="button" aria-expanded="false" aria-controls="panel">
+          <span aria-hidden="true">🎨</span>
+          <span data-i18n="panel.open">Customize</span>
+        </button>
+      </div>
+    </main>
+
+    <aside class="panel" id="panel" aria-label="Studio customizer" data-i18n-aria="a11y.panel">
+      <div class="panel-head">
+        <div>
+          <h2 class="panel-title" data-i18n="panel.title">Studio</h2>
+          <p class="panel-sub" data-i18n="panel.sub">Four friends, zero model files.</p>
+        </div>
+        <button class="panel-close" id="panel-close" type="button" aria-label="Close panel" data-i18n-aria="a11y.close">✕</button>
+      </div>
+
+      <div class="panel-scroll">
+        <section class="panel-section" aria-labelledby="sec-animals">
+          <div class="section-head">
+            <h3 id="sec-animals" data-i18n="section.animals">Characters</h3>
+            <span class="section-note" data-i18n="section.animalsNote">4 originals</span>
+          </div>
+          <div class="animal-grid" id="animal-grid" role="group" aria-label="Choose a character" data-i18n-aria="a11y.animals">
+            <button class="animal-card is-active" type="button" data-animal="bear" aria-pressed="true">
+              <span class="animal-thumb" aria-hidden="true">🧸</span>
+              <span class="animal-name" data-i18n="animal.bear">Chibi Bear</span>
+              <span class="animal-trait" data-i18n="animal.bearTrait">Huggable</span>
+            </button>
+            <button class="animal-card" type="button" data-animal="bunny" aria-pressed="false">
+              <span class="animal-thumb" aria-hidden="true">🐰</span>
+              <span class="animal-name" data-i18n="animal.bunny">Bunny</span>
+              <span class="animal-trait" data-i18n="animal.bunnyTrait">Bouncy</span>
+            </button>
+            <button class="animal-card" type="button" data-animal="penguin" aria-pressed="false">
+              <span class="animal-thumb" aria-hidden="true">🐧</span>
+              <span class="animal-name" data-i18n="animal.penguin">Penguin</span>
+              <span class="animal-trait" data-i18n="animal.penguinTrait">Waddly</span>
+            </button>
+            <button class="animal-card" type="button" data-animal="shiba" aria-pressed="false">
+              <span class="animal-thumb" aria-hidden="true">🐕</span>
+              <span class="animal-name" data-i18n="animal.shiba">Shiba</span>
+              <span class="animal-trait" data-i18n="animal.shibaTrait">Cheerful</span>
+            </button>
+          </div>
+        </section>
+
+        <section class="panel-section" aria-labelledby="sec-expression">
+          <div class="section-head">
+            <h3 id="sec-expression" data-i18n="section.expression">Expression</h3>
+            <span class="section-note" data-i18n="section.expressionNote">Tap to try</span>
+          </div>
+          <div class="expr-grid" id="expr-grid" role="group" aria-label="Choose an expression" data-i18n-aria="a11y.expressions">
+            <button class="expr-btn is-active" type="button" data-expr="happy" aria-pressed="true">
+              <span aria-hidden="true">😊</span><span data-i18n="expr.happy">Happy</span>
+            </button>
+            <button class="expr-btn" type="button" data-expr="sleepy" aria-pressed="false">
+              <span aria-hidden="true">😴</span><span data-i18n="expr.sleepy">Sleepy</span>
+            </button>
+            <button class="expr-btn" type="button" data-expr="curious" aria-pressed="false">
+              <span aria-hidden="true">🤔</span><span data-i18n="expr.curious">Curious</span>
+            </button>
+            <button class="expr-btn" type="button" data-expr="wiggle" aria-pressed="false">
+              <span aria-hidden="true">🐾</span><span data-i18n="expr.wiggle">Wiggle</span>
+            </button>
+          </div>
+        </section>
+
+        <section class="panel-section" aria-labelledby="sec-colors">
+          <div class="section-head">
+            <h3 id="sec-colors" data-i18n="section.colors">Colours</h3>
+            <button class="text-btn" id="reset-colors" type="button" data-i18n="common.reset">Reset</button>
+          </div>
+          <div class="color-list">
+            <label class="color-row" for="color-main">
+              <span class="color-label" data-i18n="color.main">Fur</span>
+              <span class="color-control">
+                <input type="color" id="color-main" value="#c08a6d" aria-label="Main fur colour" data-i18n-aria="a11y.mainColor">
+                <span class="color-hex" id="hex-main">#C08A6D</span>
+              </span>
+            </label>
+            <label class="color-row" for="color-belly">
+              <span class="color-label" data-i18n="color.belly">Belly</span>
+              <span class="color-control">
+                <input type="color" id="color-belly" value="#ffe9df" aria-label="Belly colour" data-i18n-aria="a11y.bellyColor">
+                <span class="color-hex" id="hex-belly">#FFE9DF</span>
+              </span>
+            </label>
+            <label class="color-row" for="color-blush">
+              <span class="color-label" data-i18n="color.blush">Blush</span>
+              <span class="color-control">
+                <input type="color" id="color-blush" value="#ff9db6" aria-label="Blush colour" data-i18n-aria="a11y.blushColor">
+                <span class="color-hex" id="hex-blush">#FF9DB6</span>
+              </span>
+            </label>
+          </div>
+          <div class="swatch-row" id="swatch-row" role="group" aria-label="Colour presets" data-i18n-aria="a11y.palettes">
+            <button class="swatch" type="button" data-palette="mochi" aria-label="Mochi palette">
+              <span style="--a:#c08a6d;--b:#ffe9df;--c:#ff9db6"></span>
+            </button>
+            <button class="swatch" type="button" data-palette="mint" aria-label="Mint palette">
+              <span style="--a:#7fc7b1;--b:#f4fffb;--c:#ff9fb2"></span>
+            </button>
+            <button class="swatch" type="button" data-palette="lilac" aria-label="Lilac palette">
+              <span style="--a:#a795d6;--b:#fbf6ff;--c:#ffb3cf"></span>
+            </button>
+            <button class="swatch" type="button" data-palette="sunset" aria-label="Sunset palette">
+              <span style="--a:#e8996b;--b:#fff3e6;--c:#ff8f8f"></span>
+            </button>
+            <button class="swatch" type="button" data-palette="midnight" aria-label="Midnight palette">
+              <span style="--a:#5f6b8c;--b:#e9eef7;--c:#c7a6ff"></span>
+            </button>
+          </div>
+        </section>
+
+        <section class="panel-section" aria-labelledby="sec-accessories">
+          <div class="section-head">
+            <h3 id="sec-accessories" data-i18n="section.accessories">Accessories</h3>
+            <span class="section-note" data-i18n="section.accessoriesNote">Code-built</span>
+          </div>
+          <div class="accessory-list" id="accessory-list" role="group" aria-label="Toggle accessories" data-i18n-aria="a11y.accessories">
+            <button class="accessory-btn" type="button" data-accessory="bowtie" aria-pressed="false">
+              <span class="accessory-emoji" aria-hidden="true">🎀</span>
+              <span class="accessory-text"><span data-i18n="acc.bowtie">Bowtie</span><small data-i18n="acc.bowtieNote">Smart casual</small></span>
+              <span class="toggle-pill" aria-hidden="true"></span>
+            </button>
+            <button class="accessory-btn" type="button" data-accessory="partyHat" aria-pressed="false">
+              <span class="accessory-emoji" aria-hidden="true">🎉</span>
+              <span class="accessory-text"><span data-i18n="acc.hat">Party Hat</span><small data-i18n="acc.hatNote">Instant celebration</small></span>
+              <span class="toggle-pill" aria-hidden="true"></span>
+            </button>
+            <button class="accessory-btn" type="button" data-accessory="glasses" aria-pressed="false">
+              <span class="accessory-emoji" aria-hidden="true">👓</span>
+              <span class="accessory-text"><span data-i18n="acc.glasses">Glasses</span><small data-i18n="acc.glassesNote">Very studious</small></span>
+              <span class="toggle-pill" aria-hidden="true"></span>
+            </button>
+          </div>
+        </section>
+
+        <section class="panel-section" aria-labelledby="sec-studio">
+          <div class="section-head">
+            <h3 id="sec-studio" data-i18n="section.studio">Studio tools</h3>
+          </div>
+          <div class="tool-grid">
+            <button class="tool-btn tool-btn-primary" id="snapshot-btn" type="button">
+              <span aria-hidden="true">📷</span>
+              <span data-i18n="tool.snapshot">Take Snapshot PNG</span>
+            </button>
+            <button class="tool-btn" id="save-preset" type="button">
+              <span aria-hidden="true">💾</span>
+              <span data-i18n="tool.save">Save preset</span>
+            </button>
+            <button class="tool-btn" id="share-btn" type="button">
+              <span aria-hidden="true">🔗</span>
+              <span data-i18n="tool.share">Copy link</span>
+            </button>
+            <button class="tool-btn" id="sound-toggle-panel" type="button" aria-pressed="true">
+              <span aria-hidden="true">🔔</span>
+              <span data-i18n="tool.sound">Sound effects</span>
+            </button>
+          </div>
+
+          <div class="preset-block">
+            <div class="section-head">
+              <h4 data-i18n="preset.title">Saved presets</h4>
+              <button class="text-btn" id="clear-presets" type="button" data-i18n="preset.clear">Clear</button>
+            </div>
+            <p class="empty-note" id="preset-empty" data-i18n="preset.empty">No presets yet — style a pet and save it.</p>
+            <ul class="preset-list" id="preset-list" aria-live="polite"></ul>
+          </div>
+        </section>
+      </div>
+
+      <footer class="panel-foot">
+        <p>
+          <span data-i18n="foot.built">Built with</span>
+          <a href="https://threejs.org" target="_blank" rel="noopener noreferrer">Three.js</a>
+          <span data-i18n="foot.and">and</span>
+          <a href="https://opencode.ai" target="_blank" rel="noopener noreferrer">OpenCode</a>.
+        </p>
+        <p class="foot-dim" data-i18n="foot.dim">No models, no textures, no audio files.</p>
+      </footer>
+    </aside>
+  </div>
+
+  <div class="toast-stack" id="toast-stack" aria-live="polite" aria-atomic="true"></div>
+
+  <div class="selftest-overlay" id="selftest-overlay" hidden>
+    <div class="selftest-card">
+      <h2>Self-test</h2>
+      <p id="selftest-summary">Running…</p>
+      <ul id="selftest-list"></ul>
+      <button type="button" id="selftest-close">Close</button>
+    </div>
+  </div>
+
+  <script type="module" src="script.js"></script>
+</body>
+</html>

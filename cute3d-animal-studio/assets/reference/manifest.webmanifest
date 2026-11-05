@@ -1,0 +1,20 @@
+{
+  "name": "Cute3D — Procedural Code-Only Animal Studio",
+  "short_name": "Cute3D",
+  "description": "Four original procedural 3D pets, zero model files. Customize colours and accessories, then save a transparent PNG.",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "any",
+  "background_color": "#fff8f3",
+  "theme_color": "#fdf1f4",
+  "categories": ["entertainment", "graphics", "education"],
+  "icons": [
+    {
+      "src": "assets/favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    }
+  ]
+}

@@ -65,6 +65,12 @@
       "source": "~/.config/opencode/skills/wurlitzer-lullaby-studio",
       "description": "Build a bilingual, static 3D Wurlitzer-style lullaby jukebox and sleep studio with procedural Web Audio lullabies, an archive stream manifest, ambient beds, a smoothstep sleep timer, headless verification and a GitHub Pages release.",
       "license": "MIT"
+    },
+    {
+      "name": "cute3d-animal-studio",
+      "source": "~/.config/opencode/skills/cute3d-animal-studio",
+      "description": "Build a release-grade, zero-asset 3D animal character studio with original procedural Three.js pets, idle and click animations, live colours and accessories, synthesized Web Audio, a bilingual EN/TH UI, local presets, transparent PNG export, four test layers and a GitHub Pages release.",
+      "license": "MIT"
     }
   ]
 }

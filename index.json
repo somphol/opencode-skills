@@ -347,6 +347,30 @@
         "references/VERIFY.md",
         "scripts/scaffold.mjs"
       ]
+    },
+    {
+      "name": "cute3d-animal-studio",
+      "version": "37d0a2d167c4",
+      "description": "Build a release-grade, zero-asset 3D animal character studio with original procedural Three.js pets, idle and click animations, live colours and accessories, synthesized Web Audio, a bilingual EN/TH UI, local presets, transparent PNG export, four test layers and a GitHub Pages release.",
+      "license": "MIT",
+      "files": [
+        "ATTRIBUTION.md",
+        "README.md",
+        "SKILL.md",
+        "assets/og-card.png",
+        "assets/preview.png",
+        "assets/reference/assets/favicon.svg",
+        "assets/reference/index.html",
+        "assets/reference/manifest.webmanifest",
+        "assets/reference/script.js",
+        "assets/reference/style.css",
+        "references/RELEASE.md",
+        "references/RIGS.md",
+        "references/SCENE.md",
+        "references/UI.md",
+        "references/VERIFY.md",
+        "scripts/scaffold.mjs"
+      ]
     }
   ]
 }
