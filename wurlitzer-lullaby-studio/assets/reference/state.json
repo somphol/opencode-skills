@@ -2,11 +2,13 @@
   "project": "Vintage Wurlitzer 3D Lullaby Jukebox & Sleep Studio",
   "release": "1.0.0",
   "session": {
-    "startedAt": "2026-11-05T04:35:32Z",
-    "capturedAt": "2026-11-05T06:30:00Z",
-    "elapsedSeconds": 3600,
-    "elapsed": "1h 00m",
-    "note": "Placeholder captured mid-build; replaced with the final OpenCode session counters after the live release and skill publication."
+    "id": "ses_e56042271ffePs43L8FfL1gi0s",
+    "title": "Vintage Wurlitzer Jukebox Project",
+    "startedAt": "2026-11-05T04:33:38Z",
+    "capturedAt": "2026-11-05T05:01:37Z",
+    "elapsedSeconds": 1679,
+    "elapsed": "27m 59s",
+    "note": "One continuous OpenCode session: concept, 3D cabinet, dual audio engines, bilingual UI, four test layers, documentation, GitHub Pages release and the reusable skill. Captured from the OpenCode session database before the final release-state push."
   },
   "model": {
     "name": "DeepSeek V4.1 Flash",
@@ -14,28 +16,105 @@
     "provider": "opencode-go"
   },
   "usage": {
-    "inputTokens": 1,
-    "outputTokens": 1,
-    "reasoningTokens": 1,
-    "cacheReadTokens": 1,
-    "cacheWriteTokens": 1,
-    "totalTokens": 5,
-    "costUSD": 0,
-    "note": "Placeholder; read from the OpenCode session database at final capture."
+    "inputTokens": 229149,
+    "outputTokens": 132445,
+    "reasoningTokens": 60086,
+    "cacheReadTokens": 14182912,
+    "cacheWriteTokens": 1547,
+    "totalTokens": 14606139,
+    "costUSD": 0.0,
+    "note": "Read from the OpenCode session database (session_v2) for this session. totalTokens sums all five counters; repeated prompt context (cache reads) dominates. costUSD is 0 on the flat-rate plan. Counters exclude the final release-state push and skill re-sync."
   },
   "artifacts": {
-    "sourceFiles": ["index.html", "style.css", "script.js"],
-    "lineCounts": { "index.html": 0, "style.css": 0, "script.js": 0, "total": 0 },
-    "supportingFiles": []
+    "sourceFiles": [
+      "index.html",
+      "style.css",
+      "script.js"
+    ],
+    "lineCounts": {
+      "index.html": 353,
+      "style.css": 1360,
+      "script.js": 3348,
+      "total": 5061
+    },
+    "supportingFiles": [
+      ".editorconfig",
+      ".github/ISSUE_TEMPLATE/bug_report.yml",
+      ".github/ISSUE_TEMPLATE/feature_request.yml",
+      ".github/ISSUE_TEMPLATE/question.yml",
+      ".github/pull_request_template.md",
+      ".github/workflows/ci.yml",
+      ".gitignore",
+      ".nojekyll",
+      "AGENTS.md",
+      "CHANGELOG.md",
+      "CODE_OF_CONDUCT.md",
+      "CONTRIBUTING.md",
+      "LICENSE",
+      "README.md",
+      "SECURITY.md",
+      "SUPPORT.md",
+      "THIRD_PARTY_NOTICES.md",
+      "assets/favicon.svg",
+      "assets/mobile.png",
+      "assets/og-card.png",
+      "assets/og.html",
+      "assets/playing.png",
+      "assets/stage-hero.png",
+      "assets/stage.png",
+      "assets/studio.png",
+      "assets/thai.png",
+      "data/playlist.json",
+      "docs/ACCESSIBILITY.md",
+      "docs/ARCHITECTURE.md",
+      "docs/AUDIO.md",
+      "docs/CREDITS.md",
+      "docs/DECISIONS.md",
+      "docs/DEPLOYMENT.md",
+      "docs/DESIGN.md",
+      "docs/FAQ.md",
+      "docs/PERFORMANCE.md",
+      "docs/PRIVACY.md",
+      "docs/README.md",
+      "docs/REPRODUCTION.md",
+      "docs/ROADMAP.md",
+      "docs/TESTING.md",
+      "index.html",
+      "robots.txt",
+      "script.js",
+      "scripts/screenshot.mjs",
+      "sitemap.xml",
+      "style.css",
+      "tests/browser.test.mjs",
+      "tests/engine.test.mjs",
+      "tests/lib/fixtures.mjs",
+      "tests/lib/harness.mjs",
+      "tests/static.test.mjs"
+    ],
+    "counts": {
+      "sourceLines": 5061,
+      "trackedFiles": 53,
+      "docs": 14,
+      "tests": 5,
+      "archiveTracks": 4,
+      "synthTracks": 8
+    }
   },
   "verification": {
-    "method": "Dependency-free Node suites plus headless Chrome over the DevTools Protocol",
+    "method": "Dependency-free Node suites plus one headless Chrome over the Chrome DevTools Protocol, local and live",
     "automatedChecks": 22,
     "browserChecks": 22,
     "selfTestChecks": 23,
     "totalChecks": 67,
     "consoleErrors": 0,
-    "checks": []
+    "liveBrowserChecks": 22,
+    "checks": [
+      "Engine (10): note maths, sequences, eight tracks, smoothstep fade, clock, slots/rack, manifest validation, settings normalisation, stepping, export payload",
+      "Repository (12): files, HTML shell, import-map pinning, ids, i18n symmetry, engine purity, manifest provenance, docs links, state fields, no secrets, CSS system",
+      "In-page (23): WebGL, cabinet, 44 bubbles, 30 bulbs, record/tone arm, eight tracks, slots, dictionaries, 16 strips, 12 keys, manifest, C slots, fade, clock, settings, audio graph, synth start/pause, timer, empty slot, export, language, scene state",
+      "Browser (22): boot, self-test, selection, pause/resume, step, coin credit, empty slot, keypad, seek, Thai, favourites, knob, ambient, timer, reload, export, help, mobile sheets, reduced motion, manifest, mute/free-play, zero console errors"
+    ],
+    "scaffoldSelfTest": "22/22 engine+static and 22/22 browser from a clean skill scaffold"
   },
   "deployment": {
     "repository": "https://github.com/somphol/vintage-wurlitzer-lullaby-jukebox",
@@ -43,8 +122,9 @@
     "host": "GitHub Pages",
     "branch": "main",
     "path": "/",
-    "status": "pending",
-    "verifiedAt": "2026-11-05T06:30:00Z"
+    "status": "live",
+    "verifiedAt": "2026-11-05T05:01:37Z",
+    "note": "Pages created through the API on main / root. The 22-check browser suite passed against the live URL with zero console errors; the in-page suite is 23/23."
   },
   "credits": {
     "tool": "OpenCode",
@@ -58,9 +138,11 @@
     "name": "wurlitzer-lullaby-studio",
     "title": "Wurlitzer Lullaby Studio",
     "status": "published",
+    "version": "content hash in the catalog index.json",
     "catalog": "https://somphol.github.io/opencode-skills/",
     "source": "https://github.com/somphol/opencode-skills/tree/main/wurlitzer-lullaby-studio",
     "local": "~/.config/opencode/skills/wurlitzer-lullaby-studio",
-    "note": "Placeholder; updated after the skill is validated and published."
+    "validated": true,
+    "note": "35 files, 0.78 MB. check-skill.mjs passes; a clean scaffold passed 22/22 engine+static and 22/22 headless browser checks. The catalog index serves the current content-hash version."
   }
 }
