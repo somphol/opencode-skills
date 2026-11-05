@@ -19,19 +19,22 @@ const createStudioEngine = () => {
   const PRESET_LIMIT = 10;
   const COAT_LEVELS = ['off', 'soft', 'plush'];
   const DEFAULT_COAT = 'soft';
+  const LIGHTING_PRESETS = ['studio', 'sky', 'desk'];
+  const DEFAULT_LIGHTING = 'studio';
+  const DEFAULT_FUR = { length: 1, density: 0.7, curl: 0.35, clump: 0.4, breeze: 0.3 };
 
   const DEFAULT_COLORS = {
-    bear: { main: '#c08a6d', belly: '#ffe9df', blush: '#ff9db6' },
-    bunny: { main: '#f0d3c2', belly: '#fff6ef', blush: '#ffa8bf' },
-    penguin: { main: '#4a5774', belly: '#fdf8f0', blush: '#ffa9b8' },
-    shiba: { main: '#dfa163', belly: '#fff4e4', blush: '#ff9f8f' },
-    koala: { main: '#9aa0a6', belly: '#f6f0e7', blush: '#e8a3a8' },
-    conure: { main: '#f7c948', belly: '#ff9c2f', blush: '#ff7a4d' },
-    fold: { main: '#b9b2ab', belly: '#f7efe7', blush: '#e8a0aa' },
+    bear: { main: '#c9977a', belly: '#fff0e5', blush: '#ffb3c6' },
+    bunny: { main: '#f7ddd0', belly: '#fff8f2', blush: '#ffb3c9' },
+    penguin: { main: '#55688a', belly: '#fffaf4', blush: '#ffb6c4' },
+    shiba: { main: '#e8ad6d', belly: '#fff7e9', blush: '#ffae9d' },
+    koala: { main: '#a7adb5', belly: '#fbf6ee', blush: '#f0b1b8' },
+    conure: { main: '#f8cf5c', belly: '#ffa63d', blush: '#ff8f68' },
+    fold: { main: '#c3bab2', belly: '#fbf3ea', blush: '#eda9b3' },
   };
 
   const PALETTES = [
-    { id: 'mochi', main: '#c08a6d', belly: '#ffe9df', blush: '#ff9db6' },
+    { id: 'mochi', main: '#c9977a', belly: '#fff0e5', blush: '#ffb3c6' },
     { id: 'mint', main: '#7fc7b1', belly: '#f4fffb', blush: '#ff9fb2' },
     { id: 'lilac', main: '#a795d6', belly: '#fbf6ff', blush: '#ffb3cf' },
     { id: 'sunset', main: '#e8996b', belly: '#fff3e6', blush: '#ff8f8f' },
@@ -156,6 +159,19 @@ const createStudioEngine = () => {
   };
 
   const sanitizeCoat = (value) => (COAT_LEVELS.includes(value) ? value : DEFAULT_COAT);
+  const sanitizeLighting = (value) => (LIGHTING_PRESETS.includes(value) ? value : DEFAULT_LIGHTING);
+  const sanitizeFur = (raw) => {
+    const source = raw && typeof raw === 'object' ? raw : {};
+    const number = (value, fallback, min, max) =>
+      clamp(Number.isFinite(Number(value)) ? Number(value) : fallback, min, max);
+    return {
+      length: number(source.length, DEFAULT_FUR.length, 0.4, 1.8),
+      density: number(source.density, DEFAULT_FUR.density, 0.1, 1),
+      curl: number(source.curl, DEFAULT_FUR.curl, 0, 1),
+      clump: number(source.clump, DEFAULT_FUR.clump, 0, 1),
+      breeze: number(source.breeze, DEFAULT_FUR.breeze, 0, 1),
+    };
+  };
 
   const sanitizeAccessories = (raw) => {
     const source = raw && typeof raw === 'object' ? raw : {};
@@ -172,6 +188,8 @@ const createStudioEngine = () => {
     const accessories = sanitizeAccessories(raw.accessories);
     const expression = EXPRESSIONS.includes(raw.expression) ? raw.expression : 'happy';
     const coat = sanitizeCoat(raw.coat);
+    const lighting = sanitizeLighting(raw.lighting);
+    const fur = sanitizeFur(raw.fur);
     let name = typeof raw.name === 'string' ? raw.name.trim().slice(0, 42) : '';
     if (!name) name = `${animal} preset`;
     let id = typeof raw.id === 'string' ? raw.id : '';
@@ -179,7 +197,7 @@ const createStudioEngine = () => {
       id = `p-${hashString(`${animal}|${name}|${JSON.stringify(colors)}`).toString(36)}`;
     }
     const createdAt = Number.isFinite(raw.createdAt) ? Math.max(0, raw.createdAt) : 0;
-    return { id, name, animal, colors, accessories, expression, coat, createdAt };
+    return { id, name, animal, colors, accessories, expression, coat, lighting, fur, createdAt };
   };
 
   const sanitizePresets = (raw) => {
@@ -213,6 +231,9 @@ const createStudioEngine = () => {
     params.set('o', worn.join(','));
     params.set('l', state.lang === 'th' ? 'th' : 'en');
     params.set('f', sanitizeCoat(state.coat));
+    params.set('g', sanitizeLighting(state.lighting));
+    const fur = sanitizeFur(state.fur);
+    params.set('u', [fur.length, fur.density, fur.curl, fur.clump, fur.breeze].join('-'));
     return params.toString();
   };
 
@@ -250,7 +271,12 @@ const createStudioEngine = () => {
     );
     const lang = params.get('l') === 'th' ? 'th' : 'en';
     const coat = sanitizeCoat(params.get('f'));
-    return { animal, expression, colors, accessories, lang, coat, valid: Boolean(animal) };
+    const lighting = sanitizeLighting(params.get('g'));
+    const furParts = (params.get('u') || '').split('-').map(Number);
+    const fur = sanitizeFur({
+      length: furParts[0], density: furParts[1], curl: furParts[2], clump: furParts[3], breeze: furParts[4],
+    });
+    return { animal, expression, colors, accessories, lang, coat, lighting, fur, valid: Boolean(animal) };
   };
 
   const soundPattern = (kind) => {
@@ -309,6 +335,9 @@ const createStudioEngine = () => {
     COLOR_KEYS,
     COAT_LEVELS,
     DEFAULT_COAT,
+    LIGHTING_PRESETS,
+    DEFAULT_LIGHTING,
+    DEFAULT_FUR,
     PRESET_LIMIT,
     DEFAULT_COLORS,
     PALETTES,
@@ -329,6 +358,8 @@ const createStudioEngine = () => {
     sanitizeColors,
     sanitizeAccessories,
     sanitizeCoat,
+    sanitizeLighting,
+    sanitizeFur,
     sanitizePreset,
     sanitizePresets,
     snapshotFilename,
@@ -363,7 +394,9 @@ const I18N = {
     'section.colors': 'Colours',
     'section.accessories': 'Accessories',
     'section.accessoriesNote': 'Code-built',
-    'section.coat': 'Coat detail',
+    'section.fur': 'Fur studio',
+    'section.scene': 'Scene',
+    'section.sceneNote': 'Lighting mood',
     'section.studio': 'Studio tools',
     'animal.bear': 'Chibi Bear',
     'animal.bearTrait': 'Huggable',
@@ -395,8 +428,16 @@ const I18N = {
     'coat.off': 'Smooth',
     'coat.soft': 'Soft',
     'coat.plush': 'Plush',
-    'coat.hint': 'Real fur and feather volume, generated strand by strand.',
+    'coat.hint': 'Soft shells plus thousands of GPU strands that move with the breeze.',
     'coat.strands': '{n} strands',
+    'fur.length': 'Length',
+    'fur.density': 'Density',
+    'fur.curl': 'Curl',
+    'fur.clump': 'Clumping',
+    'fur.breeze': 'Breeze',
+    'scene.studio': 'Studio',
+    'scene.sky': 'Cloud Sky',
+    'scene.desk': 'Cozy Desk',
     'tool.snapshot': 'Take Snapshot PNG',
     'tool.save': 'Save preset',
     'tool.share': 'Copy link',
@@ -436,6 +477,12 @@ const I18N = {
     'a11y.palettes': 'Colour presets',
     'a11y.accessories': 'Toggle accessories',
     'a11y.coat': 'Choose fur or feather detail',
+    'a11y.furLength': 'Fur length',
+    'a11y.furDensity': 'Fur density',
+    'a11y.furCurl': 'Fur curl',
+    'a11y.furClump': 'Fur clumping',
+    'a11y.furBreeze': 'Breeze strength',
+    'a11y.scene': 'Choose a lighting preset',
     'toast.animal': 'Say hello to {name}!',
     'toast.expression': 'Expression: {name}',
     'toast.snapshot': 'Snapshot saved — {file}',
@@ -452,6 +499,7 @@ const I18N = {
     'toast.lang': 'Language set to English.',
     'toast.colorsReset': 'Colours reset.',
     'toast.coat': 'Coat: {name}',
+    'toast.lighting': 'Lighting: {name}',
     'toast.webgl': 'WebGL could not start in this browser.',
     'preset.auto': '{name} look',
     'preset.meta': '{animal} · {accessories}',
@@ -478,7 +526,9 @@ const I18N = {
     'section.colors': 'สีสัน',
     'section.accessories': 'เครื่องประดับ',
     'section.accessoriesNote': 'สร้างจากโค้ด',
-    'section.coat': 'รายละเอียดขน',
+    'section.fur': 'สตูดิโอขน',
+    'section.scene': 'ฉาก',
+    'section.sceneNote': 'โทนแสง',
     'section.studio': 'เครื่องมือ',
     'animal.bear': 'หมีจิบิ',
     'animal.bearTrait': 'กอดนุ่ม',
@@ -510,8 +560,16 @@ const I18N = {
     'coat.off': 'เรียบ',
     'coat.soft': 'นุ่ม',
     'coat.plush': 'ฟูหนา',
-    'coat.hint': 'ขนและขนนกจริง สร้างทีละเส้นจากโค้ด',
+    'coat.hint': 'เปลือกขนนุ่ม ๆ พร้อมเส้นขนหลายพันเส้นขยับตามลม',
     'coat.strands': '{n} เส้น',
+    'fur.length': 'ความยาว',
+    'fur.density': 'ความหนา',
+    'fur.curl': 'ความหยิก',
+    'fur.clump': 'การเกาะกลุ่ม',
+    'fur.breeze': 'ลม',
+    'scene.studio': 'สตูดิโอ',
+    'scene.sky': 'ท้องฟ้าพาสเทล',
+    'scene.desk': 'โต๊ะอุ่น ๆ',
     'tool.snapshot': 'บันทึกภาพ PNG',
     'tool.save': 'บันทึกพรีเซ็ต',
     'tool.share': 'คัดลอกลิงก์',
@@ -551,6 +609,12 @@ const I18N = {
     'a11y.palettes': 'ชุดสีสำเร็จรูป',
     'a11y.accessories': 'เปิดปิดเครื่องประดับ',
     'a11y.coat': 'เลือกความละเอียดของขนหรือขนนก',
+    'a11y.furLength': 'ความยาวขน',
+    'a11y.furDensity': 'ความหนาแน่นขน',
+    'a11y.furCurl': 'ความหยิกของขน',
+    'a11y.furClump': 'การเกาะกลุ่มของขน',
+    'a11y.furBreeze': 'ความแรงลม',
+    'a11y.scene': 'เลือกโทนแสง',
     'toast.animal': 'ทักทาย {name} กันหน่อย!',
     'toast.expression': 'อารมณ์: {name}',
     'toast.snapshot': 'บันทึกภาพแล้ว — {file}',
@@ -567,6 +631,7 @@ const I18N = {
     'toast.lang': 'เปลี่ยนภาษาเป็นภาษาไทยแล้ว',
     'toast.colorsReset': 'รีเซ็ตสีแล้ว',
     'toast.coat': 'ขน: {name}',
+    'toast.lighting': 'โทนแสง: {name}',
     'toast.webgl': 'เบราว์เซอร์นี้ไม่สามารถเปิด WebGL ได้',
     'preset.auto': 'ลุคของ{name}',
     'preset.meta': '{animal} · {accessories}',
@@ -584,8 +649,9 @@ import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
 const ENGINE = createStudioEngine();
 const {
   ANIMALS, EXPRESSIONS, ACCESSORIES, COLOR_KEYS, PRESET_LIMIT,
-  DEFAULT_COLORS, PALETTES, COAT_LEVELS, DEFAULT_COAT, clamp, damp, lerp, smoothstep, easeOutCubic,
-  normalizeHex, mixHex, shade, blinkScale, expressionPose, sanitizeColors, sanitizeCoat,
+  DEFAULT_COLORS, PALETTES, COAT_LEVELS, DEFAULT_COAT, LIGHTING_PRESETS, DEFAULT_LIGHTING, DEFAULT_FUR,
+  clamp, damp, lerp, smoothstep, easeOutCubic, normalizeHex, mixHex, shade, blinkScale, expressionPose,
+  sanitizeColors, sanitizeCoat, sanitizeLighting, sanitizeFur,
   sanitizePresets, snapshotFilename, encodeShareState, decodeShareState,
   soundPattern, clampSnapshotSize, formatMeshLabel,
 } = ENGINE;
@@ -612,6 +678,8 @@ const defaultState = () => ({
   lang: 'en',
   sound: true,
   coat: DEFAULT_COAT,
+  lighting: DEFAULT_LIGHTING,
+  fur: { ...DEFAULT_FUR },
   colors: Object.fromEntries(ANIMALS.map((id) => [id, { ...DEFAULT_COLORS[id] }])),
   accessories: { bowtie: false, partyHat: false, glasses: false },
 });
@@ -641,6 +709,8 @@ if (stored && typeof stored === 'object') {
   if (stored.lang === 'th' || stored.lang === 'en') state.lang = stored.lang;
   if (typeof stored.sound === 'boolean') state.sound = stored.sound;
   state.coat = sanitizeCoat(stored.coat);
+  state.lighting = sanitizeLighting(stored.lighting);
+  state.fur = sanitizeFur(stored.fur);
   for (const id of ANIMALS) state.colors[id] = sanitizeColors(stored.colors?.[id], id);
   if (stored.accessories && typeof stored.accessories === 'object') {
     for (const key of ACCESSORIES) state.accessories[key] = Boolean(stored.accessories[key]);
@@ -846,6 +916,138 @@ for (let i = 0; i < 3; i += 1) {
   propGroup.add(prop);
 }
 scene.add(propGroup);
+
+const cloudGroup = new THREE.Group();
+cloudGroup.name = 'clouds';
+{
+  const cloudGeo = new THREE.SphereGeometry(1, 12, 9);
+  const cloudMat = new THREE.MeshStandardMaterial({
+    color: 0xfbfdff, roughness: 1, metalness: 0, transparent: true, opacity: 0.82, depthWrite: false,
+  });
+  const clusters = [
+    { pos: [-2.8, 3.2, -3.8], scale: 0.85 },
+    { pos: [1.1, 4.0, -4.4], scale: 0.65 },
+    { pos: [3.1, 2.55, -3.6], scale: 0.55 },
+    { pos: [-4.2, 2.2, -4.8], scale: 0.45 },
+  ];
+  for (const [index, cluster] of clusters.entries()) {
+    const group = new THREE.Group();
+    group.position.set(...cluster.pos);
+    group.scale.setScalar(cluster.scale);
+    const puffs = [
+      [0, 0, 0, 0.42], [0.42, -0.05, 0.06, 0.3], [-0.4, -0.08, 0.04, 0.28],
+      [0.18, 0.18, -0.04, 0.26], [-0.14, -0.16, 0.08, 0.24],
+    ];
+    for (const [x, y, z, scale] of puffs) {
+      const puff = new THREE.Mesh(cloudGeo, cloudMat);
+      puff.position.set(x, y + Math.sin(index + x) * 0.06, z);
+      puff.scale.set(scale * 1.2, scale * 0.78, scale);
+      puff.castShadow = false;
+      puff.receiveShadow = false;
+      group.add(puff);
+    }
+    group.userData.baseX = cluster.pos[0];
+    group.userData.baseY = cluster.pos[1];
+    cloudGroup.add(group);
+  }
+  cloudGroup.visible = false;
+  scene.add(cloudGroup);
+}
+
+
+const perchGroup = new THREE.Group();
+perchGroup.name = 'conure-perch';
+{
+  const wood = new THREE.MeshStandardMaterial({ color: 0xb98a62, roughness: 0.82 });
+  const leafMat = new THREE.MeshStandardMaterial({ color: 0x6fa87c, roughness: 0.8 });
+  const bar = new THREE.Mesh(new THREE.CylinderGeometry(0.06, 0.065, 3.1, 14), wood);
+  bar.rotation.z = Math.PI / 2;
+  bar.position.set(0, 0.03, 0.2);
+  bar.castShadow = true;
+  bar.receiveShadow = true;
+  perchGroup.add(bar);
+  for (const side of [-1, 1]) {
+    const post = new THREE.Mesh(new THREE.CylinderGeometry(0.055, 0.075, 0.2, 12), wood);
+    post.position.set(side * 1.3, 0.02, 0.2);
+    post.castShadow = true;
+    perchGroup.add(post);
+    const leaf = new THREE.Mesh(new THREE.SphereGeometry(0.16, 10, 8), leafMat);
+    leaf.scale.set(0.55, 1.5, 0.35);
+    leaf.position.set(side * 1.5, 0.2, 0.2);
+    leaf.rotation.z = side * 0.7;
+    leaf.castShadow = true;
+    perchGroup.add(leaf);
+  }
+  perchGroup.visible = false;
+  scene.add(perchGroup);
+}
+
+const deskGroup = new THREE.Group();
+deskGroup.name = 'cozy-desk';
+{
+  const wood = new THREE.MeshStandardMaterial({ color: 0xd9ae83, roughness: 0.78 });
+  const woodDark = new THREE.MeshStandardMaterial({ color: 0xb98961, roughness: 0.82 });
+  const cream = new THREE.MeshStandardMaterial({ color: 0xfff7ee, roughness: 0.65 });
+  const coffee = new THREE.MeshStandardMaterial({ color: 0x6f4433, roughness: 0.5 });
+  const terracotta = new THREE.MeshStandardMaterial({ color: 0xd9816a, roughness: 0.85 });
+  const leaf = new THREE.MeshStandardMaterial({ color: 0x6fa87c, roughness: 0.8 });
+  const bookA = new THREE.MeshStandardMaterial({ color: 0xf4a9a0, roughness: 0.8 });
+  const bookB = new THREE.MeshStandardMaterial({ color: 0xb9a5e8, roughness: 0.8 });
+  const bookC = new THREE.MeshStandardMaterial({ color: 0x8fd3bf, roughness: 0.8 });
+
+  const top = new THREE.Mesh(new THREE.CylinderGeometry(2.7, 2.78, 0.18, 72), wood);
+  top.position.y = -0.09;
+  top.receiveShadow = true;
+  const rim = new THREE.Mesh(new THREE.TorusGeometry(2.74, 0.035, 10, 96), woodDark);
+  rim.rotation.x = Math.PI / 2;
+  rim.position.y = 0.005;
+  deskGroup.add(top, rim);
+
+  const mug = new THREE.Group();
+  mug.position.set(1.55, 0.17, 0.52);
+  const cup = new THREE.Mesh(new THREE.CylinderGeometry(0.2, 0.17, 0.3, 24), cream);
+  cup.castShadow = true;
+  const drink = new THREE.Mesh(new THREE.CircleGeometry(0.165, 24), coffee);
+  drink.rotation.x = -Math.PI / 2;
+  drink.position.y = 0.151;
+  const handle = new THREE.Mesh(new THREE.TorusGeometry(0.11, 0.028, 8, 18, Math.PI * 1.4), cream);
+  handle.position.set(0.2, 0.02, 0);
+  handle.rotation.z = Math.PI / 2;
+  mug.add(cup, drink, handle);
+  deskGroup.add(mug);
+
+  const plant = new THREE.Group();
+  plant.position.set(-1.55, 0.16, 0.55);
+  const pot = new THREE.Mesh(new THREE.CylinderGeometry(0.24, 0.19, 0.28, 20), terracotta);
+  pot.castShadow = true;
+  plant.add(pot);
+  for (let i = 0; i < 5; i += 1) {
+    const angle = (i / 5) * Math.PI * 2;
+    const leafMesh = new THREE.Mesh(new THREE.SphereGeometry(0.16, 12, 8), leaf);
+    leafMesh.scale.set(0.7, 1.5, 0.38);
+    leafMesh.position.set(Math.cos(angle) * 0.12, 0.32 + (i % 2) * 0.06, Math.sin(angle) * 0.1);
+    leafMesh.rotation.z = Math.cos(angle) * 0.5;
+    leafMesh.castShadow = true;
+    plant.add(leafMesh);
+  }
+  deskGroup.add(plant);
+
+  const books = new THREE.Group();
+  books.position.set(-1.45, 0, -0.75);
+  [[0.95, 0.12, 0.66, 0.06, bookA], [0.82, 0.1, 0.58, 0.19, bookB], [0.72, 0.09, 0.5, 0.3, bookC]]
+    .forEach(([w, h, d, y, mat], index) => {
+      const book = new THREE.Mesh(new THREE.BoxGeometry(w, h, d), mat);
+      book.position.set(index * 0.03, y, 0);
+      book.rotation.y = index * 0.08;
+      book.castShadow = true;
+      book.receiveShadow = true;
+      books.add(book);
+    });
+  deskGroup.add(books);
+
+  deskGroup.visible = false;
+  scene.add(deskGroup);
+}
 
 /* ------------------------------------------------------------- materials */
 
@@ -1229,6 +1431,8 @@ const buildShiba = (materials) => {
   const pawL = sphere(materials, 'belly', { pos: [-0.35, 0.11, 0.12], scale: [0.15, 0.1, 0.17], name: 'paw-left' });
   const pawR = sphere(materials, 'belly', { pos: [0.35, 0.11, 0.12], scale: [0.15, 0.1, 0.17], name: 'paw-right' });
 
+  const haunchL = sphere(materials, 'main', { pos: [-0.56, 0.32, -0.2], scale: [0.3, 0.34, 0.36], name: 'haunch-left' });
+  const haunchR = sphere(materials, 'main', { pos: [0.56, 0.32, -0.2], scale: [0.3, 0.34, 0.36], name: 'haunch-right' });
   const armL = capsule(0.12, 0.3, materials, 'main', { pos: [-0.84, 1.0, 0.12], rot: [0.2, 0, 0.55], name: 'arm-left' });
   const armR = capsule(0.12, 0.3, materials, 'main', { pos: [0.84, 1.0, 0.12], rot: [0.2, 0, -0.55], name: 'arm-right' });
 
@@ -1282,7 +1486,7 @@ const buildShiba = (materials) => {
   const hat = anchor(head, [0, 0.58, 0.1], 'anchor-hat');
   const glasses = anchor(head, [0, 0.11, 0.68], 'anchor-glasses');
 
-  group.add(body, belly, legL, legR, pawL, pawR, armL, armR, tailPivot, head, neck);
+  group.add(body, belly, legL, legR, pawL, pawR, haunchL, haunchR, armL, armR, tailPivot, head, neck);
 
   return {
     id: 'shiba',
@@ -1635,6 +1839,141 @@ const buildFold = (materials) => {
   };
 };
 
+
+
+const applyPosture = (instance) => {
+  const { id, group, body, belly, head, feet, arms, tail } = instance;
+  const shift = (dy) => {
+    body.position.y += dy;
+    belly.position.y += dy;
+    head.position.y += dy;
+    instance.anchors.neck.position.y += dy;
+  };
+  const move = (name, x, y, z) => {
+    const node = group.getObjectByName(name);
+    if (node) node.position.set(x, y, z);
+  };
+  const base = instance.base;
+  base.headRotX = 0;
+  base.headRotZ = 0;
+
+  if (id === 'bear') {
+    shift(-0.1);
+    feet[0].position.set(-0.42, 0.2, 0.36);
+    feet[1].position.set(0.42, 0.2, 0.36);
+    move('pad-left', -0.42, 0.19, 0.56);
+    move('pad-right', 0.42, 0.19, 0.56);
+    arms[0].position.set(-0.62, 0.78, 0.42);
+    arms[0].rotation.set(1.15, 0, 0.24);
+    arms[1].position.set(0.62, 0.78, 0.42);
+    arms[1].rotation.set(1.15, 0, -0.24);
+    tail.position.y -= 0.08;
+    body.rotation.x = -0.03;
+    base.headRotX = 0.06;
+    base.headRotZ = 0.03;
+  } else if (id === 'bunny') {
+    group.position.y = 0;
+    shift(0.03);
+    feet[0].position.set(-0.28, 0.12, 0.1);
+    feet[1].position.set(0.28, 0.12, 0.1);
+    arms[0].position.set(-0.56, 1.02, 0.3);
+    arms[0].rotation.set(0.55, 0, 0.18);
+    arms[1].position.set(0.56, 1.02, 0.3);
+    arms[1].rotation.set(0.55, 0, -0.18);
+    instance.ears.forEach((ear) => { ear.rotation.x = -0.22; });
+    base.headRotX = 0.04;
+  } else if (id === 'penguin') {
+    group.rotation.x = 0.06;
+    feet[0].position.set(-0.38, 0.09, 0.22);
+    feet[1].position.set(0.38, 0.09, 0.22);
+    arms[0].position.z = -0.08;
+    arms[1].position.z = -0.08;
+    arms[0].rotation.z = 0.34;
+    arms[1].rotation.z = -0.34;
+    body.rotation.x = 0.03;
+    base.headRotX = -0.04;
+  } else if (id === 'shiba') {
+    shift(-0.11);
+    feet[0].position.set(-0.34, 0.2, 0.2);
+    feet[1].position.set(0.34, 0.2, 0.2);
+    move('paw-left', -0.34, 0.09, 0.34);
+    move('paw-right', 0.34, 0.09, 0.34);
+    arms[0].position.set(-0.72, 0.72, 0.3);
+    arms[0].rotation.set(0.8, 0, 0.3);
+    arms[1].position.set(0.72, 0.72, 0.3);
+    arms[1].rotation.set(0.8, 0, -0.3);
+    body.rotation.x = -0.05;
+    base.headRotX = -0.02;
+    base.headRotZ = 0.04;
+  } else if (id === 'koala') {
+    shift(0.01);
+    arms[0].position.set(-0.76, 1.44, 0.28);
+    arms[0].rotation.set(0.2, 0, 0.78);
+    arms[1].position.set(0.76, 1.44, 0.28);
+    arms[1].rotation.set(0.2, 0, -0.78);
+    feet[0].position.set(-0.42, 0.28, 0.08);
+    feet[1].position.set(0.42, 0.28, 0.08);
+    move('pad-left', -0.42, 0.26, 0.3);
+    move('pad-right', 0.42, 0.26, 0.3);
+    body.rotation.z = 0.04;
+    base.headRotX = 0.03;
+    base.headRotZ = 0.06;
+  } else if (id === 'conure') {
+    feet[0].position.set(-0.18, 0.1, 0.2);
+    feet[1].position.set(0.18, 0.1, 0.2);
+    instance.base.liftY = 0;
+    group.rotation.x = 0.05;
+    tail.rotation.x = -2.95;
+    instance.ears[0].rotation.z = 0.1;
+    instance.ears[1].rotation.z = -0.1;
+    base.headRotX = 0.03;
+    base.headRotZ = 0.02;
+  } else if (id === 'fold') {
+    shift(-0.12);
+    feet[0].position.set(-0.3, 0.11, 0.1);
+    feet[1].position.set(0.3, 0.11, 0.1);
+    feet[0].scale.set(1, 0.55, 1);
+    feet[1].scale.set(1, 0.55, 1);
+    move('paw-left', -0.28, 0.06, 0.34);
+    move('paw-right', 0.28, 0.06, 0.34);
+    arms[0].position.set(-0.7, 0.82, 0.12);
+    arms[0].rotation.set(0.9, 0, 0.55);
+    arms[1].position.set(0.7, 0.82, 0.12);
+    arms[1].rotation.set(0.9, 0, -0.55);
+    tail.position.set(0.12, 0.95, -0.5);
+    body.rotation.x = -0.02;
+    base.headRotX = 0.08;
+  }
+  instance.earBaseX = instance.ears.map((ear) => ear.rotation.x);
+};
+
+const applyCutePass = (instance) => {
+  instance.head.scale.multiplyScalar(1.08);
+  instance.body.scale.x *= 1.03;
+  instance.body.scale.z *= 1.03;
+  instance.body.userData.baseScale.copy(instance.body.scale);
+  for (const eye of instance.eyes) {
+    eye.userData.baseScale.multiplyScalar(1.12);
+    eye.scale.copy(eye.userData.baseScale);
+    const extra = sphere(instance.materials, 'glint', {
+      pos: [
+        eye.position.x - Math.sign(eye.position.x || 1) * 0.018,
+        eye.position.y + 0.03,
+        eye.position.z + 0.05,
+      ],
+      scale: [0.018, 0.018, 0.012],
+      name: 'glint-sparkle',
+    });
+    eye.parent.add(extra);
+    instance.glints.push(extra);
+  }
+  for (const glint of instance.glints) glint.scale.multiplyScalar(1.08);
+  for (const cheek of instance.cheeks) {
+    cheek.userData.baseScale.multiplyScalar(1.12);
+    cheek.scale.copy(cheek.userData.baseScale);
+  }
+};
+
 const BUILDERS = { bear: buildBear, bunny: buildBunny, penguin: buildPenguin, shiba: buildShiba, koala: buildKoala, conure: buildConure, fold: buildFold };
 
 
@@ -1664,8 +2003,8 @@ const COAT_CONFIG = {
       { mesh: 'body', role: 'main', count: 420, len: [0.045, 0.1], radius: [0.005, 0.011], minY: -0.4, droop: 0.28, tilt: 0.5 },
       { mesh: 'belly', role: 'belly', count: 140, len: [0.03, 0.07], radius: [0.004, 0.008], minZ: 0.1, droop: 0.12, tilt: 0.4 },
       { mesh: 'head-mesh', role: 'main', count: 200, len: [0.035, 0.08], radius: [0.005, 0.009], minY: -0.05, maxZ: 0.55, droop: 0.1, tilt: 0.5 },
-      { mesh: 'ear-left', role: 'main', count: 110, len: [0.08, 0.18], radius: [0.005, 0.01], droop: 0.05, tilt: 0.6 },
-      { mesh: 'ear-right', role: 'main', count: 110, len: [0.08, 0.18], radius: [0.005, 0.01], droop: 0.05, tilt: 0.6 },
+      { mesh: 'ear-left', role: 'main', count: 110, len: [0.08, 0.18], radius: [0.005, 0.01], droop: 0.05, tilt: 0.6, stretch: [1.0, 1.09, 1.0] },
+      { mesh: 'ear-right', role: 'main', count: 110, len: [0.08, 0.18], radius: [0.005, 0.01], droop: 0.05, tilt: 0.6, stretch: [1.0, 1.09, 1.0] },
       { mesh: 'tail', role: 'belly', count: 80, len: [0.05, 0.12], radius: [0.006, 0.012], droop: 0.2, tilt: 0.8 },
     ],
   },
@@ -1695,8 +2034,8 @@ const COAT_CONFIG = {
       { mesh: 'body', role: 'main', count: 680, len: [0.08, 0.18], radius: [0.007, 0.015], minY: -0.45, droop: 0.35, tilt: 0.55 },
       { mesh: 'belly', role: 'belly', count: 220, len: [0.04, 0.1], radius: [0.005, 0.011], minZ: 0.1, droop: 0.18, tilt: 0.45 },
       { mesh: 'head-mesh', role: 'main', count: 400, len: [0.07, 0.15], radius: [0.006, 0.013], minY: -0.02, maxZ: 0.5, droop: 0.15, tilt: 0.55 },
-      { mesh: 'ear-left', role: 'main', count: 220, len: [0.12, 0.26], radius: [0.007, 0.014], droop: 0.05, tilt: 0.8 },
-      { mesh: 'ear-right', role: 'main', count: 220, len: [0.12, 0.26], radius: [0.007, 0.014], droop: 0.05, tilt: 0.8 },
+      { mesh: 'ear-left', role: 'main', count: 220, len: [0.12, 0.26], radius: [0.007, 0.014], droop: 0.05, tilt: 0.8, stretch: [1.02, 1.12, 1.02] },
+      { mesh: 'ear-right', role: 'main', count: 220, len: [0.12, 0.26], radius: [0.007, 0.014], droop: 0.05, tilt: 0.8, stretch: [1.02, 1.12, 1.02] },
       { mesh: 'tail', role: 'main', count: 80, len: [0.05, 0.12], radius: [0.006, 0.012], droop: 0.2, tilt: 0.8 },
     ],
   },
@@ -1893,8 +2232,8 @@ const addCoatZone = (instance, zone, level, rand) => {
   const config = COAT_CONFIG[instance.id];
   const usesFeather = config?.kind === 'feather';
   const plush = level === 'plush';
-  const shells = plush ? 10 : 5;
-  const thickness = (zone.thickness || (usesFeather ? 0.045 : 0.085)) * (plush ? 1 : 0.55);
+  const shells = plush ? 8 : 4;
+  const thickness = (zone.thickness || (usesFeather ? 0.045 : 0.09)) * (plush ? 1 : 0.58);
   const textureSet = SHELL_TEX[usesFeather ? 'feather' : 'fur'];
   const cutCode = zone.mesh === 'head-mesh' ? 'if (vFurPos.z > 0.58) discard;' :
     zone.mesh === 'body' ? 'if (vFurPos.z > 0.2 && length(vec2(vFurPos.x / 0.78, (vFurPos.y + 0.05) / 0.8)) < 1.0) discard;' :
@@ -1913,6 +2252,7 @@ const addCoatZone = (instance, zone, level, rand) => {
     shell.quaternion.copy(mesh.quaternion);
     const scale = 1.004 + ((layer + 1) / shells) * thickness;
     shell.scale.copy(mesh.scale).multiplyScalar(scale);
+    if (zone.stretch) shell.scale.multiply(new THREE.Vector3(zone.stretch[0], zone.stretch[1], zone.stretch[2]));
     shell.name = `coat-${zone.mesh}-${layer}`;
     shell.castShadow = false;
     shell.receiveShadow = false;
@@ -1926,6 +2266,229 @@ const addCoatZone = (instance, zone, level, rand) => {
   return shells * 180;
 };
 
+
+/* ---------------------------------------------------------- strand fur pass */
+
+const STRAND_UNIFORMS = {
+  time: { value: 0 },
+  breeze: { value: state.fur.breeze },
+  length: { value: state.fur.length },
+  curl: { value: state.fur.curl },
+  clump: { value: state.fur.clump },
+  cursor: { value: new THREE.Vector3(999, 999, 999) },
+};
+
+const makeStrandGeometry = () => {
+  const rows = 4;
+  const positions = [];
+  const colors = [];
+  const indices = [];
+  for (let row = 0; row < rows; row += 1) {
+    const t = row / (rows - 1);
+    const width = (1 - t) * 0.5 + 0.015;
+    const z = t * t * 0.14;
+    const shadeValue = 0.5 + t * 0.75;
+    positions.push(-width, t, z, width, t, z);
+    colors.push(shadeValue, shadeValue, shadeValue, shadeValue, shadeValue, shadeValue);
+    if (row < rows - 1) {
+      const a = row * 2;
+      indices.push(a, a + 2, a + 1, a + 1, a + 2, a + 3);
+    }
+  }
+  const geo = new THREE.BufferGeometry();
+  geo.setAttribute('position', new THREE.Float32BufferAttribute(positions, 3));
+  geo.setAttribute('color', new THREE.Float32BufferAttribute(colors, 3));
+  geo.setIndex(indices);
+  geo.computeVertexNormals();
+  geo.userData.shared = true;
+  return geo;
+};
+
+const STRAND_GEO = makeStrandGeometry();
+
+const strandMaterial = (color) => {
+  const material = new THREE.MeshStandardMaterial({
+    color: new THREE.Color(color),
+    vertexColors: true,
+    side: THREE.DoubleSide,
+    roughness: 0.98,
+    metalness: 0,
+    transparent: true,
+    opacity: 0.62,
+    depthWrite: false,
+  });
+  material.onBeforeCompile = (shader) => {
+    Object.assign(shader.uniforms, STRAND_UNIFORMS);
+    shader.vertexShader = `uniform float uTime;
+uniform float uBreeze;
+uniform float uLength;
+uniform float uCurl;
+uniform float uClump;
+uniform vec3 uCursor;
+${shader.vertexShader}`.replace(
+      '#include <begin_vertex>',
+      `#include <begin_vertex>
+      float strandH = clamp(transformed.y, 0.0, 1.0);
+      vec3 strandRoot = vec3(instanceMatrix[3][0], instanceMatrix[3][1], instanceMatrix[3][2]);
+      float strandPhase = strandRoot.x * 8.0 + strandRoot.z * 6.0 + strandRoot.y * 4.0;
+      transformed.y *= uLength;
+      float wind = sin(uTime * 1.8 + strandPhase) * 0.65 + sin(uTime * 0.9 + strandPhase * 1.7) * 0.35;
+      transformed.x += wind * uBreeze * strandH * strandH * 0.12;
+      transformed.z += cos(uTime * 1.3 + strandPhase) * uBreeze * strandH * strandH * 0.05;
+      transformed.x += sin(strandH * 6.283 + strandPhase) * uCurl * strandH * 0.032;
+      transformed.z += cos(strandH * 6.283 + strandPhase) * uCurl * strandH * 0.024;
+      transformed.x += sin(strandPhase * 0.7) * uClump * strandH * strandH * 0.028;
+      vec2 cursorDelta = strandRoot.xz - uCursor.xz;
+      float cursorPush = smoothstep(1.35, 0.0, length(cursorDelta)) * 0.18;
+      transformed.xz += normalize(cursorDelta + vec2(0.00001)) * cursorPush * strandH * strandH;
+      `,
+    );
+  };
+  material.customProgramCacheKey = () => 'strand-fur';
+  return material;
+};
+
+const disposeStrands = (instance) => {
+  if (!instance?.strandMeshes) return;
+  for (const mesh of instance.strandMeshes) {
+    if (mesh.parent) mesh.parent.remove(mesh);
+    mesh.material?.dispose();
+    mesh.dispose?.();
+  }
+  instance.strandMeshes = [];
+  instance.strandCount = 0;
+  instance.strandMaterials = new Map();
+};
+
+const sampleStrandRoots = (mesh, zone, target, rand, skipBelly = false) => {
+  const surfaceScale = 1.16;
+  const points = [];
+  const normals = [];
+  let attempts = 0;
+  while (points.length < target && attempts < target * 35) {
+    attempts += 1;
+    const u = rand() * 2 - 1;
+    const theta = rand() * Math.PI * 2;
+    const radius = Math.sqrt(Math.max(0, 1 - u * u));
+    const dir = new THREE.Vector3(radius * Math.cos(theta), u, radius * Math.sin(theta));
+    if (zone.minY !== undefined && dir.y < zone.minY) continue;
+    if (zone.maxY !== undefined && dir.y > zone.maxY) continue;
+    if (zone.minZ !== undefined && dir.z < zone.minZ) continue;
+    if (zone.maxZ !== undefined && dir.z > zone.maxZ) continue;
+    if (skipBelly && dir.z > 0.35 && Math.abs(dir.x) < 0.6 && dir.y > -0.35) continue;
+    const point = new THREE.Vector3(dir.x * mesh.scale.x * surfaceScale, dir.y * mesh.scale.y * surfaceScale, dir.z * mesh.scale.z * surfaceScale)
+      .applyQuaternion(mesh.quaternion)
+      .add(mesh.position);
+    const normal = new THREE.Vector3(
+      dir.x / Math.max(0.001, mesh.scale.x ** 2),
+      dir.y / Math.max(0.001, mesh.scale.y ** 2),
+      dir.z / Math.max(0.001, mesh.scale.z ** 2),
+    ).applyQuaternion(mesh.quaternion).normalize();
+    points.push(point.addScaledVector(normal, 0.012));
+    normals.push(normal);
+  }
+  return { points, normals };
+};
+
+const buildStrands = (instance, level) => {
+  if (!instance) return 0;
+  if (level === 'off') {
+    disposeStrands(instance);
+    return 0;
+  }
+  const config = COAT_CONFIG[instance.id];
+  if (!config) return 0;
+  disposeStrands(instance);
+  const maxStrands = level === 'plush' ? 60000 : 30000;
+  const totalWeight = config.zones.reduce((sum, zone) => sum + zone.count, 0) || 1;
+  const rand = mulberry32((instance.fluffSeed || 11) * 131 + 7);
+  instance.strandMeshes = [];
+  instance.strandMaterials = new Map();
+  let total = 0;
+  for (const zone of config.zones) {
+    const mesh = instance.group.getObjectByName(zone.mesh);
+    if (!mesh || !mesh.isMesh) continue;
+    const target = Math.max(1, Math.round((maxStrands * zone.count) / totalWeight));
+    const { points, normals } = sampleStrandRoots(
+      mesh, zone, target, rand,
+      zone.mesh === 'body',
+    );
+    if (!points.length) continue;
+    const material = strandMaterial(strandRoleColor(instance, zone.role).clone().lerp(new THREE.Color('#ffffff'), 0.32));
+    const inst = new THREE.InstancedMesh(STRAND_GEO, material, points.length);
+    inst.name = `strands-${zone.mesh}`;
+    inst.castShadow = false;
+    inst.receiveShadow = false;
+    inst.frustumCulled = false;
+    const matrix = new THREE.Matrix4();
+    const quat = new THREE.Quaternion();
+    const UP_LOCAL = new THREE.Vector3(0, 1, 0);
+    const DOWN_LOCAL = new THREE.Vector3(0, -1, 0);
+    for (let i = 0; i < points.length; i += 1) {
+      const n = normals[i];
+      const tangent = new THREE.Vector3(rand() * 2 - 1, rand() * 2 - 1, rand() * 2 - 1);
+      tangent.addScaledVector(n, -tangent.dot(n));
+      if (tangent.lengthSq() < 1e-6) tangent.set(1, 0, 0);
+      tangent.normalize();
+      const out = n.clone().multiplyScalar(0.85)
+        .addScaledVector(tangent, 0.4)
+        .addScaledVector(DOWN_LOCAL, 0.16 + rand() * 0.28)
+        .normalize();
+      quat.setFromUnitVectors(UP_LOCAL, out);
+      const sideAxis = new THREE.Vector3().crossVectors(n, out);
+      if (sideAxis.lengthSq() < 1e-5) sideAxis.set(1, 0, 0).cross(out);
+      sideAxis.normalize();
+      const faceAxis = new THREE.Vector3().crossVectors(sideAxis, out).normalize();
+      quat.setFromRotationMatrix(new THREE.Matrix4().makeBasis(sideAxis, out, faceAxis));
+      quat.multiply(new THREE.Quaternion().setFromAxisAngle(out, (rand() - 0.5) * 0.8));
+      const length = (zone.len[0] + rand() * (zone.len[1] - zone.len[0])) * 1.55;
+      const width = zone.radius[0] + rand() * (zone.radius[1] - zone.radius[0]);
+      matrix.compose(points[i], quat, new THREE.Vector3(width * 3.0, length, width * 3.0));
+      inst.setMatrixAt(i, matrix);
+    }
+    inst.instanceMatrix.needsUpdate = true;
+    inst.userData.baseCount = points.length;
+    mesh.parent.add(inst);
+    instance.strandMeshes.push(inst);
+    const materials = instance.strandMaterials.get(zone.role) || [];
+    materials.push(material);
+    instance.strandMaterials.set(zone.role, materials);
+    total += points.length;
+  }
+  instance.strandCount = total;
+  applyStrandDensity(instance);
+  updateFurUniforms();
+  return total;
+};
+
+const applyStrandDensity = (instance = rig) => {
+  if (!instance?.strandMeshes) return;
+  let total = 0;
+  for (const mesh of instance.strandMeshes) {
+    const base = mesh.userData.baseCount || 0;
+    const count = Math.max(1, Math.round(base * state.fur.density));
+    mesh.count = count;
+    total += count;
+  }
+  instance.strandCount = total;
+  if (instance === rig) syncCoatButtons();
+};
+
+const updateFurUniforms = () => {
+  STRAND_UNIFORMS.breeze.value = state.fur.breeze;
+  STRAND_UNIFORMS.length.value = state.fur.length;
+  STRAND_UNIFORMS.curl.value = state.fur.curl;
+  STRAND_UNIFORMS.clump.value = state.fur.clump;
+};
+
+const refreshStrandColors = (instance) => {
+  if (!instance?.strandMaterials) return;
+  for (const [role, materials] of instance.strandMaterials.entries()) {
+    const color = strandRoleColor(instance, role).clone().lerp(new THREE.Color('#ffffff'), 0.32);
+    for (const material of materials) material.color.copy(color);
+  }
+};
+
 const applyCoat = (instance, level) => {
   if (!instance) return 0;
   const next = sanitizeCoat(level);
@@ -1934,6 +2497,8 @@ const applyCoat = (instance, level) => {
   instance.coatLevel = next;
   if (next === 'off') {
     instance.fluffCount = 0;
+    instance.strandCount = 0;
+    disposeStrands(instance);
     return 0;
   }
   const config = COAT_CONFIG[instance.id];
@@ -1942,6 +2507,7 @@ const applyCoat = (instance, level) => {
   let count = 0;
   for (const zone of config.zones) count += addCoatZone(instance, zone, next, rand);
   instance.fluffCount = count;
+  buildStrands(instance, next);
   return count;
 };
 
@@ -1985,9 +2551,15 @@ const buildAnimal = (id, colors) => {
   const materials = makeMaterials(colors);
   const instance = BUILDERS[id](materials);
   instance.group.userData.animalId = id;
+  applyCutePass(instance);
+  applyPosture(instance);
   instance.earBases = instance.ears.map((ear) => ear.rotation.z);
   instance.fluff = [];
   instance.fluffMaterials = new Map();
+  instance.strandMeshes = [];
+  instance.strandMaterials = new Map();
+  instance.strandCount = 0;
+  instance.feet.forEach((foot) => { foot.userData.baseY = foot.position.y; });
   applyCoat(instance, sanitizeCoat(state.coat));
   for (const key of ACCESSORIES) {
     const accessory = ACCESSORY_BUILDERS[key]();
@@ -2090,6 +2662,8 @@ const applyI18n = () => {
   updatePetCard();
   renderPresets();
   syncCoatButtons();
+  syncFurSliders();
+  syncLightingButtons();
 };
 
 /* --------------------------------------------------------------- controls */
@@ -2135,6 +2709,94 @@ const syncExpressionButtons = () => {
   }
 };
 
+const LIGHTING_CONFIG = {
+  studio: {
+    hemiSky: '#fff4ea', hemiGround: '#cabfe8', hemi: 2.35,
+    key: '#fff0df', keyIntensity: 3.1, fill: '#ded4ff', fillIntensity: 1.15,
+    rim: '#ffffff', rimIntensity: 1.35, exposure: 1.04,
+    pedestal: '#f2e4e8', pedestalVisible: true, desk: false, clouds: false,
+  },
+  sky: {
+    hemiSky: '#eaf7ff', hemiGround: '#d7d0ff', hemi: 2.7,
+    key: '#fff8ec', keyIntensity: 2.8, fill: '#cfe6ff', fillIntensity: 1.5,
+    rim: '#ffffff', rimIntensity: 1.5, exposure: 1.08,
+    pedestal: '#e9f4ff', pedestalVisible: true, desk: false, clouds: true,
+  },
+  desk: {
+    hemiSky: '#fff1d9', hemiGround: '#c9a98e', hemi: 2.1,
+    key: '#ffe2b8', keyIntensity: 3.5, fill: '#ffd6bd', fillIntensity: 1.0,
+    rim: '#fff6e6', rimIntensity: 1.15, exposure: 1.06,
+    pedestal: '#f2e4e8', pedestalVisible: false, desk: true, clouds: false,
+  },
+};
+
+let currentLighting = 'studio';
+
+const applyLighting = (name) => {
+  const config = LIGHTING_CONFIG[sanitizeLighting(name)];
+  currentLighting = sanitizeLighting(name);
+  hemi.color.set(config.hemiSky);
+  hemi.groundColor.set(config.hemiGround);
+  hemi.intensity = config.hemi;
+  keyLight.color.set(config.key);
+  keyLight.intensity = config.keyIntensity;
+  fillLight.color.set(config.fill);
+  fillLight.intensity = config.fillIntensity;
+  rimLight.color.set(config.rim);
+  rimLight.intensity = config.rimIntensity;
+  renderer.toneMappingExposure = config.exposure;
+  pedestal.material.color.set(config.pedestal);
+  pedestal.visible = config.pedestalVisible;
+  pedestalRim.visible = config.pedestalVisible;
+  deskGroup.visible = config.desk;
+  cloudGroup.visible = config.clouds;
+  document.body.dataset.lighting = currentLighting;
+};
+
+const syncLightingButtons = () => {
+  for (const button of $$('[data-lighting]')) {
+    const active = button.dataset.lighting === state.lighting;
+    button.classList.toggle('is-active', active);
+    button.setAttribute('aria-pressed', String(active));
+  }
+};
+
+const furValueText = (key, value) => {
+  if (key === 'length') return `${Number(value).toFixed(2)}×`;
+  return `${Math.round(Number(value) * 100)}%`;
+};
+
+const syncFurSliders = () => {
+  for (const input of $$('[data-fur]')) {
+    const key = input.dataset.fur;
+    const value = state.fur[key];
+    input.value = String(value);
+    const output = $(`#fur-${key}-value`);
+    if (output) output.textContent = furValueText(key, value);
+  }
+};
+
+const setFur = (key, value, { quiet = true } = {}) => {
+  if (!(key in state.fur)) return;
+  const next = sanitizeFur({ ...state.fur, [key]: value });
+  state.fur = next;
+  syncFurSliders();
+  if (typeof updateFurUniforms === 'function') updateFurUniforms();
+  if (key === 'density' && typeof applyStrandDensity === 'function') applyStrandDensity();
+  persistState();
+  if (!quiet) audio.play('pop');
+};
+
+const setLighting = (name, { quiet = false } = {}) => {
+  if (!LIGHTING_PRESETS.includes(name)) return;
+  state.lighting = name;
+  applyLighting(name);
+  syncLightingButtons();
+  persistState();
+  audio.play('chime');
+  if (!quiet) toast(t('toast.lighting', { name: t(`scene.${name}`) }), '💡');
+};
+
 const syncCoatButtons = () => {
   for (const button of $$('[data-coat]')) {
     const active = button.dataset.coat === state.coat;
@@ -2143,7 +2805,7 @@ const syncCoatButtons = () => {
   }
   const count = $('#coat-strand-count');
   if (count) {
-    const n = (rig?.fluffCount || 0).toLocaleString(state.lang === 'th' ? 'th-TH' : 'en-US');
+    const n = ((rig?.fluffCount || 0) + (rig?.strandCount || 0)).toLocaleString(state.lang === 'th' ? 'th-TH' : 'en-US');
     count.textContent = t('coat.strands', { n });
   }
 };
@@ -2180,6 +2842,7 @@ const setAnimal = (id, { quiet = false } = {}) => {
   scene.add(rig.group);
   applyColors(rig, colors);
   applyAccessories();
+  perchGroup.visible = id === 'conure';
   syncColorInputs(colors);
   syncAnimalButtons();
   syncCoatButtons();
@@ -2311,7 +2974,23 @@ const reactPet = () => {
 
 const raycaster = new THREE.Raycaster();
 const pointer = new THREE.Vector2();
+const cursorPlane = new THREE.Plane(new THREE.Vector3(0, 0, 1), 0);
+const cursorPoint = new THREE.Vector3();
 let pointerDown = null;
+
+renderer.domElement.addEventListener('pointermove', (event) => {
+  const rect = renderer.domElement.getBoundingClientRect();
+  pointer.x = ((event.clientX - rect.left) / rect.width) * 2 - 1;
+  pointer.y = -((event.clientY - rect.top) / rect.height) * 2 + 1;
+  raycaster.setFromCamera(pointer, camera);
+  if (raycaster.ray.intersectPlane(cursorPlane, cursorPoint)) {
+    STRAND_UNIFORMS.cursor.value.copy(cursorPoint);
+  }
+});
+
+renderer.domElement.addEventListener('pointerleave', () => {
+  STRAND_UNIFORMS.cursor.value.set(999, 999, 999);
+});
 
 renderer.domElement.addEventListener('pointerdown', (event) => {
   pointerDown = { x: event.clientX, y: event.clientY, at: performance.now() };
@@ -2400,6 +3079,8 @@ const savePreset = () => {
     accessories: { ...state.accessories },
     expression: state.expression,
     coat: state.coat,
+    lighting: state.lighting,
+    fur: { ...state.fur },
     createdAt: Date.now(),
   };
   presets = sanitizePresets([preset, ...presets]);
@@ -2416,7 +3097,12 @@ const applyPreset = (id) => {
   state.accessories = { ...preset.accessories };
   state.expression = preset.expression;
   state.coat = sanitizeCoat(preset.coat);
+  state.lighting = sanitizeLighting(preset.lighting);
+  state.fur = sanitizeFur(preset.fur);
   setAnimal(preset.animal, { quiet: true });
+  applyLighting(state.lighting);
+  syncLightingButtons();
+  syncFurSliders();
   applyCoat(rig, state.coat);
   syncCoatButtons();
   applyColors(rig, preset.colors);
@@ -2451,7 +3137,7 @@ const captureSnapshot = (size = 2048) => {
   const previousClear = new THREE.Color();
   renderer.getClearColor(previousClear);
   const previousAlpha = renderer.getClearAlpha();
-  const studioProps = [pedestal, pedestalRim, propGroup, sparkles];
+  const studioProps = [pedestal, pedestalRim, propGroup, sparkles, cloudGroup, deskGroup, perchGroup];
   const previousVisibility = studioProps.map((node) => node.visible);
 
   scene.background = null;
@@ -2500,6 +3186,8 @@ const buildShareUrl = () => {
     accessories: state.accessories,
     lang: state.lang,
     coat: state.coat,
+    lighting: state.lighting,
+    fur: state.fur,
   });
   url.hash = '';
   return url.toString();
@@ -2528,6 +3216,14 @@ on('[data-animal]', 'click', (event) => setAnimal(event.currentTarget.dataset.an
 $('#animal-select')?.addEventListener('change', (event) => setAnimal(event.target.value));
 on('[data-expr]', 'click', (event) => setExpression(event.currentTarget.dataset.expr));
 on('[data-coat]', 'click', (event) => setCoat(event.currentTarget.dataset.coat));
+on('[data-lighting]', 'click', (event) => setLighting(event.currentTarget.dataset.lighting));
+for (const input of $$('[data-fur]')) {
+  input.addEventListener('input', (event) => setFur(event.target.dataset.fur, Number(event.target.value)));
+  input.addEventListener('change', () => {
+    persistState();
+    audio.play('pop');
+  });
+}
 on('[data-accessory]', 'click', (event) => {
   const key = event.currentTarget.dataset.accessory;
   setAccessory(key, !state.accessories[key]);
@@ -2638,6 +3334,8 @@ const animate = () => {
     pose[key] = damp(pose[key] ?? target[key], target[key], lambda, dt);
   }
 
+  STRAND_UNIFORMS.time.value = elapsed;
+
   if (rig) {
     const bob = Math.sin(elapsed * 1.45 + rig.seed) * 0.045 * pose.floatAmp * (reducedMotion ? 0.3 : 1);
     let jump = 0;
@@ -2657,7 +3355,10 @@ const animate = () => {
       }
     }
 
-    rig.group.position.y = bob + jump;
+    rig.group.position.y = (rig.base.liftY || 0) + bob + jump;
+    rig.feet.forEach((foot) => {
+      foot.position.y = foot.userData.baseY - (react.active ? 0 : bob);
+    });
     rig.group.rotation.y = spin;
     rig.group.rotation.z = Math.sin(elapsed * 1.1) * 0.012 * pose.floatAmp;
     rig.group.scale.set(squash, 2 - squash, squash);
@@ -2689,15 +3390,15 @@ const animate = () => {
     for (const glint of rig.glints) glint.visible = blink > 0.55;
 
     const tiltWave = Math.sin(elapsed * 1.25) * 0.035 * pose.floatAmp;
-    rig.head.rotation.z = pose.headTilt + tiltWave;
-    rig.head.rotation.x = pose.headNod + Math.sin(elapsed * 0.9) * 0.012;
+    rig.head.rotation.z = (rig.base.headRotZ || 0) + pose.headTilt + tiltWave;
+    rig.head.rotation.x = (rig.base.headRotX || 0) + pose.headNod + Math.sin(elapsed * 0.9) * 0.012;
 
     rig.ears.forEach((ear, index) => {
       const dir = index === 0 ? -1 : 1;
       const base = rig.earBases?.[index] ?? (index === 0 ? -0.16 : 0.16);
       const wiggle = Math.sin(elapsed * (2.3 + pose.tailSpeed * 0.18) + index * 1.4) * pose.earAmp;
       ear.rotation.z = base + dir * wiggle + (index === 0 ? pose.earLift * 0.5 : -pose.earLift * 0.5);
-      ear.rotation.x = -0.04 + Math.sin(elapsed * 1.7 + index) * 0.02;
+      ear.rotation.x = (rig.earBaseX?.[index] ?? -0.04) + Math.sin(elapsed * 1.7 + index) * 0.02;
     });
 
     rig.tail.rotation.z = Math.sin(elapsed * pose.tailSpeed) * pose.tailAmp;
@@ -2747,6 +3448,14 @@ const animate = () => {
   });
 
   pedestalRim.rotation.z = elapsed * 0.05;
+  if (cloudGroup.visible) {
+    cloudGroup.children.forEach((cluster, index) => {
+      const baseX = cluster.userData.baseX ?? 0;
+      const baseY = cluster.userData.baseY ?? 0;
+      cluster.position.x = baseX + Math.sin(elapsed * 0.12 + index * 1.7) * 0.18;
+      cluster.position.y = baseY + Math.sin(elapsed * 0.18 + index) * 0.07;
+    });
+  }
 
   controls.update();
   renderer.render(scene, camera);
@@ -2836,9 +3545,9 @@ const runSelfTest = async () => {
   await check('Coat builds strands and smooth mode clears them', () => {
     const instance = buildAnimal('koala', DEFAULT_COLORS.koala);
     const plush = applyCoat(instance, 'plush');
-    const built = instance.fluff.length > 2 && plush > 300;
+    const built = instance.fluff.length > 2 && plush > 300 && instance.strandMeshes.length > 2 && instance.strandCount > 10000;
     applyCoat(instance, 'off');
-    const cleared = instance.fluff.length === 0 && instance.fluffCount === 0;
+    const cleared = instance.fluff.length === 0 && instance.fluffCount === 0 && instance.strandMeshes.length === 0;
     disposeRig(instance);
     return built && cleared;
   });
@@ -2908,6 +3617,8 @@ const applyShareFromUrl = () => {
   state.colors[shared.animal] = shared.colors;
   state.accessories = shared.accessories;
   state.coat = shared.coat;
+  state.lighting = shared.lighting;
+  state.fur = shared.fur;
   return true;
 };
 
@@ -2922,11 +3633,15 @@ const boot = () => {
   scene.add(rig.group);
   applyColors(rig, state.colors[state.animal]);
   applyAccessories();
+  perchGroup.visible = state.animal === 'conure';
   syncColorInputs(state.colors[state.animal]);
   syncAnimalButtons();
   syncExpressionButtons();
   syncAccessoryButtons();
   syncCoatButtons();
+  syncFurSliders();
+  applyLighting(state.lighting);
+  syncLightingButtons();
   syncSoundButtons();
   updatePetCard();
   updateMeshCount();
@@ -2946,7 +3661,7 @@ const boot = () => {
 
   window.__cute3d = {
     ready: true,
-    version: '1.1.0',
+    version: '1.2.0',
     engine: ENGINE,
     state,
     scene,
@@ -2964,7 +3679,14 @@ const boot = () => {
     setAccessory: (key, value) => setAccessory(key, value, { quiet: true }),
     setColors: (colors) => setColors(colors, { quiet: true }),
     setCoat: (level) => setCoat(level, { quiet: true }),
-    strandCount: () => rig?.fluffCount || 0,
+    setFur: (key, value) => setFur(key, value),
+    setLighting: (name) => setLighting(name, { quiet: true }),
+    strandCount: () => (rig ? (rig.fluffCount || 0) + (rig.strandCount || 0) : 0),
+    furStrands: () => rig?.strandCount || 0,
+    furUniforms: () => ({
+      breeze: STRAND_UNIFORMS.breeze.value,
+      cursor: STRAND_UNIFORMS.cursor.value.toArray(),
+    }),
     setLang: (lang) => setLang(lang, { quiet: true }),
     setSound: (on) => setSound(on, { quiet: true }),
     react: reactPet,

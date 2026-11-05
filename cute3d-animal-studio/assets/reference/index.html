@@ -6,21 +6,21 @@
   <meta name="theme-color" content="#fdf1f4">
   <meta name="color-scheme" content="light">
   <title>Cute3D — Procedural Code-Only Animal Studio</title>
-  <meta name="description" content="A zero-asset 3D animal studio. Meet seven original code-built pets, orbit the studio, dress them up, change their colours and download a transparent PNG. Bilingual English/ไทย, procedural audio, no model files.">
+  <meta name="description" content="A zero-asset 3D animal studio. Meet seven original code-built pets, orbit the studio, dress them up, change their colours and download a transparent PNG. Bilingual English/ไทย, GPU strand fur, three lighting moods, procedural audio, no model files.">
   <meta name="author" content="Somphol Boonjing">
   <meta name="keywords" content="three.js, procedural, 3D, code-only, animal, character studio, WebGL, bilingual">
   <link rel="canonical" href="https://somphol.github.io/cute3d-animal-studio/">
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="Cute3D Animal Studio">
   <meta property="og:title" content="Cute3D — Procedural Code-Only Animal Studio">
-  <meta property="og:description" content="Seven original pets, zero 3D assets. Orbit, customize, animate and download a transparent PNG — all generated in the browser.">
+  <meta property="og:description" content="Seven original pets, up to 60k GPU fur strands, three cozy lighting moods. Orbit, customize, animate and download a transparent PNG.">
   <meta property="og:url" content="https://somphol.github.io/cute3d-animal-studio/">
   <meta property="og:image" content="https://somphol.github.io/cute3d-animal-studio/assets/og-card.png">
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="Cute3D — Procedural Code-Only Animal Studio">
-  <meta name="twitter:description" content="Seven original pets, zero 3D assets. Seven procedural Three.js characters with plush fur and feathers, customizable and downloadable.">
+  <meta name="twitter:description" content="Seven original pets, zero 3D assets. Seven procedural Three.js characters with strand fur, species postures and cozy lighting moods — customizable and downloadable.">
   <meta name="twitter:image" content="https://somphol.github.io/cute3d-animal-studio/assets/og-card.png">
   <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
   <link rel="apple-touch-icon" href="assets/favicon.svg">
@@ -213,9 +213,9 @@
           </div>
         </section>
 
-        <section class="panel-section" aria-labelledby="sec-coat">
+        <section class="panel-section" aria-labelledby="sec-fur">
           <div class="section-head">
-            <h3 id="sec-coat" data-i18n="section.coat">Coat detail</h3>
+            <h3 id="sec-fur" data-i18n="section.fur">Fur studio</h3>
             <span class="section-note" id="coat-strand-count">0 strands</span>
           </div>
           <div class="coat-grid" id="coat-grid" role="group" aria-label="Choose fur or feather detail" data-i18n-aria="a11y.coat">
@@ -232,7 +232,52 @@
               <span data-i18n="coat.plush">Plush</span>
             </button>
           </div>
+          <div class="fur-sliders" id="fur-sliders">
+            <label class="slider-row" for="fur-length">
+              <span class="slider-label" data-i18n="fur.length">Length</span>
+              <input type="range" id="fur-length" data-fur="length" min="0.4" max="1.8" step="0.05" value="1" aria-label="Fur length" data-i18n-aria="a11y.furLength">
+              <output class="slider-value" for="fur-length" id="fur-length-value">1.00×</output>
+            </label>
+            <label class="slider-row" for="fur-density">
+              <span class="slider-label" data-i18n="fur.density">Density</span>
+              <input type="range" id="fur-density" data-fur="density" min="0.1" max="1" step="0.05" value="0.7" aria-label="Fur density" data-i18n-aria="a11y.furDensity">
+              <output class="slider-value" for="fur-density" id="fur-density-value">70%</output>
+            </label>
+            <label class="slider-row" for="fur-curl">
+              <span class="slider-label" data-i18n="fur.curl">Curl</span>
+              <input type="range" id="fur-curl" data-fur="curl" min="0" max="1" step="0.05" value="0.35" aria-label="Fur curl" data-i18n-aria="a11y.furCurl">
+              <output class="slider-value" for="fur-curl" id="fur-curl-value">35%</output>
+            </label>
+            <label class="slider-row" for="fur-clump">
+              <span class="slider-label" data-i18n="fur.clump">Clumping</span>
+              <input type="range" id="fur-clump" data-fur="clump" min="0" max="1" step="0.05" value="0.4" aria-label="Fur clumping" data-i18n-aria="a11y.furClump">
+              <output class="slider-value" for="fur-clump" id="fur-clump-value">40%</output>
+            </label>
+            <label class="slider-row" for="fur-breeze">
+              <span class="slider-label" data-i18n="fur.breeze">Breeze</span>
+              <input type="range" id="fur-breeze" data-fur="breeze" min="0" max="1" step="0.05" value="0.3" aria-label="Breeze strength" data-i18n-aria="a11y.furBreeze">
+              <output class="slider-value" for="fur-breeze" id="fur-breeze-value">30%</output>
+            </label>
+          </div>
           <p class="coat-hint" data-i18n="coat.hint">Real fur and feather volume, generated strand by strand.</p>
+        </section>
+
+        <section class="panel-section" aria-labelledby="sec-scene">
+          <div class="section-head">
+            <h3 id="sec-scene" data-i18n="section.scene">Scene</h3>
+            <span class="section-note" data-i18n="section.sceneNote">Lighting mood</span>
+          </div>
+          <div class="scene-grid" id="scene-grid" role="group" aria-label="Choose a lighting preset" data-i18n-aria="a11y.scene">
+            <button class="scene-btn is-active" type="button" data-lighting="studio" aria-pressed="true">
+              <span aria-hidden="true">☀</span><span data-i18n="scene.studio">Studio</span>
+            </button>
+            <button class="scene-btn" type="button" data-lighting="sky" aria-pressed="false">
+              <span aria-hidden="true">☁</span><span data-i18n="scene.sky">Cloud Sky</span>
+            </button>
+            <button class="scene-btn" type="button" data-lighting="desk" aria-pressed="false">
+              <span aria-hidden="true">☕</span><span data-i18n="scene.desk">Cozy Desk</span>
+            </button>
+          </div>
         </section>
 
         <section class="panel-section" aria-labelledby="sec-colors">
