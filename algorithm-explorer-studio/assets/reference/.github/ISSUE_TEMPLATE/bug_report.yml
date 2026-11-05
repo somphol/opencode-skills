@@ -1,0 +1,73 @@
+name: Bug report
+description: Something in the studio is broken or misleading.
+title: "[bug] "
+labels: ["bug"]
+body:
+  - type: markdown
+    attributes:
+      value: Thanks for taking the time to report a problem. Do not include secrets or personal data.
+  - type: input
+    id: url
+    attributes:
+      label: URL
+      description: Live or local copy, including the hash tab if relevant.
+      placeholder: https://somphol.github.io/algorithm-explorer/#visualizer
+    validations:
+      required: true
+  - type: dropdown
+    id: area
+    attributes:
+      label: Area
+      options:
+        - 3D visualizer
+        - Step engine / custom input
+        - Code viewer
+        - Quiz
+        - Practice tracker
+        - Layout / mobile
+        - Documentation
+        - Other
+    validations:
+      required: true
+  - type: input
+    id: pattern
+    attributes:
+      label: Pattern and step
+      description: Pattern id or title, plus frame number if applicable.
+      placeholder: backtracking · step 24
+  - type: textarea
+    id: repro
+    attributes:
+      label: Steps to reproduce
+      placeholder: |
+        1. Open ...
+        2. Select ...
+        3. Press ...
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected vs actual
+    validations:
+      required: true
+  - type: input
+    id: environment
+    attributes:
+      label: Browser and OS
+      placeholder: Chrome 142 / macOS 15
+  - type: textarea
+    id: console
+    attributes:
+      label: Console output
+      description: Paste relevant errors. Omit tokens and personal paths.
+      render: text
+  - type: checkboxes
+    id: checks
+    attributes:
+      label: Checks
+      options:
+        - label: I searched existing issues.
+          required: true
+        - label: I removed secrets and personal data.
+          required: true

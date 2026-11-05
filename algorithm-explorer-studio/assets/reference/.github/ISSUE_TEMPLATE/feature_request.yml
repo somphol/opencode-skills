@@ -1,0 +1,46 @@
+name: Feature request
+description: Suggest a pattern, quiz question, scene improvement or quality-of-life change.
+title: "[feature] "
+labels: ["enhancement"]
+body:
+  - type: dropdown
+    id: area
+    attributes:
+      label: Area
+      options:
+        - New pattern
+        - Scene / visualization
+        - Step engine
+        - Code listings
+        - Quiz
+        - Practice tracker
+        - Accessibility
+        - Documentation
+    validations:
+      required: true
+  - type: textarea
+    id: problem
+    attributes:
+      label: What learning problem does this solve?
+      description: Describe the recognition or reasoning gap, not just the feature.
+    validations:
+      required: true
+  - type: textarea
+    id: proposal
+    attributes:
+      label: Proposed solution
+    validations:
+      required: true
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Alternatives considered
+  - type: checkboxes
+    id: checks
+    attributes:
+      label: Checks
+      options:
+        - label: This fits the static, no-backend constraint.
+          required: true
+        - label: I checked the roadmap first.
+          required: true

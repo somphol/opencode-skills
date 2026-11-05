@@ -1,0 +1,19 @@
+{
+  "name": "algorithm-explorer",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Interactive 3D study studio for the top 15 software-engineering interview patterns.",
+  "license": "MIT",
+  "author": "Somphol Boonjing",
+  "scripts": {
+    "start": "python3 -m http.server 8080",
+    "test": "node --test tests/engine.test.mjs tests/static.test.mjs",
+    "test:browser": "node tests/browser.test.mjs",
+    "verify": "npm test && npm run test:browser",
+    "screenshot": "node scripts/screenshot.mjs"
+  },
+  "engines": {
+    "node": ">=22"
+  }
+}

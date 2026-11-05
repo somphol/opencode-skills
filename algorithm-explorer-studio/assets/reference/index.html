@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#050912">
+  <meta name="description" content="Algorithm Explorer is an interactive 3D study studio for the top 15 software-engineering interview patterns, with step-by-step visualizations, Python/JavaScript/C++ code, a 30-question quiz and a persistent practice tracker.">
+  <meta name="author" content="Somphol Boonjing">
+  <meta property="og:title" content="Algorithm Explorer: Top 15 SWE Interview Patterns">
+  <meta property="og:description" content="See the pattern, step the algorithm, read the code. 15 interactive 3D visualizers, 61 canonical LeetCode problems and 30 pattern-recognition questions.">
+  <meta property="og:type" content="website">
+  <meta property="og:image" content="assets/og-card.png">
+  <meta name="twitter:card" content="summary_large_image">
+  <title>Algorithm Explorer — Top 15 SWE Interview Patterns</title>
+  <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body data-ready="false">
+  <a class="skip-link" href="#main">Skip to content</a>
+  <div class="ambient" aria-hidden="true">
+    <span class="ambient-orb ambient-orb-a"></span>
+    <span class="ambient-orb ambient-orb-b"></span>
+    <span class="ambient-orb ambient-orb-c"></span>
+    <span class="ambient-grid"></span>
+  </div>
+
+  <header class="topbar">
+    <a class="brand" href="./" aria-label="Algorithm Explorer home">
+      <span class="brand-mark" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></span>
+      <span class="brand-type">
+        <strong>Algorithm Explorer</strong>
+        <small>Top 15 SWE Interview Patterns</small>
+      </span>
+    </a>
+    <nav class="tabs" role="tablist" aria-label="Studio sections">
+      <button class="tab is-active" id="tab-visualizer" role="tab" aria-selected="true" aria-controls="panel-visualizer" data-tab="visualizer"><span aria-hidden="true">◈</span> 3D Visualizer</button>
+      <button class="tab" id="tab-quiz" role="tab" aria-selected="false" aria-controls="panel-quiz" data-tab="quiz"><span aria-hidden="true">◎</span> Interview Quiz</button>
+      <button class="tab" id="tab-practice" role="tab" aria-selected="false" aria-controls="panel-practice" data-tab="practice"><span aria-hidden="true">✓</span> Practice</button>
+    </nav>
+    <div class="top-actions">
+      <button class="icon-btn" id="help-btn" aria-label="How to use and credits" title="How to use (?)">?</button>
+      <button class="icon-btn" id="about-btn" aria-label="About this project" title="About this project">i</button>
+    </div>
+  </header>
+
+  <main id="main">
+    <!-- ============================ VISUALIZER ============================ -->
+    <section class="tab-panel is-active" id="panel-visualizer" role="tabpanel" aria-labelledby="tab-visualizer">
+      <div class="studio">
+        <aside class="pattern-rail" aria-label="The 15 patterns">
+          <div class="rail-head">
+            <span class="eyebrow">Curriculum</span>
+            <strong>15 patterns</strong>
+            <span class="rail-note">Recognize the structure, not the problem.</span>
+          </div>
+          <div class="rail-list" id="pattern-rail"></div>
+          <div class="rail-foot">
+            <div class="rail-progress"><span id="rail-progress-bar"></span></div>
+            <span id="rail-progress-text">0 / 15 explored</span>
+          </div>
+        </aside>
+
+        <section class="stage-panel" aria-label="3D visualization">
+          <div class="stage-head">
+            <div>
+              <span class="eyebrow" id="pattern-index">Pattern 01 / 15</span>
+              <h1 id="pattern-title">Two Pointers</h1>
+              <p id="pattern-kicker">Opposing indices, one pass</p>
+            </div>
+            <div class="stage-badges">
+              <span class="badge badge-time"><small>Time</small><b id="complexity-time">O(n)</b></span>
+              <span class="badge badge-space"><small>Space</small><b id="complexity-space">O(1)</b></span>
+              <button class="ghost-btn" id="reset-camera" title="Reset camera (R)" aria-label="Reset camera">Reset view</button>
+            </div>
+          </div>
+          <div class="stage" id="stage">
+            <div class="stage-loading" id="stage-loading"><span></span><span></span><span></span><em>Building the 3D stage…</em></div>
+            <div class="stage-hint" id="stage-hint">Drag to orbit · scroll to zoom · right-drag to pan</div>
+            <div class="stage-legend" id="stage-legend" aria-hidden="true">
+              <span><i style="background:#57d7ff"></i>active</span>
+              <span><i style="background:#7af0c7"></i>resolved</span>
+              <span><i style="background:#ffb86b"></i>pointer / warning</span>
+            </div>
+            <div class="stage-fallback" id="stage-fallback" hidden></div>
+          </div>
+          <div class="transport" aria-label="Animation controls">
+            <div class="transport-buttons">
+              <button class="control" id="prev-step" aria-label="Previous step" title="Previous step (←)">◀</button>
+              <button class="control control-play" id="play-toggle" aria-label="Play animation" title="Play / pause (Space)"><span id="play-icon">▶</span></button>
+              <button class="control" id="next-step" aria-label="Next step" title="Next step (→)">▶</button>
+              <button class="control control-reset" id="reset-steps" aria-label="Reset animation" title="Reset animation (0)">⟲</button>
+            </div>
+            <div class="transport-progress">
+              <div class="step-meta"><span id="step-counter">Step 1 / 7</span><span id="step-title">Initialize the pointers</span></div>
+              <input type="range" id="step-slider" min="0" max="6" step="1" value="0" aria-label="Animation step">
+            </div>
+            <div class="speed">
+              <label for="speed-slider">Speed</label>
+              <input type="range" id="speed-slider" min="0.4" max="2.6" step="0.2" value="1" aria-label="Playback speed">
+              <output id="speed-value">1.0×</output>
+            </div>
+          </div>
+        </section>
+
+        <aside class="inspector" aria-label="Pattern details">
+          <div class="panel signal-panel">
+            <span class="eyebrow">Signal keywords</span>
+            <p id="pattern-signal">Sorted arrays, pair sums, in-place partitioning, palindromes.</p>
+            <p class="muted" id="pattern-description"></p>
+          </div>
+          <div class="panel step-panel is-current" aria-live="polite">
+            <div class="panel-head"><span class="eyebrow">Current step</span><span class="step-dot" id="step-dot"></span></div>
+            <h2 id="step-heading">Initialize the pointers</h2>
+            <p id="step-note">left = 0, right = 5. The array is sorted so pair order is meaningful.</p>
+            <div class="answer-chip" id="answer-chip" hidden><span>Result</span><strong id="answer-value"></strong></div>
+          </div>
+          <div class="panel input-panel">
+            <div class="panel-head"><label class="eyebrow" for="custom-input" id="input-label">Sorted array | target</label><button class="text-btn" id="reset-input">Default</button></div>
+            <input type="text" id="custom-input" spellcheck="false" autocomplete="off" aria-describedby="input-hint">
+            <p id="input-hint" class="muted small">Comma-separated sorted numbers, then a target after |.</p>
+            <button class="primary-btn" id="apply-input">Apply &amp; visualize</button>
+            <p class="input-error" id="input-error" role="alert" hidden></p>
+          </div>
+          <div class="panel visual-panel">
+            <span class="eyebrow">3D rendering mode</span>
+            <p id="pattern-visual" class="muted"></p>
+            <div class="problem-chips" id="pattern-problems"></div>
+          </div>
+        </aside>
+
+        <section class="code-panel" aria-label="Reference implementation">
+          <div class="code-head">
+            <div>
+              <span class="eyebrow">Reference implementation</span>
+              <strong id="code-caption">Two Pointers · Python</strong>
+            </div>
+            <div class="code-tools">
+              <div class="lang-tabs" role="tablist" aria-label="Programming language">
+                <button class="lang is-active" data-lang="python" role="tab" aria-selected="true">Python</button>
+                <button class="lang" data-lang="javascript" role="tab" aria-selected="false">JavaScript</button>
+                <button class="lang" data-lang="cpp" role="tab" aria-selected="false">C++</button>
+              </div>
+              <button class="ghost-btn" id="copy-code" title="Copy the visible implementation">Copy</button>
+            </div>
+          </div>
+          <div class="code-body">
+            <div class="code-view" id="code-view" role="tabpanel" aria-label="Code with synchronized line highlighting"></div>
+            <aside class="code-notes">
+              <span class="eyebrow">How to read the trace</span>
+              <p>The glowing line is the operation represented by the current 3D step. Step through the animation and the code moves with it.</p>
+              <div class="shortcut-list">
+                <span><kbd>←</kbd><kbd>→</kbd> step</span>
+                <span><kbd>Space</kbd> play</span>
+                <span><kbd>R</kbd> reset view</span>
+                <span><kbd>?</kbd> help</span>
+              </div>
+              <a class="text-link" href="docs/CURRICULUM.md" target="_blank" rel="noopener">Read the curriculum map →</a>
+            </aside>
+          </div>
+        </section>
+      </div>
+    </section>
+
+    <!-- =============================== QUIZ =============================== -->
+    <section class="tab-panel" id="panel-quiz" role="tabpanel" aria-labelledby="tab-quiz" hidden>
+      <div class="quiz-shell">
+        <header class="page-head">
+          <div>
+            <span class="eyebrow">Pattern recognition</span>
+            <h1>Interview Quiz</h1>
+            <p>Read the scenario and choose the pattern you would reach for. Explanations link back to the 3D studio.</p>
+          </div>
+          <div class="scoreboard">
+            <div><span>Score</span><strong id="quiz-score">0</strong></div>
+            <div><span>Streak</span><strong id="quiz-streak">0</strong></div>
+            <div><span>Best</span><strong id="quiz-best">0%</strong></div>
+          </div>
+        </header>
+        <div class="quiz-layout">
+          <section class="quiz-card" aria-live="polite">
+            <div class="quiz-meta">
+              <span id="quiz-count">Question 1 of 30</span>
+              <span class="quiz-pattern" id="quiz-pattern">Two Pointers</span>
+            </div>
+            <div class="quiz-progress"><span id="quiz-progress-bar"></span></div>
+            <h2 id="quiz-question">Loading question…</h2>
+            <div class="quiz-options" id="quiz-options"></div>
+            <div class="quiz-feedback" id="quiz-feedback" hidden>
+              <strong id="quiz-verdict"></strong>
+              <p id="quiz-explain"></p>
+            </div>
+            <div class="quiz-actions">
+              <button class="ghost-btn" id="quiz-review" hidden>Open this pattern in 3D</button>
+              <button class="primary-btn" id="quiz-next" hidden>Next question →</button>
+            </div>
+          </section>
+          <aside class="quiz-side">
+            <div class="panel">
+              <span class="eyebrow">Round map</span>
+              <div class="quiz-dots" id="quiz-dots"></div>
+              <p class="muted small" id="quiz-side-note">One question at a time. Answer to see the reasoning.</p>
+            </div>
+            <div class="panel">
+              <span class="eyebrow">How scoring works</span>
+              <p class="muted small">Correct answers build a streak. Your best completion percentage is stored locally in this browser — no account, no tracking.</p>
+              <button class="ghost-btn" id="quiz-restart">Start a fresh round</button>
+            </div>
+          </aside>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================= PRACTICE ============================= -->
+    <section class="tab-panel" id="panel-practice" role="tabpanel" aria-labelledby="tab-practice" hidden>
+      <div class="practice-shell">
+        <header class="page-head">
+          <div>
+            <span class="eyebrow">Deliberate practice</span>
+            <h1>Practice &amp; Exercises</h1>
+            <p>61 canonical problems grouped by pattern. Check one off when you can derive it from the signal, not from memory.</p>
+          </div>
+          <div class="practice-summary">
+            <div class="ring-stat" id="practice-ring"><span id="practice-percent">0%</span></div>
+            <div><strong id="practice-count">0 / 61</strong><span>completed</span></div>
+          </div>
+        </header>
+        <div class="practice-toolbar">
+          <div class="filter-group" role="group" aria-label="Filter by difficulty">
+            <button class="filter is-active" data-difficulty="all">All</button>
+            <button class="filter" data-difficulty="Easy">Easy</button>
+            <button class="filter" data-difficulty="Medium">Medium</button>
+            <button class="filter" data-difficulty="Hard">Hard</button>
+          </div>
+          <label class="search"><span aria-hidden="true">⌕</span><input type="search" id="practice-search" placeholder="Search problem or pattern…" aria-label="Search practice problems"></label>
+          <button class="text-btn" id="clear-progress">Clear progress</button>
+        </div>
+        <div class="practice-list" id="practice-list"></div>
+        <div class="empty-state" id="practice-empty" hidden>No problems match this filter.</div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-brand">
+      <span class="brand-mark small" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></span>
+      <div><strong>Algorithm Explorer</strong><span>Built with OpenCode + DeepSeek V4.1 Flash</span></div>
+    </div>
+    <nav class="footer-links" aria-label="Project links">
+      <a href="docs/README.md">Docs</a>
+      <a href="docs/CURRICULUM.md">Curriculum</a>
+      <a href="docs/REPRODUCTION.md">Reproduction</a>
+      <a href="state.json">Build state</a>
+      <a href="https://github.com/somphol/algorithm-explorer" target="_blank" rel="noopener">GitHub</a>
+      <a href="LICENSE">MIT</a>
+    </nav>
+    <p class="footer-note">Inspired by Grokking the Coding Interview, NeetCode 150 and Blind 75. LeetCode links belong to LeetCode. No affiliation.</p>
+  </footer>
+
+  <dialog id="help-dialog" class="dialog">
+    <div class="dialog-head"><h2>How to use the studio</h2><button class="icon-btn" data-close aria-label="Close">×</button></div>
+    <div class="dialog-body">
+      <div class="help-grid">
+        <div><span class="help-num">01</span><h3>Pick a pattern</h3><p>Use the curriculum rail, or press <kbd>[</kbd> / <kbd>]</kbd> to move through the 15 patterns.</p></div>
+        <div><span class="help-num">02</span><h3>Step the trace</h3><p>Play, pause, scrub or use <kbd>←</kbd> / <kbd>→</kbd>. The 3D state and the source line change together.</p></div>
+        <div><span class="help-num">03</span><h3>Try your own input</h3><p>Each pattern shows its input grammar. Apply a new array, tree, grid or edge list and the engine rebuilds the trace.</p></div>
+        <div><span class="help-num">04</span><h3>Test recall</h3><p>The quiz asks for pattern recognition, not syntax. Practice checkboxes persist locally.</p></div>
+      </div>
+      <div class="shortcut-table">
+        <span><kbd>←</kbd><kbd>→</kbd></span><em>Previous / next step</em>
+        <span><kbd>Space</kbd></span><em>Play or pause</em>
+        <span><kbd>0</kbd></span><em>Reset the trace</em>
+        <span><kbd>R</kbd></span><em>Reset the camera</em>
+        <span><kbd>[</kbd><kbd>]</kbd></span><em>Previous / next pattern</em>
+        <span><kbd>1</kbd>–<kbd>3</kbd></span><em>Python / JavaScript / C++</em>
+      </div>
+      <p class="muted small">Credits: interface and curriculum built with OpenCode using DeepSeek V4.1 Flash. 3D rendering by Three.js r128 (MIT). LeetCode problem links are outbound references only.</p>
+    </div>
+  </dialog>
+
+  <dialog id="about-dialog" class="dialog">
+    <div class="dialog-head"><h2>About Algorithm Explorer</h2><button class="icon-btn" data-close aria-label="Close">×</button></div>
+    <div class="dialog-body">
+      <p><strong>Algorithm Explorer</strong> is a static, browser-only study studio for the 15 recurring structures behind most software-engineering interview questions. It is inspired by three industry curricula: <em>Grokking the Coding Interview</em> (Design Gurus), the <em>NeetCode 150</em> roadmap, and the <em>Blind 75</em>.</p>
+      <p>Every pattern has a deterministic step engine, a distinct 3D scene, synchronized implementations in Python, JavaScript and C++, canonical LeetCode links, and a recognition quiz. No backend, no account, no analytics.</p>
+      <div class="about-stats" id="about-stats"></div>
+      <p class="muted small">Release 1.0.0 · MIT · Built by Somphol Boonjing with OpenCode + DeepSeek V4.1 Flash. Three.js is pinned to r128 and loaded from a CDN. The visualizations are teaching models, not proofs of correctness.</p>
+      <div class="dialog-links"><a class="text-link" href="docs/ARCHITECTURE.md">Architecture</a><a class="text-link" href="docs/TESTING.md">Testing</a><a class="text-link" href="docs/PRIVACY.md">Privacy</a><a class="text-link" href="https://github.com/somphol/algorithm-explorer">Source</a></div>
+    </div>
+  </dialog>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+  <div class="sr-only" id="sr-status" aria-live="polite"></div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
+  <script src="js/data.js"></script>
+  <script src="js/algorithms.js"></script>
+  <script src="js/scene.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>

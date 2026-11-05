@@ -77,6 +77,12 @@
       "source": "~/.config/opencode/skills/suatsync-3d-studio",
       "description": "Build a bilingual, static 3D chanting and karaoke studio around a sacred or traditional text — synchronized lines, a calibratable timeline, YouTube/local/timer audio, streaks, a procedural mandala, headless verification and a GitHub Pages release.",
       "license": "MIT"
+    },
+    {
+      "name": "algorithm-explorer-studio",
+      "source": "~/.config/opencode/skills/algorithm-explorer-studio",
+      "description": "Build a release-grade, zero-asset 3D algorithm-pattern explorer: 15 deterministic step engines, 15 procedural Three.js scenes, mark-synchronized Python/JS/C++ code, a 30-question quiz, local practice tracking, 106-check verification and a GitHub Pages release.",
+      "license": "MIT"
     }
   ]
 }

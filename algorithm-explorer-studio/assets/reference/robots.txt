@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://somphol.github.io/algorithm-explorer/sitemap.xml

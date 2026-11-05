@@ -1,0 +1,74 @@
+{
+  "project": "Algorithm Explorer: Top 15 SWE Interview Patterns",
+  "release": "1.0.0",
+  "session": {
+    "id": "ses_e537b0205ffeMnEgyEl4LkoM06",
+    "startedAt": "2026-11-05T16:22:39Z",
+    "capturedAt": "2026-11-05T16:22:39Z",
+    "elapsedSeconds": 1,
+    "elapsed": "0m 1s",
+    "note": "Placeholder; replaced with the final OpenCode session capture after release verification."
+  },
+  "model": {
+    "name": "DeepSeek V4.1 Flash",
+    "id": "deepseek-v4.1-flash",
+    "provider": "opencode-go"
+  },
+  "usage": {
+    "inputTokens": 1,
+    "outputTokens": 1,
+    "reasoningTokens": 1,
+    "cacheReadTokens": 1,
+    "cacheWriteTokens": 1,
+    "totalTokens": 5,
+    "costUSD": 0,
+    "note": "Placeholder; read from the OpenCode session database at capture time."
+  },
+  "artifacts": {
+    "sourceFiles": [
+      "index.html",
+      "css/style.css",
+      "js/data.js",
+      "js/algorithms.js",
+      "js/scene.js",
+      "js/app.js"
+    ],
+    "supportingFiles": [
+      "README.md",
+      "AGENTS.md",
+      "CHANGELOG.md",
+      "docs/",
+      "tests/",
+      "scripts/",
+      "assets/",
+      "state.json"
+    ],
+    "lineCounts": {}
+  },
+  "verification": {
+    "method": "Dependency-free Node suites plus headless Chrome over the DevTools Protocol",
+    "engineChecks": 27,
+    "staticChecks": 20,
+    "browserChecks": 35,
+    "selfTestChecks": 24,
+    "totalChecks": 106,
+    "consoleErrors": 0,
+    "notes": "Placeholder counts; final run recorded after release verification."
+  },
+  "deployment": {
+    "repository": "https://github.com/somphol/algorithm-explorer",
+    "pages": "https://somphol.github.io/algorithm-explorer/",
+    "host": "GitHub Pages",
+    "branch": "main",
+    "path": "/",
+    "status": "pending"
+  },
+  "credits": {
+    "tool": "OpenCode",
+    "toolURL": "https://opencode.ai",
+    "model": "DeepSeek V4.1 Flash",
+    "modelID": "opencode-go/deepseek-v4.1-flash",
+    "engine": "Three.js r128 (MIT)",
+    "license": "MIT"
+  }
+}
