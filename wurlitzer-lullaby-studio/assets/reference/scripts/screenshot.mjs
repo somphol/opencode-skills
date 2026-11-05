@@ -75,6 +75,21 @@ try {
   await evaluate(`document.querySelector('.lang-btn[data-lang="en"]').click(); true`);
   await sleep(400);
 
+  // Amber Lounge with large text, showing the display controls.
+  await evaluate(`(() => {
+    document.querySelector('.theme-swatch[data-theme="amber"]').click();
+    document.querySelector('#font-size-group button[data-size="large"]').click();
+    return true;
+  })()`);
+  await sleep(900);
+  await shot('amber.png');
+  await evaluate(`(() => {
+    document.querySelector('.theme-swatch[data-theme="midnight"]').click();
+    document.querySelector('#font-size-group button[data-size="normal"]').click();
+    return true;
+  })()`);
+  await sleep(500);
+
   // Clean stage-only frame for the social card.
   await cdp.send('Emulation.setDeviceMetricsOverride', {
     width: 1200, height: 630, deviceScaleFactor: 1, mobile: false,

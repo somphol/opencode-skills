@@ -89,6 +89,7 @@ test('archive manifest is valid and CORS-friendly', () => {
   assert.equal(result.tracks.length, manifest.tracks.length);
   for (const track of manifest.tracks) {
     assert.match(track.url, /^https:\/\/upload\.wikimedia\.org\//);
+    assert.equal(track.license, 'Public domain');
     assert.ok(track.source.startsWith('https://commons.wikimedia.org/wiki/File:'));
     assert.ok(track.license);
   }
@@ -99,7 +100,7 @@ test('documentation set is present and linked', () => {
     'README.md', 'AGENTS.md', 'CHANGELOG.md', 'CONTRIBUTING.md', 'CODE_OF_CONDUCT.md',
     'SECURITY.md', 'SUPPORT.md', 'LICENSE', 'THIRD_PARTY_NOTICES.md', 'state.json',
     'docs/README.md', 'docs/ARCHITECTURE.md', 'docs/REPRODUCTION.md', 'docs/DESIGN.md',
-    'docs/AUDIO.md', 'docs/TESTING.md', 'docs/DEPLOYMENT.md', 'docs/DECISIONS.md',
+    'docs/AUDIO.md', 'docs/TRACKS.md', 'docs/TESTING.md', 'docs/DEPLOYMENT.md', 'docs/DECISIONS.md',
     'docs/ACCESSIBILITY.md', 'docs/PERFORMANCE.md', 'docs/PRIVACY.md', 'docs/FAQ.md',
     'docs/ROADMAP.md', 'docs/CREDITS.md',
     '.github/workflows/ci.yml', '.github/pull_request_template.md',
@@ -121,14 +122,14 @@ test('documentation set is present and linked', () => {
 
 test('state record names the model, the tool and the verification', () => {
   assert.equal(state.project, 'Vintage Wurlitzer 3D Lullaby Jukebox & Sleep Studio');
-  assert.equal(state.release, '1.0.0');
+  assert.equal(state.release, "1.1.0");
   assert.equal(state.model.name, 'DeepSeek V4.1 Flash');
   assert.equal(state.model.id, 'deepseek-v4.1-flash');
   assert.equal(state.credits.tool, 'OpenCode');
   assert.ok(state.session.elapsedSeconds > 0);
   assert.ok(state.session.elapsed);
   assert.ok(state.usage.totalTokens > 0);
-  assert.ok(state.verification.totalChecks >= 30);
+  assert.ok(state.verification.totalChecks >= 70);
   assert.equal(state.verification.consoleErrors, 0);
   assert.ok(state.deployment.repository.includes('github.com'));
   assert.ok(state.deployment.pages.includes('github.io'));
@@ -157,7 +158,7 @@ test('no credentials, tokens or personal paths leak into the release', () => {
 });
 
 test('CSS carries the art-deco system and responsive breakpoints', () => {
-  for (const token of ['--gold:', '--cream:', '--serif:', 'prefers-reduced-motion', '@media (max-width: 1000px)', 'grid-auto-flow: column']) {
+  for (const token of ['--gold:', '--cream:', '--serif:', 'prefers-reduced-motion', '@media (max-width: 1000px)', 'grid-auto-flow: row']) {
     assert.ok(css.includes(token), `CSS missing ${token}`);
   }
   assert.ok((css.match(/\{/g) || []).length > 250, 'CSS is unexpectedly small');

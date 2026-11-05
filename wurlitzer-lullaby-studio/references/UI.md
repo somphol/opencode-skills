@@ -10,8 +10,10 @@ At ≤1000 px the panels become fixed bottom sheets, hidden until `#tab-songs` /
 `.is-open`; the caption hides when a sheet is open. At ≤560 px the top bar drops the subtitle and the
 free-play text. Panels need `padding-bottom: 58px` so the floating tabs do not cover their last row.
 
-The rack grid uses `grid-auto-flow: column` and `grid-template-rows: repeat(8, …)`, so A-1…B-4 fill the
-left column and C-1…D-4 the right.
+The rack is a 64-slot surface (A-1…H-8) split into eight collection pages. A 3×3 tab grid shows
+All, Lullabies, Music Box, Classical, Folk & World, Dreams I, Dreams II, Bonus and 78s. A page shows
+eight strips as a two-column, row-flow grid; All shows all 64. Search spans every collection, and the
+3D rack mirrors the active page or the current record's collection.
 
 ## Strip markup
 
@@ -29,6 +31,13 @@ left column and C-1…D-4 the right.
 
 `.strip` is a 3-column grid; `.strip-open` spans the first two and has an internal 30 px / 1fr grid.
 Do not nest the star inside the open button.
+
+## Themes and text size
+
+Four themes (`midnight`, `amber`, `emerald`, `rose`) write `body.dataset.theme` and call
+`scene.setTheme()` to recolor the background, fog, bulbs and point lights. Three text sizes
+(`normal`, `large`, `xlarge`) write `body.dataset.font` and use targeted overrides; never use browser
+zoom because the canvas stage is fixed. Both persist and export.
 
 ## Knobs
 

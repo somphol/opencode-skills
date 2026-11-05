@@ -101,6 +101,15 @@
           </button>
         </div>
 
+        <div class="rack-tools">
+          <div id="collection-tabs" class="collection-tabs" role="group" aria-label="Song categories"></div>
+          <div class="rack-filter-row">
+            <label class="sr-only" for="rack-search" data-i18n="searchLabel">Search</label>
+            <input id="rack-search" class="rack-search" type="search" autocomplete="off" placeholder="Search titles or artists" data-i18n-placeholder="searchPlaceholder">
+            <p id="rack-count" class="rack-count">54 records</p>
+          </div>
+        </div>
+
         <div class="rack-scroll">
           <div id="rack-grid" class="rack-grid" role="list" aria-label="Jukebox selections"></div>
         </div>
@@ -112,6 +121,10 @@
               <button class="key" type="button" data-key="B">B</button>
               <button class="key" type="button" data-key="C">C</button>
               <button class="key" type="button" data-key="D">D</button>
+              <button class="key" type="button" data-key="E">E</button>
+              <button class="key" type="button" data-key="F">F</button>
+              <button class="key" type="button" data-key="G">G</button>
+              <button class="key" type="button" data-key="H">H</button>
             </div>
             <div class="keypad-row" role="group" aria-label="Number keys">
               <button class="key key-num" type="button" data-key="1">1</button>
@@ -135,7 +148,7 @@
               <strong id="credit-count">5</strong>
             </div>
           </div>
-          <p class="rack-hint" data-i18n="keypadHint">Press a letter, then a number — just like the real thing.</p>
+          <p class="rack-hint" data-i18n="keypadHint">Press a letter A–H, then a number — just like the real thing.</p>
         </div>
       </aside>
 
@@ -270,6 +283,26 @@
         </div>
         <p class="timer-note" data-i18n="timerNote">Fades to silence over the final two minutes, then dims the lights.</p>
 
+        <div class="display-card">
+          <div class="display-row">
+            <span class="display-label" data-i18n="themeLabel">Theme</span>
+            <div id="theme-swatches" class="theme-swatches" role="group" aria-label="Theme">
+              <button class="theme-swatch" type="button" data-theme="midnight" aria-pressed="true"></button>
+              <button class="theme-swatch" type="button" data-theme="amber" aria-pressed="false"></button>
+              <button class="theme-swatch" type="button" data-theme="emerald" aria-pressed="false"></button>
+              <button class="theme-swatch" type="button" data-theme="rose" aria-pressed="false"></button>
+            </div>
+          </div>
+          <div class="display-row">
+            <span class="display-label" data-i18n="textSizeLabel">Text size</span>
+            <div id="font-size-group" class="font-size-group" role="group" aria-label="Text size">
+              <button type="button" data-size="normal" aria-pressed="true">A</button>
+              <button type="button" data-size="large" aria-pressed="false">A+</button>
+              <button type="button" data-size="xlarge" aria-pressed="false">A++</button>
+            </div>
+          </div>
+        </div>
+
         <div class="panel-actions">
           <button id="export-btn" class="action-btn" type="button">
             <span aria-hidden="true">💾</span>
@@ -318,7 +351,7 @@
       <p class="eyebrow" data-i18n="helpEyebrow">The nickel tour</p>
       <h2 id="help-title" data-i18n="helpTitle">How to play the bubbler</h2>
       <ol class="help-steps">
-        <li><strong data-i18n="helpStep1Title">Pick a strip.</strong> <span data-i18n="helpStep1Body">Click any paper title strip in the rack, or press a letter then a number on the chrome keypad. A-1 through B-4 are synthesized music-box lullabies. C-1 through C-4 are vintage archive streams.</span></li>
+        <li><strong data-i18n="helpStep1Title">Pick a strip.</strong> <span data-i18n="helpStep1Body">Click any paper title strip in the rack, or press a letter then a number on the chrome keypad. A-1 through G-2 are synthesized music-box lullabies across eight collections. H-1 through H-4 are public-domain archive recordings.</span></li>
         <li><strong data-i18n="helpStep2Title">Feed the machine.</strong> <span data-i18n="helpStep2Body">Free Play is on by default. Turn it off and the jukebox needs a quarter for each selection; the coin drops into the slot in 3D.</span></li>
         <li><strong data-i18n="helpStep3Title">Shape the night.</strong> <span data-i18n="helpStep3Body">Turn the four chrome knobs for master volume, bass, treble and ambient mix. Blend rain, waves and crickets underneath the music.</span></li>
         <li><strong data-i18n="helpStep4Title">Set the timer.</strong> <span data-i18n="helpStep4Body">Choose 15, 30 or 60 minutes. The last two minutes fade smoothly to silence, then the cabinet lights go dark.</span></li>

@@ -1,14 +1,14 @@
 {
   "project": "Vintage Wurlitzer 3D Lullaby Jukebox & Sleep Studio",
-  "release": "1.0.0",
+  "release": "1.1.0",
   "session": {
     "id": "ses_e56042271ffePs43L8FfL1gi0s",
     "title": "Vintage Wurlitzer Jukebox Project",
     "startedAt": "2026-11-05T04:33:38Z",
-    "capturedAt": "2026-11-05T05:01:37Z",
-    "elapsedSeconds": 1679,
-    "elapsed": "27m 59s",
-    "note": "One continuous OpenCode session: concept, 3D cabinet, dual audio engines, bilingual UI, four test layers, documentation, GitHub Pages release and the reusable skill. Captured from the OpenCode session database before the final release-state push."
+    "capturedAt": "2026-11-05T05:03:37Z",
+    "elapsedSeconds": 1799,
+    "elapsed": "29m 59s",
+    "note": "One continuous OpenCode session: concept, 3D cabinet, dual audio engines, bilingual UI, four test layers, documentation, GitHub Pages release and the reusable skill. Captured from the OpenCode session database immediately before the final metadata push; only that push and its Pages verification fall outside the counters."
   },
   "model": {
     "name": "DeepSeek V4.1 Flash",
@@ -16,14 +16,14 @@
     "provider": "opencode-go"
   },
   "usage": {
-    "inputTokens": 229149,
-    "outputTokens": 132445,
-    "reasoningTokens": 60086,
-    "cacheReadTokens": 14182912,
+    "inputTokens": 236003,
+    "outputTokens": 135341,
+    "reasoningTokens": 62105,
+    "cacheReadTokens": 15888256,
     "cacheWriteTokens": 1547,
-    "totalTokens": 14606139,
+    "totalTokens": 16323252,
     "costUSD": 0.0,
-    "note": "Read from the OpenCode session database (session_v2) for this session. totalTokens sums all five counters; repeated prompt context (cache reads) dominates. costUSD is 0 on the flat-rate plan. Counters exclude the final release-state push and skill re-sync."
+    "note": "Read from the OpenCode session database (session_v2) for this session. totalTokens sums all five counters; repeated prompt context (cache reads) dominates. costUSD is 0 on the flat-rate plan. Counters exclude the final metadata push only."
   },
   "artifacts": {
     "sourceFiles": [
@@ -32,10 +32,10 @@
       "script.js"
     ],
     "lineCounts": {
-      "index.html": 353,
-      "style.css": 1360,
-      "script.js": 3348,
-      "total": 5061
+      "index.html": 386,
+      "style.css": 1645,
+      "script.js": 3635,
+      "total": 5666
     },
     "supportingFiles": [
       ".editorconfig",
@@ -55,6 +55,7 @@
       "SECURITY.md",
       "SUPPORT.md",
       "THIRD_PARTY_NOTICES.md",
+      "assets/amber.png",
       "assets/favicon.svg",
       "assets/mobile.png",
       "assets/og-card.png",
@@ -79,6 +80,7 @@
       "docs/REPRODUCTION.md",
       "docs/ROADMAP.md",
       "docs/TESTING.md",
+      "docs/TRACKS.md",
       "index.html",
       "robots.txt",
       "script.js",
@@ -92,27 +94,30 @@
       "tests/static.test.mjs"
     ],
     "counts": {
-      "sourceLines": 5061,
-      "trackedFiles": 53,
+      "sourceLines": 5666,
+      "trackedFiles": 55,
       "docs": 14,
       "tests": 5,
       "archiveTracks": 4,
-      "synthTracks": 8
+      "synthTracks": 50,
+      "collections": 8,
+      "totalTracks": 54,
+      "rackSlots": 64
     }
   },
   "verification": {
     "method": "Dependency-free Node suites plus one headless Chrome over the Chrome DevTools Protocol, local and live",
-    "automatedChecks": 22,
-    "browserChecks": 22,
-    "selfTestChecks": 23,
-    "totalChecks": 67,
+    "automatedChecks": 23,
+    "browserChecks": 25,
+    "selfTestChecks": 25,
+    "totalChecks": 73,
     "consoleErrors": 0,
-    "liveBrowserChecks": 22,
+    "liveBrowserChecks": 25,
     "checks": [
-      "Engine (10): note maths, sequences, eight tracks, smoothstep fade, clock, slots/rack, manifest validation, settings normalisation, stepping, export payload",
-      "Repository (12): files, HTML shell, import-map pinning, ids, i18n symmetry, engine purity, manifest provenance, docs links, state fields, no secrets, CSS system",
-      "In-page (23): WebGL, cabinet, 44 bubbles, 30 bulbs, record/tone arm, eight tracks, slots, dictionaries, 16 strips, 12 keys, manifest, C slots, fade, clock, settings, audio graph, synth start/pause, timer, empty slot, export, language, scene state",
-      "Browser (22): boot, self-test, selection, pause/resume, step, coin credit, empty slot, keypad, seek, Thai, favourites, knob, ambient, timer, reload, export, help, mobile sheets, reduced motion, manifest, mute/free-play, zero console errors"
+      "Engine (11): note maths, sequences, fifty tracks, eight collections, smoothstep fade, clock, 64 slots, manifest, settings/themes, stepping, export payload",
+      "Repository (12): files, HTML shell, import-map pinning, ids, i18n symmetry, engine purity, public-domain manifest, docs links, state fields, no secrets, CSS system",
+      "In-page (25): WebGL, cabinet, 44 bubbles, 30 bulbs, record/tone arm, fifty tracks, 64 slots, dictionaries, 16 keys, manifest, H slots, fade, clock, settings, audio graph, synth start/pause, timer, empty slot, export, language, scene state, theme, text size",
+      "Browser (25): boot, self-test, selection, pause/resume, step, coin credit, empty slot, keypad, seek, Thai, category tabs, search, themes/text size, favourites, knob, ambient, timer, reload, export, help, mobile sheets, reduced motion, public-domain manifest, mute/free-play, zero console errors"
     ],
     "scaffoldSelfTest": "22/22 engine+static and 22/22 browser from a clean skill scaffold"
   },
@@ -123,7 +128,7 @@
     "branch": "main",
     "path": "/",
     "status": "live",
-    "verifiedAt": "2026-11-05T05:01:37Z",
+    "verifiedAt": "2026-11-05T05:03:37Z",
     "note": "Pages created through the API on main / root. The 22-check browser suite passed against the live URL with zero console errors; the in-page suite is 23/23."
   },
   "credits": {
@@ -143,6 +148,6 @@
     "source": "https://github.com/somphol/opencode-skills/tree/main/wurlitzer-lullaby-studio",
     "local": "~/.config/opencode/skills/wurlitzer-lullaby-studio",
     "validated": true,
-    "note": "35 files, 0.78 MB. check-skill.mjs passes; a clean scaffold passed 22/22 engine+static and 22/22 headless browser checks. The catalog index serves the current content-hash version."
+    "note": "35 files. The reference is updated to the 50-track, category-tab, theme and text-size release; check-skill.mjs passes and a clean scaffold passes the suites."
   }
 }

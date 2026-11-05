@@ -1,8 +1,9 @@
 # Wurlitzer Lullaby Studio — OpenCode skill
 
 Build a bilingual, static 3D lullaby jukebox and sleep studio: a procedural Wurlitzer 1015 bubbler,
-eight synthesized music-box lullabies, four licensed archive streams, rain/ocean/crickets, a coin
-slot, a smoothstep sleep timer, four test layers and a GitHub Pages release.
+50 synthesized music-box lullabies across eight category pages, four public-domain archive streams,
+rain/ocean/crickets, four themes, three text sizes, a coin slot, a smoothstep sleep timer, four test
+layers and a GitHub Pages release.
 
 ## Install
 
@@ -54,8 +55,8 @@ suites before publishing.
 ## Verification (reference release)
 
 ```sh
-node --test tests/engine.test.mjs tests/static.test.mjs   # 22
-node tests/browser.test.mjs                              # 22 + 23 in-page
+node --test tests/engine.test.mjs tests/static.test.mjs   # 23
+node tests/browser.test.mjs                              # 25 + 25 in-page
 ```
 
 Live: <https://somphol.github.io/vintage-wurlitzer-lullaby-jukebox/>

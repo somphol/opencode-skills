@@ -34,6 +34,11 @@ export const loadTracks = () => {
   return new Function(`${block}; return BUILTIN_TRACKS;`)();
 };
 
+export const loadCollections = () => {
+  const block = `${engineBlock()}\n${tracksBlock()}`;
+  return new Function(`${block}; return COLLECTIONS;`)();
+};
+
 export const loadI18n = () => {
   const block = slice(read('script.js'), '/* I18N:START */', '/* I18N:END */');
   return new Function(`${block}; return I18N;`)();

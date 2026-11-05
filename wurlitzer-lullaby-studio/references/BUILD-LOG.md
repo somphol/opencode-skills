@@ -46,7 +46,22 @@ step's state.
 the zero-console-error gate. Fix: early-return when `navigator.userActivation?.isActive === false`.
 
 **3D rack density.** Sixteen strips at cabinet scale were unreadable. Fix: 3D shows the eight A/B
-records; the DOM rack is the complete 16-slot surface. This is deliberate, not a bug.
+records; the DOM rack is the complete 16-slot surface. This is deliberate, not a bug. In 1.1.0 the
+same rule scales to 64 slots: one eight-record page in 3D, tabs/search in the DOM.
+
+**Rack collapsed to one column.** When the default page dropped from 16 to 8 strips, the old
+`grid-auto-flow: column` with 8 fixed rows put all eight strips in the left column. Fix: row flow with
+two columns; an eight-record page is 4 rows × 2 columns.
+
+**A 50-track list needs category tabs, not a dropdown.** A select hides the collection structure and
+looks like a settings form. A 3×3 tab grid keeps all eight categories visible and matches the
+paper-rack metaphor. Search is separate and spans every collection.
+
+**Themes and text size are two different mechanisms.** CSS variables cannot recolor a WebGL scene;
+call `scene.setTheme()` as well. Browser zoom breaks a fixed canvas stage; use targeted type overrides.
+
+**Don't let reload tests hardcode the previous step's record.** B-2 is `au-clair` in the 50-track
+library, not the old `hush`. Derive expected ids from the catalogue or update them with the slots.
 
 **Mobile tab overlap.** Floating tabs covered the last hint row. Fix: 58 px bottom padding on mobile
 panels.

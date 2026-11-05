@@ -30,7 +30,7 @@ const I18N = {
     favoritesOnly: 'Favorites',
     insertQuarter: 'Insert quarter',
     credits: 'Credits',
-    keypadHint: 'Press a letter, then a number — just like the real thing.',
+    keypadHint: 'Press a letter A–H, then a number — just like the real thing.',
     nowPlaying: 'Now playing',
     dragHint: 'Drag to orbit · scroll to zoom · click a strip to play',
     studioEyebrow: 'Late-night controls',
@@ -57,7 +57,7 @@ const I18N = {
     helpEyebrow: 'The nickel tour',
     helpTitle: 'How to play the bubbler',
     helpStep1Title: 'Pick a strip.',
-    helpStep1Body: 'Click any paper title strip in the rack, or press a letter then a number on the chrome keypad. A-1 through B-4 are synthesized music-box lullabies. C-1 through C-4 are vintage archive streams.',
+    helpStep1Body: 'Click any paper title strip in the rack, or press a letter A–H then a number on the chrome keypad. A-1 through G-2 are synthesized music-box lullabies across eight collections. H-1 through H-4 are public-domain archive recordings.',
     helpStep2Title: 'Feed the machine.',
     helpStep2Body: 'Free Play is on by default. Turn it off and the jukebox needs a quarter for each selection; the coin drops into the slot in 3D.',
     helpStep3Title: 'Shape the night.',
@@ -89,7 +89,7 @@ const I18N = {
     statusManifestError: 'The archive manifest was unavailable. Synth tracks still work.',
     statusNoCredits: 'The coin slot is empty. Insert a quarter or switch to Free Play.',
     statusCoin: 'Quarter inserted. Pick a record.',
-    statusEmptySlot: 'That slot is empty. Try A-1 through C-4.',
+    statusEmptySlot: 'That slot is empty. Try another letter and number.',
     statusFavAdded: 'Saved to favorites.',
     statusFavRemoved: 'Removed from favorites.',
     statusExported: 'Settings exported as JSON.',
@@ -133,6 +133,25 @@ const I18N = {
     favoriteAdd: 'Add to favorites',
     favoriteRemove: 'Remove from favorites',
     language: 'Language',
+    collectionLabel: 'Collection',
+    searchLabel: 'Search',
+    searchPlaceholder: 'Search titles or artists',
+    allRecords: 'All',
+    recordsCount: '{n} records',
+    resultsCount: '{n} results',
+    noResults: 'No records match that search.',
+    synthTracks: 'synth lullabies',
+    archiveTracks: 'archive streams',
+    collectionAll: 'Every record',
+    themeLabel: 'Theme',
+    textSizeLabel: 'Text size',
+    themeMidnight: 'Midnight',
+    themeAmber: 'Amber Lounge',
+    themeEmerald: 'Emerald Club',
+    themeRose: 'Rose Salon',
+    textNormal: 'Normal text',
+    textLarge: 'Large text',
+    textXLarge: 'Extra-large text',
     manifestCredit: 'Archive audio',
     statusLoadingTrack: 'Fetching the archive stream…',
   },
@@ -145,7 +164,7 @@ const I18N = {
     favoritesOnly: 'รายการโปรด',
     insertQuarter: 'หยอดเหรียญ 25 เซนต์',
     credits: 'เครดิต',
-    keypadHint: 'กดตัวอักษร แล้วกดตัวเลข — เหมือนเครื่องจริง',
+    keypadHint: 'กดตัวอักษร A–H แล้วกดตัวเลข — เหมือนเครื่องจริง',
     nowPlaying: 'กำลังเล่น',
     dragHint: 'ลากเพื่อหมุน · เลื่อนเพื่อซูม · คลิกแถบเพลงเพื่อเล่น',
     studioEyebrow: 'ปุ่มควบคุมยามดึก',
@@ -172,7 +191,7 @@ const I18N = {
     helpEyebrow: 'ทัวร์สั้น ๆ',
     helpTitle: 'วิธีเล่นตู้เพลงบับเบิล',
     helpStep1Title: 'เลือกแถบเพลง',
-    helpStep1Body: 'คลิกแถบชื่อเพลงในชั้น หรือกดตัวอักษรแล้วตัวเลขบนแป้นโครเมียม A-1 ถึง B-4 เป็นเพลงกล่อมสังเคราะห์ ส่วน C-1 ถึง C-4 เป็นเสียงจากคลังเก่า',
+    helpStep1Body: 'คลิกแถบชื่อเพลงในชั้น หรือกดตัวอักษร A–H แล้วตัวเลขบนแป้นโครเมียม A-1 ถึง G-2 เป็นเพลงกล่อมสังเคราะห์แปดคอลเลกชัน ส่วน H-1 ถึง H-4 เป็นเสียงจากคลังเก่าที่เป็นสาธารณสมบัติ',
     helpStep2Title: 'หยอดเหรียญ',
     helpStep2Body: 'โหมดเล่นฟรีเปิดอยู่โดยค่าเริ่มต้น ถ้าปิด จะต้องหยอดเหรียญทุกครั้งที่เลือกเพลง และเหรียญจะร่วงลงช่องในฉาก 3 มิติ',
     helpStep3Title: 'ปรับบรรยากาศ',
@@ -204,7 +223,7 @@ const I18N = {
     statusManifestError: 'ไม่พบรายการเสียงคลังเก่า เพลงสังเคราะห์ยังเล่นได้',
     statusNoCredits: 'ช่องเหรียญว่าง หยอดเหรียญหรือเปิดโหมดเล่นฟรี',
     statusCoin: 'หยอดเหรียญแล้ว เลือกแผ่นเสียงได้',
-    statusEmptySlot: 'ช่องนี้ว่าง ลอง A-1 ถึง C-4',
+    statusEmptySlot: 'ช่องนี้ว่าง ลองตัวอักษรและตัวเลขอื่น',
     statusFavAdded: 'บันทึกในรายการโปรดแล้ว',
     statusFavRemoved: 'นำออกจากรายการโปรดแล้ว',
     statusExported: 'ส่งออกการตั้งค่าเป็น JSON แล้ว',
@@ -248,6 +267,25 @@ const I18N = {
     favoriteAdd: 'เพิ่มในรายการโปรด',
     favoriteRemove: 'นำออกจากรายการโปรด',
     language: 'ภาษา',
+    collectionLabel: 'คอลเลกชัน',
+    searchLabel: 'ค้นหา',
+    searchPlaceholder: 'ค้นหาชื่อเพลงหรือศิลปิน',
+    allRecords: 'ทั้งหมด',
+    recordsCount: '{n} แผ่น',
+    resultsCount: '{n} ผลลัพธ์',
+    noResults: 'ไม่พบแผ่นเสียงที่ตรงกัน',
+    synthTracks: 'เพลงสังเคราะห์',
+    archiveTracks: 'เสียงจากคลัง',
+    collectionAll: 'ทุกคอลเลกชัน',
+    themeLabel: 'ธีม',
+    textSizeLabel: 'ขนาดตัวอักษร',
+    themeMidnight: 'เที่ยงคืน',
+    themeAmber: 'เลานจ์อำพัน',
+    themeEmerald: 'คลับมรกต',
+    themeRose: 'ซาลอนกุหลาบ',
+    textNormal: 'ขนาดปกติ',
+    textLarge: 'ขนาดใหญ่',
+    textXLarge: 'ขนาดใหญ่มาก',
     manifestCredit: 'เสียงจากคลัง',
     statusLoadingTrack: 'กำลังโหลดเสียงจากคลัง…',
   },
@@ -320,25 +358,25 @@ function formatClock(totalSeconds) {
 }
 
 const SLOT_ORDER = [
-  ...['A', 'B', 'C', 'D'].flatMap((letter) => [1, 2, 3, 4].map((n) => `${letter}-${n}`)),
+  ...['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H'].flatMap((letter) => [1, 2, 3, 4, 5, 6, 7, 8].map((n) => `${letter}-${n}`)),
 ];
 
 function slotOf(letter, number) {
   const L = String(letter).toUpperCase();
   const N = Number(number);
-  if (!/^[A-D]$/.test(L) || !Number.isInteger(N) || N < 1 || N > 8) return null;
+  if (!/^[A-H]$/.test(L) || !Number.isInteger(N) || N < 1 || N > 8) return null;
   return `${L}-${N}`;
 }
 
 function slotParts(slot) {
-  const match = /^([A-D])-([1-8])$/.exec(String(slot));
+  const match = /^([A-H])-([1-8])$/.exec(String(slot));
   return match ? { letter: match[1], number: Number(match[2]) } : null;
 }
 
 function slotOrder(slot) {
   const parts = slotParts(slot);
   if (!parts) return 999;
-  return ['A', 'B', 'C', 'D'].indexOf(parts.letter) * 4 + (parts.number - 1);
+  return ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H'].indexOf(parts.letter) * 8 + (parts.number - 1);
 }
 
 function buildRack(builtins = [], externals = []) {
@@ -363,6 +401,8 @@ const DEFAULT_SETTINGS = Object.freeze({
   lastTrack: 'brahms',
   favorites: Object.freeze([]),
   muted: false,
+  theme: 'midnight',
+  fontSize: 'normal',
 });
 
 function normalizeSettings(raw) {
@@ -389,6 +429,8 @@ function normalizeSettings(raw) {
     lastTrack: typeof source.lastTrack === 'string' ? source.lastTrack.slice(0, 64) : 'brahms',
     favorites,
     muted: source.muted === true,
+    theme: ['midnight', 'amber', 'emerald', 'rose'].includes(source.theme) ? source.theme : 'midnight',
+    fontSize: ['normal', 'large', 'xlarge'].includes(source.fontSize) ? source.fontSize : 'normal',
   };
 }
 
@@ -402,7 +444,7 @@ function validateManifest(data) {
   for (const [index, raw] of data.tracks.entries()) {
     if (!raw || typeof raw !== 'object') { errors.push(`track ${index} is not an object`); continue; }
     const slot = String(raw.slot || '').toUpperCase();
-    if (!/^[C-D]-[1-8]$/.test(slot)) { errors.push(`track ${index} has an invalid slot`); continue; }
+    if (!/^[C-H]-[1-8]$/.test(slot)) { errors.push(`track ${index} has an invalid slot`); continue; }
     if (seen.has(slot)) { errors.push(`duplicate slot ${slot}`); continue; }
     if (typeof raw.url !== 'string' || !/^https:\/\//.test(raw.url)) { errors.push(`track ${slot} needs an https URL`); continue; }
     if (typeof raw.title !== 'string' || !raw.title.trim()) { errors.push(`track ${slot} needs a title`); continue; }
@@ -411,6 +453,7 @@ function validateManifest(data) {
       id: String(raw.id || `stream-${slot.toLowerCase()}`).slice(0, 64),
       slot,
       engine: 'stream',
+      collection: slot[0],
       title: { en: raw.title.trim().slice(0, 80), th: String(raw.titleTh || raw.title).trim().slice(0, 80) },
       artist: { en: String(raw.artist || 'Archive recording').slice(0, 80), th: String(raw.artistTh || raw.artist || 'บันทึกจากคลัง').slice(0, 80) },
       url: raw.url,
@@ -450,55 +493,94 @@ function exportPayload(settings, tracks, isoTimestamp) {
 /* ------------------------------------------------------------------ */
 
 /* TRACKS:START */
+const COLLECTIONS = [
+  { letter: 'A', en: 'Lullabies', th: 'เพลงกล่อม' },
+  { letter: 'B', en: 'Music Box', th: 'กล่องดนตรี' },
+  { letter: 'C', en: 'Classical', th: 'คลาสสิก' },
+  { letter: 'D', en: 'Folk & World', th: 'พื้นบ้าน' },
+  { letter: 'E', en: 'Dreams I', th: 'ฝัน I' },
+  { letter: 'F', en: 'Dreams II', th: 'ฝัน II' },
+  { letter: 'G', en: 'Bonus', th: 'โบนัส' },
+  { letter: 'H', en: '78s', th: '78 รอบ' },
+];
+
+const THEMES = [
+  { id: 'midnight', en: 'Midnight', th: 'เที่ยงคืน', bg: 0x05070d, fog: 0x05070d, bulb: 0xffa83e, rose: 0xe0748f, teal: 0x5ec9c0 },
+  { id: 'amber', en: 'Amber Lounge', th: 'เลานจ์อำพัน', bg: 0x0a0704, fog: 0x0a0704, bulb: 0xffb35c, rose: 0xe09a6a, teal: 0xd8b06a },
+  { id: 'emerald', en: 'Emerald Club', th: 'คลับมรกต', bg: 0x030a08, fog: 0x030a08, bulb: 0xd8c987, rose: 0x7fd3a8, teal: 0x4fc9a8 },
+  { id: 'rose', en: 'Rose Salon', th: 'ซาลอนกุหลาบ', bg: 0x0b0508, fog: 0x0b0508, bulb: 0xffc3a8, rose: 0xe88fa1, teal: 0xd8a6c7 },
+];
+
+const T = (id, slot, en, th, artist, artistTh, bpm, wave, notes, accent = '#e6c07b') => ({
+  id, slot, engine: 'synth', collection: slot[0], bpm, wave, gain: 0.48, accent,
+  rights: artist === 'Wurlitzer Dream Division' ? 'original' : 'public-domain',
+  title: { en, th }, artist: { en: artist, th: artistTh }, notes,
+});
+
 const BUILTIN_TRACKS = [
-  {
-    id: 'brahms', slot: 'A-1', engine: 'synth', bpm: 66, wave: 'triangle', gain: 0.5, accent: '#e6c07b',
-    title: { en: "Brahms' Lullaby", th: 'เพลงกล่อมของบราห์มส์' },
-    artist: { en: 'Johannes Brahms', th: 'โยฮันเนส บราห์มส์' },
-    notes: 'G4:2 G4:1 B4:3 G4:2 G4:1 B4:3 G4:2 B4:1 E5:3 D5:2 C5:1 B4:3 A4:2 A4:1 C5:3 A4:2 A4:1 C5:3 A4:2 C5:1 F5:3 E5:2 D5:1 C5:3 G4:2 G4:1 B4:3 G4:2 G4:1 B4:3 G4:2 B4:1 E5:3 D5:2 C5:1 B4:3 A4:2 A4:1 C5:3 A4:2 A4:1 C5:3 A4:2 C5:1 F5:3 E5:2 D5:1 C5:3',
-  },
-  {
-    id: 'twinkle', slot: 'A-2', engine: 'synth', bpm: 72, wave: 'sine', gain: 0.46, accent: '#9ac8e8',
-    title: { en: 'Twinkle, Twinkle, Little Star', th: 'ดาวน้อยดวงน้อย' },
-    artist: { en: 'Traditional', th: 'เพลงพื้นบ้าน' },
-    notes: 'C4:1 C4:1 G4:1 G4:1 A4:1 A4:1 G4:2 F4:1 F4:1 E4:1 E4:1 D4:1 D4:1 C4:2 G4:1 G4:1 F4:1 F4:1 E4:1 E4:1 D4:2 G4:1 G4:1 F4:1 F4:1 E4:1 E4:1 D4:2 C4:1 C4:1 G4:1 G4:1 A4:1 A4:1 G4:2 F4:1 F4:1 E4:1 E4:1 D4:1 D4:1 C4:2',
-  },
-  {
-    id: 'mozart', slot: 'A-3', engine: 'synth', bpm: 64, wave: 'triangle', gain: 0.48, accent: '#d8a6c7',
-    title: { en: "Mozart's Cradle Song", th: 'เพลงกล่อมของโมสาร์ท' },
-    artist: { en: 'Wolfgang A. Mozart (attr.)', th: 'โวล์ฟกัง อมาเดอุส โมสาร์ท' },
-    notes: 'F4:2 F4:1 A4:3 C5:2 C5:1 A4:3 G4:2 Bb4:1 D5:3 C5:2 Bb4:1 A4:3 G4:2 F4:1 G4:3 A4:2 Bb4:1 C5:3 F4:2 F4:1 A4:3 C5:2 C5:1 A4:3 G4:2 Bb4:1 D5:3 C5:2 Bb4:1 A4:3 G4:2 F4:1 E4:3 F4:3',
-  },
-  {
-    id: 'schubert', slot: 'A-4', engine: 'synth', bpm: 60, wave: 'sine', gain: 0.48, accent: '#b6c99a',
-    title: { en: "Schubert's Lullaby", th: 'เพลงกล่อมของชูเบิร์ต' },
-    artist: { en: 'Franz Schubert', th: 'ฟรันทซ์ ชูเบิร์ต' },
-    notes: 'Eb4:2 G4:2 Bb4:2 G4:2 Eb4:2 F4:1 G4:1 Ab4:4 G4:2 Eb4:2 C4:2 Eb4:2 F4:2 G4:1 Ab4:1 Bb4:4 Eb4:2 G4:2 Bb4:2 G4:2 Eb4:2 F4:1 G4:1 Ab4:2 G4:2 F4:2 Eb4:4',
-  },
-  {
-    id: 'rockabye', slot: 'B-1', engine: 'synth', bpm: 58, wave: 'triangle', gain: 0.5, accent: '#e0a184',
-    title: { en: 'Rock-a-bye Baby', th: 'หลับตานะหนูน้อย' },
-    artist: { en: 'Traditional', th: 'เพลงพื้นบ้าน' },
-    notes: 'G4:2 E4:2 E4:2 G4:2 E4:2 E4:2 D4:2 E4:1 F4:3 D4:2 C4:4 G4:2 E4:2 E4:2 G4:2 E4:2 E4:2 D4:2 E4:1 F4:3 D4:2 C4:4',
-  },
-  {
-    id: 'hush', slot: 'B-2', engine: 'synth', bpm: 68, wave: 'triangle', gain: 0.46, accent: '#c7a6d8',
-    title: { en: 'Hush, Little Baby', th: 'เงียบเถอะที่รัก' },
-    artist: { en: 'Traditional', th: 'เพลงพื้นบ้าน' },
-    notes: 'G4:2 G4:1 E4:3 G4:2 G4:1 E4:3 D4:2 D4:1 E4:2 D4:1 C4:2 A3:2 G4:2 G4:1 E4:3 G4:2 G4:1 E4:3 D4:2 E4:1 G4:2 E4:1 D4:2 C4:2',
-  },
-  {
-    id: 'frere', slot: 'B-3', engine: 'synth', bpm: 54, wave: 'sine', gain: 0.46, accent: '#8fd0c8',
-    title: { en: 'Frère Jacques (Sleep)', th: 'ฟแอร์ฌัก (ฉบับกล่อม)' },
-    artist: { en: 'Traditional French', th: 'เพลงพื้นบ้านฝรั่งเศส' },
-    notes: 'C4:2 D4:2 E4:2 C4:2 C4:2 D4:2 E4:2 C4:2 E4:2 F4:2 G4:4 E4:2 F4:2 G4:4 G4:1 A4:1 G4:1 F4:1 E4:2 C4:2 G4:1 A4:1 G4:1 F4:1 E4:2 C4:2 C4:2 G3:2 C4:4 C4:2 G3:2 C4:4',
-  },
-  {
-    id: 'golden', slot: 'B-4', engine: 'synth', bpm: 62, wave: 'triangle', gain: 0.48, accent: '#e6c07b',
-    title: { en: 'Golden Slumbers', th: 'ราตรีทอง' },
-    artist: { en: 'Traditional English', th: 'เพลงพื้นบ้านอังกฤษ' },
-    notes: 'C4:2 C4:1 E4:3 G4:2 E4:1 C4:3 D4:2 E4:1 F4:3 D4:2 B3:2 C4:4 E4:2 G4:1 A4:3 G4:2 E4:1 D4:3 C4:2 D4:1 E4:3 D4:2 C4:2 C4:4',
-  },
+  // A — Classic Lullabies
+  T('brahms', 'A-1', "Brahms' Lullaby", 'เพลงกล่อมของบราห์มส์', 'Johannes Brahms', 'โยฮันเนส บราห์มส์', 66, 'triangle', 'G4:2 G4:1 B4:3 G4:2 G4:1 B4:3 G4:2 B4:1 E5:3 D5:2 C5:1 B4:3 A4:2 A4:1 C5:3 A4:2 A4:1 C5:3 A4:2 C5:1 F5:3 E5:2 D5:1 C5:3 G4:2 G4:1 B4:3 G4:2 G4:1 B4:3 G4:2 B4:1 E5:3 D5:2 C5:1 B4:3 A4:2 A4:1 C5:3 A4:2 A4:1 C5:3 A4:2 C5:1 F5:3 E5:2 D5:1 C5:3', '#e6c07b'),
+  T('twinkle', 'A-2', 'Twinkle, Twinkle, Little Star', 'ดาวน้อยดวงน้อย', 'Traditional', 'เพลงพื้นบ้าน', 72, 'sine', 'C4:1 C4:1 G4:1 G4:1 A4:1 A4:1 G4:2 F4:1 F4:1 E4:1 E4:1 D4:1 D4:1 C4:2 G4:1 G4:1 F4:1 F4:1 E4:1 E4:1 D4:2 G4:1 G4:1 F4:1 F4:1 E4:1 E4:1 D4:2 C4:1 C4:1 G4:1 G4:1 A4:1 A4:1 G4:2 F4:1 F4:1 E4:1 E4:1 D4:1 D4:1 C4:2', '#9ac8e8'),
+  T('mozart', 'A-3', "Mozart's Cradle Song", 'เพลงกล่อมของโมสาร์ท', 'Wolfgang A. Mozart (attr.)', 'โวล์ฟกัง อมาเดอุส โมสาร์ท', 64, 'triangle', 'F4:2 F4:1 A4:3 C5:2 C5:1 A4:3 G4:2 Bb4:1 D5:3 C5:2 Bb4:1 A4:3 G4:2 F4:1 G4:3 A4:2 Bb4:1 C5:3 F4:2 F4:1 A4:3 C5:2 C5:1 A4:3 G4:2 Bb4:1 D5:3 C5:2 Bb4:1 A4:3 G4:2 F4:1 E4:3 F4:3', '#d8a6c7'),
+  T('schubert', 'A-4', "Schubert's Lullaby", 'เพลงกล่อมของชูเบิร์ต', 'Franz Schubert', 'ฟรันทซ์ ชูเบิร์ต', 60, 'sine', 'Eb4:2 G4:2 Bb4:2 G4:2 Eb4:2 F4:1 G4:1 Ab4:4 G4:2 Eb4:2 C4:2 Eb4:2 F4:2 G4:1 Ab4:1 Bb4:4 Eb4:2 G4:2 Bb4:2 G4:2 Eb4:2 F4:1 G4:1 Ab4:2 G4:2 F4:2 Eb4:4', '#b6c99a'),
+  T('rockabye', 'A-5', 'Rock-a-bye Baby', 'หลับตานะหนูน้อย', 'Traditional', 'เพลงพื้นบ้าน', 58, 'triangle', 'G4:2 E4:2 E4:2 G4:2 E4:2 E4:2 D4:2 E4:1 F4:3 D4:2 C4:4 G4:2 E4:2 E4:2 G4:2 E4:2 E4:2 D4:2 E4:1 F4:3 D4:2 C4:4', '#e0a184'),
+  T('hush', 'A-6', 'Hush, Little Baby', 'เงียบเถอะที่รัก', 'Traditional', 'เพลงพื้นบ้าน', 68, 'triangle', 'G4:2 G4:1 E4:3 G4:2 G4:1 E4:3 D4:2 D4:1 E4:2 D4:1 C4:2 A3:2 G4:2 G4:1 E4:3 G4:2 G4:1 E4:3 D4:2 E4:1 G4:2 E4:1 D4:2 C4:2', '#c7a6d8'),
+  T('frere', 'A-7', 'Frère Jacques (Sleep)', 'ฟแอร์ฌัก (ฉบับกล่อม)', 'Traditional French', 'เพลงพื้นบ้านฝรั่งเศส', 54, 'sine', 'C4:2 D4:2 E4:2 C4:2 C4:2 D4:2 E4:2 C4:2 E4:2 F4:2 G4:4 E4:2 F4:2 G4:4 G4:1 A4:1 G4:1 F4:1 E4:2 C4:2 G4:1 A4:1 G4:1 F4:1 E4:2 C4:2 C4:2 G3:2 C4:4 C4:2 G3:2 C4:4', '#8fd0c8'),
+  T('golden', 'A-8', 'Golden Slumbers', 'ราตรีทอง', 'Traditional English', 'เพลงพื้นบ้านอังกฤษ', 62, 'triangle', 'C4:2 C4:1 E4:3 G4:2 E4:1 C4:3 D4:2 E4:1 F4:3 D4:2 B3:2 C4:4 E4:2 G4:1 A4:3 G4:2 E4:1 D4:3 C4:2 D4:1 E4:3 D4:2 C4:2 C4:4', '#e6c07b'),
+
+  // B — Music Box Sessions
+  T('all-through', 'B-1', 'All Through the Night', 'ตลอดทั้งคืน', 'Welsh Traditional', 'เพลงพื้นบ้านเวลส์', 60, 'triangle', 'G4:2 G4:1 A4:1 Bb4:2 G4:2 Eb4:2 G4:2 F4:1 Eb4:1 D4:2 C4:2 D4:2 Eb4:2 F4:2 G4:2 A4:2 Bb4:3 G4:1 Bb4:2 A4:2 G4:2 F4:2 Eb4:2 D4:2 C4:2 C4:4', '#8fb8d8'),
+  T('au-clair', 'B-2', 'Au Clair de la Lune', 'แสงจันทร์', 'French Traditional', 'เพลงพื้นบ้านฝรั่งเศส', 66, 'sine', 'C4:2 C4:2 C4:2 D4:2 E4:4 D4:4 C4:2 C4:2 C4:2 D4:2 E4:4 D4:4 E4:2 F4:2 G4:2 G4:2 F4:2 E4:2 D4:4 C4:2 C4:2 C4:2 D4:2 E4:4 D4:4', '#d8c48f'),
+  T('sleep-baby', 'B-3', 'Sleep, Baby, Sleep', 'หลับเถอะหนูน้อย', 'German Traditional', 'เพลงพื้นบ้านเยอรมัน', 58, 'triangle', 'F4:2 F4:2 Ab4:3 F4:1 C4:2 C4:2 Db4:2 C4:2 Bb3:3 F4:1 Eb4:2 F4:2 G4:2 Ab4:2 Bb4:2 G4:2 F4:4', '#c9a6d8'),
+  T('bye-bunting', 'B-4', 'Bye, Baby Bunting', 'บายเบบี้บันติ้ง', 'English Traditional', 'เพลงพื้นบ้านอังกฤษ', 64, 'triangle', 'G4:2 E4:2 G4:2 A4:2 G4:2 E4:2 D4:4 E4:2 G4:2 A4:2 B4:2 A4:2 G4:2 E4:4 D4:2 E4:2 G4:2 E4:2 D4:2 C4:2 C4:4', '#e0b48f'),
+  T('pretty-horses', 'B-5', 'All the Pretty Little Horses', 'ม้าขาวน้อย', 'American Traditional', 'เพลงพื้นบ้านอเมริกัน', 60, 'sine', 'E4:2 E4:1 G4:1 A4:2 G4:1 E4:1 D4:2 E4:2 G4:2 A4:2 G4:4 E4:2 E4:1 G4:1 A4:2 G4:1 E4:1 D4:2 E4:2 G4:2 E4:2 D4:4 C4:4', '#a6c9a1'),
+  T('sweet-low', 'B-6', 'Sweet and Low', 'ไพเราะและแผ่วเบา', 'Joseph Barnby', 'โจเซฟ บาร์นบี', 62, 'triangle', 'G4:2 A4:2 B4:2 A4:2 G4:2 E4:2 D4:4 G4:2 A4:2 B4:2 C5:2 B4:2 A4:2 G4:4 E4:2 G4:2 A4:2 G4:2 E4:2 D4:2 C4:4', '#e6c07b'),
+  T('grieg-cradle', 'B-7', 'Cradle Song', 'เพลงกล่อมของกรีก', 'Edvard Grieg', 'เอ็ดเวิร์ด กรีก', 60, 'sine', 'A4:2 A4:2 C5:3 B4:1 A4:2 G4:2 E4:4 F4:2 G4:2 A4:2 G4:2 F4:2 E4:2 D4:4 A4:2 A4:2 C5:3 B4:1 A4:2 G4:2 E4:4 D4:2 E4:2 F4:2 G4:2 A4:2 G4:2 A4:4', '#a1c9c2'),
+  T('schlummerlied', 'B-8', 'Schlummerlied', 'เพลงกล่อมแห่งความฝัน', 'Robert Schumann', 'โรเบิร์ต ชูมันน์', 58, 'triangle', 'E4:2 G4:2 B4:3 A4:1 G4:2 E4:2 D4:4 E4:2 G4:2 B4:2 C5:2 B4:2 A4:2 G4:4 F4:2 E4:2 D4:2 E4:2 F4:2 G4:2 E4:4', '#d8b48f'),
+
+  // C — Classical Evening
+  T('ode-joy', 'C-1', 'Ode to Joy', 'บทเพลงแห่งความยินดี', 'Ludwig van Beethoven', 'ลุดวิจ ฟาน เบโทเฟน', 64, 'triangle', 'E4:2 E4:2 F4:2 G4:2 G4:2 F4:2 E4:2 D4:2 C4:2 C4:2 D4:2 E4:2 E4:3 D4:1 D4:4 E4:2 E4:2 F4:2 G4:2 G4:2 F4:2 E4:2 D4:2 C4:2 C4:2 D4:2 E4:2 D4:3 C4:1 C4:4', '#e6c07b'),
+  T('fur-elise', 'C-2', 'Für Elise', 'เฟือร์เอลีเซ', 'Ludwig van Beethoven', 'ลุดวิจ ฟาน เบโทเฟน', 58, 'sine', 'E5:1 D#5:1 E5:1 D#5:1 E5:1 B4:1 D5:1 C5:1 A4:3 C4:1 E4:1 A4:1 B4:3 E4:1 G#4:1 B4:1 C5:3 E4:1 E5:1 D#5:1 E5:1 D#5:1 E5:1 B4:1 D5:1 C5:1 A4:3', '#c9a6d8'),
+  T('moonlight', 'C-3', 'Moonlight Sonata', 'ซอนาตาแสงจันทร์', 'Ludwig van Beethoven', 'ลุดวิจ ฟาน เบโทเฟน', 52, 'sine', 'C#4:1 G#4:1 C#5:1 E5:1 C#5:1 G#4:1 C#4:1 G#4:1 C#5:1 E5:1 C#5:1 G#4:1 A4:1 E4:1 A4:1 C#5:1 A4:1 E4:1 A4:1 C#5:1 A4:1 E4:1 A4:1 C#5:1 D4:1 A4:1 D5:1 F#5:1 D5:1 A4:1 D4:1 A4:1 D5:1 F#5:1 D5:1 A4:1 G#4:1 E4:1 G#4:1 B4:1 G#4:1 E4:1 G#4:1 B4:1 G#4:1 E4:1 G#4:1 B4:1', '#8f9fd8'),
+  T('kleine-nacht', 'C-4', 'Eine kleine Nachtmusik', 'เซเรนาเดน้อย', 'Wolfgang A. Mozart', 'โวล์ฟกัง อมาเดอุส โมสาร์ท', 62, 'triangle', 'C5:2 D5:2 E5:2 G5:2 E5:2 D5:2 C5:4 A4:2 C5:2 F5:2 E5:2 D5:2 C5:2 B4:4 C5:2 D5:2 E5:2 G5:2 E5:2 D5:2 C5:4', '#e0c48f'),
+  T('canon-d', 'C-5', 'Canon in D', 'แคนอนในบันไดเสียง D', 'Johann Pachelbel', 'โยฮันน์ พาเชลเบล', 56, 'sine', 'F#5:2 E5:2 D5:2 C#5:2 B4:2 A4:2 B4:2 C#5:2 D5:2 C#5:2 B4:2 A4:2 G4:2 F#4:2 E4:2 D4:2 F#5:2 E5:2 D5:2 C#5:2 B4:2 A4:2 B4:2 C#5:2 D5:2 C#5:2 B4:2 A4:2 G4:2 F#4:2 E4:4', '#a6c9a1'),
+  T('air-g', 'C-6', 'Air on the G String', 'อาเรียบนสาย G', 'J.S. Bach', 'โยฮันน์ เซบาสเตียน บาค', 52, 'triangle', 'C5:3 B4:1 A4:3 G4:1 F4:2 E4:2 D4:2 C4:2 D4:2 E4:2 F4:2 G4:2 A4:2 B4:2 C5:2 A4:4 G4:3 F4:1 E4:3 D4:1 C4:2 D4:2 E4:2 F4:2 G4:2 A4:2 G4:2 F4:2 E4:2 D4:2 C4:4', '#9ac8e8'),
+  T('clair-de-lune', 'C-7', 'Clair de Lune', 'แสงจันทร์', 'Claude Debussy', 'โคลด เดอบุสซี', 54, 'sine', 'F#5:2 G#5:2 A5:2 C#6:2 B5:2 A5:2 G#5:2 F#5:2 E5:2 F#5:2 G#5:2 A5:2 B5:2 C#6:2 B5:2 A5:4', '#b6a6d8'),
+  T('gymnopedie', 'C-8', 'Gymnopédie No. 1', 'ยิมโนเปดี หมายเลข 1', 'Erik Satie', 'เอริก ซาตี', 50, 'sine', 'G3:2 B3:2 D4:2 F#4:2 A4:4 G4:2 F#4:2 D4:2 B3:2 C4:2 E4:2 G4:2 B4:2 A4:4 G4:2 F#4:2 D4:2 B3:2 G3:4', '#c9b8a1'),
+
+  // D — Folk & World
+  T('sakura', 'D-1', 'Sakura Sakura', 'ซากุระ ซากุระ', 'Japanese Traditional', 'เพลงพื้นบ้านญี่ปุ่น', 62, 'sine', 'A4:2 A4:2 B4:2 A4:2 A4:2 B4:2 A4:4 B4:2 A4:2 B4:2 C5:2 B4:2 A4:2 B4:4 A4:2 A4:2 B4:2 A4:2 A4:2 B4:2 A4:4', '#e0a6b8'),
+  T('arirang', 'D-2', 'Arirang', 'อารีรัง', 'Korean Traditional', 'เพลงพื้นบ้านเกาหลี', 58, 'triangle', 'G4:3 A4:1 G4:2 E4:2 G4:2 A4:2 G4:2 E4:2 D4:2 E4:2 G4:2 A4:2 C5:2 A4:2 G4:4 E4:2 G4:2 A4:2 G4:2 E4:2 D4:2 E4:2 G4:2 E4:2 D4:2 C4:4', '#a6c9d8'),
+  T('mo-li-hua', 'D-3', 'Mo Li Hua', 'ดอกไม้หอม', 'Chinese Traditional', 'เพลงพื้นบ้านจีน', 60, 'sine', 'E4:2 E4:2 G4:2 A4:2 C5:2 A4:2 G4:4 E4:2 G4:2 A4:2 C5:2 D5:2 C5:2 A4:4 G4:2 A4:2 C5:2 A4:2 G4:2 E4:2 D4:4 C4:4', '#e6c9a1'),
+  T('greensleeves', 'D-4', 'Greensleeves', 'กรีนสลีฟส์', 'English Traditional', 'เพลงพื้นบ้านอังกฤษ', 56, 'triangle', 'A4:2 C5:2 D5:2 E5:3 F5:1 E5:2 D5:2 B4:2 G4:2 A4:2 B4:2 C5:2 A4:2 A4:4 G4:2 A4:2 B4:2 C5:2 D5:2 E5:2 F5:2 E5:4 D5:2 B4:2 G4:2 A4:2 B4:2 C5:2 A4:4', '#a1c9a6'),
+  T('scarborough', 'D-5', 'Scarborough Fair', 'สการ์เบอโรแฟร์', 'English Traditional', 'เพลงพื้นบ้านอังกฤษ', 58, 'sine', 'A4:2 A4:2 E5:2 E5:2 B4:2 C5:2 B4:2 A4:2 G4:2 A4:2 B4:2 C5:2 A4:2 A4:2 G4:4 A4:2 A4:2 E5:2 E5:2 B4:2 C5:2 B4:2 A4:2 G4:2 A4:2 B4:2 C5:2 A4:2 G4:2 A4:4', '#c9b8a1'),
+  T('danny-boy', 'D-6', 'Danny Boy', 'แดนนีบอย', 'Irish Traditional', 'เพลงพื้นบ้านไอริช', 54, 'triangle', 'F4:2 G4:2 A4:2 Bb4:2 C5:2 D5:2 C5:2 Bb4:2 A4:2 G4:2 F4:2 G4:2 A4:4 G4:2 F4:2 E4:2 F4:2 G4:2 A4:2 Bb4:4 A4:2 G4:2 F4:2 E4:2 D4:2 D4:4', '#b6c99a'),
+  T('loch-lomond', 'D-7', 'Loch Lomond', 'ล็อกโลมอนด์', 'Scottish Traditional', 'เพลงพื้นบ้านสก็อต', 60, 'triangle', 'C4:2 C4:2 C4:2 E4:2 G4:2 G4:2 A4:2 G4:2 E4:2 C4:2 D4:2 E4:2 G4:4 E4:2 D4:2 C4:2 D4:2 E4:2 G4:2 A4:2 G4:2 E4:2 D4:2 C4:2 D4:2 C4:4', '#8fb8d8'),
+  T('skye-boat', 'D-8', 'The Skye Boat Song', 'เพลงเรือสกาย', 'Scottish Traditional', 'เพลงพื้นบ้านสก็อต', 56, 'sine', 'G4:2 G4:2 A4:2 B4:2 D5:2 B4:2 A4:2 G4:2 E4:2 G4:2 A4:2 B4:2 A4:2 G4:2 E4:4 D4:2 E4:2 G4:2 A4:2 B4:2 D5:2 B4:4 A4:2 G4:2 E4:2 D4:2 E4:2 G4:2 E4:4', '#a6c9d8'),
+
+  // E — Dream Originals I
+  T('velvet-moon', 'E-1', 'Velvet Moon', 'ดวงจันทร์กำมะหยี่', 'Wurlitzer Dream Division', 'แผนกความฝัน', 62, 'triangle', 'C5:2 Eb5:2 G5:2 F5:2 Eb5:2 C5:2 Bb4:4 C5:2 Eb5:2 F5:2 G5:2 F5:2 Eb5:2 C5:4 Ab4:2 C5:2 Eb5:2 F5:2 Eb5:2 C5:2 Bb4:4', '#d8a6c7'),
+  T('paper-lanterns', 'E-2', 'Paper Lanterns', 'โคมกระดาษ', 'Wurlitzer Dream Division', 'แผนกความฝัน', 66, 'sine', 'D5:2 F5:2 A5:2 G5:2 F5:2 D5:2 C5:4 D5:2 F5:2 G5:2 A5:2 G5:2 F5:2 D5:4 C5:2 D5:2 F5:2 G5:2 F5:2 D5:2 C5:4', '#e6c07b'),
+  T('cloud-atlas', 'E-3', 'Cloud Atlas', 'แผนที่เมฆ', 'Wurlitzer Dream Division', 'แผนกความฝัน', 58, 'triangle', 'G4:2 B4:2 D5:2 F#5:2 E5:2 D5:2 B4:4 A4:2 C5:2 E5:2 G5:2 F#5:2 E5:2 D5:4 G4:2 B4:2 D5:2 E5:2 D5:2 B4:2 G4:4', '#8fb8d8'),
+  T('amber-tide', 'E-4', 'Amber Tide', 'น้ำขึ้นสีอำพัน', 'Wurlitzer Dream Division', 'แผนกความฝัน', 60, 'sine', 'A4:2 C5:2 E5:2 D5:2 C5:2 A4:2 G4:4 A4:2 C5:2 D5:2 E5:2 D5:2 C5:2 A4:4 G4:2 A4:2 C5:2 E5:2 D5:2 C5:2 A4:4', '#e0a184'),
+  T('starlit-waltz', 'E-5', 'Starlit Waltz', 'วอลซ์ใต้ดาว', 'Wurlitzer Dream Division', 'แผนกความฝัน', 64, 'triangle', 'F4:2 A4:2 C5:2 D5:2 C5:2 A4:2 F4:4 G4:2 Bb4:2 D5:2 F5:2 E5:2 D5:2 C5:4 F4:2 A4:2 C5:2 D5:2 C5:2 A4:2 F4:4', '#c9a6d8'),
+  T('lavender-dusk', 'E-6', 'Lavender Dusk', 'พลบค่ำลาเวนเดอร์', 'Wurlitzer Dream Division', 'แผนกความฝัน', 58, 'sine', 'E4:2 G4:2 B4:2 D5:2 B4:2 G4:2 E4:4 F4:2 A4:2 C5:2 E5:2 D5:2 C5:2 A4:4 E4:2 G4:2 B4:2 D5:2 B4:2 G4:2 E4:4', '#b6a6d8'),
+  T('little-comet', 'E-7', 'Little Comet', 'ดาวหางดวงน้อย', 'Wurlitzer Dream Division', 'แผนกความฝัน', 72, 'triangle', 'C5:1 E5:1 G5:1 E5:1 C5:1 E5:1 G5:1 E5:1 D5:1 F5:1 A5:1 F5:1 D5:1 F5:1 A5:1 F5:1 E5:1 G5:1 B5:1 G5:1 E5:1 G5:1 B5:1 G5:1 C5:1 E5:1 G5:1 E5:1 C5:2 G4:2', '#9ac8e8'),
+  T('midnight-tea', 'E-8', 'Midnight Tea', 'ชามิดไนต์', 'Wurlitzer Dream Division', 'แผนกความฝัน', 60, 'sine', 'G4:2 C5:2 E5:2 G5:2 F5:2 E5:2 C5:4 D5:2 F5:2 A5:2 G5:2 F5:2 D5:2 B4:4 C5:2 E5:2 G5:2 F5:2 E5:2 C5:2 G4:4', '#e6c9a1'),
+
+  // F — Dream Originals II
+  T('snowfall', 'F-1', 'Snowfall Adagio', 'อาดาจโชหิมะ', 'Wurlitzer Dream Division', 'แผนกความฝัน', 52, 'sine', 'D4:2 F4:2 A4:2 C5:2 Bb4:2 A4:2 F4:4 G4:2 Bb4:2 D5:2 F5:2 E5:2 D5:2 C5:4 D4:2 F4:2 A4:2 C5:2 Bb4:2 A4:2 D4:4', '#a6c9d8'),
+  T('willow', 'F-2', 'Willow Lullaby', 'เพลงกล่อมต้นหลิว', 'Wurlitzer Dream Division', 'แผนกความฝัน', 56, 'triangle', 'A3:2 C4:2 E4:2 G4:2 F4:2 E4:2 C4:4 D4:2 F4:2 A4:2 C5:2 B4:2 A4:2 G4:4 A3:2 C4:2 E4:2 G4:2 F4:2 E4:2 C4:4', '#a1c9a6'),
+  T('harbor', 'F-3', 'Harbor Lights', 'แสงท่าเรือ', 'Wurlitzer Dream Division', 'แผนกความฝัน', 58, 'sine', 'F4:2 A4:2 C5:2 E5:2 D5:2 C5:2 A4:4 Bb4:2 D5:2 F5:2 A5:2 G5:2 F5:2 E5:4 F4:2 A4:2 C5:2 E5:2 D5:2 C5:2 F4:4', '#e0c48f'),
+  T('satin-sky', 'F-4', 'Satin Sky', 'ท้องฟ้าซาติน', 'Wurlitzer Dream Division', 'แผนกความฝัน', 60, 'triangle', 'Bb4:2 D5:2 F5:2 Eb5:2 D5:2 Bb4:2 G4:4 A4:2 C5:2 Eb5:2 G5:2 F5:2 Eb5:2 C5:4 Bb4:2 D5:2 F5:2 Eb5:2 D5:2 Bb4:2 F4:4', '#d8a6c7'),
+  T('carousel', 'F-5', 'Quiet Carousel', 'ม้าหมุนเงียบ', 'Wurlitzer Dream Division', 'แผนกความฝัน', 66, 'triangle', 'C5:2 D5:2 E5:2 G5:2 E5:2 D5:2 C5:4 A4:2 B4:2 C5:2 E5:2 D5:2 C5:2 B4:4 C5:2 D5:2 E5:2 G5:2 E5:2 D5:2 C5:4', '#8fb8d8'),
+  T('glass-garden', 'F-6', 'Glass Garden', 'สวนแก้ว', 'Wurlitzer Dream Division', 'แผนกความฝัน', 62, 'sine', 'E5:2 G5:2 B5:2 A5:2 G5:2 E5:2 D5:4 C5:2 E5:2 G5:2 B5:2 A5:2 G5:2 E5:4 D5:2 F#5:2 A5:2 G5:2 F#5:2 D5:2 B4:4', '#9ac8e8'),
+  T('sleepwalking', 'F-7', 'Sleepwalking', 'เดินละเมอ', 'Wurlitzer Dream Division', 'แผนกความฝัน', 54, 'sine', 'D4:2 A4:2 D5:2 F5:2 E5:2 D5:2 A4:4 C5:2 E5:2 G5:2 F5:2 E5:2 C5:2 A4:4 D4:2 A4:2 D5:2 F5:2 E5:2 D5:2 D4:4', '#b6a6d8'),
+  T('first-light', 'F-8', 'First Light', 'แสงแรก', 'Wurlitzer Dream Division', 'แผนกความฝัน', 60, 'triangle', 'G4:2 B4:2 D5:2 G5:2 F#5:2 D5:2 B4:4 C5:2 E5:2 G5:2 B5:2 A5:2 G5:2 E5:4 D5:2 B4:2 G4:4 D5:2 B4:2 G4:4', '#e6c07b'),
+
+  // G — Bonus
+  T('amazing-grace', 'G-1', 'Amazing Grace', 'อเมซิ่งเกรซ', 'John Newton', 'จอห์น นิวตัน', 58, 'sine', 'G4:2 C5:1 E5:2 D5:1 C5:2 E5:2 G5:4 E5:2 C5:2 D5:2 E5:2 C5:2 A4:4 G4:2 C5:1 E5:2 D5:1 C5:2 E5:2 G5:4 E5:2 G5:2 F5:2 E5:2 D5:2 C5:4', '#a1c9c2'),
+  T('salley-gardens', 'G-2', 'Down by the Salley Gardens', 'ใต้ต้นหลิวที่ซอลลีย์', 'Irish Traditional', 'เพลงพื้นบ้านไอริช', 56, 'triangle', 'D4:2 F4:2 A4:2 G4:2 F4:2 E4:2 D4:4 F4:2 A4:2 C5:2 Bb4:2 A4:2 G4:2 F4:4 E4:2 G4:2 A4:2 G4:2 F4:2 E4:2 D4:4', '#b6c99a'),
 ];
 
 for (const track of BUILTIN_TRACKS) {
@@ -1926,11 +2008,8 @@ class WurlitzerScene {
     rack.add(this.stripGroup);
   }
 
-  refreshRack(tracks, lang) {
+  refreshRack(entries, lang) {
     this.lang = lang || 'en';
-    this.trackBySlot = new Map();
-    const builtins = tracks.filter((track) => track.engine === 'synth').slice(0, 8);
-    for (const track of tracks) this.trackBySlot.set(track.slot, track);
     while (this.stripGroup.children.length) {
       const child = this.stripGroup.children.pop();
       if (child.material?.map) child.material.map.dispose();
@@ -1938,18 +2017,18 @@ class WurlitzerScene {
       child.geometry?.dispose();
     }
     this.interactive = this.interactive.filter((item) => item.userData?.type !== 'strip');
-    const slots = ['A-1', 'A-2', 'A-3', 'A-4', 'B-1', 'B-2', 'B-3', 'B-4'];
-    slots.forEach((slot, index) => {
-      const track = builtins.find((item) => item.slot === slot) || null;
+    const rows = Array.from({ length: 8 }, (_, i) => entries[i] || { slot: '', track: null });
+    rows.forEach((entry, index) => {
       const col = index < 4 ? 0 : 1;
       const row = index % 4;
       const x = col === 0 ? -0.64 : 0.64;
       const y = 2.04 - row * 0.215;
-      const tex = this.makePaperTexture(track, slot, this.lang);
+      const slot = entry.slot || '—';
+      const tex = this.makePaperTexture(entry.track, slot, this.lang);
       const mat = new THREE.MeshBasicMaterial({ map: tex, color: 0xd8ccb8, toneMapped: true });
       const mesh = new THREE.Mesh(new THREE.PlaneGeometry(1.2, 0.2), mat);
       mesh.position.set(x, y, 0.833);
-      mesh.userData = { type: 'strip', track, slot };
+      mesh.userData = { type: 'strip', track: entry.track, slot: entry.slot || '' };
       this.stripGroup.add(mesh);
       this.interactive.push(mesh);
     });
@@ -1976,7 +2055,7 @@ class WurlitzerScene {
       this.interactive.push(group);
       return group;
     };
-    ['A', 'B', 'C', 'D'].forEach((letter, i) => makeKey(letter, -0.54 + i * 0.36, 1.02, 'letter'));
+    ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H'].forEach((letter, i) => makeKey(letter, -0.84 + i * 0.24, 1.02, 'letter'));
     for (let i = 0; i < 8; i++) makeKey(String(i + 1), -0.84 + i * 0.24, 0.82, 'number');
 
     const plaque = new THREE.Mesh(new THREE.PlaneGeometry(2.5, 0.11), new THREE.MeshBasicMaterial({ map: (() => {
@@ -1984,7 +2063,7 @@ class WurlitzerScene {
       const ctx = c.getContext('2d');
       ctx.fillStyle = '#1a120b'; ctx.fillRect(0, 0, 700, 76);
       ctx.fillStyle = '#d9b77c'; ctx.font = '600 25px Georgia, serif'; ctx.textAlign = 'center';
-      ctx.fillText('A – D    1 – 8    ·    SELECT YOUR RECORD', 350, 48);
+      ctx.fillText('A – H    1 – 8    ·    SELECT YOUR RECORD', 350, 48);
       const tex = new THREE.CanvasTexture(c); tex.colorSpace = THREE.SRGBColorSpace; return tex;
     })() }));
     plaque.position.set(0, 1.18, 0.842);
@@ -2140,6 +2219,22 @@ class WurlitzerScene {
     this.coinAnim = { t: 0, from: 2.28, to: 1.58 };
   }
 
+  setTheme(theme) {
+    if (!theme) return;
+    this.theme = theme;
+    if (this.scene) {
+      this.scene.background.setHex(theme.bg);
+      this.scene.fog.color.setHex(theme.fog);
+    }
+    if (this.roseLight) this.roseLight.color.setHex(theme.rose);
+    if (this.tealLight) this.tealLight.color.setHex(theme.teal);
+    if (this.topLight) this.topLight.color.setHex(theme.bulb);
+    for (const mat of this.bulbs) {
+      mat.color.setHex(theme.bulb);
+      mat.emissive.setHex(theme.bulb);
+    }
+  }
+
   setPlaying(playing) {
     this.playing = Boolean(playing);
   }
@@ -2278,6 +2373,9 @@ class WurlitzerApp {
     this.tracks = this.builtins.slice();
     this.rebuildTrackMap();
     this.current = this.trackBySlot.get(this.settings.lastTrack) || this.builtins[0];
+    this.collection = this.current?.collection || 'A';
+    this.query = '';
+    this._sceneKey = '';
 
     this.audio = new JukeboxAudio(this.settings, {
       onTick: () => this.onAudioTick(),
@@ -2344,7 +2442,6 @@ class WurlitzerApp {
     if (!this.trackBySlot.has(this.current?.slot)) {
       this.current = this.trackBySlot.get('A-1') || merged[0];
     }
-    if (this.scene) this.scene.refreshRack(this.tracks, this.lang);
     this.renderRack();
     this.syncNowPlaying();
   }
@@ -2365,7 +2462,6 @@ class WurlitzerApp {
     if (step) step.textContent = this.t('loadingLights');
     await new Promise((resolve) => setTimeout(resolve, 220));
     if (this.scene) {
-      this.scene.refreshRack(this.tracks, this.lang);
       if (location.search.includes('shot=1')) {
         this.scene.intro = null;
         this.scene.camera.position.set(0, 3.5, location.search.includes('og=1') ? 8.4 : 10.4);
@@ -2467,6 +2563,38 @@ class WurlitzerApp {
       this.setRangeFill(slider);
     }
 
+    on('rack-search', 'input', (event) => {
+      this.query = event.target.value;
+      this.renderRack();
+    });
+    on('rack-search', 'keydown', (event) => {
+      if (event.key === 'Escape') {
+        event.target.value = '';
+        this.query = '';
+        this.renderRack();
+      }
+    });
+    $('theme-swatches')?.addEventListener('click', (event) => {
+      const swatch = event.target.closest('.theme-swatch');
+      if (swatch) this.setTheme(swatch.dataset.theme);
+    });
+    $('font-size-group')?.addEventListener('click', (event) => {
+      const button = event.target.closest('button[data-size]');
+      if (button) this.setFontSize(button.dataset.size);
+    });
+
+    $('collection-tabs')?.addEventListener('click', (event) => {
+      const tab = event.target.closest('.collection-tab');
+      if (!tab) return;
+      this.collection = tab.dataset.collection || 'ALL';
+      this.query = '';
+      const search = $('rack-search');
+      if (search) search.value = '';
+      this.renderCollectionTabs();
+      this.renderRack();
+      this.sfx.clack();
+    });
+
     $('rack-grid')?.addEventListener('click', (event) => {
       const star = event.target.closest('.strip-star');
       if (star) {
@@ -2563,7 +2691,8 @@ class WurlitzerApp {
     }
     const help = $('help-btn');
     if (help) help.setAttribute('aria-label', this.t('helpTitle'));
-    if (this.scene) this.scene.refreshRack(this.tracks, this.lang);
+    this.renderCollectionTabs();
+    this.renderDisplayControls();
     this.renderRack();
     this.syncNowPlaying();
     this.renderKeypadState();
@@ -2603,6 +2732,8 @@ class WurlitzerApp {
     }
     this.updateTimerButtons(this.settings.timer);
     this.updateFavoriteButton();
+    this.setTheme(this.settings.theme, false);
+    this.setFontSize(this.settings.fontSize, false);
   }
 
   save() {
@@ -2656,23 +2787,98 @@ class WurlitzerApp {
 
   /* ---------- rack ---------- */
 
+  getRackRows() {
+    const rack = buildRack(this.builtins, this.externals);
+    const query = this.query.trim().toLowerCase();
+    let rows = rack;
+    if (query) {
+      rows = rows.filter(({ track }) => track && this.matchesQuery(track, query));
+    } else if (this.collection !== 'ALL') {
+      rows = rows.filter(({ slot }) => slot.startsWith(`${this.collection}-`));
+    }
+    if (this.favoritesOnly) {
+      rows = rows.filter(({ track }) => track && this.settings.favorites.includes(track.id));
+    }
+    return rows;
+  }
+
+  matchesQuery(track, query) {
+    const haystack = [
+      track.title.en, track.title.th, track.artist.en, track.artist.th, track.slot, track.id,
+    ].join(' ').toLowerCase();
+    return haystack.includes(query);
+  }
+
+  refreshSceneRack(rows) {
+    if (!this.scene) return;
+    let entries;
+    if (this.query.trim() || this.favoritesOnly) {
+      entries = rows.slice(0, 8);
+    } else if (this.collection !== 'ALL') {
+      entries = rows;
+    } else {
+      const letter = this.current?.collection || 'A';
+      entries = buildRack(this.builtins, this.externals).filter(({ slot }) => slot.startsWith(`${letter}-`));
+    }
+    entries = entries.slice(0, 8);
+    while (entries.length < 8) entries.push({ slot: '', track: null });
+    const key = entries.map((entry) => `${entry.slot}:${entry.track?.id || ''}`).join('|') + `:${this.lang}`;
+    if (key === this._sceneKey) return;
+    this._sceneKey = key;
+    this.scene.refreshRack(entries, this.lang);
+  }
+
   renderRack() {
     const grid = $('rack-grid');
     if (!grid) return;
-    const rack = buildRack(this.builtins, this.externals);
-    const visible = this.favoritesOnly
-      ? rack.filter((entry) => entry.track && this.settings.favorites.includes(entry.track.id))
-      : rack;
+    const rows = this.getRackRows();
+    const count = rows.filter(({ track }) => track).length;
+    const counter = $('rack-count');
+    if (counter) counter.textContent = this.t(this.query.trim() ? 'resultsCount' : 'recordsCount', { n: count });
     grid.replaceChildren();
-    if (!visible.length) {
+    if (!rows.length) {
       const empty = document.createElement('p');
       empty.className = 'rack-empty';
-      empty.textContent = this.t('noFavorites');
+      empty.textContent = this.t(this.query.trim() ? 'noResults' : 'noFavorites');
       grid.appendChild(empty);
+      this.refreshSceneRack(rows);
       return;
     }
-    for (const entry of visible) {
-      grid.appendChild(this.stripNode(entry));
+    for (const entry of rows) grid.appendChild(this.stripNode(entry));
+    this.refreshSceneRack(rows);
+  }
+
+  syncRackPlaying() {
+    for (const strip of document.querySelectorAll('#rack-grid .strip')) {
+      strip.classList.toggle('is-playing', Boolean(this.current && strip.dataset.slot === this.current.slot));
+    }
+  }
+
+  renderCollectionTabs() {
+    const container = $('collection-tabs');
+    if (!container) return;
+    container.replaceChildren();
+    const add = (value, label, letter) => {
+      const button = document.createElement('button');
+      button.type = 'button';
+      button.className = 'collection-tab';
+      button.dataset.collection = value;
+      button.setAttribute('aria-pressed', String(this.collection === value));
+      button.classList.toggle('is-active', this.collection === value);
+      if (letter) {
+        const badge = document.createElement('span');
+        badge.className = 'tab-letter';
+        badge.textContent = letter;
+        button.appendChild(badge);
+      }
+      const text = document.createElement('span');
+      text.textContent = label;
+      button.appendChild(text);
+      container.appendChild(button);
+    };
+    add('ALL', this.t('allRecords'), '');
+    for (const collection of COLLECTIONS) {
+      add(collection.letter, collection[this.lang] || collection.en, collection.letter);
     }
   }
 
@@ -2773,7 +2979,7 @@ class WurlitzerApp {
   renderKeypadState() {
     for (const button of document.querySelectorAll('.key')) {
       const key = button.dataset.key;
-      const armed = /^[A-D]$/.test(key) ? this.pending.letter === key : this.pending.number === key;
+      const armed = /^[A-H]$/.test(key) ? this.pending.letter === key : this.pending.number === key;
       button.classList.toggle('is-armed', armed);
     }
   }
@@ -2782,7 +2988,7 @@ class WurlitzerApp {
     this.sfx.clack();
     safeVibrate(8);
     if (this.scene) this.scene.pressKey(key);
-    if (/^[A-D]$/.test(key)) {
+    if (/^[A-H]$/.test(key)) {
       this.pending.letter = this.pending.letter === key ? null : key;
     } else {
       this.pending.number = this.pending.number === key ? null : key;
@@ -2821,6 +3027,18 @@ class WurlitzerApp {
     }
     this.current = track;
     this.settings.lastTrack = track.id;
+    let pageChanged = false;
+    if (this.query) {
+      this.query = '';
+      const search = $('rack-search');
+      if (search) search.value = '';
+      pageChanged = true;
+    }
+    if (this.collection !== 'ALL' && track.collection && track.collection !== this.collection) {
+      this.collection = track.collection;
+      this.renderCollectionTabs();
+      pageChanged = true;
+    }
     this.save();
     this.sfx.clack();
     if (this.scene) this.scene.flashStrip(track.slot);
@@ -2832,7 +3050,11 @@ class WurlitzerApp {
       safeVibrate([8, 30, 8]);
     }
     this.syncNowPlaying();
-    this.renderRack();
+    if (pageChanged) this.renderRack();
+    else {
+      this.refreshSceneRack(this.getRackRows());
+      this.syncRackPlaying();
+    }
     return started;
   }
 
@@ -2934,6 +3156,51 @@ class WurlitzerApp {
     toggle?.closest('.ambient-row')?.classList.toggle('is-on', v > 0);
     if (v > 0) this.ambientLast[name] = v;
     this.save();
+  }
+
+  /* ---------- theme and text size ---------- */
+
+  renderDisplayControls() {
+    for (const swatch of document.querySelectorAll('.theme-swatch')) {
+      const theme = THEMES.find((item) => item.id === swatch.dataset.theme);
+      const active = this.settings.theme === swatch.dataset.theme;
+      swatch.classList.toggle('is-active', active);
+      swatch.setAttribute('aria-pressed', String(active));
+      const label = theme ? (theme[this.lang] || theme.en) : swatch.dataset.theme;
+      swatch.setAttribute('aria-label', `${this.t('themeLabel')}: ${label}`);
+      swatch.title = label;
+    }
+    for (const button of document.querySelectorAll('#font-size-group button')) {
+      const active = this.settings.fontSize === button.dataset.size;
+      button.classList.toggle('is-active', active);
+      button.setAttribute('aria-pressed', String(active));
+      const labels = { normal: 'textNormal', large: 'textLarge', xlarge: 'textXLarge' };
+      button.setAttribute('aria-label', this.t(labels[button.dataset.size] || 'textNormal'));
+    }
+  }
+
+  setTheme(id, persist = true) {
+    const theme = THEMES.find((item) => item.id === id) || THEMES[0];
+    this.settings.theme = theme.id;
+    document.body.dataset.theme = theme.id;
+    if (this.scene) this.scene.setTheme(theme);
+    this.renderDisplayControls();
+    if (persist) {
+      this.save();
+      showToast(`${this.t('themeLabel')}: ${theme[this.lang] || theme.en}`);
+    }
+  }
+
+  setFontSize(size, persist = true) {
+    const value = ['normal', 'large', 'xlarge'].includes(size) ? size : 'normal';
+    this.settings.fontSize = value;
+    document.body.dataset.font = value;
+    this.renderDisplayControls();
+    if (persist) {
+      this.save();
+      const labels = { normal: 'textNormal', large: 'textLarge', xlarge: 'textXLarge' };
+      showToast(this.t(labels[value]));
+    }
   }
 
   /* ---------- knobs ---------- */
@@ -3156,6 +3423,9 @@ class WurlitzerApp {
     this.audio.store = this.settings;
     this.current = this.trackBySlot.get('brahms') || this.builtins[0];
     this.favoritesOnly = false;
+    this.query = '';
+    this.collection = 'A';
+    if ($('rack-search')) $('rack-search').value = '';
     $('fav-filter')?.setAttribute('aria-pressed', 'false');
     this.audio.setMaster(this.settings.master);
     this.audio.setEQ('bass', this.settings.bass);
@@ -3168,6 +3438,9 @@ class WurlitzerApp {
     this.updateCredits();
     this.updateMuteUI();
     this.applyKnobValues();
+    this.setTheme('midnight', false);
+    this.setFontSize('normal', false);
+    this.renderCollectionTabs();
     this.renderRack();
     this.syncNowPlaying();
     this.updateTimerButtons(0);
@@ -3222,7 +3495,7 @@ class WurlitzerApp {
     check('Both bubble tubes contain rising bubbles', () => (this.scene?.bubbles.length || 0) >= 40);
     check('Arch marquee bulbs are present', () => (this.scene?.bulbs.length || 0) === 30);
     check('Record deck and tone arm exist', () => Boolean(this.scene?.record && this.scene?.toneArm));
-    check('Eight procedural lullabies are registered', () => this.builtins.length === 8);
+    check('Fifty procedural lullabies are registered', () => this.builtins.length === 50);
     check('Every synth sequence parses', () => this.builtins.every((track) => track.sequence.length > 12 && track.duration > 8));
     check('Slots are unique and ordered', () => new Set(this.tracks.map((track) => track.slot)).size === this.tracks.length);
     check('EN and TH dictionaries are symmetrical', () => {
@@ -3230,10 +3503,10 @@ class WurlitzerApp {
       const th = Object.keys(I18N.th).sort();
       return en.length >= 90 && en.join('|') === th.join('|');
     });
-    check('Sixteen title strips render', () => document.querySelectorAll('#rack-grid .strip').length === 16);
-    check('Twelve mechanical keys render', () => document.querySelectorAll('.key').length === 12);
+    check('Eight category pages and 64 rack slots exist', () => COLLECTIONS.length === 8 && buildRack(this.builtins, this.externals).length === 64);
+    check('Sixteen mechanical keys render', () => document.querySelectorAll('.key').length === 16);
     check('Archive manifest responded', () => this.manifestOk === true);
-    check('Rack map includes archive slots', () => ['C-1', 'C-2', 'C-3', 'C-4'].some((slot) => this.trackBySlot.has(slot)));
+    check('Rack map includes archive slots', () => ['H-1', 'H-2', 'H-3', 'H-4'].every((slot) => this.trackBySlot.has(slot)));
     check('Fade curve is smooth and monotonic', () => fadeGain(120) === 1 && fadeGain(0) === 0 && fadeGain(60) > 0.49 && fadeGain(60) < 0.51);
     check('Clock formatting is exact', () => formatClock(0) === '0:00' && formatClock(65) === '1:05' && formatClock(372) === '6:12');
     check('Settings normalise outliers', () => {
@@ -3262,10 +3535,10 @@ class WurlitzerApp {
       this.audio.setTimer(0);
       return active && mid > 0.49 && mid < 0.51;
     });
-    check('Empty D-8 slot is rejected', () => this.selectSlot('D-8') === false);
+    check('Empty H-8 slot is rejected', () => this.selectSlot('H-8') === false);
     check('Export payload is well formed', () => {
       const payload = exportPayload(this.settings, this.tracks, new Date(0).toISOString());
-      return payload.schema === 1 && Array.isArray(payload.tracks) && payload.tracks.length >= 8;
+      return payload.schema === 1 && Array.isArray(payload.tracks) && payload.tracks.length >= 50;
     });
     check('Language switch updates the document', () => {
       const before = this.lang;
@@ -3279,6 +3552,20 @@ class WurlitzerApp {
       this.scene.setEnergy(0.8);
       this.scene.setDim(0);
       return true;
+    });
+    check('Theme switch reaches the 3D scene', () => {
+      const before = this.settings.theme;
+      this.setTheme('amber', false);
+      const ok = document.body.dataset.theme === 'amber' && this.scene?.theme?.id === 'amber';
+      this.setTheme(before, false);
+      return ok;
+    });
+    check('Text size switch updates the document', () => {
+      const before = this.settings.fontSize;
+      this.setFontSize('large', false);
+      const ok = document.body.dataset.font === 'large';
+      this.setFontSize(before, false);
+      return ok;
     });
 
     const passed = checks.filter((item) => item.ok).length;

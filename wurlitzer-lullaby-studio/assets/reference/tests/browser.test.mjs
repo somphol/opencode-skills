@@ -110,19 +110,19 @@ try {
     assert.equal(info.manifest, 'ok');
     assert.equal(info.canvas, true);
     assert.ok(info.cabinet >= 30, `cabinet children: ${info.cabinet}`);
-    assert.equal(info.strips, 16);
-    assert.equal(info.keys, 12);
+    assert.equal(info.strips, 8);
+    assert.equal(info.keys, 16);
     assert.ok(info.bubbles >= 40);
     assert.equal(info.bulbs, 30);
-    assert.equal(info.tracks, 12);
+    assert.equal(info.tracks, 54);
     return true;
   });
 
   await record('In-page self-test passes every check', async () => {
     const report = JSON.parse(await evaluate('window.__wurlitzer.runSelfTest(false).then((r) => JSON.stringify(r))'));
-    assert.equal(report.total, 23);
+    assert.equal(report.total, 25);
     assert.equal(report.passed, report.total, JSON.stringify(report.checks.filter((c) => !c.ok)));
-    assert.equal(await evaluate('document.body.dataset.selftest'), '23/23');
+    assert.equal(await evaluate('document.body.dataset.selftest'), '25/25');
     return true;
   });
 
@@ -174,19 +174,21 @@ try {
     await click('#freeplay-toggle');
     assert.equal(await evaluate('window.__wurlitzer.settings.freePlay'), false);
     const before = await evaluate('window.__wurlitzer.settings.credits');
+    await click('.collection-tab[data-collection="B"]');
+    await sleep(250);
     await click('[data-slot="B-1"] .strip-open');
     await sleep(300);
     const after = await evaluate('window.__wurlitzer.settings.credits');
     assert.equal(after, before - 1);
-    assert.equal(await evaluate('window.__wurlitzer.current.id'), 'rockabye');
+    assert.equal(await evaluate('window.__wurlitzer.current.id'), 'all-through');
     await click('#freeplay-toggle');
     assert.equal(await evaluate('window.__wurlitzer.settings.freePlay'), true);
     return true;
   });
 
-  await record('Empty D-8 is rejected without changing the record', async () => {
+  await record('Empty H-8 is rejected without changing the record', async () => {
     const before = await evaluate('window.__wurlitzer.current.id');
-    await click('.key[data-key="D"]');
+    await click('.key[data-key="H"]');
     await click('.key[data-key="8"]');
     await sleep(250);
     assert.equal(await evaluate('window.__wurlitzer.current.id'), before);
@@ -240,6 +242,76 @@ try {
     return true;
   });
 
+  await record('Category tabs switch all eight collection pages', async () => {
+    await click('.collection-tab[data-collection="C"]');
+    await sleep(350);
+    const c = await evaluate(`(() => ({
+      collection: window.__wurlitzer.collection,
+      strips: document.querySelectorAll('#rack-grid .strip').length,
+      first: document.querySelector('#rack-grid .strip')?.dataset.slot,
+      sceneStrips: window.__wurlitzer.scene.stripGroup.children.length,
+      sceneFirst: window.__wurlitzer.scene.stripGroup.children[0]?.userData?.slot
+    }))()`);
+    assert.equal(c.collection, 'C');
+    assert.equal(c.strips, 8);
+    assert.equal(c.first, 'C-1');
+    assert.equal(c.sceneStrips, 8);
+    assert.equal(c.sceneFirst, 'C-1');
+    await click('.collection-tab[data-collection="ALL"]');
+    await sleep(300);
+    assert.equal(await evaluate('document.querySelectorAll("#rack-grid .strip").length'), 64);
+    await click('.collection-tab[data-collection="A"]');
+    await sleep(300);
+    assert.equal(await evaluate('document.querySelectorAll("#rack-grid .strip").length'), 8);
+    return true;
+  });
+
+  await record('Search finds a record in another collection', async () => {
+    await evaluate(`(() => {
+      const input = document.getElementById('rack-search');
+      input.value = 'sakura';
+      input.dispatchEvent(new Event('input', { bubbles: true }));
+      return true;
+    })()`);
+    await sleep(300);
+    const info = await evaluate(`(() => ({
+      strips: document.querySelectorAll('#rack-grid .strip').length,
+      slot: document.querySelector('#rack-grid .strip')?.dataset.slot,
+      count: document.getElementById('rack-count').textContent
+    }))()`);
+    assert.equal(info.strips, 1);
+    assert.equal(info.slot, 'D-1');
+    assert.match(info.count, /1/);
+    await evaluate(`(() => {
+      const input = document.getElementById('rack-search');
+      input.value = '';
+      input.dispatchEvent(new Event('input', { bubbles: true }));
+      return true;
+    })()`);
+    await sleep(250);
+    return true;
+  });
+
+  await record('Theme and text size switch and reach the scene', async () => {
+    await click('.theme-swatch[data-theme="amber"]');
+    await sleep(300);
+    const theme = await evaluate(`(() => ({
+      dataset: document.body.dataset.theme,
+      setting: window.__wurlitzer.settings.theme,
+      scene: window.__wurlitzer.scene.theme?.id,
+      pressed: document.querySelector('.theme-swatch[data-theme="amber"]').getAttribute('aria-pressed')
+    }))()`);
+    assert.equal(theme.dataset, 'amber');
+    assert.equal(theme.setting, 'amber');
+    assert.equal(theme.scene, 'amber');
+    assert.equal(theme.pressed, 'true');
+    await click('#font-size-group button[data-size="xlarge"]');
+    await sleep(200);
+    assert.equal(await evaluate('document.body.dataset.font'), 'xlarge');
+    assert.equal(await evaluate('window.__wurlitzer.settings.fontSize'), 'xlarge');
+    return true;
+  });
+
   await record('Favourites persist and the filter narrows the rack', async () => {
     await click('[data-slot="A-1"] .strip-star');
     await sleep(200);
@@ -250,7 +322,7 @@ try {
     assert.equal(await evaluate('document.getElementById("fav-filter").getAttribute("aria-pressed")'), 'true');
     await click('#fav-filter');
     await sleep(200);
-    assert.equal(await evaluate('document.querySelectorAll("#rack-grid .strip").length'), 16);
+    assert.equal(await evaluate('document.querySelectorAll("#rack-grid .strip").length'), 8);
     return true;
   });
 
@@ -324,6 +396,8 @@ try {
 
   await record('Reload restores language and favourites', async () => {
     await click('.lang-btn[data-lang="th"]');
+    await click('.collection-tab[data-collection="B"]');
+    await sleep(250);
     await click('[data-slot="B-2"] .strip-star');
     await sleep(300);
     await navigate('?test=restore');
@@ -331,12 +405,16 @@ try {
       lang: document.documentElement.lang,
       favorites: window.__wurlitzer.settings.favorites,
       rack: document.getElementById('rack-title').textContent,
-      title: document.getElementById('now-title').textContent
+      title: document.getElementById('now-title').textContent,
+      theme: document.body.dataset.theme,
+      font: document.body.dataset.font
     }))()`);
     assert.equal(info.lang, 'th');
-    assert.ok(info.favorites.includes('hush'));
+    assert.ok(info.favorites.includes('au-clair'));
     assert.equal(info.rack, 'ชั้นเพลง');
     assert.ok(info.title.length > 0);
+    assert.equal(info.theme, 'amber');
+    assert.equal(info.font, 'xlarge');
     await click('.lang-btn[data-lang="en"]');
     await sleep(250);
     return true;
@@ -398,16 +476,16 @@ try {
     return true;
   });
 
-  await record('Archive manifest exposes four licensed C-slot streams', async () => {
+  await record('Archive manifest exposes four public-domain H-slot streams', async () => {
     const info = await evaluate(`(() => {
-      const c = window.__wurlitzer.trackBySlot.get('C-1');
+      const c = window.__wurlitzer.trackBySlot.get('H-1');
       return { engine: c?.engine, url: c?.url, license: c?.license, source: c?.source, total: window.__wurlitzer.tracks.length };
     })()`);
     assert.equal(info.engine, 'stream');
     assert.match(info.url, /^https:\/\/upload\.wikimedia\.org\//);
-    assert.ok(info.license);
+    assert.equal(info.license, 'Public domain');
     assert.match(info.source, /^https:\/\/commons\.wikimedia\.org\//);
-    assert.equal(info.total, 12);
+    assert.equal(info.total, 54);
     return true;
   });
 

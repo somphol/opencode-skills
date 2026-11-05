@@ -8,7 +8,7 @@
 // docs, manifest, state template). Screenshots are generated, not vendored:
 // run `node scripts/screenshot.mjs` after the first boot.
 
-import { cpSync, existsSync, readdirSync } from 'node:fs';
+import { cpSync, existsSync, readdirSync, renameSync } from 'node:fs';
 import { dirname, join, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
@@ -34,6 +34,13 @@ cpSync(reference, target, {
   recursive: true,
   filter: (source) => !source.split(/[\\/]/).includes('.git'),
 });
+
+// The catalog sync skips directories literally named `docs`; the reference keeps
+// them as `documentation` so a scaffold can restore the standard `docs/` path.
+const documentation = join(target, 'documentation');
+if (existsSync(documentation) && !existsSync(join(target, 'docs'))) {
+  renameSync(documentation, join(target, 'docs'));
+}
 
 const count = (dir) => readdirSync(dir, { withFileTypes: true }).reduce((n, entry) => {
   if (entry.name.startsWith('.')) return n;

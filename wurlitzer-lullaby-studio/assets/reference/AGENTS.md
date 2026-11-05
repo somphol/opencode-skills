@@ -4,8 +4,8 @@
 
 A static, single-page 3D sleep instrument: a procedurally modelled Wurlitzer 1015 “Bubbler” with
 bubble tubes, a spinning record, a paper title rack, a mechanical keypad and a coin slot. It has two
-audio engines — a Web Audio music-box sequencer (eight public-domain lullabies, zero bandwidth) and a
-validated JSON manifest of CORS-enabled archive MP3s — plus three ambient noise generators and a
+audio engines — a Web Audio music-box sequencer (fifty public-domain / original lullabies across eight collections,
+zero bandwidth) and a validated JSON manifest of CORS-enabled public-domain archive MP3s — plus three ambient noise generators and a
 fade-to-silence sleep timer. The UI is bilingual (EN/TH), persists settings in `localStorage`, and
 exports JSON. No backend, build step, package manager, analytics or accounts. The deployed artifact
 is the repository root on GitHub Pages.
@@ -21,8 +21,8 @@ Run from the repository root.
 | Task | Command |
 | --- | --- |
 | Serve locally | `python3 -m http.server 8000` → <http://localhost:8000/> |
-| Engine + repository tests | `node --test tests/engine.test.mjs tests/static.test.mjs` |
-| Headless browser suite | `node tests/browser.test.mjs` |
+| Engine + repository tests | `node --test tests/engine.test.mjs tests/static.test.mjs` (11 + 12) |
+| Headless browser suite | `node tests/browser.test.mjs` (25 + 25 in-page) |
 | Live suite | `TEST_URL=https://somphol.github.io/vintage-wurlitzer-lullaby-jukebox/ node tests/browser.test.mjs` |
 | In-page self-test | <http://localhost:8000/?selftest> |
 | Regenerate screenshots | `node scripts/screenshot.mjs` |
@@ -43,7 +43,7 @@ Three source files, no build, plus one data file:
   sheets, reduced-motion rules.
 - `script.js` — the whole app in six ordered sections: I18N, pure engine, track catalogue,
   `JukeboxAudio`, `WurlitzerScene`, `WurlitzerApp` + self-test + bootstrap.
-- `data/playlist.json` — external archive manifest. Slots C-1…D-4, https only, unique, licensed.
+- `data/playlist.json` — external archive manifest. Slots C-1…H-8, https only, unique, `license: "Public domain"`.
 
 Construction order matters: settings → audio store → scene → bind UI → language → settings →
 manifest fetch → first render. The scene and audio engine are independent; the app is the only
@@ -57,9 +57,10 @@ block and run it in Node. It must never reference `document`, `window`, `THREE`,
 
 - **Three.js is pinned through an import map** to `0.169.0`. Do not switch to `latest`, unpkg or a
   bundler; the release is CDN-only and tested against that exact version.
-- **The title rack shows 16 slots** (A-1…D-4) even though only A/B and C are populated. Empty slots
+- **The rack has 64 slots** (A-1…H-8) in eight collection pages. Empty slots (G-3…G-8, H-5…H-8)
   are part of the instrument and must keep the “no record in that slot” path.
-- **The 3D rack only has A/B strips.** Archive C tracks appear in the DOM rack. This is intentional:
+- **The 3D rack shows one eight-record page.** It mirrors the active category or current track's
+  collection; the DOM rack is the full 64-slot surface with tabs and search. This is intentional:
   the physical 1015 rack is a curated eight-record display; the paper texture atlas stays legible.
 - **Procedural note arrays are simplified public-domain settings.** They are tuned for mood, not
   transcript accuracy. Durations are computed at load; changing a tempo changes the displayed time.
@@ -71,14 +72,18 @@ block and run it in Node. It must never reference `document`, `window`, `THREE`,
 - **The cabinet is procedural.** There are no GLB/GLTF or texture files. Do not introduce binary
   assets for the cabinet unless the no-build constraint changes.
 - **Settings schema is versioned.** `normalizeSettings` is the single gate; add fields there and in
-  `state.json`/docs, not ad hoc in the UI.
+  `state.json`/docs, not ad hoc in the UI. Display preferences (`theme`, `fontSize`) follow the same
+  path.
+- **All audio is royalty-free.** Synth tracks are original arrangements of public-domain melodies
+  or original compositions; archive tracks must say `license: "Public domain"`. Do not add a
+  copyrighted recording, lyric or arrangement.
 
 ## Known issues
 
 - The Three.js modules load from jsDelivr; a fully offline first visit is not supported. The
   synth engine itself is offline after the module is cached.
 - Safari/WebKit may suspend a `MediaElementAudioSourceNode` on first play; the UI reports the stream
-  error and synth tracks remain available. C-1…C-4 require Wikimedia to be reachable.
+  error and synth tracks remain available. H-1…H-4 require Wikimedia to be reachable.
 - The 3D title textures render Thai with the system Thai font. On a machine without a Thai font the
   DOM rack remains correct, but the 3D paper strips may fall back to Latin glyphs.
 - Bloom is deliberately restrained for legibility; on very old GPUs the composer is still the

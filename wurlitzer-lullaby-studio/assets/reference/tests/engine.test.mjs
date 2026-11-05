@@ -1,9 +1,10 @@
 import assert from 'node:assert/strict';
 import test from 'node:test';
-import { loadEngine, loadTracks, loadManifest } from './lib/fixtures.mjs';
+import { loadCollections, loadEngine, loadManifest, loadTracks } from './lib/fixtures.mjs';
 
 const engine = loadEngine();
 const tracks = loadTracks();
+const collections = loadCollections();
 
 test('note names convert to MIDI and frequency', () => {
   assert.equal(engine.noteToMidi('C4'), 60);
@@ -29,16 +30,29 @@ test('sequences parse into timed, positive notes', () => {
   assert.throws(() => engine.parseSequence('C4:0'));
 });
 
-test('eight lullabies are tuned, ordered and long enough to sleep', () => {
-  assert.equal(tracks.length, 8);
-  assert.deepEqual(tracks.map((t) => t.slot), ['A-1', 'A-2', 'A-3', 'A-4', 'B-1', 'B-2', 'B-3', 'B-4']);
-  assert.equal(new Set(tracks.map((t) => t.id)).size, 8);
+test('fifty lullabies across eight collections are tuned and complete', () => {
+  assert.equal(tracks.length, 50);
+  assert.equal(collections.length, 8);
+  assert.deepEqual(collections.map((c) => c.letter), ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H']);
+  assert.equal(new Set(tracks.map((t) => t.id)).size, 50);
+  assert.equal(new Set(tracks.map((t) => t.slot)).size, 50);
   for (const track of tracks) {
     assert.ok(track.sequence.length >= 12, `${track.id} sequence too short`);
     assert.ok(track.duration > 15 && track.duration < 200, `${track.id} odd duration`);
     assert.ok(track.title.en && track.title.th);
     assert.ok(track.artist.en && track.artist.th);
     assert.match(track.accent, /^#[0-9a-f]{6}$/i);
+    assert.equal(track.collection, track.slot[0]);
+    assert.ok(['public-domain', 'original'].includes(track.rights), `${track.id} rights`);
+    assert.ok(['A', 'B', 'C', 'D', 'E', 'F', 'G'].includes(track.collection));
+  }
+});
+
+test('every collection holds at least one record', () => {
+  for (const collection of collections) {
+    if (collection.letter === 'H') continue;
+    const inCollection = tracks.filter((track) => track.collection === collection.letter);
+    assert.ok(inCollection.length >= 1, `${collection.letter} is empty`);
   }
 });
 
@@ -65,53 +79,60 @@ test('clock formatting is exact', () => {
   assert.equal(engine.formatClock(-9), '0:00');
 });
 
-test('slots, rack and keypad codes agree', () => {
+test('slots, rack and keypad codes agree across A-H', () => {
   assert.equal(engine.slotOf('A', 1), 'A-1');
-  assert.equal(engine.slotOf('d', 8), 'D-8');
-  assert.equal(engine.slotOf('E', 1), null);
+  assert.equal(engine.slotOf('h', 8), 'H-8');
+  assert.equal(engine.slotOf('I', 1), null);
   assert.equal(engine.slotOf('A', 9), null);
-  assert.deepEqual(engine.slotParts('B-3'), { letter: 'B', number: 3 });
+  assert.deepEqual(engine.slotParts('H-8'), { letter: 'H', number: 8 });
   assert.equal(engine.slotOrder('A-1'), 0);
-  assert.equal(engine.slotOrder('B-4'), 7);
-  assert.equal(engine.slotOrder('D-4'), 15);
-  const rack = engine.buildRack(tracks, [{ id: 'x', slot: 'C-1', title: { en: 'X' } }]);
-  assert.equal(rack.length, 16);
+  assert.equal(engine.slotOrder('B-4'), 11);
+  assert.equal(engine.slotOrder('D-4'), 27);
+  assert.equal(engine.slotOrder('H-8'), 63);
+  const rack = engine.buildRack(tracks, [{ id: 'x', slot: 'H-1', title: { en: 'X' } }]);
+  assert.equal(rack.length, 64);
   assert.equal(rack[0].track.id, 'brahms');
-  assert.equal(rack.find((row) => row.slot === 'C-1').track.id, 'x');
-  assert.equal(rack.find((row) => row.slot === 'D-8'), undefined);
+  assert.equal(rack.find((row) => row.slot === 'H-1').track.id, 'x');
+  assert.equal(rack.find((row) => row.slot === 'H-8').track, null);
 });
 
-test('manifest validation accepts good tracks and rejects bad ones', () => {
-  const good = engine.validateManifest(loadManifest());
+test('manifest validation accepts public-domain H slots and rejects bad entries', () => {
+  const manifest = loadManifest();
+  const good = engine.validateManifest(manifest);
   assert.equal(good.ok, true);
   assert.equal(good.tracks.length, 4);
-  assert.deepEqual(good.tracks.map((t) => t.slot), ['C-1', 'C-2', 'C-3', 'C-4']);
+  assert.deepEqual(good.tracks.map((t) => t.slot), ['H-1', 'H-2', 'H-3', 'H-4']);
   assert.ok(good.tracks.every((t) => t.engine === 'stream' && t.url.startsWith('https://')));
+  assert.ok(good.tracks.every((t) => t.license === 'Public domain'));
+  assert.ok(good.tracks.every((t) => t.collection === 'H'));
 
   const bad = engine.validateManifest({ tracks: [
-    { slot: 'C-1', title: 'A', url: 'http://insecure.example/a.mp3' },
-    { slot: 'C-1', title: 'B', url: 'https://example.com/b.mp3' },
-    { slot: 'C-1', title: 'B2', url: 'https://example.com/b2.mp3' },
+    { slot: 'H-1', title: 'A', url: 'http://insecure.example/a.mp3' },
+    { slot: 'H-1', title: 'B', url: 'https://example.com/b.mp3' },
+    { slot: 'H-1', title: 'B2', url: 'https://example.com/b2.mp3' },
     { slot: 'Z-9', title: 'C', url: 'https://example.com/c.mp3' },
-    { slot: 'D-2', title: '', url: 'https://example.com/d.mp3' },
+    { slot: 'H-2', title: '', url: 'https://example.com/d.mp3' },
   ] });
   assert.equal(bad.tracks.length, 1);
   assert.ok(bad.errors.length >= 4, JSON.stringify(bad.errors));
   const allBad = engine.validateManifest({ tracks: [
-    { slot: 'C-1', title: 'A', url: 'http://insecure.example/a.mp3' },
+    { slot: 'H-1', title: 'A', url: 'http://insecure.example/a.mp3' },
   ] });
   assert.equal(allBad.ok, false);
   assert.equal(engine.validateManifest(null).ok, false);
 });
 
-test('settings normalisation is defensive', () => {
+test('settings normalisation is defensive and keeps display preferences', () => {
   const defaults = engine.normalizeSettings(null);
   assert.equal(defaults.master, 82);
   assert.equal(defaults.freePlay, true);
+  assert.equal(defaults.theme, 'midnight');
+  assert.equal(defaults.fontSize, 'normal');
   assert.deepEqual(defaults.favorites, []);
   const wild = engine.normalizeSettings({
     lang: 'xx', master: 900, bass: -99, treble: 99, mix: -4, credits: 400,
     ambient: { rain: 200, ocean: -3 }, timer: 17, favorites: ['a', 'a', 7, 'b'],
+    theme: 'neon', fontSize: 'huge',
   });
   assert.equal(wild.lang, 'en');
   assert.equal(wild.master, 100);
@@ -122,21 +143,24 @@ test('settings normalisation is defensive', () => {
   assert.equal(wild.ambient.rain, 100);
   assert.equal(wild.ambient.ocean, 0);
   assert.equal(wild.timer, 0);
+  assert.equal(wild.theme, 'midnight');
+  assert.equal(wild.fontSize, 'normal');
   assert.deepEqual(wild.favorites, ['a', 'b']);
 });
 
 test('track stepping wraps in both directions', () => {
-  const ids = tracks.map((t) => t.id);
-  assert.equal(engine.nextTrackId(tracks, 'brahms', 1), 'twinkle');
-  assert.equal(engine.nextTrackId(tracks, 'brahms', -1), 'golden');
-  assert.equal(engine.nextTrackId(tracks, 'nope', 1), 'brahms');
+  const first = tracks[0].id;
+  const last = tracks[tracks.length - 1].id;
+  assert.equal(engine.nextTrackId(tracks, first, 1), tracks[1].id);
+  assert.equal(engine.nextTrackId(tracks, first, -1), last);
+  assert.equal(engine.nextTrackId(tracks, 'nope', 1), first);
   assert.equal(engine.nextTrackId([], 'x', 1), null);
 });
 
-test('export payload is schema-stable', () => {
+test('export payload is schema-stable and includes all fifty', () => {
   const payload = engine.exportPayload(engine.normalizeSettings(null), tracks, '2026-11-05T00:00:00.000Z');
   assert.equal(payload.schema, 1);
   assert.equal(payload.exportedAt, '2026-11-05T00:00:00.000Z');
-  assert.equal(payload.tracks.length, 8);
+  assert.equal(payload.tracks.length, 50);
   assert.deepEqual(payload.tracks[0], { id: 'brahms', slot: 'A-1', engine: 'synth', title: "Brahms' Lullaby" });
 });

@@ -26,9 +26,10 @@ records the elapsed time and token counters.
 
 ## Melodies
 
-The eight arrangements use public-domain melodies (Brahms, Twinkle, Flies/Mozart attribution,
-Schubert, traditional). The note selections, tempos, waveforms and envelopes are original to this
-project.
+The 50 arrangements use public-domain melodies or original compositions; 18 are originals by
+Wurlitzer Dream Division. Note selections, tempos, waveforms and envelopes are original to this
+project. The four archive recordings are public domain; the skill links to them and redistributes no
+audio.
 
 ## Licence
 
