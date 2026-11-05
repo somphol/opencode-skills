@@ -292,7 +292,7 @@
     },
     {
       "name": "wurlitzer-lullaby-studio",
-      "version": "62372486b0d9",
+      "version": "89fea8504e51",
       "description": "Build a bilingual, static 3D Wurlitzer-style lullaby jukebox and sleep studio with procedural Web Audio lullabies, an archive stream manifest, ambient beds, a smoothstep sleep timer, headless verification and a GitHub Pages release.",
       "license": "MIT",
       "files": [

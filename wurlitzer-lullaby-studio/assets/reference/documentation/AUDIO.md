@@ -6,7 +6,7 @@ The jukebox can play two kinds of record:
 
 1. **Synth (A-1…B-4).** A Web Audio step sequencer turns a note array into a music-box performance.
    Zero bandwidth, instant, loops forever.
-2. **Archive (H-1…H-4).** A validated JSON manifest points at CORS-enabled MP3s. A single reusable
+2. **Archive (H-1…K-8).** A validated JSON manifest points at CORS-enabled MP3s. A single reusable
    `<audio>` element is routed through `MediaElementAudioSourceNode` into the same master chain, so
    EQ, volume and the sleep timer apply equally.
 
@@ -55,7 +55,7 @@ These are simplified, mood-first settings of public-domain melodies, not transcr
 and the duration recalculates at load. The full fifty-track catalogue is in [TRACKS](TRACKS.md). The A page is shown here:
 a further 42 arrangements cover Music Box, Classical, Folk & World, original Dreams and Bonus pages.
 Every synth track is either a public-domain melody or an original composition; every archive track is
-public domain.
+public domain. The first-listen queue is archive-only and auto-advances.
 
 ## Ambient generators
 

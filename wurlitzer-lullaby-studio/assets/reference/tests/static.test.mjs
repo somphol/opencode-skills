@@ -122,14 +122,14 @@ test('documentation set is present and linked', () => {
 
 test('state record names the model, the tool and the verification', () => {
   assert.equal(state.project, 'Vintage Wurlitzer 3D Lullaby Jukebox & Sleep Studio');
-  assert.equal(state.release, "1.1.0");
+  assert.equal(state.release, "1.2.0");
   assert.equal(state.model.name, 'DeepSeek V4.1 Flash');
   assert.equal(state.model.id, 'deepseek-v4.1-flash');
   assert.equal(state.credits.tool, 'OpenCode');
   assert.ok(state.session.elapsedSeconds > 0);
   assert.ok(state.session.elapsed);
   assert.ok(state.usage.totalTokens > 0);
-  assert.ok(state.verification.totalChecks >= 70);
+  assert.ok(state.verification.totalChecks >= 77);
   assert.equal(state.verification.consoleErrors, 0);
   assert.ok(state.deployment.repository.includes('github.com'));
   assert.ok(state.deployment.pages.includes('github.io'));

@@ -1,14 +1,14 @@
 {
   "project": "Vintage Wurlitzer 3D Lullaby Jukebox & Sleep Studio",
-  "release": "1.1.0",
+  "release": "1.2.0",
   "session": {
     "id": "ses_e56042271ffePs43L8FfL1gi0s",
     "title": "Vintage Wurlitzer Jukebox Project",
     "startedAt": "2026-11-05T04:33:38Z",
-    "capturedAt": "2026-11-05T05:03:37Z",
-    "elapsedSeconds": 1799,
-    "elapsed": "29m 59s",
-    "note": "One continuous OpenCode session: concept, 3D cabinet, dual audio engines, bilingual UI, four test layers, documentation, GitHub Pages release and the reusable skill. Captured from the OpenCode session database immediately before the final metadata push; only that push and its Pages verification fall outside the counters."
+    "capturedAt": "2026-11-05T05:28:14Z",
+    "elapsedSeconds": 3276,
+    "elapsed": "54m 36s",
+    "note": "One continuous OpenCode session: concept, 50-track 3D jukebox, eight category pages, themes, text sizes, dual audio engines, public-domain archive streams, bilingual UI, four test layers, documentation, GitHub Pages release and the reusable skill. Captured from the OpenCode session database immediately before the final metadata push."
   },
   "model": {
     "name": "DeepSeek V4.1 Flash",
@@ -16,12 +16,12 @@
     "provider": "opencode-go"
   },
   "usage": {
-    "inputTokens": 236003,
-    "outputTokens": 135341,
-    "reasoningTokens": 62105,
-    "cacheReadTokens": 15888256,
+    "inputTokens": 393092,
+    "outputTokens": 193429,
+    "reasoningTokens": 121937,
+    "cacheReadTokens": 49399296,
     "cacheWriteTokens": 1547,
-    "totalTokens": 16323252,
+    "totalTokens": 50109301,
     "costUSD": 0.0,
     "note": "Read from the OpenCode session database (session_v2) for this session. totalTokens sums all five counters; repeated prompt context (cache reads) dominates. costUSD is 0 on the flat-rate plan. Counters exclude the final metadata push only."
   },
@@ -32,10 +32,10 @@
       "script.js"
     ],
     "lineCounts": {
-      "index.html": 386,
-      "style.css": 1645,
-      "script.js": 3635,
-      "total": 5666
+      "index.html": 413,
+      "style.css": 1798,
+      "script.js": 3846,
+      "total": 6057
     },
     "supportingFiles": [
       ".editorconfig",
@@ -94,30 +94,31 @@
       "tests/static.test.mjs"
     ],
     "counts": {
-      "sourceLines": 5666,
+      "sourceLines": 6057,
       "trackedFiles": 55,
-      "docs": 14,
+      "docs": 15,
       "tests": 5,
-      "archiveTracks": 4,
+      "archiveTracks": 32,
       "synthTracks": 50,
-      "collections": 8,
-      "totalTracks": 54,
-      "rackSlots": 64
+      "collections": 11,
+      "totalTracks": 82,
+      "rackSlots": 88,
+      "mechanicalKeys": 19
     }
   },
   "verification": {
     "method": "Dependency-free Node suites plus one headless Chrome over the Chrome DevTools Protocol, local and live",
     "automatedChecks": 23,
-    "browserChecks": 25,
-    "selfTestChecks": 25,
-    "totalChecks": 73,
+    "browserChecks": 27,
+    "selfTestChecks": 27,
+    "totalChecks": 77,
     "consoleErrors": 0,
-    "liveBrowserChecks": 25,
+    "liveBrowserChecks": 27,
     "checks": [
-      "Engine (11): note maths, sequences, fifty tracks, eight collections, smoothstep fade, clock, 64 slots, manifest, settings/themes, stepping, export payload",
-      "Repository (12): files, HTML shell, import-map pinning, ids, i18n symmetry, engine purity, public-domain manifest, docs links, state fields, no secrets, CSS system",
-      "In-page (25): WebGL, cabinet, 44 bubbles, 30 bulbs, record/tone arm, fifty tracks, 64 slots, dictionaries, 16 keys, manifest, H slots, fade, clock, settings, audio graph, synth start/pause, timer, empty slot, export, language, scene state, theme, text size",
-      "Browser (25): boot, self-test, selection, pause/resume, step, coin credit, empty slot, keypad, seek, Thai, category tabs, search, themes/text size, favourites, knob, ambient, timer, reload, export, help, mobile sheets, reduced motion, public-domain manifest, mute/free-play, zero console errors"
+      "Engine (11): note maths, sequences, fifty synth tracks, eleven collections, smoothstep fade, clock, 88 slots, manifest, settings/themes, stepping, export payload",
+      "Repository (12): files, HTML shell, import-map pinning, ids, i18n symmetry, engine purity, 32 public-domain recordings, docs links, state fields, no secrets, CSS system",
+      "In-page (27): WebGL, cabinet, 44 bubbles, 30 bulbs, record/tone arm, fifty synth tracks, 88 slots, dictionaries, 19 keys, manifest, H–K slots, fade, clock, settings, audio graph, synth start/pause, timer, empty slot, export, language, scene state, theme, text size, first-listen queue, source link",
+      "Browser (27): boot, self-test, first-listen archive queue, source link, selection, pause/resume, step, coin credit, empty slot, keypad, seek, Thai, category tabs, search, themes/text size, favourites, knob, ambient, timer, reload, export, help, mobile sheets, reduced motion, 32 public-domain performances, mute/free-play, zero console errors"
     ],
     "scaffoldSelfTest": "22/22 engine+static and 22/22 browser from a clean skill scaffold"
   },
@@ -128,8 +129,8 @@
     "branch": "main",
     "path": "/",
     "status": "live",
-    "verifiedAt": "2026-11-05T05:03:37Z",
-    "note": "Pages created through the API on main / root. The 22-check browser suite passed against the live URL with zero console errors; the in-page suite is 23/23."
+    "verifiedAt": "2026-11-05T05:28:14Z",
+    "note": "Pages serves main / root at 1.2.0. The 27-check browser suite passes against the live URL with zero console errors; the in-page suite is 27/27."
   },
   "credits": {
     "tool": "OpenCode",
@@ -143,11 +144,11 @@
     "name": "wurlitzer-lullaby-studio",
     "title": "Wurlitzer Lullaby Studio",
     "status": "published",
-    "version": "content hash in the catalog index.json",
+    "version": "62372486b0d9",
     "catalog": "https://somphol.github.io/opencode-skills/",
     "source": "https://github.com/somphol/opencode-skills/tree/main/wurlitzer-lullaby-studio",
     "local": "~/.config/opencode/skills/wurlitzer-lullaby-studio",
     "validated": true,
-    "note": "35 files. The reference is updated to the 50-track, category-tab, theme and text-size release; check-skill.mjs passes and a clean scaffold passes the suites."
+    "note": "50 files, 0.89 MB. check-skill.mjs passes; a clean scaffold passed 23/23 engine+repository and 25/25 headless browser checks. Catalog index serves version 62372486b0d9."
   }
 }

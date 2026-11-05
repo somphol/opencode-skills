@@ -3,8 +3,8 @@
 ## Budget
 
 The scene is one cabinet, one room, ~50 textures and a restrained composer. The library holds 50
-synth note arrays and 4 archive URLs; only one sequence is scheduled at a time, so track count does
-not affect frame time. Loading 50 arrays adds ~14 KB of source, parsed once at boot. It targets 60 fps on an
+synth note arrays and 32 archive URLs; only one sequence or stream is active at a time, so track
+count does not affect frame time. Loading 50 arrays adds ~14 KB of source, parsed once at boot. It targets 60 fps on an
 M1-class laptop and 30–60 fps on a modern phone. There is no network streaming of models.
 
 ## Renderer settings

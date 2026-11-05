@@ -78,8 +78,8 @@ curl -s -X POST -H "Authorization: Bearer $TOKEN" -H "Accept: application/vnd.gi
 - [ ] `git status` clean, no secrets or screenshots of private data
 - [ ] local engine/static/browser suites green
 - [ ] live URL returns 200 and the expected `<title>`
-- [ ] live browser suite 25/25, zero console errors
-- [ ] `?selftest` 25/25 in a real browser
+- [ ] live browser suite 27/27, zero console errors
+- [ ] `?selftest` 27/27 in a real browser
 - [ ] README screenshots load from the deployed URL
 - [ ] `state.json` deployment status `live` and `verifiedAt` set
 - [ ] `AGENTS.md` continuity links current

@@ -6,10 +6,10 @@
 | --- | --- | --- | --- |
 | Engine | `tests/engine.test.mjs` | 10 | note maths, tracks, fade, slots, manifest, settings, stepping, export |
 | Repository | `tests/static.test.mjs` | 12 | files, shell, pinning, ids, i18n, engine purity, docs, state, secrets, CSS |
-| In-page | `?selftest` / `runSelfTest()` | 25 | WebGL, scene, audio graph, timer, empty slot, language, scene state |
-| Browser | `tests/browser.test.mjs` | 25 | real DOM, interactions, reload, mobile, reduced motion, console |
+| In-page | `?selftest` / `runSelfTest()` | 27 | WebGL, scene, audio graph, timer, empty slot, language, scene state |
+| Browser | `tests/browser.test.mjs` | 27 | real DOM, interactions, reload, mobile, reduced motion, console |
 
-Expected total: 73.
+Expected total: 77.
 
 ## Harness
 
@@ -69,7 +69,7 @@ is `{}` and is the classic false pass.
 
 ## In-page checks
 
-25 checks:
+27 checks:
 
 1. WebGL context
 2. cabinet children ≥ 30
@@ -80,8 +80,8 @@ is `{}` and is the classic false pass.
 7. every sequence > 12 notes, duration > 8 s
 8. unique slots
 9. dictionary symmetry and ≥ 90 keys
-10. eight category pages and 64 slots
-11. 16 keys
+10. eleven collection pages and 88 slots
+11. 19 keys
 12. manifest responded
 13. C slots mapped
 14. fade 120/60/0
@@ -96,6 +96,8 @@ is `{}` and is the classic false pass.
 23. scene energy/dim
 24. theme switch
 25. text-size switch
+26. first-listen archive queue
+27. archive source link
 
 ## Console errors
 
@@ -122,4 +124,4 @@ Run the live suite after the Pages build says `built`, not immediately after the
 | timer test fails | `fadeGain` changed; it must be 0.5 at 60 s |
 | reload test fails | localStorage key or `normalizeSettings` changed |
 | keychain prompt | mock-keychain flags removed |
-| browser check 25 fails | a real console error; read the collected text |
+| browser check 27 fails | a real console error; read the collected text |

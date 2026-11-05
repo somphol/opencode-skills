@@ -56,13 +56,13 @@ and the self-test.
 ## ADR-006 — 3D rack shows one eight-record page
 
 **Decision:** the physical paper rack renders eight records from the active category page or the
-current record's collection. The DOM rack renders all 64 slots with tabs and search.
+current record's collection. The DOM rack renders all 88 slots with tabs and search.
 
 **Why:** eight canvas textures stay legible at the cabinet's screen size. Sixty-four would shrink the
 type below readability and add GPU memory. The eight-record page also matches the physical 1015 rack.
 
 **Consequence:** the 3D rack is a mirror of the active page, not the whole library. Archive streams
-(H page) and all categories are reachable from the DOM tabs or the A–H keypad.
+(H–K pages) and all categories are reachable from the DOM tabs or the A–K keypad.
 
 ## ADR-007 — Engine markers and `new Function` tests
 
@@ -104,16 +104,17 @@ silent English leaks.
 
 **Consequence:** a static test compares sorted key arrays; every new UI string needs both languages.
 
-## ADR-011 — 50 tracks in eight collection pages, not one long list
+## ADR-011 — 50 synth tracks in seven collection pages, not one long list
 
-**Decision:** the library is 50 synth records + 4 archive records in 8 collections (A–H), with 64
-slots (A-1…H-8). The DOM shows one category page at a time by default; All shows all 64 slots. The 3D
+**Decision:** the library is 50 synth records in seven synth pages (A–G) plus 32 archive records in
+four archive pages (H–K), for 11 collections and 88 slots (A-1…K-8). The DOM shows one category page
+at a time by default; All shows all 88 slots. The 3D
 rack shows the active page (or the current track's collection).
 
 **Why:** a 50-row list is unreadable on a 330 px panel, and 50 canvas textures in the 3D rack would be
 illegible. Category tabs, search and an eight-record physical page preserve the jukebox metaphor.
 
-**Consequence:** the keypad is A–H + 1–8, not A–D. Adding a track means assigning an unused slot and
+**Consequence:** the keypad is A–K + 1–8, not A–D. Adding a track means assigning an unused slot and
 a collection page; `getRackRows()` is the single filter path for tabs, search and favourites.
 
 ## ADR-012 — Themes recolor CSS + 3D, text size scales type only
@@ -127,3 +128,27 @@ stage. A targeted type scale keeps the layout stable and the canvas aligned.
 
 **Consequence:** new components need both a base size and the three size overrides; new themes need
 CSS tokens plus a scene color set. Both preferences are part of `normalizeSettings` and the export.
+
+## ADR-013 — 32 archive performances, four pages, source links
+
+**Decision:** the archive is a first-class library of 32 real public-domain performances in H–K, not
+four demo streams. Every entry has a `source` URL, and the UI links to it.
+
+**Why:** H-3/H-4 proved that real performances carry timbre, polyphony and human timing the synth
+cannot. A larger archive gives the product its emotional centre.
+
+**Consequence:** the rack grows to 88 slots and the keypad to A–K. The manifest validator and static
+test require `license: "Public domain"`; do not add a share-alike, attribution-only or copyrighted
+recording.
+
+## ADR-014 — First-listen queue plus a gesture prompt
+
+**Decision:** on first open, load an eight-track archive queue and show a gold “Start the first-listen
+playlist” button. On click, start the queue; auto-advance on `ended`.
+
+**Why:** browsers block audible autoplay. A prompt preserves the intent (“the app opens with these
+songs”) without lying about autoplay or swallowing the blocked-play error. Archive tracks are used
+because they end and advance naturally; synth loops never end.
+
+**Consequence:** `DEFAULT_QUEUE` is archive-only, `queueMode` controls next/previous, and a separate
+localStorage key records the first run. The prompt is not a modal and does not block the instrument.

@@ -92,3 +92,21 @@ container starts at 22% width; smaller headline; zoom the OG camera to 8.4.
   the state file matches the real session rather than a mid-build snapshot.
 - Use `grep`/`sed` on the source for repeated refactors, but apply visual changes with a screenshot
   check.
+
+
+## 1.2.0 — archive library and title card
+
+- **Archive is the emotional core.** H-3/H-4 proved real performances beat the synth for warmth;
+  the library grew to 32 public-domain piano/chamber/early recordings across H–K.
+- **The default must be a queue, not a single track.** Archive streams end and auto-advance; synth
+  loops do not. `DEFAULT_QUEUE` is archive-only and `queueMode` governs next/previous.
+- **Autoplay is a lie; a prompt is honest.** Browsers block audible autoplay. A gold start button plus
+  a first-user-gesture fallback keeps the intent without swallowing the error.
+- **The title card needs a source link.** A big title without provenance is incomplete for public
+  domain. Put the Commons URL in both the temporary card and the persistent now-playing card, with
+  `rel="noopener noreferrer"`.
+- **Reload must restore by ID, not slot.** `trackBySlot.get(lastTrack)` is wrong because the map is
+  keyed by slot; use `tracks.find(t => t.id === lastTrack)`. This bug silently reset archive starts
+  to A-1 on reload.
+- **A–K keypad.** Eleven letters fit a single row at 330 px; 19 keys in total. The physical metaphor
+  bends, but the archive library needs the codes.

@@ -30,13 +30,17 @@ compositions. The public-domain sources include (the full 50-track catalogue is 
 - *Frère Jacques* (traditional French)
 - *Golden Slumbers* (traditional English)
 
-The four archive streams are **linked, not redistributed**. Each is marked **Public domain** on its
-Wikimedia Commons page:
+The 32 archive performances are **linked, not redistributed**. Each is marked **Public domain** on
+its Wikimedia Commons page. The full list is in [TRACKS](TRACKS.md); examples:
 
-- Brahms – Schumann-Heink, *Wiegenlied* (1915)
-- *Lullaby Wound-Up Clock*
 - Gabriel Fauré, *Berceuse* Op. 56 No. 1
 - Christian Cappelen, *Berceuse*
+- Frédéric Chopin, *Berceuse* Op. 57 and eight nocturnes
+- Erik Satie, *Gymnopédies* 1–3
+- Claude Debussy, *Clair de Lune* and *Rêverie*
+- Ludwig van Beethoven, *Moonlight Sonata* Adagio
+- Brahms – Schumann-Heink, *Wiegenlied* (1915)
+- and 21 more public-domain performances
 
 Full URLs and licence notes: [THIRD_PARTY_NOTICES](../THIRD_PARTY_NOTICES.md).
 

@@ -1,17 +1,17 @@
 # Roadmap
 
-## Deliberately shipped in 1.1.0
+## Deliberately shipped in 1.2.0
 
-Fifty synth lullabies across eight collections, four public-domain archive streams, three ambient
-beds, category tabs and search, four themes, three text sizes, a smoothstep timer, coin/free-play,
-favourites, export, bilingual UI, 73 checks and a reproducible handoff. That is the product; the list
+Fifty synth lullabies across seven collections, 32 public-domain archive performances across four
+collections, a first-listen archive queue, a cinematic now-playing card with source links, three
+ambient beds, eleven category pages and search, four themes, three text sizes, a smoothstep timer,
+coin/free-play, favourites, export, bilingual UI, 77 checks and a reproducible handoff. That is the product; the list
 below is optional.
 
 ## Next, in rough order
 
 1. **Quality toggle.** Disable bloom and reduce bubble count on low-end GPUs, remembered in settings.
-2. **More archive curation.** Add verified public-domain recordings; keep the manifest H-1…H-4 or
-extend to H-8 with a documented slot plan. Only `license: "Public domain"` entries are accepted.
+2. **More archive curation.** Add verified public-domain recordings; extend the H–K archive pages with a documented slot plan. Only `license: "Public domain"` entries are accepted.
 3. **Wake-safe resume.** Remember the last position and offer “continue where you left off” rather
    than restarting the loop.
 4. **Timer memory.** Restore the last timer as armed-but-paused, with a visible “will start on play”

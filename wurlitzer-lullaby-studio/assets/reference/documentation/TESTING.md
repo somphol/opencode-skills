@@ -25,7 +25,7 @@ literal `$('…')` reference, EN/TH symmetry and static-key coverage, engine pur
 THREE/fetch/Date), manifest validity and Wikimedia provenance, the documentation set and README links,
 `state.json` fields, secret/home-path/IP patterns, and CSS tokens/breakpoints.
 
-## 3. In-page — 25 checks
+## 3. In-page — 27 checks
 
 Open <http://localhost:8000/?selftest>. The overlay lists every check and sets
 `body.dataset.selftest` to `passed/total`. It is also callable:
@@ -34,12 +34,12 @@ Open <http://localhost:8000/?selftest>. The overlay lists every check and sets
 await window.__wurlitzer.runSelfTest(true)
 ```
 
-Covers WebGL, cabinet assembly, 44 bubbles, 30 bulbs, record/tone arm, fifty tracks, sequence
-validity, unique slots, dictionary symmetry, 8-page tabs, 64 slots, 16 keys, manifest response, H-slot mapping,
+Covers WebGL, cabinet assembly, 44 bubbles, 30 bulbs, record/tone arm, fifty tracks, 32 archive performances, sequence
+validity, unique slots, dictionary symmetry, 11 category tabs, 88 slots, 19 keys, manifest response, H–K mapping,
 fade curve, clock, normalisation, audio graph, synth start/pause, timer fade, empty-slot rejection,
-export payload, language switch, scene energy/dim, theme switch, text-size switch.
+export payload, language switch, scene energy/dim, theme switch, text-size switch, first-listen queue, archive source link.
 
-## 4. Headless browser — 25 checks
+## 4. Headless browser — 27 checks
 
 ```bash
 node tests/browser.test.mjs
@@ -63,13 +63,14 @@ read.
 The suite drives the page over the DevTools Protocol (`Runtime.evaluate`, `Page.captureScreenshot`,
 `Emulation.setDeviceMetricsOverride`, `Emulation.setEmulatedMedia`) and asserts:
 
-- boot: ready, WebGL, canvas, cabinet children, 8 active strips, 16 keys, manifest
-- self-test 25/25 and dataset
+- boot: ready, WebGL, canvas, cabinet children, 8 active strips, 19 keys, manifest
+- self-test 27/27 and dataset
 - selecting A-2, now-playing/caption/status
 - pause/resume, next/previous
 - coin mode consumes a credit; free-play bypass
 - empty D-8 rejection; keypad A-3 selection
 - Thai switch updates `<html lang>`, rack, title; back to EN
+- first-listen prompt starts the archive queue with a big title card and source link
 - category tabs switch pages and rebuild the 3D rack
 - title search finds a record in another collection
 - theme switch reaches the scene; A++ text size updates the document
@@ -90,9 +91,9 @@ The suite drives the page over the DevTools Protocol (`Runtime.evaluate`, `Page.
 | --- | --- |
 | Engine | 11 |
 | Repository | 12 |
-| In-page | 25 |
-| Browser | 25 |
-| **Total** | **73** |
+| In-page | 27 |
+| Browser | 27 |
+| **Total** | **77** |
 
 ## Troubleshooting
 
@@ -100,7 +101,7 @@ The suite drives the page over the DevTools Protocol (`Runtime.evaluate`, `Page.
 | --- | --- |
 | `Chrome not found` | `CHROME="/Applications/Google Chrome.app/Contents/MacOS/Google Chrome" node tests/browser.test.mjs` |
 | WebGL context fails | keep `--enable-unsafe-swiftshader`; try a non-headless Chrome |
-| Manifest check fails | network blocked; Wikimedia is required for H-1…H-4 |
+| Manifest check fails | network blocked; Wikimedia is required for H-1…K-8 |
 | CDN import fails | jsDelivr blocked; the app and browser suite need it |
 | Timer assertion fails | check `fadeGain` still returns exactly 0.5 at 60 s |
 | Keychain prompts | do not remove the mock-keychain flags |

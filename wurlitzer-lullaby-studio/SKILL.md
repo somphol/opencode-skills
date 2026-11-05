@@ -1,18 +1,18 @@
 ---
 name: Wurlitzer Lullaby Studio
-description: Build a bilingual, static 3D Wurlitzer-style lullaby jukebox and sleep studio with 50 procedural Web Audio lullabies across category pages, public-domain archive streams, ambient beds, themes, text sizing, a smoothstep sleep timer, headless verification and a GitHub Pages release.
+description: Build a bilingual, static 3D Wurlitzer-style lullaby jukebox and sleep studio with 50 procedural lullabies plus 32 public-domain archive performances, first-listen queue, cinematic source-linked now-playing card, category pages, ambient beds, themes, text sizing, a smoothstep sleep timer, headless verification and a GitHub Pages release.
 version: 1.0.0
 ---
 
 # Wurlitzer Lullaby Studio
 
 Turn “make me a vintage jukebox for sleep” into a shipped product: a procedural 1940s bubbler in
-Three.js, fifty synthesized music-box lullabies across eight collection pages, four public-domain archive streams, rain/ocean/crickets,
+Three.js, fifty synthesized music-box lullabies plus 32 real public-domain performances across eleven collection pages, a first-listen archive queue, a cinematic title card, rain/ocean/crickets,
 a physical coin slot, a bilingual EN/TH HUD, a fade-to-silence timer, four test layers and a live
 Pages URL.
 
 This skill is written from a completed release: **Vintage Wurlitzer 3D Lullaby Jukebox & Sleep
-Studio** — 11 engine checks, 12 repository checks, 25 in-page checks, 25 headless browser checks, zero
+Studio** — 11 engine checks, 12 repository checks, 27 in-page checks, 27 headless browser checks, zero
 console errors. The reference source is in `assets/reference/`; the product is at
 <https://somphol.github.io/vintage-wurlitzer-lullaby-jukebox/>.
 
@@ -43,9 +43,9 @@ Do not stop at “the cabinet renders”. A release has all of these:
 | --- | --- | --- |
 | Engine | `node --test tests/engine.test.mjs` | 11/11 |
 | Repository | `node --test tests/static.test.mjs` | 12/12 |
-| In-page | `/?selftest` | 25/25 |
-| Local browser | `node tests/browser.test.mjs` | 25/25, zero console errors |
-| Live browser | `TEST_URL=https://… node tests/browser.test.mjs` | 25/25 |
+| In-page | `/?selftest` | 27/27 |
+| Local browser | `node tests/browser.test.mjs` | 27/27, zero console errors |
+| Live browser | `TEST_URL=https://… node tests/browser.test.mjs` | 27/27 |
 | Visuals | `node scripts/screenshot.mjs` | 8 fresh assets |
 | Docs | README, AGENTS, 14 docs, community files | links resolve |
 | Metadata | `state.json`, licence, sitemap, social card | shape valid |
@@ -62,12 +62,12 @@ If a number is lower, fix the cause; never edit the claim.
 3. **Archive streams must be CORS-enabled.** Route them through one reusable
    `<audio crossOrigin="anonymous">` + `MediaElementAudioSourceNode`. Wikimedia transcode URLs work;
    a random CDN usually does not.
-4. **Validate the manifest.** https only, slots C-1…H-8, unique, non-empty title, length caps, and `license: "Public domain"`. Render
+4. **Validate the manifest.** https only, slots C-1…K-8, unique, non-empty title, length caps, `license: "Public domain"` and a source URL. Render
    manifest text with `textContent`, never as HTML.
 5. **Every audible track must be royalty-free.** Synth tracks are original arrangements of
    public-domain melodies or original compositions (add a `rights` field and test it). Archive
-   entries must be **Public domain**; do not ship CC BY-SA, attribution-only, copyrighted or
-   unknown-licence recordings, and do not redistribute audio files.
+   entries must be **Public domain** with a Commons `source`; do not ship CC BY-SA, attribution-only,
+   copyrighted or unknown-licence recordings, and do not redistribute audio files.
 6. **Pin Three.js to one exact version** in the import map (`0.169.0` in the reference). No `latest`,
    no caret, no unpkg, no bundler.
 7. **Keep the pure engine pure.** It lives between `/* ENGINE:START */` and `/* ENGINE:END */`; no
@@ -111,8 +111,8 @@ Build the marker blocks before the visuals:
 - `I18N` — at least 100 keys, identical in EN and TH.
 - `ENGINE` — note maths, sequence parsing, `fadeGain`, `formatClock`, slots, `buildRack`,
   `normalizeSettings`, `validateManifest`, `nextTrackId`, `exportPayload`.
-- `TRACKS` — 50 objects across eight collections, with `slot` A-1…G-2, `collection`, `bpm`, `wave`,
-  `gain`, `accent`, `rights`, bilingual title/artist and a `notes` string (`G4:2 B4:1`).
+- `TRACKS` — 50 objects across eight collections, with `slot` A-1…G-2, `collection`, `bpm`, `wave`, `gain`, `accent`, `rights`, bilingual
+  title/artist and a `notes` string (`G4:2 B4:1`).
 
 Run `node --test tests/engine.test.mjs`. Do not start the cabinet until the engine is green.
 
@@ -140,7 +140,7 @@ Build `WurlitzerScene` procedurally. The reference geometry is in `references/SC
 - body/plinth boxes, extruded arch, chrome/brass tubes, pilasters;
 - two bubble-tube curves with 22 bubbles each;
 - record deck, tone arm, 8 paper planes per active page;
-- 16 key groups (A–H, 1–8), coin plate + falling quarter;
+- 19 key groups (A–K, 1–8), coin plate + falling quarter;
 - grille, sign, 30 bulbs;
 - wall/floor/rug/dust and five lights;
 - PMREM `RoomEnvironment`, ACES tone mapping, restrained bloom.
@@ -150,13 +150,13 @@ more detail; overexposure hides every material decision.
 
 ### Phase 4 — app shell and UI
 
-- DOM rack: 64 slots, eight category tabs, search, star buttons, empty G/H slots; the 3D rack mirrors the active page.
+- DOM rack: 88 slots, eleven category tabs, search, star buttons, empty G slots; the 3D rack mirrors the active page.
 - Four rotary knobs with pointer drag, wheel and keyboard; `role="slider"` and `aria-valuenow`.
 - Coin/free-play gate; credits persist.
 - Timer dial, progress/seek, mute, help, mobile tabs.
 - Language application must redraw the 3D paper textures and the DOM rack.
 - Favourites filter, export JSON, reset double-press.
-- Self-test with 25 checks and `body.dataset.selftest`.
+- Self-test with 27 checks and `body.dataset.selftest`.
 
 ### Phase 5 — verify locally
 
@@ -197,11 +197,11 @@ the `skill-publish` workflow.
 | --- | --- | --- |
 | Dictionaries | `script.js` `I18N` block | 100+ keys, symmetrical |
 | Pure logic | `script.js` `ENGINE` block | Node-loadable, no DOM |
-| Lullabies | `script.js` `TRACKS` block | 50 note arrays, 8 collections |
+| Lullabies | `script.js` `TRACKS` block | 50 note arrays, 7 synth collections |
 | Audio | `JukeboxAudio` | graph, scheduler, stream, ambient, timer |
 | 3D | `WurlitzerScene` | renderer, geometry, textures, raycasting |
 | App | `WurlitzerApp` | bindings, state, language, coins, self-test |
-| Manifest | `data/playlist.json` | H-1…H-4, https, public domain, source |
+| Manifest | `data/playlist.json` | H-1…K-8, 32 performances, http(s), public domain, source |
 | Tests | `tests/` | engine, static, browser, harness |
 | Docs | `docs/` | architecture/reproduction/audio/design/testing/release |
 
@@ -219,7 +219,7 @@ the `skill-publish` workflow.
 
 1. Find a CORS-enabled public-domain/free recording. Wikimedia `upload.wikimedia.org` transcode MP3s
    return `Access-Control-Allow-Origin: *`; check headers with `curl -sI`.
-2. Add a `data/playlist.json` entry in C-1…H-8 with `url`, `duration`, `license: "Public domain"`, `credit`, `source`.
+2. Add a `data/playlist.json` entry in C-1…K-8 with `url`, `duration`, `license: "Public domain"`, `credit`, `source`.
 3. Run the static + engine tests. Play it in a real browser and confirm audio, seek and ended→next.
 
 ### Add an ambient bed
@@ -262,6 +262,15 @@ Expose `debugSetRemaining(seconds)` so a browser test can prove 0.5 at 60 s with
    overrides, and a button. Never use browser zoom; it breaks the fixed canvas stage.
 4. Persist both in `DEFAULT_SETTINGS`, `normalizeSettings`, the export and the browser test.
 
+### First-listen queue and source links
+
+1. Keep `DEFAULT_QUEUE` archive-only: real performances end and auto-advance; synth loops do not.
+2. On first run, show a gold start button; browsers block audible autoplay, so never call `play()`
+   before a gesture and never swallow the rejection.
+3. `stepTrack()` follows the queue while `queueMode` is true; selecting a non-queue record exits it.
+4. Feed the overlay from `updateNowDetails()`: big title, artist, slot, collection, engine, duration,
+   queue position, licence and source link. Keep a persistent source link in the now-playing card.
+
 ### Bilingual pass
 
 1. Add the key to both dictionaries.
@@ -278,7 +287,7 @@ Expose `debugSetRemaining(seconds)` so a browser test can prove 0.5 at 60 s with
 | Silent product | context created before a gesture | `ensure()` on click |
 | Silent C tracks | CORS or missing `crossOrigin` | Wikimedia + anonymous |
 | Timer cuts abruptly | fading master or linear fade | fade `timerGain`, smoothstep |
-| Strips unreadable | too many textures in 3D | show one eight-record page; full 64 in DOM |
+| Strips unreadable | too many textures in 3D | show one eight-record page; full 88 in DOM |
 | Thai 3D text boxes | no Thai system font | keep DOM correct; document the limit |
 | Browser suite prompts Keychain | flags removed | restore mock keychain |
 | `fetch` fails locally | `file://` | static server |

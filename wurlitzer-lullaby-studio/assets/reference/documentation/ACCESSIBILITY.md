@@ -42,6 +42,14 @@ increases the important reading surfaces — strips, now-playing, captions, labe
 relationships: cream on near-black, gold accents, dark sepia on cream paper. Theme names are exposed
 as `aria-label`/`title` on the swatches, and text-size buttons have descriptive labels.
 
+## Now-playing card and source links
+
+The cinematic card is `aria-live="polite"` and `role`-free (a section with a heading), so a track
+change is announced without stealing focus. It does not trap focus and disappears after nine seconds;
+the persistent now-playing card in the studio panel carries the same title and source link. Source
+links use `target="_blank"` and `rel="noopener noreferrer"` and are keyboard reachable. The first-run
+prompt is a real button with a visible label, not a click-anywhere trick.
+
 ## Visual
 
 - Primary text (`#f2e7d3`) on `#05070d` is well above 7:1. Muted text (`#9b968d`) is ~5:1.

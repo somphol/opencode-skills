@@ -30,7 +30,7 @@ const I18N = {
     favoritesOnly: 'Favorites',
     insertQuarter: 'Insert quarter',
     credits: 'Credits',
-    keypadHint: 'Press a letter A–H, then a number — just like the real thing.',
+    keypadHint: 'Press a letter A–K, then a number — just like the real thing.',
     nowPlaying: 'Now playing',
     dragHint: 'Drag to orbit · scroll to zoom · click a strip to play',
     studioEyebrow: 'Late-night controls',
@@ -57,7 +57,7 @@ const I18N = {
     helpEyebrow: 'The nickel tour',
     helpTitle: 'How to play the bubbler',
     helpStep1Title: 'Pick a strip.',
-    helpStep1Body: 'Click any paper title strip in the rack, or press a letter A–H then a number on the chrome keypad. A-1 through G-2 are synthesized music-box lullabies across eight collections. H-1 through H-4 are public-domain archive recordings.',
+    helpStep1Body: 'Click any paper title strip in the rack, or press a letter A–K then a number on the chrome keypad. A-1 through G-2 are synthesized music-box lullabies. H-1 through K-8 are real, public-domain archive performances across four collections.',
     helpStep2Title: 'Feed the machine.',
     helpStep2Body: 'Free Play is on by default. Turn it off and the jukebox needs a quarter for each selection; the coin drops into the slot in 3D.',
     helpStep3Title: 'Shape the night.',
@@ -149,6 +149,13 @@ const I18N = {
     themeAmber: 'Amber Lounge',
     themeEmerald: 'Emerald Club',
     themeRose: 'Rose Salon',
+    startPlaylist: 'Start the first-listen playlist',
+    firstListen: 'First-listen',
+    sourceLink: 'Source',
+    sourceCommons: 'Wikimedia Commons',
+    licensePublicDomain: 'Public domain',
+    licenseOriginal: 'Original composition',
+    licenseMelody: 'Public-domain melody',
     textNormal: 'Normal text',
     textLarge: 'Large text',
     textXLarge: 'Extra-large text',
@@ -164,7 +171,7 @@ const I18N = {
     favoritesOnly: 'รายการโปรด',
     insertQuarter: 'หยอดเหรียญ 25 เซนต์',
     credits: 'เครดิต',
-    keypadHint: 'กดตัวอักษร A–H แล้วกดตัวเลข — เหมือนเครื่องจริง',
+    keypadHint: 'กดตัวอักษร A–K แล้วกดตัวเลข — เหมือนเครื่องจริง',
     nowPlaying: 'กำลังเล่น',
     dragHint: 'ลากเพื่อหมุน · เลื่อนเพื่อซูม · คลิกแถบเพลงเพื่อเล่น',
     studioEyebrow: 'ปุ่มควบคุมยามดึก',
@@ -191,7 +198,7 @@ const I18N = {
     helpEyebrow: 'ทัวร์สั้น ๆ',
     helpTitle: 'วิธีเล่นตู้เพลงบับเบิล',
     helpStep1Title: 'เลือกแถบเพลง',
-    helpStep1Body: 'คลิกแถบชื่อเพลงในชั้น หรือกดตัวอักษร A–H แล้วตัวเลขบนแป้นโครเมียม A-1 ถึง G-2 เป็นเพลงกล่อมสังเคราะห์แปดคอลเลกชัน ส่วน H-1 ถึง H-4 เป็นเสียงจากคลังเก่าที่เป็นสาธารณสมบัติ',
+    helpStep1Body: 'คลิกแถบชื่อเพลงในชั้น หรือกดตัวอักษร A–K แล้วตัวเลขบนแป้นโครเมียม A-1 ถึง G-2 เป็นเพลงกล่อมสังเคราะห์ ส่วน H-1 ถึง K-8 เป็นการแสดงจริงจากคลังที่เป็นสาธารณสมบัติ',
     helpStep2Title: 'หยอดเหรียญ',
     helpStep2Body: 'โหมดเล่นฟรีเปิดอยู่โดยค่าเริ่มต้น ถ้าปิด จะต้องหยอดเหรียญทุกครั้งที่เลือกเพลง และเหรียญจะร่วงลงช่องในฉาก 3 มิติ',
     helpStep3Title: 'ปรับบรรยากาศ',
@@ -283,6 +290,13 @@ const I18N = {
     themeAmber: 'เลานจ์อำพัน',
     themeEmerald: 'คลับมรกต',
     themeRose: 'ซาลอนกุหลาบ',
+    startPlaylist: 'เริ่มเพลย์ลิสต์ฟังแรก',
+    firstListen: 'ฟังแรก',
+    sourceLink: 'แหล่งที่มา',
+    sourceCommons: 'วิกิมีเดียคอมมอนส์',
+    licensePublicDomain: 'สาธารณสมบัติ',
+    licenseOriginal: 'ผลงานต้นฉบับ',
+    licenseMelody: 'ทำนองสาธารณสมบัติ',
     textNormal: 'ขนาดปกติ',
     textLarge: 'ขนาดใหญ่',
     textXLarge: 'ขนาดใหญ่มาก',
@@ -358,25 +372,25 @@ function formatClock(totalSeconds) {
 }
 
 const SLOT_ORDER = [
-  ...['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H'].flatMap((letter) => [1, 2, 3, 4, 5, 6, 7, 8].map((n) => `${letter}-${n}`)),
+  ...['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K'].flatMap((letter) => [1, 2, 3, 4, 5, 6, 7, 8].map((n) => `${letter}-${n}`)),
 ];
 
 function slotOf(letter, number) {
   const L = String(letter).toUpperCase();
   const N = Number(number);
-  if (!/^[A-H]$/.test(L) || !Number.isInteger(N) || N < 1 || N > 8) return null;
+  if (!/^[A-K]$/.test(L) || !Number.isInteger(N) || N < 1 || N > 8) return null;
   return `${L}-${N}`;
 }
 
 function slotParts(slot) {
-  const match = /^([A-H])-([1-8])$/.exec(String(slot));
+  const match = /^([A-K])-([1-8])$/.exec(String(slot));
   return match ? { letter: match[1], number: Number(match[2]) } : null;
 }
 
 function slotOrder(slot) {
   const parts = slotParts(slot);
   if (!parts) return 999;
-  return ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H'].indexOf(parts.letter) * 8 + (parts.number - 1);
+  return ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K'].indexOf(parts.letter) * 8 + (parts.number - 1);
 }
 
 function buildRack(builtins = [], externals = []) {
@@ -444,7 +458,7 @@ function validateManifest(data) {
   for (const [index, raw] of data.tracks.entries()) {
     if (!raw || typeof raw !== 'object') { errors.push(`track ${index} is not an object`); continue; }
     const slot = String(raw.slot || '').toUpperCase();
-    if (!/^[C-H]-[1-8]$/.test(slot)) { errors.push(`track ${index} has an invalid slot`); continue; }
+    if (!/^[C-K]-[1-8]$/.test(slot)) { errors.push(`track ${index} has an invalid slot`); continue; }
     if (seen.has(slot)) { errors.push(`duplicate slot ${slot}`); continue; }
     if (typeof raw.url !== 'string' || !/^https:\/\//.test(raw.url)) { errors.push(`track ${slot} needs an https URL`); continue; }
     if (typeof raw.title !== 'string' || !raw.title.trim()) { errors.push(`track ${slot} needs a title`); continue; }
@@ -483,6 +497,7 @@ function exportPayload(settings, tracks, isoTimestamp) {
     settings,
     tracks: tracks.map((track) => ({
       id: track.id, slot: track.slot, engine: track.engine, title: track.title.en,
+      rights: track.rights || '', license: track.license || '', source: track.source || '',
     })),
   };
 }
@@ -501,7 +516,10 @@ const COLLECTIONS = [
   { letter: 'E', en: 'Dreams I', th: 'ฝัน I' },
   { letter: 'F', en: 'Dreams II', th: 'ฝัน II' },
   { letter: 'G', en: 'Bonus', th: 'โบนัส' },
-  { letter: 'H', en: '78s', th: '78 รอบ' },
+  { letter: 'H', en: 'Piano', th: 'เปียโน' },
+  { letter: 'I', en: 'Nocturnes', th: 'น็อกเทิร์น' },
+  { letter: 'J', en: 'Romantic', th: 'โรแมนติก' },
+  { letter: 'K', en: '78s', th: '78 รอบ' },
 ];
 
 const THEMES = [
@@ -509,6 +527,12 @@ const THEMES = [
   { id: 'amber', en: 'Amber Lounge', th: 'เลานจ์อำพัน', bg: 0x0a0704, fog: 0x0a0704, bulb: 0xffb35c, rose: 0xe09a6a, teal: 0xd8b06a },
   { id: 'emerald', en: 'Emerald Club', th: 'คลับมรกต', bg: 0x030a08, fog: 0x030a08, bulb: 0xd8c987, rose: 0x7fd3a8, teal: 0x4fc9a8 },
   { id: 'rose', en: 'Rose Salon', th: 'ซาลอนกุหลาบ', bg: 0x0b0508, fog: 0x0b0508, bulb: 0xffc3a8, rose: 0xe88fa1, teal: 0xd8a6c7 },
+];
+
+const FIRST_RUN_KEY = 'wurlitzer-lullaby-studio:visited';
+const DEFAULT_QUEUE = [
+  'archive-h1', 'archive-h2', 'archive-h4', 'archive-h6',
+  'archive-h7', 'archive-h5', 'archive-h8', 'archive-i1',
 ];
 
 const T = (id, slot, en, th, artist, artistTh, bpm, wave, notes, accent = '#e6c07b') => ({
@@ -2055,7 +2079,7 @@ class WurlitzerScene {
       this.interactive.push(group);
       return group;
     };
-    ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H'].forEach((letter, i) => makeKey(letter, -0.84 + i * 0.24, 1.02, 'letter'));
+    ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K'].forEach((letter, i) => makeKey(letter, -0.9 + i * 0.18, 1.02, 'letter'));
     for (let i = 0; i < 8; i++) makeKey(String(i + 1), -0.84 + i * 0.24, 0.82, 'number');
 
     const plaque = new THREE.Mesh(new THREE.PlaneGeometry(2.5, 0.11), new THREE.MeshBasicMaterial({ map: (() => {
@@ -2063,7 +2087,7 @@ class WurlitzerScene {
       const ctx = c.getContext('2d');
       ctx.fillStyle = '#1a120b'; ctx.fillRect(0, 0, 700, 76);
       ctx.fillStyle = '#d9b77c'; ctx.font = '600 25px Georgia, serif'; ctx.textAlign = 'center';
-      ctx.fillText('A – H    1 – 8    ·    SELECT YOUR RECORD', 350, 48);
+      ctx.fillText('A – K    1 – 8    ·    SELECT YOUR RECORD', 350, 48);
       const tex = new THREE.CanvasTexture(c); tex.colorSpace = THREE.SRGBColorSpace; return tex;
     })() }));
     plaque.position.set(0, 1.18, 0.842);
@@ -2372,10 +2396,16 @@ class WurlitzerApp {
     document.body.dataset.motion = reduceMotion.matches ? 'reduced' : 'full';
     this.tracks = this.builtins.slice();
     this.rebuildTrackMap();
-    this.current = this.trackBySlot.get(this.settings.lastTrack) || this.builtins[0];
+    this.current = this.tracks.find((track) => track.id === this.settings.lastTrack) || this.builtins[0];
     this.collection = this.current?.collection || 'A';
     this.query = '';
     this._sceneKey = '';
+    this.firstRun = !localStorage.getItem(FIRST_RUN_KEY);
+    this.queueMode = false;
+    this.startedOnce = false;
+    this._overlayTimer = null;
+    this._overlayTrack = null;
+    this._firstGesture = null;
 
     this.audio = new JukeboxAudio(this.settings, {
       onTick: () => this.onAudioTick(),
@@ -2442,6 +2472,22 @@ class WurlitzerApp {
     if (!this.trackBySlot.has(this.current?.slot)) {
       this.current = this.trackBySlot.get('A-1') || merged[0];
     }
+    if (this.firstRun) {
+      const queue = this.queueTracks();
+      if (queue.length) {
+        this.current = queue[0];
+        this.collection = queue[0].collection;
+        this.queueMode = true;
+      }
+    } else {
+      const remembered = this.tracks.find((track) => track.id === this.settings.lastTrack);
+      if (remembered) {
+        this.current = remembered;
+        this.collection = remembered.collection;
+        this.queueMode = DEFAULT_QUEUE.includes(remembered.id);
+      }
+    }
+    this.renderCollectionTabs();
     this.renderRack();
     this.syncNowPlaying();
   }
@@ -2481,6 +2527,8 @@ class WurlitzerApp {
     $('loading')?.classList.add('is-done');
     document.body.dataset.ready = 'true';
     setStatus(this.t('statusReady'));
+    if (this.firstRun) this.showStartPrompt();
+    this.armFirstGesture();
     if (this.settings.favorites.length) {
       // A quiet reminder, not a modal.
       setTimeout(() => showToast(this.t('toastResume')), 1200);
@@ -2520,6 +2568,13 @@ class WurlitzerApp {
   bind() {
     const on = (id, event, fn) => $(id)?.addEventListener(event, fn);
     on('play-btn', 'click', () => this.togglePlay());
+    on('start-playlist', 'click', () => this.startDefaultPlaylist());
+    on('stage-caption', 'click', () => this.showNowOverlay(true));
+    on('stage-caption', 'keydown', (event) => {
+      if (event.key === 'Enter' || event.key === ' ') { event.preventDefault(); this.showNowOverlay(true); }
+    });
+    $('now-overlay')?.addEventListener('pointerenter', () => clearTimeout(this._overlayTimer));
+    $('now-overlay')?.addEventListener('pointerleave', () => this.scheduleOverlayHide());
     on('prev-btn', 'click', () => this.stepTrack(-1));
     on('next-btn', 'click', () => this.stepTrack(1));
     on('stop-btn', 'click', () => this.stop());
@@ -2712,6 +2767,139 @@ class WurlitzerApp {
     const label = lang === 'en' ? 'English' : 'ภาษาไทย';
     showToast(label);
     saveSettings(this.settings);
+  }
+
+  /* ---------- first-listen playlist and now-playing card ---------- */
+
+  queueTracks() {
+    return DEFAULT_QUEUE.map((id) => this.tracks.find((track) => track.id === id)).filter(Boolean);
+  }
+
+  showStartPrompt() {
+    const button = $('start-playlist');
+    if (!button) return;
+    button.hidden = false;
+    setStatus(this.t('startPlaylist'));
+  }
+
+  hideStartPrompt() {
+    const button = $('start-playlist');
+    if (button) button.hidden = true;
+  }
+
+  markVisited() {
+    if (!this.firstRun) return;
+    this.firstRun = false;
+    try { localStorage.setItem(FIRST_RUN_KEY, '1'); } catch { /* private mode */ }
+    this.hideStartPrompt();
+    this.removeFirstGesture();
+  }
+
+  armFirstGesture() {
+    this.removeFirstGesture();
+    this._firstGesture = (event) => {
+      if (!this.firstRun) return;
+      const target = event.target;
+      if (target?.closest('button, input, select, a, .knob, .strip')) return;
+      this.startDefaultPlaylist();
+    };
+    document.addEventListener('pointerdown', this._firstGesture, true);
+  }
+
+  removeFirstGesture() {
+    if (this._firstGesture) {
+      document.removeEventListener('pointerdown', this._firstGesture, true);
+      this._firstGesture = null;
+    }
+  }
+
+  startDefaultPlaylist() {
+    const queue = this.queueTracks();
+    if (!queue.length) {
+      this.markVisited();
+      return false;
+    }
+    this.queueMode = true;
+    this.markVisited();
+    return this.chooseTrack(queue[0], { free: true });
+  }
+
+  currentCollectionLabel(track) {
+    const collection = COLLECTIONS.find((item) => item.letter === track.collection);
+    return collection ? (collection[this.lang] || collection.en) : '';
+  }
+
+  updateNowDetails(track, playing) {
+    if (!track) return;
+    const archive = track.engine === 'stream';
+    const source = track.source || '';
+    const collection = this.currentCollectionLabel(track);
+    const duration = formatClock(this.audio.duration() || track.duration || 0);
+    const license = archive
+      ? this.t('licensePublicDomain')
+      : (track.rights === 'original' ? this.t('licenseOriginal') : this.t('licenseMelody'));
+
+    const nowSource = $('now-source');
+    if (nowSource) {
+      nowSource.hidden = !source;
+      nowSource.href = source || '#';
+      nowSource.textContent = `${this.t('sourceLink')} ↗`;
+      nowSource.setAttribute('aria-label', `${this.t('sourceLink')}: ${track.title[this.lang] || track.title.en}`);
+    }
+
+    const sourceEl = $('overlay-source');
+    if (sourceEl) {
+      sourceEl.hidden = !source;
+      sourceEl.href = source || '#';
+      sourceEl.textContent = `${this.t('sourceCommons')} ↗`;
+    }
+    if ($('overlay-title')) $('overlay-title').textContent = track.title[this.lang] || track.title.en;
+    if ($('overlay-artist')) $('overlay-artist').textContent = track.artist[this.lang] || track.artist.en;
+    if ($('overlay-slot')) $('overlay-slot').textContent = track.slot;
+    if ($('overlay-collection')) $('overlay-collection').textContent = collection;
+    if ($('overlay-engine')) $('overlay-engine').textContent = this.t(archive ? 'engineStream' : 'engineSynth');
+    if ($('overlay-duration')) $('overlay-duration').textContent = duration;
+    if ($('overlay-license')) $('overlay-license').textContent = archive ? license : `${license} · MIT`;
+
+    const queue = this.queueTracks();
+    const index = queue.findIndex((item) => item.id === track.id);
+    const queueEl = $('overlay-queue');
+    if (queueEl) {
+      const showQueue = this.queueMode && index >= 0;
+      queueEl.hidden = !showQueue;
+      queueEl.textContent = showQueue ? `${this.t('firstListen')} · ${index + 1}/${queue.length}` : '';
+    }
+
+    const overlay = $('now-overlay');
+    const visible = overlay?.classList.contains('is-visible');
+    if (this.startedOnce && (!visible && (this._overlayTrack !== track.id || playing))) {
+      this.showNowOverlay();
+    }
+    this._overlayTrack = track.id;
+  }
+
+  showNowOverlay() {
+    const overlay = $('now-overlay');
+    if (!overlay || !this.current) return;
+    overlay.hidden = false;
+    requestAnimationFrame(() => overlay.classList.add('is-visible'));
+    this.scheduleOverlayHide();
+  }
+
+  scheduleOverlayHide() {
+    clearTimeout(this._overlayTimer);
+    this._overlayTimer = setTimeout(() => this.hideNowOverlay(), 9000);
+  }
+
+  hideNowOverlay() {
+    const overlay = $('now-overlay');
+    clearTimeout(this._overlayTimer);
+    this._overlayTimer = null;
+    if (!overlay) return;
+    overlay.classList.remove('is-visible');
+    setTimeout(() => {
+      if (!overlay.classList.contains('is-visible')) overlay.hidden = true;
+    }, 460);
   }
 
   /* ---------- settings & UI state ---------- */
@@ -2979,7 +3167,7 @@ class WurlitzerApp {
   renderKeypadState() {
     for (const button of document.querySelectorAll('.key')) {
       const key = button.dataset.key;
-      const armed = /^[A-H]$/.test(key) ? this.pending.letter === key : this.pending.number === key;
+      const armed = /^[A-K]$/.test(key) ? this.pending.letter === key : this.pending.number === key;
       button.classList.toggle('is-armed', armed);
     }
   }
@@ -2988,7 +3176,7 @@ class WurlitzerApp {
     this.sfx.clack();
     safeVibrate(8);
     if (this.scene) this.scene.pressKey(key);
-    if (/^[A-H]$/.test(key)) {
+    if (/^[A-K]$/.test(key)) {
       this.pending.letter = this.pending.letter === key ? null : key;
     } else {
       this.pending.number = this.pending.number === key ? null : key;
@@ -3025,8 +3213,10 @@ class WurlitzerApp {
       this.settings.credits -= 1;
       this.updateCredits();
     }
+    if (this.firstRun) this.markVisited();
     this.current = track;
     this.settings.lastTrack = track.id;
+    this.queueMode = DEFAULT_QUEUE.includes(track.id);
     let pageChanged = false;
     if (this.query) {
       this.query = '';
@@ -3049,6 +3239,7 @@ class WurlitzerApp {
       setStatus(`${this.t('statusPlaying')} · ${track.title[this.lang] || track.title.en}`, 'live');
       safeVibrate([8, 30, 8]);
     }
+    this.startedOnce = true;
     this.syncNowPlaying();
     if (pageChanged) this.renderRack();
     else {
@@ -3059,6 +3250,10 @@ class WurlitzerApp {
   }
 
   togglePlay() {
+    if (this.firstRun) {
+      this.startDefaultPlaylist();
+      return;
+    }
     if (!this.current) {
       this.current = this.trackBySlot.get('A-1') || this.tracks[0];
     }
@@ -3080,7 +3275,10 @@ class WurlitzerApp {
   }
 
   stepTrack(direction) {
-    const available = this.tracks.filter((track) => track.engine === 'synth' || track.url);
+    const queue = this.queueTracks();
+    const available = this.queueMode && queue.length
+      ? queue
+      : this.tracks.filter((track) => track.engine === 'synth' || track.url);
     if (!available.length) return;
     const nextId = nextTrackId(available, this.current?.id, direction);
     const track = available.find((item) => item.id === nextId);
@@ -3092,6 +3290,7 @@ class WurlitzerApp {
     this.scene?.setPlaying(false);
     this.scene?.setDim(0);
     setStatus(this.t('statusStopped'));
+    this.hideNowOverlay();
     this.syncNowPlaying();
   }
 
@@ -3389,6 +3588,7 @@ class WurlitzerApp {
       }
     }
     this.updateFavoriteButton();
+    this.updateNowDetails(track, playing);
     this.updateProgress();
     document.title = `${playing ? '▶ ' : ''}${title} — Wurlitzer Lullaby`;
   }
@@ -3421,7 +3621,7 @@ class WurlitzerApp {
     const lang = this.lang;
     this.settings = normalizeSettings({ ...DEFAULT_SETTINGS, lang, favorites: [], lastTrack: 'brahms' });
     this.audio.store = this.settings;
-    this.current = this.trackBySlot.get('brahms') || this.builtins[0];
+    this.current = this.tracks.find((track) => track.id === 'brahms') || this.builtins[0];
     this.favoritesOnly = false;
     this.query = '';
     this.collection = 'A';
@@ -3503,10 +3703,10 @@ class WurlitzerApp {
       const th = Object.keys(I18N.th).sort();
       return en.length >= 90 && en.join('|') === th.join('|');
     });
-    check('Eight category pages and 64 rack slots exist', () => COLLECTIONS.length === 8 && buildRack(this.builtins, this.externals).length === 64);
-    check('Sixteen mechanical keys render', () => document.querySelectorAll('.key').length === 16);
+    check('Eleven collection pages and 88 rack slots exist', () => COLLECTIONS.length === 11 && buildRack(this.builtins, this.externals).length === 88);
+    check('Nineteen mechanical keys render', () => document.querySelectorAll('.key').length === 19);
     check('Archive manifest responded', () => this.manifestOk === true);
-    check('Rack map includes archive slots', () => ['H-1', 'H-2', 'H-3', 'H-4'].every((slot) => this.trackBySlot.has(slot)));
+    check('Rack map includes archive slots', () => ['H-1', 'H-2', 'I-1', 'K-8'].every((slot) => this.trackBySlot.has(slot)));
     check('Fade curve is smooth and monotonic', () => fadeGain(120) === 1 && fadeGain(0) === 0 && fadeGain(60) > 0.49 && fadeGain(60) < 0.51);
     check('Clock formatting is exact', () => formatClock(0) === '0:00' && formatClock(65) === '1:05' && formatClock(372) === '6:12');
     check('Settings normalise outliers', () => {
@@ -3535,7 +3735,7 @@ class WurlitzerApp {
       this.audio.setTimer(0);
       return active && mid > 0.49 && mid < 0.51;
     });
-    check('Empty H-8 slot is rejected', () => this.selectSlot('H-8') === false);
+    check('Empty G-8 slot is rejected', () => this.selectSlot('G-8') === false);
     check('Export payload is well formed', () => {
       const payload = exportPayload(this.settings, this.tracks, new Date(0).toISOString());
       return payload.schema === 1 && Array.isArray(payload.tracks) && payload.tracks.length >= 50;
@@ -3566,6 +3766,17 @@ class WurlitzerApp {
       const ok = document.body.dataset.font === 'large';
       this.setFontSize(before, false);
       return ok;
+    });
+    check('First-listen queue is complete', () => {
+      const queue = this.queueTracks();
+      return queue.length === 8 && queue.every((track) => track.engine === 'stream' && track.license === 'Public domain');
+    });
+    check('Archive source link is exposed', () => {
+      const track = this.trackBySlot.get('H-1');
+      if (!track) return false;
+      this.updateNowDetails(track, false);
+      const source = document.getElementById('overlay-source');
+      return Boolean(source && source.href.startsWith('https://commons.wikimedia.org/'));
     });
 
     const passed = checks.filter((item) => item.ok).length;

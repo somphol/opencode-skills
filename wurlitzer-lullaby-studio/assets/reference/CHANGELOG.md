@@ -4,6 +4,21 @@ All notable changes to this project are documented here. The format follows
 [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and the project uses
 [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.2.0] — 2026-11-05
+
+### Added
+
+- **32 public-domain archive performances** across four pages (Piano, Nocturnes, Romantic, 78s),
+  including Fauré, Cappelen, Chopin, Schumann, Debussy, Satie, Beethoven, Bruckner, Saint-Saëns and
+  Tchaikovsky. Every track links to its Wikimedia Commons source.
+- **First-listen playlist** — the first open loads an eight-track queue of real archive performances
+  and prompts for the gesture browsers require; the queue auto-advances on stream end.
+- **Cinematic now-playing card** — a large title with composer/performer, slot, collection, engine,
+  duration, queue position, licence and source link, fading in on every record change.
+- **A–K keypad and 88-slot rack** (11 collections) to hold the larger library; 19 mechanical keys.
+- Source links in the now-playing card, title card and JSON export.
+- Tests expanded to **11 engine, 12 repository, 27 in-page and 27 browser checks** (77 total).
+
 ## [1.1.0] — 2026-11-05
 
 ### Added

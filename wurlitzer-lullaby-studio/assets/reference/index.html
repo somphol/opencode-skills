@@ -116,7 +116,7 @@
 
         <div class="rack-foot">
           <div class="keypad" aria-label="Mechanical selection keypad">
-            <div class="keypad-row" role="group" aria-label="Letter keys">
+            <div class="keypad-row letters" role="group" aria-label="Letter keys">
               <button class="key" type="button" data-key="A">A</button>
               <button class="key" type="button" data-key="B">B</button>
               <button class="key" type="button" data-key="C">C</button>
@@ -125,8 +125,11 @@
               <button class="key" type="button" data-key="F">F</button>
               <button class="key" type="button" data-key="G">G</button>
               <button class="key" type="button" data-key="H">H</button>
+              <button class="key" type="button" data-key="I">I</button>
+              <button class="key" type="button" data-key="J">J</button>
+              <button class="key" type="button" data-key="K">K</button>
             </div>
-            <div class="keypad-row" role="group" aria-label="Number keys">
+            <div class="keypad-row numbers" role="group" aria-label="Number keys">
               <button class="key key-num" type="button" data-key="1">1</button>
               <button class="key key-num" type="button" data-key="2">2</button>
               <button class="key key-num" type="button" data-key="3">3</button>
@@ -148,11 +151,11 @@
               <strong id="credit-count">5</strong>
             </div>
           </div>
-          <p class="rack-hint" data-i18n="keypadHint">Press a letter A–H, then a number — just like the real thing.</p>
+          <p class="rack-hint" data-i18n="keypadHint">Press a letter A–K, then a number — just like the real thing.</p>
         </div>
       </aside>
 
-      <section class="stage-caption" id="stage-caption" aria-label="Now playing on the jukebox">
+      <section class="stage-caption" id="stage-caption" tabindex="0" role="button" aria-label="Show now-playing details">
         <div class="caption-inner">
           <span class="caption-live" aria-hidden="true"></span>
           <div>
@@ -188,6 +191,7 @@
             </p>
             <h3 id="now-title">Brahms' Lullaby</h3>
             <p id="now-artist">Johannes Brahms</p>
+            <a id="now-source" class="now-source" target="_blank" rel="noopener noreferrer" hidden>Source ↗</a>
           </div>
           <button id="favorite-btn" class="star-btn" type="button" aria-label="Add to favorites" aria-pressed="false">★</button>
         </div>
@@ -328,6 +332,29 @@
     </footer>
   </div>
 
+  <section id="now-overlay" class="now-overlay" hidden aria-live="polite">
+    <p class="overlay-kicker" data-i18n="nowPlaying">Now playing</p>
+    <h2 id="overlay-title">Brahms' Lullaby</h2>
+    <p id="overlay-artist" class="overlay-artist">Johannes Brahms</p>
+    <div class="overlay-meta">
+      <span id="overlay-slot">A-1</span>
+      <span id="overlay-collection">Lullabies</span>
+      <span id="overlay-engine">SYNTH</span>
+      <span id="overlay-duration">1:27</span>
+      <span id="overlay-queue">First-listen · 1/8</span>
+    </div>
+    <p class="overlay-foot">
+      <span id="overlay-license">Public-domain melody · MIT</span>
+      <span aria-hidden="true"> · </span>
+      <a id="overlay-source" href="#" target="_blank" rel="noopener noreferrer" hidden>Wikimedia Commons ↗</a>
+    </p>
+  </section>
+
+  <button id="start-playlist" class="start-playlist" type="button" hidden>
+    <span class="start-icon" aria-hidden="true">▶</span>
+    <span data-i18n="startPlaylist">Start the first-listen playlist</span>
+  </button>
+
   <div class="mobile-tabs" role="group" aria-label="Panels">
     <button id="tab-songs" class="mobile-tab is-active" type="button" data-i18n="songsTab">Songs</button>
     <button id="tab-studio" class="mobile-tab" type="button" data-i18n="studioTab">Studio</button>
@@ -351,7 +378,7 @@
       <p class="eyebrow" data-i18n="helpEyebrow">The nickel tour</p>
       <h2 id="help-title" data-i18n="helpTitle">How to play the bubbler</h2>
       <ol class="help-steps">
-        <li><strong data-i18n="helpStep1Title">Pick a strip.</strong> <span data-i18n="helpStep1Body">Click any paper title strip in the rack, or press a letter then a number on the chrome keypad. A-1 through G-2 are synthesized music-box lullabies across eight collections. H-1 through H-4 are public-domain archive recordings.</span></li>
+        <li><strong data-i18n="helpStep1Title">Pick a strip.</strong> <span data-i18n="helpStep1Body">Click any paper title strip in the rack, or press a letter then a number on the chrome keypad. A-1 through G-2 are synthesized music-box lullabies. H-1 through K-8 are real, public-domain archive performances across four collections.</span></li>
         <li><strong data-i18n="helpStep2Title">Feed the machine.</strong> <span data-i18n="helpStep2Body">Free Play is on by default. Turn it off and the jukebox needs a quarter for each selection; the coin drops into the slot in 3D.</span></li>
         <li><strong data-i18n="helpStep3Title">Shape the night.</strong> <span data-i18n="helpStep3Body">Turn the four chrome knobs for master volume, bass, treble and ambient mix. Blend rain, waves and crickets underneath the music.</span></li>
         <li><strong data-i18n="helpStep4Title">Set the timer.</strong> <span data-i18n="helpStep4Body">Choose 15, 30 or 60 minutes. The last two minutes fade smoothly to silence, then the cabinet lights go dark.</span></li>

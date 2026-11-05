@@ -32,8 +32,8 @@ test('sequences parse into timed, positive notes', () => {
 
 test('fifty lullabies across eight collections are tuned and complete', () => {
   assert.equal(tracks.length, 50);
-  assert.equal(collections.length, 8);
-  assert.deepEqual(collections.map((c) => c.letter), ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H']);
+  assert.equal(collections.length, 11);
+  assert.deepEqual(collections.map((c) => c.letter), ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K']);
   assert.equal(new Set(tracks.map((t) => t.id)).size, 50);
   assert.equal(new Set(tracks.map((t) => t.slot)).size, 50);
   for (const track of tracks) {
@@ -50,7 +50,7 @@ test('fifty lullabies across eight collections are tuned and complete', () => {
 
 test('every collection holds at least one record', () => {
   for (const collection of collections) {
-    if (collection.letter === 'H') continue;
+    if (['H', 'I', 'J', 'K'].includes(collection.letter)) continue;
     const inCollection = tracks.filter((track) => track.collection === collection.letter);
     assert.ok(inCollection.length >= 1, `${collection.letter} is empty`);
   }
@@ -81,30 +81,32 @@ test('clock formatting is exact', () => {
 
 test('slots, rack and keypad codes agree across A-H', () => {
   assert.equal(engine.slotOf('A', 1), 'A-1');
-  assert.equal(engine.slotOf('h', 8), 'H-8');
-  assert.equal(engine.slotOf('I', 1), null);
+  assert.equal(engine.slotOf('k', 8), 'K-8');
+  assert.equal(engine.slotOf('L', 1), null);
   assert.equal(engine.slotOf('A', 9), null);
-  assert.deepEqual(engine.slotParts('H-8'), { letter: 'H', number: 8 });
+  assert.deepEqual(engine.slotParts('K-8'), { letter: 'K', number: 8 });
   assert.equal(engine.slotOrder('A-1'), 0);
   assert.equal(engine.slotOrder('B-4'), 11);
   assert.equal(engine.slotOrder('D-4'), 27);
   assert.equal(engine.slotOrder('H-8'), 63);
+  assert.equal(engine.slotOrder('K-8'), 87);
   const rack = engine.buildRack(tracks, [{ id: 'x', slot: 'H-1', title: { en: 'X' } }]);
-  assert.equal(rack.length, 64);
+  assert.equal(rack.length, 88);
   assert.equal(rack[0].track.id, 'brahms');
   assert.equal(rack.find((row) => row.slot === 'H-1').track.id, 'x');
-  assert.equal(rack.find((row) => row.slot === 'H-8').track, null);
+  assert.equal(rack.find((row) => row.slot === 'G-8').track, null);
 });
 
 test('manifest validation accepts public-domain H slots and rejects bad entries', () => {
   const manifest = loadManifest();
   const good = engine.validateManifest(manifest);
   assert.equal(good.ok, true);
-  assert.equal(good.tracks.length, 4);
-  assert.deepEqual(good.tracks.map((t) => t.slot), ['H-1', 'H-2', 'H-3', 'H-4']);
+  assert.equal(good.tracks.length, 32);
+  assert.equal(good.tracks[0].slot, 'H-1');
+  assert.equal(good.tracks[good.tracks.length - 1].slot, 'K-8');
   assert.ok(good.tracks.every((t) => t.engine === 'stream' && t.url.startsWith('https://')));
   assert.ok(good.tracks.every((t) => t.license === 'Public domain'));
-  assert.ok(good.tracks.every((t) => t.collection === 'H'));
+  assert.ok(good.tracks.every((t) => ['H', 'I', 'J', 'K'].includes(t.collection)));
 
   const bad = engine.validateManifest({ tracks: [
     { slot: 'H-1', title: 'A', url: 'http://insecure.example/a.mp3' },
@@ -162,5 +164,8 @@ test('export payload is schema-stable and includes all fifty', () => {
   assert.equal(payload.schema, 1);
   assert.equal(payload.exportedAt, '2026-11-05T00:00:00.000Z');
   assert.equal(payload.tracks.length, 50);
-  assert.deepEqual(payload.tracks[0], { id: 'brahms', slot: 'A-1', engine: 'synth', title: "Brahms' Lullaby" });
+  assert.equal(payload.tracks[0].id, 'brahms');
+  assert.equal(payload.tracks[0].slot, 'A-1');
+  assert.equal(payload.tracks[0].rights, 'public-domain');
+  assert.equal(payload.tracks[0].engine, 'synth');
 });

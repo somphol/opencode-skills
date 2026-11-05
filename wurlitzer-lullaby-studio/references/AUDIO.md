@@ -17,10 +17,9 @@ ambient layers ───────────────→ ambientBus ─�
 
 ## Synth
 
-The reference ships 50 synth tracks across eight collections. Only one sequence plays at a time, so the
+The reference ships 50 synth tracks across seven collections and 32 archive performances across four archive collections. Only one sequence plays at a time, so the
 count does not affect CPU. All synth tracks are original arrangements of public-domain melodies or
-original compositions (`rights: public-domain | original`). Archive slots are H-1…H-4 and must be
-public-domain recordings.
+original compositions (`rights: public-domain | original`). Archive slots are H-1…K-8 and must be public-domain recordings with a source URL.
 
 ```js
 const now = ctx.currentTime + 0.06;

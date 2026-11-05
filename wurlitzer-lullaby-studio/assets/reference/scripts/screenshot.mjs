@@ -20,11 +20,12 @@ const target = await (
 ).json();
 const cdp = await connect(target.webSocketDebuggerUrl);
 
-const evaluate = async (expression) => {
+const evaluate = async (expression, userGesture = false) => {
   const { result } = await cdp.send('Runtime.evaluate', {
     expression,
     returnByValue: true,
     awaitPromise: true,
+    userGesture,
   });
   return result.value;
 };
@@ -53,15 +54,18 @@ try {
   });
   await navigate('?shot=1');
 
-  // Idle hero with the cabinet lit.
+  // First-run hero: the archive Piano page and the start prompt.
   await shot('studio.png');
 
-  // Playing a lullaby — record, arm and bubbles in motion.
-  await evaluate(`document.querySelector('[data-slot="A-1"] .strip-open').click(); true`);
-  await sleep(1600);
+  // Start the first-listen queue and capture the cinematic title card.
+  await evaluate(`document.getElementById('start-playlist').click(); true`, true);
+  await sleep(1800);
+  await evaluate(`document.getElementById('toast').classList.remove('is-visible'); true`);
   await shot('playing.png');
 
   // Central stage, cropped between the side panels.
+  await evaluate('window.__wurlitzer.hideNowOverlay(); true');
+  await sleep(600);
   const stageBox = await evaluate(`(() => {
     const r = document.getElementById('stage').getBoundingClientRect();
     return { x: 340, y: 72, width: 920, height: 850 };

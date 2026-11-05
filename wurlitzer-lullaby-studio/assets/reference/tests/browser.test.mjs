@@ -33,11 +33,12 @@ const target = await (
 const cdp = await connect(target.webSocketDebuggerUrl);
 const consoleErrors = [];
 
-const evaluate = async (expression) => {
+const evaluate = async (expression, userGesture = false) => {
   const { result, exceptionDetails } = await cdp.send('Runtime.evaluate', {
     expression,
     returnByValue: true,
     awaitPromise: true,
+    userGesture,
   });
   if (exceptionDetails) {
     throw new Error(exceptionDetails.exception?.description || exceptionDetails.text);
@@ -54,12 +55,12 @@ const navigate = async (query = '') => {
   await sleep(500);
 };
 
-const click = (selector) => evaluate(`(() => {
+const click = (selector, userGesture = false) => evaluate(`(() => {
   const el = document.querySelector(${JSON.stringify(selector)});
   if (!el) throw new Error('missing selector: ' + ${JSON.stringify(selector)});
   el.click();
   return true;
-})()`);
+})()`, userGesture);
 
 const text = (selector) => evaluate(`document.querySelector(${JSON.stringify(selector)})?.textContent?.trim() || ''`);
 
@@ -111,22 +112,67 @@ try {
     assert.equal(info.canvas, true);
     assert.ok(info.cabinet >= 30, `cabinet children: ${info.cabinet}`);
     assert.equal(info.strips, 8);
-    assert.equal(info.keys, 16);
+    assert.equal(info.keys, 19);
     assert.ok(info.bubbles >= 40);
     assert.equal(info.bulbs, 30);
-    assert.equal(info.tracks, 54);
+    assert.equal(info.tracks, 82);
     return true;
   });
 
   await record('In-page self-test passes every check', async () => {
     const report = JSON.parse(await evaluate('window.__wurlitzer.runSelfTest(false).then((r) => JSON.stringify(r))'));
-    assert.equal(report.total, 25);
+    assert.equal(report.total, 27);
     assert.equal(report.passed, report.total, JSON.stringify(report.checks.filter((c) => !c.ok)));
-    assert.equal(await evaluate('document.body.dataset.selftest'), '25/25');
+    assert.equal(await evaluate('document.body.dataset.selftest'), '27/27');
+    return true;
+  });
+
+  await record('First-listen playlist starts with a real archive performance', async () => {
+    const prompt = await evaluate(`(() => ({
+      visible: !document.getElementById('start-playlist').hidden,
+      queue: window.__wurlitzer.queueTracks().length
+    }))()`);
+    assert.equal(prompt.visible, true);
+    assert.equal(prompt.queue, 8);
+    await click('#start-playlist', true);
+    await sleep(1000);
+    const info = await evaluate(`(() => ({
+      current: window.__wurlitzer.current.id,
+      slot: window.__wurlitzer.current.slot,
+      status: window.__wurlitzer.audio.status,
+      overlay: !document.getElementById('now-overlay').hidden,
+      title: document.getElementById('overlay-title').textContent,
+      source: document.getElementById('overlay-source').href,
+      queue: document.getElementById('overlay-queue').textContent
+    }))()`);
+    assert.equal(info.current, 'archive-h1');
+    assert.equal(info.slot, 'H-1');
+    assert.ok(['loading', 'playing'].includes(info.status));
+    assert.equal(info.overlay, true);
+    assert.match(info.title, /Berceuse/);
+    assert.match(info.source, /^https:\/\/commons\.wikimedia\.org\//);
+    assert.match(info.queue, /1\/8/);
+    return true;
+  });
+
+  await record('Now-playing card links to the original source', async () => {
+    const info = await evaluate(`(() => {
+      const link = document.getElementById('now-source');
+      return {
+        visible: !link.hidden,
+        href: link.href,
+        license: document.getElementById('overlay-license').textContent
+      };
+    })()`);
+    assert.equal(info.visible, true);
+    assert.match(info.href, /^https:\/\/commons\.wikimedia\.org\//);
+    assert.match(info.license, /Public domain/);
     return true;
   });
 
   await record('Selecting A-2 starts the synth engine', async () => {
+    await click('.collection-tab[data-collection="A"]');
+    await sleep(250);
     await click('[data-slot="A-2"] .strip-open');
     await sleep(600);
     const info = await evaluate(`(() => ({
@@ -186,9 +232,9 @@ try {
     return true;
   });
 
-  await record('Empty H-8 is rejected without changing the record', async () => {
+  await record('Empty G-8 is rejected without changing the record', async () => {
     const before = await evaluate('window.__wurlitzer.current.id');
-    await click('.key[data-key="H"]');
+    await click('.key[data-key="G"]');
     await click('.key[data-key="8"]');
     await sleep(250);
     assert.equal(await evaluate('window.__wurlitzer.current.id'), before);
@@ -242,7 +288,7 @@ try {
     return true;
   });
 
-  await record('Category tabs switch all eight collection pages', async () => {
+  await record('Category tabs switch all eleven collection pages', async () => {
     await click('.collection-tab[data-collection="C"]');
     await sleep(350);
     const c = await evaluate(`(() => ({
@@ -259,7 +305,7 @@ try {
     assert.equal(c.sceneFirst, 'C-1');
     await click('.collection-tab[data-collection="ALL"]');
     await sleep(300);
-    assert.equal(await evaluate('document.querySelectorAll("#rack-grid .strip").length'), 64);
+    assert.equal(await evaluate('document.querySelectorAll("#rack-grid .strip").length'), 88);
     await click('.collection-tab[data-collection="A"]');
     await sleep(300);
     assert.equal(await evaluate('document.querySelectorAll("#rack-grid .strip").length'), 8);
@@ -476,7 +522,7 @@ try {
     return true;
   });
 
-  await record('Archive manifest exposes four public-domain H-slot streams', async () => {
+  await record('Archive manifest exposes 32 public-domain performances', async () => {
     const info = await evaluate(`(() => {
       const c = window.__wurlitzer.trackBySlot.get('H-1');
       return { engine: c?.engine, url: c?.url, license: c?.license, source: c?.source, total: window.__wurlitzer.tracks.length };
@@ -485,7 +531,7 @@ try {
     assert.match(info.url, /^https:\/\/upload\.wikimedia\.org\//);
     assert.equal(info.license, 'Public domain');
     assert.match(info.source, /^https:\/\/commons\.wikimedia\.org\//);
-    assert.equal(info.total, 54);
+    assert.equal(info.total, 82);
     return true;
   });
 

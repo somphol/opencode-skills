@@ -41,7 +41,7 @@ sheets, reduced-motion block. Important layout rules:
 - At `max-width: 1000px` the panels become fixed bottom sheets toggled by `#tab-songs`/`#tab-studio`;
   the stage caption hides when a sheet is open.
 - The rack is a two-column, row-flow grid. A category page shows eight strips as 4 rows × 2 columns,
-  matching the 3D rack; All shows all 64 slots in the same two-column flow.
+  matching the 3D rack; All shows all 88 slots in the same two-column flow.
 - `.strip` is a 3-column grid: open button spans the first two columns, star sits in the third.
 
 ## 4. I18N and pure engine
@@ -60,7 +60,7 @@ The engine must export (by name, because tests re-import them): `noteToMidi`, `m
 `nextTrackId`, `exportPayload`, `DEFAULT_SETTINGS`. No DOM/window/THREE/fetch/Date.
 
 `fadeGain` must be smoothstep: `x = remaining / 120; x*x*(3-2x)`, returning 1 at ≥120 s and 0 at ≤0.
-`formatClock` is `m:ss`. `buildRack` returns 64 rows A-1…H-8 with `{slot, track|null}`.
+`formatClock` is `m:ss`. `buildRack` returns 88 rows A-1…K-8 with `{slot, track|null}`.
 
 ## 5. Eight lullabies
 
@@ -69,7 +69,7 @@ Each track: `id`, `slot` A-1…G-2, `engine: 'synth'`, `collection`, `bpm`, `wav
 After the array, parse each sequence and compute `duration = sequenceBeats * 60 / bpm`.
 
 Use public-domain melodies or original compositions. Shipped tempos produce 39–87 s loops; the
-sequencer loops seamlessly. The reference ships 50 tracks across eight collections.
+sequencer loops seamlessly. The reference ships 50 synth tracks across seven collections and 32 archive performances across four archive collections.
 
 ## 6. Audio engine
 
@@ -95,7 +95,7 @@ sequencer loops seamlessly. The reference ships 50 tracks across eight collectio
 - two Catmull-Rom bubble-tube curves with glass TubeGeometry, emissive core, 22 spheres each;
 - deck with platter/vinyl/label/spindle + tone arm group;
 - 8 paper strip planes with canvas textures (redraw on language change);
-- 16 key groups (A–H, 1–8) with circle caps + canvas labels;
+- 19 key groups (A–K, 1–8) with circle caps + canvas labels;
 - coin plate + animated quarter;
 - sign canvas, grille canvas, 30 bulbs;
 - wall gradient, floor speckle, rug, dust, five lights.
@@ -138,7 +138,7 @@ the loading-screen minimum.
 ] }
 ```
 
-Requirements: slot C-1…H-8, unique, https URL, non-empty title, `license: "Public domain"`.
+Requirements: slot C-1…K-8, unique, https URL, non-empty title, `license: "Public domain"`, source URL.
 Wikimedia transcode URLs add
 `Access-Control-Allow-Origin: *`, which Web Audio needs. Do not use SoundHelix or other hosts without
 checking CORS.
@@ -151,12 +151,12 @@ Write:
 - `tests/engine.test.mjs` — 10 checks on the pure block and extracted tracks.
 - `tests/static.test.mjs` — 12 checks on files, HTML, pinning, ids, i18n, engine purity, manifest,
   docs, state, secrets, CSS.
-- `tests/browser.test.mjs` — 25 checks: boot, self-test, selection, transport, coin, empty slot,
+- `tests/browser.test.mjs` — 27 checks: boot, self-test, selection, transport, coin, empty slot,
   keypad, language, favourites, knobs, ambient, timer, persistence, export, help, mobile, reduced
   motion, console errors.
 - `scripts/screenshot.mjs` — desktop/playing/Thai/mobile/OG captures.
 
-Expected first run: engine 11/11, static 12/12, browser 25/25, in-page 25/25, zero console errors.
+Expected first run: engine 11/11, static 12/12, browser 27/27, in-page 27/27, zero console errors.
 If the manifest check fails, confirm Wikimedia is reachable; if WebGL fails, pass
 `--enable-unsafe-swiftshader` (already in the harness).
 

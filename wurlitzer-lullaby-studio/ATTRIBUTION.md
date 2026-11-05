@@ -27,7 +27,8 @@ records the elapsed time and token counters.
 ## Melodies
 
 The 50 arrangements use public-domain melodies or original compositions; 18 are originals by
-Wurlitzer Dream Division. Note selections, tempos, waveforms and envelopes are original to this
+Wurlitzer Dream Division. The 32 archive performances are all marked Public domain on Wikimedia
+Commons and are linked, not redistributed. Note selections, tempos, waveforms and envelopes are original to this
 project. The four archive recordings are public domain; the skill links to them and redistributes no
 audio.
 

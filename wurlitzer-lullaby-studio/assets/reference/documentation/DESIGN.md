@@ -45,10 +45,15 @@ At ≤560 px the top bar loses the subtitle and the free-play text, keeping only
 
 ## Collection pages, themes and type size
 
-The rack is a 64-slot surface split into eight category pages (A–H). A 3×3 tab grid keeps every
-category visible on a 330 px panel: All, Lullabies, Music Box, Classical, Folk & World, Dreams I,
-Dreams II, Bonus, 78s. The paper grid shows eight strips per page, matching the 3D rack; All shows
-all 64 slots and search spans every collection.
+The rack is an 88-slot surface split into eleven category pages (A–K). A 3-column tab grid keeps
+every category visible on a 330 px panel: All, Lullabies, Music Box, Classical, Folk & World,
+Dreams I, Dreams II, Bonus, Piano, Nocturnes, Romantic, 78s. The paper grid shows eight strips per
+page, matching the 3D rack; All shows all 88 slots and search spans every collection.
+
+The **cinematic now-playing card** is a temporary top banner: 30–56 px serif title, performer,
+slot/collection/engine/duration/queue metadata, licence and a source link. It fades in on a record
+change, stays for nine seconds (paused on hover), and never blocks the instrument. The first-run
+prompt is a single gold pill, not a modal, because the browser still requires a gesture.
 
 Four themes recolor the whole product without changing the geometry:
 
