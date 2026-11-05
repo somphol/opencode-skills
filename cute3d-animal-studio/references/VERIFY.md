@@ -5,7 +5,7 @@
 | Layer | Command | Expected |
 | --- | --- | --- |
 | Engine | `node --test tests/engine.test.mjs` | 19/19 |
-| Repository | `node --test tests/static.test.mjs` | 75/75 |
+| Repository | `node --test tests/static.test.mjs` | 76/76 |
 | Browser | `node tests/browser.test.mjs` | 23/23, zero console errors |
 | In-page | `/?selftest` | 19/19 |
 | Live | `TEST_URL=https://… node tests/browser.test.mjs` | 23/23 |

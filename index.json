@@ -350,7 +350,7 @@
     },
     {
       "name": "cute3d-animal-studio",
-      "version": "37d0a2d167c4",
+      "version": "2a38d2e968d8",
       "description": "Build a release-grade, zero-asset 3D animal character studio with original procedural Three.js pets, idle and click animations, live colours and accessories, synthesized Web Audio, a bilingual EN/TH UI, local presets, transparent PNG export, four test layers and a GitHub Pages release.",
       "license": "MIT",
       "files": [

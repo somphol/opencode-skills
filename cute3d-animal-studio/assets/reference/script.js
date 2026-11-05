@@ -543,6 +543,8 @@ const STORE = {
   lang: 'cute3d:lang:v1',
 };
 
+const ANIMAL_EMOJI = { bear: '🧸', bunny: '🐰', penguin: '🐧', shiba: '🐕' };
+
 const $ = (selector, root = document) => root.querySelector(selector);
 const $$ = (selector, root = document) => Array.from(root.querySelectorAll(selector));
 const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -1353,7 +1355,7 @@ document.addEventListener('visibilitychange', onVisibility);
 const updatePetCard = () => {
   const name = t(`pet.${state.animal}.name`);
   const tagline = t(`pet.${state.animal}.tagline`);
-  const emoji = { bear: '🧸', bunny: '🐰', penguin: '🐧', shiba: '🐕' }[state.animal];
+  const emoji = ANIMAL_EMOJI[state.animal];
   $('#pet-name').textContent = name;
   $('#pet-tagline').textContent = tagline;
   $('#pet-emoji').textContent = emoji;
@@ -1410,6 +1412,10 @@ const syncAnimalButtons = () => {
     button.classList.toggle('is-active', active);
     button.setAttribute('aria-pressed', String(active));
   }
+  const select = $('#animal-select');
+  if (select) select.value = state.animal;
+  const emoji = $('#select-emoji');
+  if (emoji) emoji.textContent = ANIMAL_EMOJI[state.animal];
 };
 
 const syncExpressionButtons = () => {
@@ -1780,6 +1786,7 @@ const on = (selector, event, handler) => {
 };
 
 on('[data-animal]', 'click', (event) => setAnimal(event.currentTarget.dataset.animal));
+$('#animal-select')?.addEventListener('change', (event) => setAnimal(event.target.value));
 on('[data-expr]', 'click', (event) => setExpression(event.currentTarget.dataset.expr));
 on('[data-accessory]', 'click', (event) => {
   const key = event.currentTarget.dataset.accessory;

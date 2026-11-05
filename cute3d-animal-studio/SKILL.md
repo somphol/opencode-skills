@@ -11,7 +11,7 @@ from Three.js primitives, a pastel soft-shadow studio, breathing/blinking/jumpin
 customizer, local presets, transparent PNG export, real tests and a live URL.
 
 This skill is written from a completed build: **Cute3D: Procedural Code-Only Animal Studio** —
-19 engine, 75 repository, 23 browser and 19 in-page checks, zero console errors. The shipped reference
+19 engine, 76 repository, 23 browser and 19 in-page checks, zero console errors. The shipped reference
 source is in `assets/reference/`; the live product is at
 <https://somphol.github.io/cute3d-animal-studio/>.
 
@@ -35,7 +35,7 @@ Do not stop at "it renders". A release has all of these:
 | Gate | Command | Expected |
 | --- | --- | --- |
 | Engine | `node --test tests/engine.test.mjs` | 19/19 |
-| Repository | `node --test tests/static.test.mjs` | 75/75 |
+| Repository | `node --test tests/static.test.mjs` | 76/76 |
 | Browser | `node tests/browser.test.mjs` | 23/23, zero console errors |
 | In-page | `/?selftest` | 19/19 |
 | Live copy | `TEST_URL=https://… node tests/browser.test.mjs` | 23/23 |
