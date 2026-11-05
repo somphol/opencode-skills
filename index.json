@@ -371,6 +371,25 @@
         "references/VERIFY.md",
         "scripts/scaffold.mjs"
       ]
+    },
+    {
+      "name": "suatsync-3d-studio",
+      "version": "37c2e41bc628",
+      "description": "Build a bilingual, static 3D chanting and karaoke studio around a sacred or traditional text — synchronized lines, a calibratable timeline, YouTube/local/timer audio, streaks, a procedural mandala, headless verification and a GitHub Pages release.",
+      "license": "MIT",
+      "files": [
+        "SKILL.md",
+        "assets/template/index.html",
+        "assets/template/package.json",
+        "assets/template/script.js",
+        "assets/template/scripts/check.mjs",
+        "assets/template/scripts/verify-browser.mjs",
+        "assets/template/style.css",
+        "references/content-and-timing.md",
+        "references/release.md",
+        "references/reproduction.md",
+        "scripts/scaffold.mjs"
+      ]
     }
   ]
 }

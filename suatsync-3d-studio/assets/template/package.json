@@ -1,0 +1,25 @@
+{
+  "name": "suatsync-3d",
+  "version": "1.0.0",
+  "private": true,
+  "description": "SuatSync 3D — a bilingual Three.js chanting and karaoke studio for the Chinabunchorn Chant, nine recitations.",
+  "type": "module",
+  "license": "MIT",
+  "author": "Somphol Boonjing",
+  "homepage": "https://somphol.github.io/suatsync-3d/",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/somphol/suatsync-3d.git"
+  },
+  "scripts": {
+    "start": "python3 -m http.server 8080",
+    "serve": "python3 -m http.server 8080",
+    "check": "node scripts/check.mjs",
+    "test": "node scripts/check.mjs",
+    "verify": "node scripts/verify-browser.mjs",
+    "screenshots": "node scripts/verify-browser.mjs --screenshots"
+  },
+  "engines": {
+    "node": ">=22"
+  }
+}

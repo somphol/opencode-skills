@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>SuatSync 3D — Chinabunchorn 9 Recitations Chanting &amp; Karaoke Studio</title>
+<meta name="description" content="A bilingual 3D chanting and karaoke studio for the Chinabunchorn Chant, nine recitations. Follow large Pali lines, Thai and English meaning, calibrate the timeline, and keep a private practice streak.">
+<meta name="theme-color" content="#0b0a14">
+<meta name="color-scheme" content="dark">
+<meta property="og:title" content="SuatSync 3D — Chinabunchorn 9 Recitations">
+<meta property="og:description" content="Chant along with the Chinabunchorn Chant nine times: synchronized Pali, Thai meaning, a golden 3D mandala and a private streak.">
+<meta property="og:type" content="website">
+<meta property="og:image" content="docs/screenshot-karaoke.png">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cdefs%3E%3CradialGradient id='g' cx='50%25' cy='38%25'%3E%3Cstop offset='0' stop-color='%23ffe6a3'/%3E%3Cstop offset='.55' stop-color='%23e8b04b'/%3E%3Cstop offset='1' stop-color='%238a571b'/%3E%3C/radialGradient%3E%3C/defs%3E%3Crect width='64' height='64' rx='16' fill='%230b0a14'/%3E%3Cpath d='M32 8c7 8 7 16 0 24-7-8-7-16 0-24zM14 22c9 2 13 8 12 18-9-2-13-8-12-18zm36 0c1 10-3 16-12 18-1-10 3-16 12-18zM20 47c4-6 8-8 12-8s8 2 12 8c-7 4-17 4-24 0z' fill='url(%23g)'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
+<link rel="preconnect" href="https://www.youtube.com" crossorigin>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div id="stage" aria-hidden="true">
+  <canvas id="scene-canvas"></canvas>
+  <div class="stage-veil"></div>
+</div>
+
+<a class="skip-link" href="#transport" data-i18n="skip">Skip to player controls</a>
+
+<header class="topbar">
+  <div class="brand">
+    <svg class="brand-mark" viewBox="0 0 64 64" aria-hidden="true">
+      <path d="M32 6c8 9 8 18 0 27-8-9-8-18 0-27z" fill="currentColor" opacity=".95"/>
+      <path d="M11 20c10 2 15 9 14 20-10-2-15-9-14-20zm42 0c1 11-4 18-14 20-1-11 4-18 14-20z" fill="currentColor" opacity=".8"/>
+      <path d="M18 44c5-6 9-9 14-9s9 3 14 9c-8 5-20 5-28 0z" fill="currentColor" opacity=".62"/>
+    </svg>
+    <div class="brand-text">
+      <span class="brand-kicker">SuatSync 3D</span>
+      <span class="brand-sub" data-i18n="brandSub">Chinabunchorn 9 Recitations</span>
+    </div>
+  </div>
+
+  <div class="topbar-actions">
+    <div class="segmented" role="group" aria-labelledby="scriptLabel">
+      <span class="segmented-label" id="scriptLabel" data-i18n="scriptLabel">Pali</span>
+      <button type="button" class="seg-btn" data-script="thai" aria-pressed="true">ไทย</button>
+      <button type="button" class="seg-btn" data-script="roman" aria-pressed="false">Roman</button>
+    </div>
+    <div class="segmented" role="group" aria-labelledby="langLabel">
+      <span class="segmented-label" id="langLabel" data-i18n="langLabel">Language</span>
+      <button type="button" class="seg-btn" data-lang="th" aria-pressed="false">ไทย</button>
+      <button type="button" class="seg-btn" data-lang="en" aria-pressed="true">EN</button>
+    </div>
+    <button type="button" class="icon-btn" id="aboutBtn" aria-haspopup="dialog" data-i18n-aria="aboutAria" title="About">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 11v6M12 7.5v.5"/></svg>
+    </button>
+  </div>
+</header>
+
+<main id="main">
+  <section class="hero" aria-labelledby="pageTitle">
+    <p class="eyebrow" data-i18n="eyebrow">A quiet room for nine recitations</p>
+    <h1 id="pageTitle" data-i18n-html="title">Chant the Chinabunchorn,<br><em>one luminous line at a time.</em></h1>
+    <p class="lede" data-i18n="lede">Synchronized Pali, Thai meaning and English gloss, wrapped around a slow golden mandala. One video, nine rounds, no account, nothing leaves your device.</p>
+    <div class="hero-stats" aria-label="Studio facts">
+      <span><strong>9</strong> <span data-i18n="statRounds">rounds</span></span>
+      <span><strong>15</strong> <span data-i18n="statVerses">verses</span></span>
+      <span><strong id="heroStreak">0</strong> <span data-i18n="statStreak">day streak</span></span>
+      <span><strong id="heroMinutes">0</strong> <span data-i18n="statMinutes">minutes chanted</span></span>
+    </div>
+  </section>
+
+  <div class="studio">
+    <aside class="panel path-panel" aria-labelledby="pathTitle">
+      <div class="panel-head">
+        <h2 id="pathTitle" data-i18n="pathTitle">The nine rounds</h2>
+        <span class="panel-note" id="lifetimeRounds">0 × 9</span>
+      </div>
+      <p class="panel-copy" data-i18n="pathCopy">Each ring is a full recitation. Listen, chant, and the mandala remembers.</p>
+      <div class="round-grid" id="roundGrid" role="list" aria-label="Recitation rounds"></div>
+
+      <div class="jump-block">
+        <h3 data-i18n="jumpTitle">Jump to a section</h3>
+        <div class="jump-rail" id="jumpRail"></div>
+        <p class="hint" data-i18n="jumpHint">Timings are estimates until you calibrate them in Sync Lab.</p>
+      </div>
+
+      <div class="streak-card">
+        <div class="streak-ring" id="streakRing" aria-hidden="true"><span id="streakDays">0</span></div>
+        <div>
+          <h3 data-i18n="streakTitle">Your practice</h3>
+          <p id="streakCopy" data-i18n="streakEmpty">Finish all nine rounds to begin a streak.</p>
+          <button type="button" class="text-btn" id="historyBtn" data-i18n="historyBtn">Session history</button>
+        </div>
+      </div>
+    </aside>
+
+    <section class="karaoke" aria-labelledby="karaokeTitle">
+      <div class="karaoke-head">
+        <span class="section-badge" id="sectionBadge">Intro</span>
+        <h2 id="karaokeTitle" class="sr-only" data-i18n="karaokeTitle">Karaoke chant</h2>
+        <span class="status-chip" id="statusChip" data-i18n="statusReady">Ready when you are</span>
+      </div>
+
+      <div class="now-card" id="nowCard">
+        <div class="now-meta">
+          <span data-i18n="nowLabel">Now chanting</span>
+          <span class="now-count" id="nowCount">1 / 2</span>
+        </div>
+        <p class="pali-line" id="paliLine" lang="th"></p>
+        <p class="roman-line" id="romanLine" lang="pi-Latn" hidden></p>
+        <div class="translation">
+          <span class="translation-label" data-i18n="translationLabel">Meaning</span>
+          <p id="translationTh" lang="th"></p>
+          <p id="translationEn" lang="en" hidden></p>
+        </div>
+        <div class="line-progress" aria-hidden="true"><span id="lineProgress"></span></div>
+      </div>
+
+      <div class="lookahead">
+        <div class="lookahead-head">
+          <h3 data-i18n="lookaheadTitle">This recitation</h3>
+          <button type="button" class="text-btn" id="seekCurrentBtn" data-i18n="seekCurrent">Seek to this line</button>
+        </div>
+        <ol class="line-list" id="lineList" aria-label="Chant lines"></ol>
+      </div>
+    </section>
+
+    <aside class="panel player-panel" aria-labelledby="playerTitle">
+      <div class="panel-head">
+        <h2 id="playerTitle" data-i18n="playerTitle">Sound</h2>
+        <span class="panel-note" id="sourceNote" data-i18n="sourceYouTube">YouTube</span>
+      </div>
+
+      <div class="source-tabs" role="tablist" aria-label="Audio source">
+        <button type="button" role="tab" class="source-tab" data-source="youtube" aria-selected="true" data-i18n="tabYouTube">YouTube</button>
+        <button type="button" role="tab" class="source-tab" data-source="file" aria-selected="false" data-i18n="tabFile">My audio</button>
+        <button type="button" role="tab" class="source-tab" data-source="timer" aria-selected="false" data-i18n="tabTimer">Timer</button>
+      </div>
+
+      <div class="video-shell" id="videoShell">
+        <div id="ytMount"></div>
+        <div class="video-placeholder" id="videoPlaceholder">
+          <span class="video-glyph" aria-hidden="true">▶</span>
+          <p data-i18n="videoConsent">YouTube loads only when you ask. No cookie is set before that.</p>
+          <button type="button" class="btn btn-gold" id="connectBtn" data-i18n="connect">Connect the video</button>
+          <p class="micro" data-i18n="videoCredit">Chant video: Joao Felix · LAo569-mflM</p>
+        </div>
+        <div class="video-badge" id="videoBadge" hidden data-i18n="videoLive">Live video</div>
+      </div>
+      <div class="video-tools">
+        <button type="button" class="text-btn" id="toggleVideoBtn" aria-expanded="true" data-i18n="hideVideo">Hide video</button>
+        <a class="text-btn" href="https://www.youtube.com/watch?v=LAo569-mflM" target="_blank" rel="noopener noreferrer" data-i18n="openYouTube">Open on YouTube</a>
+      </div>
+
+      <div class="file-block" id="fileBlock" hidden>
+        <input type="file" id="fileInput" accept="audio/*" class="sr-only">
+        <button type="button" class="btn btn-ghost" id="chooseFileBtn" data-i18n="chooseFile">Choose an audio file</button>
+        <p class="hint" id="fileNote" data-i18n="fileNote">MP3, M4A or OGG stays in this tab only. Nothing is uploaded.</p>
+      </div>
+
+      <div class="timer-block" id="timerBlock" hidden>
+        <p class="hint" data-i18n="timerNote">A silent, guide-paced timer with an optional soft bell. Use it when the video is unavailable.</p>
+      </div>
+
+      <div class="transport-row">
+        <button type="button" class="round-btn play" id="playBtn" aria-label="Play" data-i18n-aria="playAria">
+          <svg class="icon-play" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5l11 7-11 7z"/></svg>
+          <svg class="icon-pause" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 5h4v14H7zM13 5h4v14h-4z"/></svg>
+        </button>
+        <button type="button" class="round-btn" id="restartBtn" aria-label="Restart" data-i18n-aria="restartAria">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 12a8 8 0 1 0 3-6.2M4 4v5h5"/></svg>
+        </button>
+        <button type="button" class="round-btn" id="muteBtn" aria-label="Mute" aria-pressed="false" data-i18n-aria="muteAria">
+          <svg class="icon-vol" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 9v6h4l5 4V5L8 9zM16 9a4 4 0 0 1 0 6M18.5 6.5a7 7 0 0 1 0 11"/></svg>
+          <svg class="icon-muted" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 9v6h4l5 4V5L8 9zM16 9l5 6M21 9l-5 6"/></svg>
+        </button>
+        <span class="transport-time" id="miniTime">0:00</span>
+      </div>
+
+      <label class="slider-field" for="volumeSlider">
+        <span><span data-i18n="volumeLabel">Volume</span> <output id="volumeValue">70</output></span>
+        <input type="range" id="volumeSlider" min="0" max="100" step="1" value="70">
+      </label>
+
+      <label class="slider-field" for="tempoSlider">
+        <span><span data-i18n="tempoLabel">Tempo</span> <output id="tempoValue">1.00×</output></span>
+        <input type="range" id="tempoSlider" min="0.75" max="1.25" step="0.05" value="1">
+      </label>
+      <p class="hint" data-i18n="tempoHint">Slower or faster without changing pitch.</p>
+
+      <label class="switch-row" for="fadeToggle">
+        <span><span data-i18n="fadeLabel">Soft fade</span><span class="hint" data-i18n="fadeHint">Ease the volume in and out</span></span>
+        <input type="checkbox" id="fadeToggle" checked>
+      </label>
+
+      <div class="calibration-card">
+        <div>
+          <h3 data-i18n="calibrationTitle">Sync Lab</h3>
+          <p class="hint" data-i18n="calibrationCopy">Line up the intro, the nine rounds and the dedication to your video. Saved on this device.</p>
+        </div>
+        <button type="button" class="btn btn-ghost" id="syncBtn" data-i18n="openSync">Calibrate</button>
+      </div>
+
+      <div class="session-card">
+        <div class="session-head">
+          <h3 data-i18n="sessionTitle">This sitting</h3>
+          <span id="sessionPercent">0%</span>
+        </div>
+        <div class="meter"><span id="sessionMeter"></span></div>
+        <p class="hint" id="sessionCopy" data-i18n="sessionEmpty">No rounds completed yet. The chant will remember as you go.</p>
+        <button type="button" class="text-btn" id="resetSessionBtn" data-i18n="resetSession">Reset this sitting</button>
+      </div>
+    </aside>
+  </div>
+</main>
+
+<footer class="transport" id="transport" aria-label="Playback">
+  <div class="transport-inner">
+    <div class="seek-wrap">
+      <input type="range" id="seekBar" min="0" max="5837" step="1" value="0" aria-label="Seek">
+      <div class="seek-labels">
+        <span id="timeNow">0:00</span>
+        <span id="timeTotal">1:37:17</span>
+      </div>
+    </div>
+    <div class="transport-buttons">
+      <button type="button" class="round-btn" id="backBtn" aria-label="Back 15 seconds" data-i18n-aria="backAria">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M11 5L4 12l7 7M20 5l-7 7 7 7"/></svg>
+      </button>
+      <button type="button" class="btn btn-gold play-wide" id="playWide">
+        <svg class="icon-play" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5l11 7-11 7z"/></svg>
+        <svg class="icon-pause" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 5h4v14H7zM13 5h4v14h-4z"/></svg>
+        <span data-i18n="playWide">Play</span>
+      </button>
+      <button type="button" class="round-btn" id="fwdBtn" aria-label="Forward 15 seconds" data-i18n-aria="fwdAria">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M13 5l7 7-7 7M4 5l7 7-7 7"/></svg>
+      </button>
+      <button type="button" class="round-btn" id="focusBtn" aria-label="Focus mode" aria-pressed="false" data-i18n-aria="focusAria">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5"/></svg>
+      </button>
+      <span class="key-hint" data-i18n="keyHint">Space play · ← → seek</span>
+    </div>
+  </div>
+</footer>
+
+<dialog id="syncDialog" class="dialog wide" aria-labelledby="syncTitle">
+  <form method="dialog" class="dialog-body">
+    <header class="dialog-head">
+      <div>
+        <p class="eyebrow" data-i18n="syncEyebrow">Timeline workshop</p>
+        <h2 id="syncTitle" data-i18n="syncTitle">Sync Lab</h2>
+      </div>
+      <button type="submit" class="icon-btn" value="cancel" aria-label="Close" data-i18n-aria="closeAria">✕</button>
+    </header>
+    <p class="dialog-copy" data-i18n="syncCopy">Play the video, pause where a section begins, then press “Use current”. The markers are stored locally. Default timings assume a 97-minute video.</p>
+    <div class="sync-table-wrap">
+      <table class="sync-table">
+        <thead><tr><th data-i18n="syncSection">Section</th><th data-i18n="syncStart">Starts at</th><th></th></tr></thead>
+        <tbody id="syncRows"></tbody>
+      </table>
+    </div>
+    <p class="hint" id="syncStatus" data-i18n="syncHint">Markers must move forward in time.</p>
+    <footer class="dialog-actions">
+      <button type="button" class="text-btn" id="syncReset" data-i18n="syncReset">Restore defaults</button>
+      <span class="spacer"></span>
+      <button type="button" class="btn btn-ghost" id="syncCancel" data-i18n="cancel">Cancel</button>
+      <button type="button" class="btn btn-gold" id="syncSave" data-i18n="save">Save markers</button>
+    </footer>
+  </form>
+</dialog>
+
+<dialog id="aboutDialog" class="dialog" aria-labelledby="aboutTitle">
+  <form method="dialog" class="dialog-body">
+    <header class="dialog-head">
+      <div>
+        <p class="eyebrow" data-i18n="aboutEyebrow">About this studio</p>
+        <h2 id="aboutTitle" data-i18n="aboutTitle">Made for a daily chant</h2>
+      </div>
+      <button type="submit" class="icon-btn" value="cancel" aria-label="Close" data-i18n-aria="closeAria">✕</button>
+    </header>
+    <div class="about-copy">
+      <p data-i18n="aboutP1">SuatSync 3D pairs the Chinabunchorn Chant with a calm, line-by-line reading surface. It is a practice aid, not a teacher: the Pali follows the traditional Thai recension, and the meanings are plain-language glosses.</p>
+      <p data-i18n="aboutP2">Nothing is uploaded. Preferences, calibration, rounds and streaks live in this browser’s localStorage. The YouTube player is only created after you press Connect, and Three.js is loaded from a CDN.</p>
+      <dl class="credit-list">
+        <div><dt data-i18n="creditChant">Chant text</dt><dd data-i18n="creditChantValue">Thai Pali recension, public domain; Thai/English glosses by the project.</dd></div>
+        <div><dt data-i18n="creditVideo">Video</dt><dd><a href="https://www.youtube.com/watch?v=LAo569-mflM" target="_blank" rel="noopener noreferrer">Joao Felix — Chinabunchorn 9 recitations</a></dd></div>
+        <div><dt data-i18n="creditBuilt">Built with</dt><dd>OpenCode · DeepSeek V4.1 Flash · Three.js r128</dd></div>
+        <div><dt data-i18n="creditLicense">Code licence</dt><dd>MIT. See <a href="LICENSE" target="_blank">LICENSE</a>.</dd></div>
+      </dl>
+      <p class="micro" id="versionLine">v1.0.0</p>
+    </div>
+    <footer class="dialog-actions">
+      <button type="button" class="text-btn" id="printBtn" data-i18n="print">Print the chant</button>
+      <span class="spacer"></span>
+      <button type="submit" class="btn btn-gold" value="close" data-i18n="close">Close</button>
+    </footer>
+  </form>
+</dialog>
+
+<dialog id="summaryDialog" class="dialog" aria-labelledby="summaryTitle">
+  <form method="dialog" class="dialog-body">
+    <header class="dialog-head">
+      <div>
+        <p class="eyebrow" data-i18n="summaryEyebrow">Nine rounds complete</p>
+        <h2 id="summaryTitle" data-i18n="summaryTitle">Sadhu. A full sitting.</h2>
+      </div>
+      <button type="submit" class="icon-btn" value="cancel" aria-label="Close" data-i18n-aria="closeAria">✕</button>
+    </header>
+    <div class="summary-figures">
+      <div><strong id="summaryRounds">9</strong><span data-i18n="summaryRounds">rounds</span></div>
+      <div><strong id="summaryMinutes">0</strong><span data-i18n="summaryMinutes">minutes</span></div>
+      <div><strong id="summaryStreak">1</strong><span data-i18n="summaryStreak">day streak</span></div>
+    </div>
+    <p class="dialog-copy" data-i18n="summaryCopy">The mandala keeps a petal for every round you finish. Come back tomorrow and the streak grows.</p>
+    <footer class="dialog-actions">
+      <span class="spacer"></span>
+      <button type="submit" class="btn btn-gold" value="close" data-i18n="keepChanting">Keep chanting</button>
+    </footer>
+  </form>
+</dialog>
+
+<dialog id="historyDialog" class="dialog" aria-labelledby="historyTitle">
+  <form method="dialog" class="dialog-body">
+    <header class="dialog-head">
+      <div>
+        <p class="eyebrow" data-i18n="historyEyebrow">On this device</p>
+        <h2 id="historyTitle" data-i18n="historyTitle">Session history</h2>
+      </div>
+      <button type="submit" class="icon-btn" value="cancel" aria-label="Close" data-i18n-aria="closeAria">✕</button>
+    </header>
+    <div class="history-list" id="historyList"></div>
+    <footer class="dialog-actions">
+      <button type="button" class="text-btn" id="exportBtn" data-i18n="exportBtn">Export JSON</button>
+      <button type="button" class="text-btn" id="clearHistoryBtn" data-i18n="clearHistory">Clear history</button>
+      <span class="spacer"></span>
+      <button type="submit" class="btn btn-gold" value="close" data-i18n="close">Close</button>
+    </footer>
+  </form>
+</dialog>
+
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+<noscript><p class="noscript">SuatSync 3D needs JavaScript to synchronize the chant. The chant text is available in <a href="docs/CONTENT.md">docs/CONTENT.md</a>.</p></noscript>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script src="script.js"></script>
+</body>
+</html>

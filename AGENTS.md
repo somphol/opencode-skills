@@ -61,3 +61,5 @@ skill when its `version` string changes, which `sync.mjs` derives from the conte
   <https://github.com/somphol/bangkok-3d-tour-guide>.
 - `wurlitzer-lullaby-studio` source: `~/.config/opencode/skills/wurlitzer-lullaby-studio`; reference app at
   <https://github.com/somphol/vintage-wurlitzer-lullaby-jukebox>.
+- `suatsync-3d-studio` source: `~/.config/opencode/skills/suatsync-3d-studio`; reference app at
+  <https://github.com/somphol/suatsync-3d> and <https://somphol.github.io/suatsync-3d/>.

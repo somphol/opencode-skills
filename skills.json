@@ -71,6 +71,12 @@
       "source": "~/.config/opencode/skills/cute3d-animal-studio",
       "description": "Build a release-grade, zero-asset 3D animal character studio with original procedural Three.js pets, idle and click animations, live colours and accessories, synthesized Web Audio, a bilingual EN/TH UI, local presets, transparent PNG export, four test layers and a GitHub Pages release.",
       "license": "MIT"
+    },
+    {
+      "name": "suatsync-3d-studio",
+      "source": "~/.config/opencode/skills/suatsync-3d-studio",
+      "description": "Build a bilingual, static 3D chanting and karaoke studio around a sacred or traditional text — synchronized lines, a calibratable timeline, YouTube/local/timer audio, streaks, a procedural mandala, headless verification and a GitHub Pages release.",
+      "license": "MIT"
     }
   ]
 }
