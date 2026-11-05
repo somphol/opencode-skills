@@ -1,0 +1,37 @@
+name: Feature request
+description: Propose a sound, a scene detail, an accessibility improvement or a release change.
+title: "[feature] "
+labels: ["enhancement"]
+body:
+  - type: textarea
+    id: problem
+    attributes:
+      label: The user problem
+      description: What is hard, missing or unpleasant today?
+    validations:
+      required: true
+  - type: textarea
+    id: proposal
+    attributes:
+      label: Proposed change
+    validations:
+      required: true
+  - type: dropdown
+    id: layer
+    attributes:
+      label: Layer
+      options:
+        - 3D cabinet / scene
+        - Audio engine / lullaby / ambient
+        - UI / language / accessibility
+        - Documentation / tests / deployment
+    validations:
+      required: true
+  - type: checkboxes
+    id: constraints
+    attributes:
+      label: Constraints
+      options:
+        - label: It keeps the project static (no backend)
+        - label: It keeps the zero-build setup
+        - label: Any new audio is public domain or freely licensed

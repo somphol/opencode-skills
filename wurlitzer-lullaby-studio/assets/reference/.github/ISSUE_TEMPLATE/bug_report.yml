@@ -1,0 +1,53 @@
+name: Bug report
+description: Something is broken, silent, blurry or stuck.
+title: "[bug] "
+labels: ["bug"]
+body:
+  - type: markdown
+    attributes:
+      value: Thanks for helping. Please do not include tokens, personal data or private links.
+  - type: input
+    id: url
+    attributes:
+      label: URL
+      description: Local or live, including the query string.
+    validations:
+      required: true
+  - type: input
+    id: browser
+    attributes:
+      label: Browser and OS
+      placeholder: Chrome 131 / macOS 15
+    validations:
+      required: true
+  - type: textarea
+    id: steps
+    attributes:
+      label: Steps to reproduce
+      placeholder: |
+        1. Open ...
+        2. Click ...
+        3. Observe ...
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected behaviour
+    validations:
+      required: true
+  - type: textarea
+    id: actual
+    attributes:
+      label: Actual behaviour
+      description: Include console output and whether ?selftest passes.
+    validations:
+      required: true
+  - type: checkboxes
+    id: checks
+    attributes:
+      label: Checks
+      options:
+        - label: I ran ?selftest
+        - label: I ran the Node suites
+        - label: The issue is not a security report (see SECURITY.md)

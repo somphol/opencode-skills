@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Vintage Wurlitzer 3D Lullaby Jukebox &amp; Sleep Studio</title>
+  <meta name="description" content="A 1940s Wurlitzer 1015 bubbler reimagined as a 3D lullaby jukebox and sleep studio, with procedural music-box lullabies, vintage archive streams, ambient sound layers, a sleep timer and a bilingual EN/TH interface.">
+  <meta name="theme-color" content="#05070d">
+  <meta name="color-scheme" content="dark">
+  <meta name="author" content="Somphol Boonjing">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Vintage Wurlitzer 3D Lullaby Jukebox &amp; Sleep Studio">
+  <meta property="og:description" content="Insert a quarter, pick a paper title strip, and let a glowing 1940s bubbler play you to sleep. Procedural music-box lullabies, vintage 78 RPM streams, rain, ocean and crickets.">
+  <meta property="og:image" content="assets/og-card.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Vintage Wurlitzer 3D Lullaby Jukebox &amp; Sleep Studio">
+  <meta name="twitter:description" content="A glowing 1940s bubbler for sleep, built with vanilla JS and Three.js.">
+  <meta name="twitter:image" content="assets/og-card.png">
+  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+  <link rel="stylesheet" href="style.css">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "Vintage Wurlitzer 3D Lullaby Jukebox & Sleep Studio",
+    "applicationCategory": "MultimediaApplication",
+    "operatingSystem": "Any modern browser",
+    "browserRequirements": "WebGL 2 and Web Audio API",
+    "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
+    "license": "https://opensource.org/licenses/MIT",
+    "creator": { "@type": "Person", "name": "Somphol Boonjing" }
+  }
+  </script>
+  <script type="importmap">
+  {
+    "imports": {
+      "three": "https://cdn.jsdelivr.net/npm/three@0.169.0/build/three.module.js",
+      "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.169.0/examples/jsm/"
+    }
+  }
+  </script>
+</head>
+<body data-ready="false" data-webgl="false" data-lang="en" data-motion="full">
+  <a class="skip-link" href="#rack-panel" data-i18n="skipToSongs">Skip to the song rack</a>
+
+  <div id="stage" aria-hidden="true">
+    <div id="stage-canvas"></div>
+    <div class="stage-glow" aria-hidden="true"></div>
+    <div class="stage-grain" aria-hidden="true"></div>
+  </div>
+
+  <div class="app-shell">
+    <header class="topbar">
+      <div class="brand">
+        <div class="brand-mark" aria-hidden="true">
+          <svg viewBox="0 0 44 44" role="img" focusable="false">
+            <path d="M22 3 39 12v20L22 41 5 32V12Z" fill="none" stroke="currentColor" stroke-width="1.4"/>
+            <circle cx="22" cy="22" r="9.5" fill="none" stroke="currentColor" stroke-width="1.1"/>
+            <circle cx="22" cy="22" r="2.6" fill="currentColor"/>
+            <path d="M22 12.5v5M22 26.5v5M12.5 22h5M26.5 22h5" stroke="currentColor" stroke-width="1.1"/>
+          </svg>
+        </div>
+        <div class="brand-copy">
+          <p class="brand-kicker" data-i18n="brandKicker">Est. 1946 · Dream Division</p>
+          <h1>Wurlitzer <span>Lullaby</span></h1>
+          <p class="brand-sub" data-i18n="appSubtitle">3D Sleep Studio · Model 1015 Bubbler</p>
+        </div>
+      </div>
+
+      <nav class="top-actions" aria-label="Global controls">
+        <button id="freeplay-toggle" class="chip chip-toggle" type="button" aria-pressed="true">
+          <span class="chip-dot" aria-hidden="true"></span>
+          <span id="freeplay-label">Free Play</span>
+        </button>
+        <button id="mute-btn" class="icon-btn" type="button" aria-label="Mute" aria-pressed="false">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 9v6h4l5 4V5L8 9H4Z" fill="currentColor"/><path id="mute-wave" d="M16 8.5a5 5 0 0 1 0 7M18.5 6a8.5 8.5 0 0 1 0 12" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/><path id="mute-slash" d="M16 9l5 6M21 9l-5 6" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" opacity="0"/></svg>
+        </button>
+        <button id="help-btn" class="icon-btn" type="button" aria-label="How to play">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="8.5" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M9.7 9.3a2.4 2.4 0 1 1 3.4 2.2c-.8.4-1.1.9-1.1 1.7" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><circle cx="12" cy="16.6" r="1" fill="currentColor"/></svg>
+        </button>
+        <div class="lang-switch" role="group" aria-label="Language">
+          <button class="lang-btn is-active" type="button" data-lang="en" aria-pressed="true">EN</button>
+          <button class="lang-btn" type="button" data-lang="th" aria-pressed="false">ไทย</button>
+        </div>
+      </nav>
+    </header>
+
+    <main class="layout">
+      <aside class="panel rack-panel" id="rack-panel" aria-labelledby="rack-title">
+        <div class="panel-heading">
+          <div>
+            <p class="eyebrow" data-i18n="rackEyebrow">Paper title strips</p>
+            <h2 id="rack-title" data-i18n="rackTitle">The Song Rack</h2>
+          </div>
+          <button id="fav-filter" class="chip chip-filter" type="button" aria-pressed="false">
+            <span aria-hidden="true">★</span>
+            <span data-i18n="favoritesOnly">Favorites</span>
+          </button>
+        </div>
+
+        <div class="rack-scroll">
+          <div id="rack-grid" class="rack-grid" role="list" aria-label="Jukebox selections"></div>
+        </div>
+
+        <div class="rack-foot">
+          <div class="keypad" aria-label="Mechanical selection keypad">
+            <div class="keypad-row" role="group" aria-label="Letter keys">
+              <button class="key" type="button" data-key="A">A</button>
+              <button class="key" type="button" data-key="B">B</button>
+              <button class="key" type="button" data-key="C">C</button>
+              <button class="key" type="button" data-key="D">D</button>
+            </div>
+            <div class="keypad-row" role="group" aria-label="Number keys">
+              <button class="key key-num" type="button" data-key="1">1</button>
+              <button class="key key-num" type="button" data-key="2">2</button>
+              <button class="key key-num" type="button" data-key="3">3</button>
+              <button class="key key-num" type="button" data-key="4">4</button>
+              <button class="key key-num" type="button" data-key="5">5</button>
+              <button class="key key-num" type="button" data-key="6">6</button>
+              <button class="key key-num" type="button" data-key="7">7</button>
+              <button class="key key-num" type="button" data-key="8">8</button>
+            </div>
+          </div>
+
+          <div class="coin-row">
+            <button id="coin-insert" class="coin-btn" type="button">
+              <span class="coin-icon" aria-hidden="true">25¢</span>
+              <span data-i18n="insertQuarter">Insert quarter</span>
+            </button>
+            <div class="credit-box">
+              <span class="credit-label" data-i18n="credits">Credits</span>
+              <strong id="credit-count">5</strong>
+            </div>
+          </div>
+          <p class="rack-hint" data-i18n="keypadHint">Press a letter, then a number — just like the real thing.</p>
+        </div>
+      </aside>
+
+      <section class="stage-caption" id="stage-caption" aria-label="Now playing on the jukebox">
+        <div class="caption-inner">
+          <span class="caption-live" aria-hidden="true"></span>
+          <div>
+            <p class="caption-kicker" data-i18n="nowPlaying">Now playing</p>
+            <p id="caption-title" class="caption-title">Brahms' Lullaby</p>
+          </div>
+          <span id="caption-slot" class="caption-slot">A-1</span>
+        </div>
+        <p class="caption-help" data-i18n="dragHint">Drag to orbit · scroll to zoom · click a strip to play</p>
+      </section>
+
+      <aside class="panel studio-panel" id="studio-panel" aria-labelledby="studio-title">
+        <div class="panel-heading">
+          <div>
+            <p class="eyebrow" data-i18n="studioEyebrow">Late-night controls</p>
+            <h2 id="studio-title" data-i18n="studioTitle">Sleep Studio</h2>
+          </div>
+          <div class="engine-lamp" title="Audio engine ready">
+            <span class="lamp" aria-hidden="true"></span>
+            <span class="lamp-label" data-i18n="engineReady">Engine</span>
+          </div>
+        </div>
+
+        <div class="now-card">
+          <div class="record-badge" aria-hidden="true">
+            <div id="record-disc" class="record-disc"></div>
+            <div class="record-label">45</div>
+          </div>
+          <div class="now-copy">
+            <p class="now-kicker">
+              <span id="now-slot" class="now-slot">A-1</span>
+              <span id="now-engine" class="engine-tag">SYNTH</span>
+            </p>
+            <h3 id="now-title">Brahms' Lullaby</h3>
+            <p id="now-artist">Johannes Brahms</p>
+          </div>
+          <button id="favorite-btn" class="star-btn" type="button" aria-label="Add to favorites" aria-pressed="false">★</button>
+        </div>
+
+        <div class="transport" role="group" aria-label="Playback controls">
+          <button id="prev-btn" class="round-btn" type="button" aria-label="Previous track">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 5v14M19 5 9 12l10 7V5Z" fill="currentColor"/></svg>
+          </button>
+          <button id="play-btn" class="play-btn" type="button" aria-label="Play">
+            <svg id="play-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7L8 5Z" fill="currentColor"/></svg>
+          </button>
+          <button id="next-btn" class="round-btn" type="button" aria-label="Next track">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M17 5v14M5 5l10 7L5 19V5Z" fill="currentColor"/></svg>
+          </button>
+          <button id="stop-btn" class="round-btn quiet" type="button" aria-label="Stop">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="6" y="6" width="12" height="12" rx="1.5" fill="currentColor"/></svg>
+          </button>
+        </div>
+
+        <div class="seek-block">
+          <input id="seek" class="seek" type="range" min="0" max="1000" value="0" step="1" aria-label="Seek">
+          <div class="seek-times">
+            <span id="elapsed">0:00</span>
+            <span id="duration">3:12</span>
+          </div>
+        </div>
+
+        <div class="knob-grid" role="group" aria-label="Sound shaping knobs">
+          <div class="knob" id="master-knob" data-knob="master" role="slider" tabindex="0" aria-label="Master volume" aria-valuemin="0" aria-valuemax="100" aria-valuenow="82">
+            <div class="knob-dial"><span class="knob-tick"></span></div>
+            <span class="knob-name" data-i18n="masterVolume">Master</span>
+            <span class="knob-value" id="master-value">82</span>
+          </div>
+          <div class="knob" id="bass-knob" data-knob="bass" role="slider" tabindex="0" aria-label="Bass" aria-valuemin="-10" aria-valuemax="10" aria-valuenow="2">
+            <div class="knob-dial"><span class="knob-tick"></span></div>
+            <span class="knob-name" data-i18n="bass">Bass</span>
+            <span class="knob-value" id="bass-value">+2</span>
+          </div>
+          <div class="knob" id="treble-knob" data-knob="treble" role="slider" tabindex="0" aria-label="Treble" aria-valuemin="-10" aria-valuemax="10" aria-valuenow="1">
+            <div class="knob-dial"><span class="knob-tick"></span></div>
+            <span class="knob-name" data-i18n="treble">Treble</span>
+            <span class="knob-value" id="treble-value">+1</span>
+          </div>
+          <div class="knob" id="mix-knob" data-knob="mix" role="slider" tabindex="0" aria-label="Ambient mix" aria-valuemin="0" aria-valuemax="100" aria-valuenow="45">
+            <div class="knob-dial"><span class="knob-tick"></span></div>
+            <span class="knob-name" data-i18n="ambientMix">Mix</span>
+            <span class="knob-value" id="mix-value">45</span>
+          </div>
+        </div>
+
+        <div class="divider" aria-hidden="true"><span></span></div>
+
+        <div class="section-head">
+          <h3 data-i18n="ambientTitle">Ambient layers</h3>
+          <span class="section-note" data-i18n="ambientNote">Independent generators</span>
+        </div>
+        <div class="ambient-list">
+          <div class="ambient-row" data-ambient="rain">
+            <button class="amb-toggle" id="amb-rain-toggle" type="button" aria-pressed="false" aria-label="Toggle soft rainfall">
+              <span class="amb-icon" aria-hidden="true">☂</span>
+            </button>
+            <span class="amb-name" data-i18n="ambientRain">Soft rainfall</span>
+            <input id="amb-rain-vol" class="amb-slider" type="range" min="0" max="100" value="0" aria-label="Rainfall volume">
+            <output id="amb-rain-value" class="amb-value">0</output>
+          </div>
+          <div class="ambient-row" data-ambient="ocean">
+            <button class="amb-toggle" id="amb-ocean-toggle" type="button" aria-pressed="false" aria-label="Toggle gentle ocean waves">
+              <span class="amb-icon" aria-hidden="true">≈</span>
+            </button>
+            <span class="amb-name" data-i18n="ambientOcean">Gentle waves</span>
+            <input id="amb-ocean-vol" class="amb-slider" type="range" min="0" max="100" value="0" aria-label="Ocean volume">
+            <output id="amb-ocean-value" class="amb-value">0</output>
+          </div>
+          <div class="ambient-row" data-ambient="crickets">
+            <button class="amb-toggle" id="amb-crickets-toggle" type="button" aria-pressed="false" aria-label="Toggle night crickets">
+              <span class="amb-icon" aria-hidden="true">✦</span>
+            </button>
+            <span class="amb-name" data-i18n="ambientCrickets">Night crickets</span>
+            <input id="amb-crickets-vol" class="amb-slider" type="range" min="0" max="100" value="0" aria-label="Crickets volume">
+            <output id="amb-crickets-value" class="amb-value">0</output>
+          </div>
+        </div>
+
+        <div class="section-head timer-head">
+          <h3 data-i18n="sleepTimer">Sleep timer</h3>
+          <span id="timer-readout" class="timer-readout" data-i18n="timerIdle">Off</span>
+        </div>
+        <div class="timer-dial" role="group" aria-label="Sleep timer">
+          <button class="timer-btn is-active" type="button" data-minutes="0" data-i18n="timerOff">Off</button>
+          <button class="timer-btn" type="button" data-minutes="15">15</button>
+          <button class="timer-btn" type="button" data-minutes="30">30</button>
+          <button class="timer-btn" type="button" data-minutes="60">60</button>
+        </div>
+        <p class="timer-note" data-i18n="timerNote">Fades to silence over the final two minutes, then dims the lights.</p>
+
+        <div class="panel-actions">
+          <button id="export-btn" class="action-btn" type="button">
+            <span aria-hidden="true">💾</span>
+            <span data-i18n="exportSettings">Export settings JSON</span>
+          </button>
+          <button id="reset-btn" class="action-btn ghost" type="button">
+            <span aria-hidden="true">↺</span>
+            <span data-i18n="resetSettings">Reset</span>
+          </button>
+        </div>
+      </aside>
+    </main>
+
+    <footer class="statusbar">
+      <div class="status-left">
+        <span id="status-led" class="status-led" aria-hidden="true"></span>
+        <span id="status-text">Ready when you are.</span>
+      </div>
+      <div class="status-right">
+        <span id="timer-chip" class="timer-chip" hidden></span>
+        <span class="status-credit" data-i18n="footerCredit">Vanilla JS · Three.js · Web Audio</span>
+      </div>
+    </footer>
+  </div>
+
+  <div class="mobile-tabs" role="group" aria-label="Panels">
+    <button id="tab-songs" class="mobile-tab is-active" type="button" data-i18n="songsTab">Songs</button>
+    <button id="tab-studio" class="mobile-tab" type="button" data-i18n="studioTab">Studio</button>
+  </div>
+
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
+
+  <div id="loading" class="loading" role="status" aria-live="polite">
+    <div class="loading-card">
+      <div class="loading-arch" aria-hidden="true"></div>
+      <p class="loading-kicker" data-i18n="brandKicker">Est. 1946 · Dream Division</p>
+      <p class="loading-title">Wurlitzer <span>Lullaby</span></p>
+      <p class="loading-step" id="loading-step">Warming the tubes…</p>
+      <div class="loading-bar"><span></span></div>
+    </div>
+  </div>
+
+  <div id="help-modal" class="modal" hidden>
+    <div class="modal-card" role="dialog" aria-modal="true" aria-labelledby="help-title">
+      <button id="help-close" class="modal-close" type="button" aria-label="Close">×</button>
+      <p class="eyebrow" data-i18n="helpEyebrow">The nickel tour</p>
+      <h2 id="help-title" data-i18n="helpTitle">How to play the bubbler</h2>
+      <ol class="help-steps">
+        <li><strong data-i18n="helpStep1Title">Pick a strip.</strong> <span data-i18n="helpStep1Body">Click any paper title strip in the rack, or press a letter then a number on the chrome keypad. A-1 through B-4 are synthesized music-box lullabies. C-1 through C-4 are vintage archive streams.</span></li>
+        <li><strong data-i18n="helpStep2Title">Feed the machine.</strong> <span data-i18n="helpStep2Body">Free Play is on by default. Turn it off and the jukebox needs a quarter for each selection; the coin drops into the slot in 3D.</span></li>
+        <li><strong data-i18n="helpStep3Title">Shape the night.</strong> <span data-i18n="helpStep3Body">Turn the four chrome knobs for master volume, bass, treble and ambient mix. Blend rain, waves and crickets underneath the music.</span></li>
+        <li><strong data-i18n="helpStep4Title">Set the timer.</strong> <span data-i18n="helpStep4Body">Choose 15, 30 or 60 minutes. The last two minutes fade smoothly to silence, then the cabinet lights go dark.</span></li>
+      </ol>
+      <div class="help-keys">
+        <span><kbd>Space</kbd> <span data-i18n="helpKeyPlay">play / pause</span></span>
+        <span><kbd>←</kbd><kbd>→</kbd> <span data-i18n="helpKeyTrack">previous / next</span></span>
+        <span><kbd>L</kbd> <span data-i18n="helpKeyLang">EN / ไทย</span></span>
+        <span><kbd>T</kbd> <span data-i18n="helpKeyTimer">cycle timer</span></span>
+      </div>
+      <p class="help-foot" data-i18n="helpFoot">Everything runs in your browser. Settings stay in localStorage; nothing is uploaded.</p>
+      <button id="help-done" class="action-btn" type="button" data-i18n="close">Close</button>
+    </div>
+  </div>
+
+  <div id="selftest" class="selftest" hidden>
+    <div class="selftest-card" role="dialog" aria-modal="true" aria-labelledby="selftest-title">
+      <p class="eyebrow">Diagnostics</p>
+      <h2 id="selftest-title">In-page self-test</h2>
+      <p id="selftest-summary">Running…</p>
+      <ul id="selftest-list"></ul>
+      <button id="selftest-close" class="action-btn" type="button">Close</button>
+    </div>
+  </div>
+
+  <noscript>
+    <div class="noscript">This jukebox needs JavaScript and WebGL. Please enable JavaScript to hear the lullabies.</div>
+  </noscript>
+
+  <script type="module" src="script.js"></script>
+</body>
+</html>

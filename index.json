@@ -289,6 +289,49 @@
         "references/VERIFY.md",
         "scripts/scaffold.mjs"
       ]
+    },
+    {
+      "name": "wurlitzer-lullaby-studio",
+      "version": "e93460907b2d",
+      "description": "Build a bilingual, static 3D Wurlitzer-style lullaby jukebox and sleep studio with procedural Web Audio lullabies, an archive stream manifest, ambient beds, a smoothstep sleep timer, headless verification and a GitHub Pages release.",
+      "license": "MIT",
+      "files": [
+        "ATTRIBUTION.md",
+        "README.md",
+        "SKILL.md",
+        "assets/preview.png",
+        "assets/reference/AGENTS.md",
+        "assets/reference/CHANGELOG.md",
+        "assets/reference/CODE_OF_CONDUCT.md",
+        "assets/reference/CONTRIBUTING.md",
+        "assets/reference/LICENSE",
+        "assets/reference/README.md",
+        "assets/reference/SECURITY.md",
+        "assets/reference/SUPPORT.md",
+        "assets/reference/THIRD_PARTY_NOTICES.md",
+        "assets/reference/assets/favicon.svg",
+        "assets/reference/assets/og.html",
+        "assets/reference/data/playlist.json",
+        "assets/reference/index.html",
+        "assets/reference/robots.txt",
+        "assets/reference/script.js",
+        "assets/reference/scripts/screenshot.mjs",
+        "assets/reference/sitemap.xml",
+        "assets/reference/state.json",
+        "assets/reference/style.css",
+        "assets/reference/tests/browser.test.mjs",
+        "assets/reference/tests/engine.test.mjs",
+        "assets/reference/tests/lib/fixtures.mjs",
+        "assets/reference/tests/lib/harness.mjs",
+        "assets/reference/tests/static.test.mjs",
+        "references/AUDIO.md",
+        "references/BUILD-LOG.md",
+        "references/RELEASE.md",
+        "references/SCENE.md",
+        "references/UI.md",
+        "references/VERIFY.md",
+        "scripts/scaffold.mjs"
+      ]
     }
   ]
 }

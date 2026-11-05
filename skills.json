@@ -59,6 +59,12 @@
       "source": "~/.config/opencode/skills/lucky-draw-3d-studio",
       "description": "Build a release-grade 3D lucky-draw prize-wheel studio with a cryptographically fair pick, spin physics, bilingual UI, synthesized audio, local history, headless verification and a GitHub Pages release.",
       "license": "MIT"
+    },
+    {
+      "name": "wurlitzer-lullaby-studio",
+      "source": "~/.config/opencode/skills/wurlitzer-lullaby-studio",
+      "description": "Build a bilingual, static 3D Wurlitzer-style lullaby jukebox and sleep studio with procedural Web Audio lullabies, an archive stream manifest, ambient beds, a smoothstep sleep timer, headless verification and a GitHub Pages release.",
+      "license": "MIT"
     }
   ]
 }

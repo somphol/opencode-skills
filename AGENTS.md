@@ -59,3 +59,5 @@ skill when its `version` string changes, which `sync.mjs` derives from the conte
   <https://github.com/somphol/khan-trig-unit4-equations-identities-studio>.
 - `city-3d-tour-guide` source: `~/.config/opencode/skills/city-3d-tour-guide`; reference app at
   <https://github.com/somphol/bangkok-3d-tour-guide>.
+- `wurlitzer-lullaby-studio` source: `~/.config/opencode/skills/wurlitzer-lullaby-studio`; reference app at
+  <https://github.com/somphol/vintage-wurlitzer-lullaby-jukebox>.

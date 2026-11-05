@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://somphol.github.io/vintage-wurlitzer-lullaby-jukebox/sitemap.xml

@@ -1,0 +1,19 @@
+name: Question
+description: Ask how something works or why it behaves this way.
+title: "[question] "
+labels: ["question"]
+body:
+  - type: textarea
+    id: question
+    attributes:
+      label: Your question
+    validations:
+      required: true
+  - type: textarea
+    id: context
+    attributes:
+      label: Context
+      description: Browser, URL, what you already tried, whether ?selftest passes.
+  - type: markdown
+    attributes:
+      value: Please do not paste secrets, tokens or personal data.

@@ -1,0 +1,66 @@
+{
+  "project": "Vintage Wurlitzer 3D Lullaby Jukebox & Sleep Studio",
+  "release": "1.0.0",
+  "session": {
+    "startedAt": "2026-11-05T04:35:32Z",
+    "capturedAt": "2026-11-05T06:30:00Z",
+    "elapsedSeconds": 3600,
+    "elapsed": "1h 00m",
+    "note": "Placeholder captured mid-build; replaced with the final OpenCode session counters after the live release and skill publication."
+  },
+  "model": {
+    "name": "DeepSeek V4.1 Flash",
+    "id": "deepseek-v4.1-flash",
+    "provider": "opencode-go"
+  },
+  "usage": {
+    "inputTokens": 1,
+    "outputTokens": 1,
+    "reasoningTokens": 1,
+    "cacheReadTokens": 1,
+    "cacheWriteTokens": 1,
+    "totalTokens": 5,
+    "costUSD": 0,
+    "note": "Placeholder; read from the OpenCode session database at final capture."
+  },
+  "artifacts": {
+    "sourceFiles": ["index.html", "style.css", "script.js"],
+    "lineCounts": { "index.html": 0, "style.css": 0, "script.js": 0, "total": 0 },
+    "supportingFiles": []
+  },
+  "verification": {
+    "method": "Dependency-free Node suites plus headless Chrome over the DevTools Protocol",
+    "automatedChecks": 22,
+    "browserChecks": 22,
+    "selfTestChecks": 23,
+    "totalChecks": 67,
+    "consoleErrors": 0,
+    "checks": []
+  },
+  "deployment": {
+    "repository": "https://github.com/somphol/vintage-wurlitzer-lullaby-jukebox",
+    "pages": "https://somphol.github.io/vintage-wurlitzer-lullaby-jukebox/",
+    "host": "GitHub Pages",
+    "branch": "main",
+    "path": "/",
+    "status": "pending",
+    "verifiedAt": "2026-11-05T06:30:00Z"
+  },
+  "credits": {
+    "tool": "OpenCode",
+    "toolURL": "https://opencode.ai",
+    "model": "DeepSeek V4.1 Flash",
+    "modelID": "opencode-go/deepseek-v4.1-flash",
+    "engine": "Three.js 0.169.0 (MIT)",
+    "license": "MIT"
+  },
+  "skill": {
+    "name": "wurlitzer-lullaby-studio",
+    "title": "Wurlitzer Lullaby Studio",
+    "status": "published",
+    "catalog": "https://somphol.github.io/opencode-skills/",
+    "source": "https://github.com/somphol/opencode-skills/tree/main/wurlitzer-lullaby-studio",
+    "local": "~/.config/opencode/skills/wurlitzer-lullaby-studio",
+    "note": "Placeholder; updated after the skill is validated and published."
+  }
+}

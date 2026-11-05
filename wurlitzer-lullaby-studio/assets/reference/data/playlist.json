@@ -1,0 +1,57 @@
+{
+  "version": 1,
+  "name": "Vintage 78 RPM Lullabies",
+  "updated": "2026-11-05",
+  "description": "CORS-enabled, royalty-free / public-domain lullaby recordings from Wikimedia Commons, transcoded to MP3. Replace this manifest with your own licensed audio; the app validates every entry and falls back gracefully.",
+  "license": "See each track's source page. Recordings are public domain or freely licensed; this repository claims no rights over them.",
+  "tracks": [
+    {
+      "id": "archive-brahms-1915",
+      "slot": "C-1",
+      "title": "Wiegenlied (Berceuse), 1915",
+      "artist": "Johannes Brahms · Ernestine Schumann-Heink",
+      "url": "https://upload.wikimedia.org/wikipedia/commons/transcoded/8/87/Brahms_-_Schumann-Heink_-_Wiegenlied_%28Berceuse%29_%281915%29.ogg/Brahms_-_Schumann-Heink_-_Wiegenlied_%28Berceuse%29_%281915%29.ogg.mp3",
+      "duration": 110,
+      "license": "Public domain (1915 recording)",
+      "credit": "Wikimedia Commons",
+      "source": "https://commons.wikimedia.org/wiki/File:Brahms_-_Schumann-Heink_-_Wiegenlied_(Berceuse)_(1915).ogg",
+      "accent": "#d9a441"
+    },
+    {
+      "id": "archive-guten-abend",
+      "slot": "C-2",
+      "title": "Guten Abend, gut' Nacht",
+      "artist": "Traditional · archive recording",
+      "url": "https://upload.wikimedia.org/wikipedia/commons/transcoded/1/1c/Guten_Abend_gut_Nacht.ogg/Guten_Abend_gut_Nacht.ogg.mp3",
+      "duration": 154,
+      "license": "Public domain / freely licensed — verify source page",
+      "credit": "Wikimedia Commons",
+      "source": "https://commons.wikimedia.org/wiki/File:Guten_Abend_gut_Nacht.ogg",
+      "accent": "#c96f4a"
+    },
+    {
+      "id": "archive-schlafe-prinzchen",
+      "slot": "C-3",
+      "title": "Schlafe, mein Prinzchen",
+      "artist": "Bernhard Flies · Ukrainian performance",
+      "url": "https://upload.wikimedia.org/wikipedia/commons/transcoded/b/b9/Schlafe%2C_mein_Prinzchen%2C_schlaf_ein_in_Ukrainian_%28audio%29.ogg/Schlafe%2C_mein_Prinzchen%2C_schlaf_ein_in_Ukrainian_%28audio%29.ogg.mp3",
+      "duration": 120,
+      "license": "Freely licensed — verify source page",
+      "credit": "Wikimedia Commons",
+      "source": "https://commons.wikimedia.org/wiki/File:Schlafe,_mein_Prinzchen,_schlaf_ein_in_Ukrainian_(audio).ogg",
+      "accent": "#7fa9a2"
+    },
+    {
+      "id": "archive-lullaby-clock",
+      "slot": "C-4",
+      "title": "Lullaby Wound-Up Clock",
+      "artist": "Traditional · mechanical music box",
+      "url": "https://upload.wikimedia.org/wikipedia/commons/transcoded/c/cf/Lullaby_wound_up_clock_guten_abend_gute_nacht.ogg/Lullaby_wound_up_clock_guten_abend_gute_nacht.ogg.mp3",
+      "duration": 46,
+      "license": "Public domain / freely licensed — verify source page",
+      "credit": "Wikimedia Commons",
+      "source": "https://commons.wikimedia.org/wiki/File:Lullaby_wound_up_clock_guten_abend_gute_nacht.ogg",
+      "accent": "#9a86c9"
+    }
+  ]
+}
