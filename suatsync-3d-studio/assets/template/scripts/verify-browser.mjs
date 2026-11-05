@@ -7,8 +7,8 @@
  *   CHROME_PATH="/path/to/Chrome" node scripts/verify-browser.mjs
  *
  * Starts a static server, launches Chrome with SwiftShader, runs the in-app
- * self-tests, checks the rendered DOM, exercises the timer transport and the
- * Sync Lab, and fails on any uncaught runtime error. Requires Node 22+.
+ * self-tests, checks the rendered DOM, exercises the timer transport, and
+ * fails on any uncaught runtime error. Requires Node 22+.
  */
 import fs from "node:fs";
 import os from "node:os";
@@ -132,7 +132,7 @@ async function main() {
     await send("Runtime.enable");
     await send("Page.enable");
     await setViewport(1440, 900);
-    await send("Page.navigate", { url: "http://127.0.0.1:" + port + "/" });
+    await send("Page.navigate", { url: "http://127.0.0.1:" + port + "/?noauto=1" });
 
     const deadline = Date.now() + 20000;
     while (Date.now() < deadline) {
@@ -164,8 +164,8 @@ async function main() {
       ["canvas at viewport size", dom.canvas[0] === 1440 && dom.canvas[1] === 900],
       ["YouTube consent placeholder visible", dom.placeholder],
       ["three source tabs", dom.sourceTabs === 3],
-      ["four dialogs", dom.dialogs === 4],
-      ["intro line rendered", dom.introLine > 10]
+      ["three dialogs", dom.dialogs === 3],
+      ["opening verse rendered", dom.introLine > 10]
     ];
     domChecks.forEach(([name, pass]) => { if (!pass) { failures++; console.error("  ✗ " + name); } });
     console.log((domChecks.every(([, pass]) => pass) ? "PASS" : "FAIL") + " " + domChecks.filter(([, pass]) => pass).length + "/" + domChecks.length + " DOM checks");
@@ -228,20 +228,6 @@ async function main() {
     interactionChecks.forEach(([name, pass]) => { if (!pass) { failures++; console.error("  ✗ " + name + " " + JSON.stringify(interaction)); } });
     console.log((interactionChecks.every(([, pass]) => pass) ? "PASS" : "FAIL") + " " + interactionChecks.filter(([, pass]) => pass).length + "/" + interactionChecks.length + " interaction checks");
 
-    const sync = await evaluate(`(async () => {
-      const wait = (ms) => new Promise((r) => setTimeout(r, ms));
-      document.querySelector('#syncBtn').click();
-      await wait(200);
-      const open = document.querySelector('#syncDialog').open;
-      const rows = document.querySelectorAll('#syncRows tr').length;
-      const inputs = document.querySelectorAll('#syncRows input[data-marker]').length;
-      document.querySelector('#syncCancel').click();
-      return { open, rows, inputs };
-    })()`);
-    const syncOK = sync.open && sync.rows === 11 && sync.inputs === 11;
-    if (!syncOK) { failures++; console.error("  ✗ Sync Lab", sync); }
-    console.log((syncOK ? "PASS" : "FAIL") + " Sync Lab opens with 11 markers");
-
     if (wantShots) {
       await setViewport(1440, 900);
       await evaluate(`(async () => {
@@ -283,15 +269,42 @@ async function main() {
       await evaluate("document.querySelector('#toast').classList.remove('show')");
       await capture("docs/screenshot-roman.png");
 
-      await evaluate("document.querySelector('#syncBtn').click()");
-      await sleep(500);
-      await capture("docs/screenshot-sync.png");
-      await evaluate("document.querySelector('#syncCancel').click()");
-      await sleep(300);
+      await evaluate(`(async () => {
+        const S = window.SuatSync;
+        S.setTheme('emerald');
+        S.setAtmosphere('forest');
+        S.setFontSize('large');
+        S.setLanguage('en');
+        S.setScript('roman');
+        S.jumpToSection(2);
+        S.seekTo(S.timeline.markers()[2] + 120, true);
+        S.render(true);
+        window.scrollTo(0, document.querySelector('.studio').offsetTop - 14);
+      })()`);
+      await sleep(3400);
+      await evaluate("document.querySelector('#toast').classList.remove('show')");
+      await capture("docs/screenshot-forest.png");
+
+      await evaluate(`(async () => {
+        const S = window.SuatSync;
+        S.setTheme('midnight');
+        S.setAtmosphere('ocean');
+        S.setFontSize('medium');
+        S.jumpToSection(5);
+        S.seekTo(S.timeline.markers()[5] + 90, true);
+        S.render(true);
+        window.scrollTo(0, document.querySelector('.studio').offsetTop - 14);
+      })()`);
+      await sleep(3400);
+      await evaluate("document.querySelector('#toast').classList.remove('show')");
+      await capture("docs/screenshot-ocean.png");
 
       await setViewport(390, 844, true);
       await evaluate(`(async () => {
         const S = window.SuatSync;
+        S.setTheme('emerald');
+        S.setAtmosphere('forest');
+        S.setFontSize('medium');
         S.setLanguage('th');
         S.setScript('thai');
         S.jumpToSection(3);

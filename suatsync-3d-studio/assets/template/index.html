@@ -22,6 +22,7 @@
 <div id="stage" aria-hidden="true">
   <canvas id="scene-canvas"></canvas>
   <div class="stage-veil"></div>
+  <div class="atmosphere-glow"></div>
 </div>
 
 <a class="skip-link" href="#transport" data-i18n="skip">Skip to player controls</a>
@@ -60,7 +61,7 @@
   <section class="hero" aria-labelledby="pageTitle">
     <p class="eyebrow" data-i18n="eyebrow">A quiet room for nine recitations</p>
     <h1 id="pageTitle" data-i18n-html="title">Chant the Chinabunchorn,<br><em>one luminous line at a time.</em></h1>
-    <p class="lede" data-i18n="lede">Synchronized Pali, Thai meaning and English gloss, wrapped around a slow golden mandala. One video, nine rounds, no account, nothing leaves your device.</p>
+    <p class="lede" data-i18n="lede">Synchronized Pali, Thai meaning and English gloss, wrapped around a slow golden mandala. One video, nine rounds, no account; practice history stays on your device.</p>
     <div class="hero-stats" aria-label="Studio facts">
       <span><strong>9</strong> <span data-i18n="statRounds">rounds</span></span>
       <span><strong>15</strong> <span data-i18n="statVerses">verses</span></span>
@@ -81,7 +82,7 @@
       <div class="jump-block">
         <h3 data-i18n="jumpTitle">Jump to a section</h3>
         <div class="jump-rail" id="jumpRail"></div>
-        <p class="hint" data-i18n="jumpHint">Timings are estimates until you calibrate them in Sync Lab.</p>
+        <p class="hint" data-i18n="jumpHint">Verse timings come from the measured timing sheet.</p>
       </div>
 
       <div class="streak-card">
@@ -110,8 +111,10 @@
         <p class="roman-line" id="romanLine" lang="pi-Latn" hidden></p>
         <div class="translation">
           <span class="translation-label" data-i18n="translationLabel">Meaning</span>
-          <p id="translationTh" lang="th"></p>
-          <p id="translationEn" lang="en" hidden></p>
+          <div class="translation-text">
+            <p id="translationTh" lang="th"></p>
+            <p id="translationEn" lang="en" hidden></p>
+          </div>
         </div>
         <div class="line-progress" aria-hidden="true"><span id="lineProgress"></span></div>
       </div>
@@ -141,8 +144,8 @@
         <div id="ytMount"></div>
         <div class="video-placeholder" id="videoPlaceholder">
           <span class="video-glyph" aria-hidden="true">▶</span>
-          <p data-i18n="videoConsent">YouTube loads only when you ask. No cookie is set before that.</p>
-          <button type="button" class="btn btn-gold" id="connectBtn" data-i18n="connect">Connect the video</button>
+          <p id="videoMessage" data-i18n="videoConsent">The chant video loads from YouTube when the page opens.</p>
+          <button type="button" class="btn btn-gold" id="connectBtn" data-i18n="connect" hidden>Connect the video</button>
           <p class="micro" data-i18n="videoCredit">Chant video: Joao Felix · LAo569-mflM</p>
         </div>
         <div class="video-badge" id="videoBadge" hidden data-i18n="videoLive">Live video</div>
@@ -193,12 +196,42 @@
         <input type="checkbox" id="fadeToggle" checked>
       </label>
 
-      <div class="calibration-card">
-        <div>
-          <h3 data-i18n="calibrationTitle">Sync Lab</h3>
-          <p class="hint" data-i18n="calibrationCopy">Line up the intro, the nine rounds and the dedication to your video. Saved on this device.</p>
+      <div class="appearance-card">
+        <div class="appearance-head">
+          <h3 data-i18n="appearanceTitle">Appearance</h3>
+          <span class="hint" data-i18n="appearanceCopy">Theme and reading size</span>
         </div>
-        <button type="button" class="btn btn-ghost" id="syncBtn" data-i18n="openSync">Calibrate</button>
+        <div class="theme-grid" id="themeGrid" role="group" aria-label="Colour theme" data-i18n-aria="themeAria">
+          <button type="button" class="theme-swatch" data-theme="midnight" aria-pressed="true">
+            <span class="swatch-dot" aria-hidden="true"></span><span data-i18n="themeMidnight">Midnight</span>
+          </button>
+          <button type="button" class="theme-swatch" data-theme="emerald" aria-pressed="false">
+            <span class="swatch-dot" aria-hidden="true"></span><span data-i18n="themeEmerald">Emerald</span>
+          </button>
+          <button type="button" class="theme-swatch" data-theme="saffron" aria-pressed="false">
+            <span class="swatch-dot" aria-hidden="true"></span><span data-i18n="themeSaffron">Saffron</span>
+          </button>
+          <button type="button" class="theme-swatch" data-theme="rosewood" aria-pressed="false">
+            <span class="swatch-dot" aria-hidden="true"></span><span data-i18n="themeRosewood">Rosewood</span>
+          </button>
+        </div>
+        <div class="font-row">
+          <span id="textSizeLabel" data-i18n="textSize">Text size</span>
+          <div class="segmented font-seg" role="group" aria-labelledby="textSizeLabel">
+            <button type="button" class="seg-btn font-btn" data-font-size="small" aria-pressed="false">A−</button>
+            <button type="button" class="seg-btn font-btn" data-font-size="medium" aria-pressed="true">A</button>
+            <button type="button" class="seg-btn font-btn" data-font-size="large" aria-pressed="false">A+</button>
+          </div>
+        </div>
+        <div class="atmosphere-row">
+          <span id="atmosphereLabel" data-i18n="atmosphereLabel">Background</span>
+          <div class="atmosphere-grid" role="group" aria-labelledby="atmosphereLabel">
+            <button type="button" class="atmosphere-btn" data-atmosphere="night" aria-pressed="true" data-i18n="atmoNight">Night</button>
+            <button type="button" class="atmosphere-btn" data-atmosphere="clouds" aria-pressed="false" data-i18n="atmoClouds">Clouds</button>
+            <button type="button" class="atmosphere-btn" data-atmosphere="ocean" aria-pressed="false" data-i18n="atmoOcean">Ocean</button>
+            <button type="button" class="atmosphere-btn" data-atmosphere="forest" aria-pressed="false" data-i18n="atmoForest">Forest</button>
+          </div>
+        </div>
       </div>
 
       <div class="session-card">
@@ -243,32 +276,6 @@
   </div>
 </footer>
 
-<dialog id="syncDialog" class="dialog wide" aria-labelledby="syncTitle">
-  <form method="dialog" class="dialog-body">
-    <header class="dialog-head">
-      <div>
-        <p class="eyebrow" data-i18n="syncEyebrow">Timeline workshop</p>
-        <h2 id="syncTitle" data-i18n="syncTitle">Sync Lab</h2>
-      </div>
-      <button type="submit" class="icon-btn" value="cancel" aria-label="Close" data-i18n-aria="closeAria">✕</button>
-    </header>
-    <p class="dialog-copy" data-i18n="syncCopy">Play the video, pause where a section begins, then press “Use current”. The markers are stored locally. Default timings assume a 97-minute video.</p>
-    <div class="sync-table-wrap">
-      <table class="sync-table">
-        <thead><tr><th data-i18n="syncSection">Section</th><th data-i18n="syncStart">Starts at</th><th></th></tr></thead>
-        <tbody id="syncRows"></tbody>
-      </table>
-    </div>
-    <p class="hint" id="syncStatus" data-i18n="syncHint">Markers must move forward in time.</p>
-    <footer class="dialog-actions">
-      <button type="button" class="text-btn" id="syncReset" data-i18n="syncReset">Restore defaults</button>
-      <span class="spacer"></span>
-      <button type="button" class="btn btn-ghost" id="syncCancel" data-i18n="cancel">Cancel</button>
-      <button type="button" class="btn btn-gold" id="syncSave" data-i18n="save">Save markers</button>
-    </footer>
-  </form>
-</dialog>
-
 <dialog id="aboutDialog" class="dialog" aria-labelledby="aboutTitle">
   <form method="dialog" class="dialog-body">
     <header class="dialog-head">
@@ -280,7 +287,7 @@
     </header>
     <div class="about-copy">
       <p data-i18n="aboutP1">SuatSync 3D pairs the Chinabunchorn Chant with a calm, line-by-line reading surface. It is a practice aid, not a teacher: the Pali follows the traditional Thai recension, and the meanings are plain-language glosses.</p>
-      <p data-i18n="aboutP2">Nothing is uploaded. Preferences, calibration, rounds and streaks live in this browser’s localStorage. The YouTube player is only created after you press Connect, and Three.js is loaded from a CDN.</p>
+      <p data-i18n="aboutP2">Nothing is uploaded. Preferences, rounds and streaks live in this browser's localStorage. The YouTube player loads when the page opens, and Three.js is loaded from a CDN.</p>
       <dl class="credit-list">
         <div><dt data-i18n="creditChant">Chant text</dt><dd data-i18n="creditChantValue">Thai Pali recension, public domain; Thai/English glosses by the project.</dd></div>
         <div><dt data-i18n="creditVideo">Video</dt><dd><a href="https://www.youtube.com/watch?v=LAo569-mflM" target="_blank" rel="noopener noreferrer">Joao Felix — Chinabunchorn 9 recitations</a></dd></div>
@@ -342,6 +349,7 @@
 <noscript><p class="noscript">SuatSync 3D needs JavaScript to synchronize the chant. The chant text is available in <a href="docs/CONTENT.md">docs/CONTENT.md</a>.</p></noscript>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script src="timings.js"></script>
 <script src="script.js"></script>
 </body>
 </html>

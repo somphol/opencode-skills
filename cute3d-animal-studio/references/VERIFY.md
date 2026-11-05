@@ -5,10 +5,10 @@
 | Layer | Command | Expected |
 | --- | --- | --- |
 | Engine | `node --test tests/engine.test.mjs` | 19/19 |
-| Repository | `node --test tests/static.test.mjs` | 80/80 |
-| Browser | `node tests/browser.test.mjs` | 24/24, zero console errors |
+| Repository | `node --test tests/static.test.mjs` | 82/82 |
+| Browser | `node tests/browser.test.mjs` | 25/25, zero console errors |
 | In-page | `/?selftest` | 20/20 |
-| Live | `TEST_URL=https://… node tests/browser.test.mjs` | 24/24 |
+| Live | `TEST_URL=https://… node tests/browser.test.mjs` | 25/25 |
 
 Run `npm run verify` for engine + repository + browser.
 
@@ -51,7 +51,7 @@ sanitisation and share encoding, then shows a 20-row overlay and sets `window.__
 TEST_URL=https://somphol.github.io/your-repo/ node tests/browser.test.mjs
 ```
 
-Do not announce a release until this passes 24/24. The transparency and download checks work against
+Do not announce a release until this passes 25/25. The transparency and download checks work against
 Pages.
 
 ## Visual regression

@@ -1,5 +1,7 @@
 # Character rigs
 
+Base mesh counts after the cuteness pass: bear 27, bunny 29, penguin 21, shiba 28, koala 25, conure 52, fold 34.
+
 All characters are `THREE.Group`s facing +Z, standing on y = 0. Reuse a unit sphere
 (`SphereGeometry(1, 26, 20)`) for rounded parts. Mark shared geometry and accessory materials
 `userData.shared = true`.
@@ -135,3 +137,18 @@ anchors.hat; glasses → anchors.glasses.
 - Masks: head `z > 0.58`, ears `z > 0.35`, body oval `length(vec2(x/0.78,(y+0.05)/0.8)) < 1`.
 - `rig.fluff` / `rig.fluffMaterials`; dispose alphaMap clones, never shared geometry.
 - State: `coat: 'off'|'soft'|'plush'`; share `f=`.
+
+## Species postures
+
+| Animal | Pose | Key changes |
+| --- | --- | --- |
+| Bear | sit | body/head −0.10, legs forward z 0.36, paws on lap |
+| Bunny | alert | body +0.03, ears back x −0.22, paws tucked |
+| Penguin | lean | group x +0.06, feet wide, flippers out |
+| Shiba | sit | body/head −0.11, haunch spheres, front paws forward |
+| Koala | cling | arms up/out, legs tucked, body lean |
+| Conure | perch | feet y 0.10 on branch, group x +0.05, tail down |
+| Fold | loaf | body/head −0.12, legs tucked, paws forward, tail wrapped |
+
+Pose before `applyCoat`; store `base.headRotX/Z`, `earBaseX`, `feet.baseY`. The loop adds expression
+to head bases and counter-translates feet by the idle bob.

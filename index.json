@@ -350,7 +350,7 @@
     },
     {
       "name": "cute3d-animal-studio",
-      "version": "54d4705ae78b",
+      "version": "a842d0182d65",
       "description": "Build a release-grade, zero-asset 3D animal character studio with seven original procedural Three.js pets, layered fur and feather coat shells, idle and click animations, live colours and accessories, synthesized Web Audio, a bilingual EN/TH UI, local presets, transparent PNG export, four test layers and a GitHub Pages release.",
       "license": "MIT",
       "files": [
@@ -374,17 +374,20 @@
     },
     {
       "name": "suatsync-3d-studio",
-      "version": "37c2e41bc628",
+      "version": "01f0a864621b",
       "description": "Build a bilingual, static 3D chanting and karaoke studio around a sacred or traditional text — synchronized lines, a calibratable timeline, YouTube/local/timer audio, streaks, a procedural mandala, headless verification and a GitHub Pages release.",
       "license": "MIT",
       "files": [
         "SKILL.md",
+        "assets/template/data/README.md",
+        "assets/template/data/timings.csv",
         "assets/template/index.html",
         "assets/template/package.json",
         "assets/template/script.js",
         "assets/template/scripts/check.mjs",
         "assets/template/scripts/verify-browser.mjs",
         "assets/template/style.css",
+        "assets/template/timings.js",
         "references/content-and-timing.md",
         "references/release.md",
         "references/reproduction.md",

@@ -16,6 +16,7 @@
     "serve": "python3 -m http.server 8080",
     "check": "node scripts/check.mjs",
     "test": "node scripts/check.mjs",
+    "timings": "node scripts/build-timings.mjs",
     "verify": "node scripts/verify-browser.mjs",
     "screenshots": "node scripts/verify-browser.mjs --screenshots"
   },

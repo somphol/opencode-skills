@@ -1,7 +1,7 @@
 ---
 name: SuatSync 3D Studio
-description: Build a bilingual, static 3D chanting and karaoke studio around a sacred or traditional text — synchronized lines, a calibratable timeline, YouTube/local/timer audio, streaks, a procedural mandala, headless verification and a GitHub Pages release.
-version: 1.0.0
+description: Build a bilingual, static 3D chanting and karaoke studio around a sacred or traditional text — synchronized lines, an editable timing sheet, YouTube/local/timer audio, four themes, four animated backdrops, streaks, a procedural mandala, headless verification and a GitHub Pages release.
+version: 1.1.0
 ---
 
 # SuatSync 3D Studio
@@ -12,8 +12,8 @@ that can be handed to another maintainer. It is the method behind
 [SuatSync 3D](https://somphol.github.io/suatsync-3d/), a Chinabunchorn 9-recitation studio.
 
 The deliverables are one offline-capable static app (three files), a private-by-default persistence
-layer, a line-level timing model that can be calibrated to any recording, and a verification harness
-that proves the timeline and content rather than trusting screenshots.
+layer, a line-level timing sheet that is edited as data rather than in the browser, and a verification
+harness that proves the timeline and content rather than trusting screenshots.
 
 ## When to use
 
@@ -51,11 +51,9 @@ content and branding. It is a **reference implementation**, not a theme to reski
 ### 2. Model the timeline before writing UI
 
 Use **eleven section markers**: intro, every repetition, closing. Inside a section, allocate each line
-a share proportional to its text length. Never hardcode per-line seconds unless you actually measured
-them. This keeps one dataset usable with a different recording length.
-
-If the recording has no chapters, say so in the UI and provide calibration. That honesty is part of
-the product, not a disclaimer to hide.
+a share proportional to its text length as a fallback. Once you measure a verse, put its absolute
+start in `data/timings.csv`; a small build step writes `timings.js`. Do not build an in-app
+calibration screen: the CSV is easier to review, diff and version.
 
 ### 3. Scaffold
 
@@ -85,7 +83,8 @@ Every line needs `pali` (or source script), `roman` (if applicable), `th`, `en` 
 
 Keep the three-source adapter:
 
-- **Video** — consent-gated IFrame API, created only on a click, with `origin` on http(s).
+- **Video** — auto-loading IFrame API, paused, seeking to the first measured verse; a reconnect button
+  if it is blocked. `?noauto=1` disables it for tests.
 - **Local file** — object URL + `<audio>`, analyser for the visual pulse.
 - **Timer** — a media clock; silent except a completion chime.
 
@@ -103,6 +102,8 @@ not count. This protects the streak from becoming a click counter.
 - Dark, warm, one accent; no large flat gold surfaces.
 - The active line is the interface: colour, wash and a thin progress rule, not reflowing scale.
 - A single procedural 3D motif tied to the content (lotus petals = rounds, inner petals = verses).
+- Four themes that recolour both CSS and the 3D palette; three reading sizes via one `--font-scale`;
+  four backdrop layers (night, clouds, ocean, forest) behind the motif.
 - Thai/Pali line-height 1.6–1.7; test at 320 px.
 - Fixed footer reserves bottom padding; global `[hidden] { display:none !important; }`.
 - `prefers-reduced-motion` stops the rotation.
@@ -136,11 +137,11 @@ check the live boot, not only the local server.
 
 | Contract | Why |
 | --- | --- |
-| 11 markers, strictly increasing | One shape for every repetition; calibration and jumps depend on it |
-| Proportional line timing | Survives new recordings, tempo changes and edits |
+| 11 markers, strictly increasing | One shape for every repetition; jumps and the timing sheet depend on it |
+| Explicit cue sheet, proportional fallback | Survives new recordings and unmeasured sections |
 | Round completion = coverage + end | Streaks mean something |
 | Versioned, normalising storage | No crash from old/malformed local data |
-| Consent-gated embed | No third-party cookie before a gesture; required for privacy claims |
+| Video loads on start, paused | Product choice; no audible autoplay and a reconnect fallback |
 | Local file never uploaded | The privacy promise is technical, not copy |
 | Both languages complete | The test fails otherwise, and partial UI is a release defect |
 | `state.json` at the end | The next agent needs build cost and verification, not guesswork |
@@ -149,6 +150,8 @@ check the live boot, not only the local server.
 
 - `sectionAt` must iterate **all** markers, including the last.
 - API indices are 0-based; visible labels are 1-based. Test the off-by-one.
+- Displayed times are `Math.floor` of the cue; a 3:54 cue shows 3:54, but a proportional fallback can
+  show 3:52. If the sheet is ignored, check that `timings.js` loaded and the build ran.
 - `localStorage.clear()` then reload does not reset screenshots: `beforeunload` persists again.
 - Wait >2.8 s (or remove `.show`) before capturing — toasts land on the chant.
 - YouTube can start from its own controls, bypassing the fade-in; restore volume on state change.
@@ -156,6 +159,9 @@ check the live boot, not only the local server.
 - Thai tone marks and vowels need more leading than Latin; a desktop-perfect line can collide on mobile.
 - A fully suspended background tab stops `setInterval`; ordinary throttling does not. State this.
 - Do not use screenshot-only verification for the chant text: assert counts and field completeness.
+- Theme changes must update both CSS tokens and the Three.js palette, or the mandala looks pasted on.
+- Backdrop sprites belong behind the mandala (`z < 0`) with `depthWrite:false`; otherwise they wash out
+  the text or render in front of the petals.
 
 ## Adaptation recipes
 
@@ -163,16 +169,20 @@ check the live boot, not only the local server.
 change `defaultMarkers()`, and rewrite the section labels. Keep one round = the full verse set.
 
 **Different video length.** Set `NOMINAL_DURATION` to the new length. Default markers scale
-automatically; calibrated markers stay absolute. Re-measure rather than scaling a calibration.
+automatically; explicit cue starts stay absolute. Re-measure the sheet rather than scaling it.
 
 **New language.** Duplicate the English table, translate every key, add it to the language toggle and
 the self-test. Do not machine-translate the chant without review.
 
-**No video at all.** Default to timer, remove the YouTube tab and consent block, keep the local file
+**No video at all.** Default to timer, remove the YouTube tab and reconnect block, keep the local file
 option. The timeline is unchanged.
 
-**Want real per-line timestamps.** Add optional `start`/`end` to the line schema and branch in
-`lineAt`; keep proportional timing as the fallback for uncalibrated sections.
+**Want themes or a new backdrop.** Add the palette to `THEMES`, add matching CSS tokens, and add a
+backdrop builder that returns a `THREE.Group` with `visible=false`. Register it in `atmospheres` and
+normalise the new setting.
+
+**Want real per-line timestamps.** Use `data/timings.csv`; the reference implementation already reads
+complete rounds from `timings.js` and falls back to proportional timing for missing lines.
 
 ## Evidence
 

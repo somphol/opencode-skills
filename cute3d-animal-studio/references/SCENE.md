@@ -69,3 +69,23 @@ on desktop and fills the remaining viewport on mobile. `ResizeObserver` handles 
 - They do not cast shadows, do not write transparency, and render as opaque alpha-tested geometry.
 - Soft = 5 layers, Plush = 10; thickness 0.085 fur / 0.045 feather.
 - The head and body shells inject object-space discard masks (face, inner ears, belly oval).
+
+## Strand fur pass
+
+- One tapered ribbon geometry (4 rows, ~6 tris), shared; one InstancedMesh per coat zone.
+- Roots sampled at `mesh.scale * 1.16`, outside 8 shell layers.
+- `STRAND_UNIFORMS`: time, breeze, length, curl, clump, cursor. Vertex shader bends by `h²`; cursor is
+  raycast onto plane z = 0.
+- Density changes `InstancedMesh.count`; never rebuild geometry on slider input.
+- Strand material is transparent (opacity ≈0.62), `depthWrite:false`, tinted 30% toward white.
+- Max 60k at density 1/Plush; 30k base at Soft.
+
+## Lighting presets
+
+| Preset | Lights | Props |
+| --- | --- | --- |
+| Studio | warm key, cream/lilac backdrop | pedestal |
+| Cloud Sky | cool hemisphere, blue backdrop | four drifting cloud clusters |
+| Cozy Desk | amber key, higher exposure | wooden table, mug, plant, books |
+
+`applyLighting()` owns colors, exposure, pedestal/desk/cloud visibility and `body[data-lighting]`.

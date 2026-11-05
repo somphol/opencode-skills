@@ -1,18 +1,18 @@
 ---
 name: Cute3D Animal Studio
-description: Build a release-grade, zero-asset 3D animal character studio with seven original procedural Three.js pets, layered fur and feather coat shells, idle and click animations, live colours and accessories, synthesized Web Audio, a bilingual EN/TH UI, local presets, transparent PNG export, four test layers and a GitHub Pages release.
-version: 1.1.0
+description: Build a release-grade, zero-asset 3D animal character studio with seven original procedural Three.js pets, layered fur and feather coats with GPU strand physics, species postures, idle and click animations, live colours and accessories, synthesized Web Audio, a bilingual EN/TH UI, local presets, transparent PNG export, four test layers and a GitHub Pages release.
+version: 1.2.0
 ---
 
 # Cute3D Animal Studio
 
 Turn "make me a cute 3D animal studio" into a shipped product: seven original characters built only
-from Three.js primitives, a layered fur/feather coat system, a pastel soft-shadow studio,
+from Three.js primitives, a layered fur/feather coat plus GPU strand system, a pastel soft-shadow studio,
 breathing/blinking/jumping life, a bilingual customizer, local presets, transparent PNG export, real
 tests and a live URL.
 
 This skill is written from a completed build: **Cute3D: Procedural Code-Only Animal Studio** —
-19 engine, 80 repository, 24 browser and 20 in-page checks, zero console errors. The shipped reference
+19 engine, 82 repository, 25 browser and 20 in-page checks, zero console errors. The shipped reference
 source is in `assets/reference/`; the live product is at
 <https://somphol.github.io/cute3d-animal-studio/>.
 
@@ -36,11 +36,11 @@ Do not stop at "it renders". A release has all of these:
 | Gate | Command | Expected |
 | --- | --- | --- |
 | Engine | `node --test tests/engine.test.mjs` | 19/19 |
-| Repository | `node --test tests/static.test.mjs` | 80/80 |
-| Browser | `node tests/browser.test.mjs` | 24/24, zero console errors |
+| Repository | `node --test tests/static.test.mjs` | 82/82 |
+| Browser | `node tests/browser.test.mjs` | 25/25, zero console errors |
 | In-page | `/?selftest` | 20/20 |
-| Live copy | `TEST_URL=https://… node tests/browser.test.mjs` | 24/24 |
-| Visuals | `node scripts/screenshot.mjs` | 11 fresh assets |
+| Live copy | `TEST_URL=https://… node tests/browser.test.mjs` | 25/25 |
+| Visuals | `node scripts/screenshot.mjs` | 14 fresh assets |
 | Docs | README, AGENTS, 14 docs, community files | links resolve |
 | Metadata | `state.json`, licence, sitemap, OG card | shape valid |
 | Handoff | `AGENTS.md` in the **same push** | current |
@@ -82,15 +82,18 @@ If a number is lower, fix the cause; never edit the claim.
    materials, `baseScale` on every mesh.
 5. **Seven rigs:** bear 25, bunny 27, penguin 19, shiba 26, koala 23, conure 50, fold 32 base meshes.
    Follow the rig contract in `references/RIGS.md`; keep belly patches forward and counts distinct.
-6. **Coat:** layered shells (5 soft / 10 plush), canvas strand alpha + bump, shader masks for face/ears/
-   belly. Add a `COAT_CONFIG` entry per animal; never hard-code fur into a builder.
-7. **Accessories:** bowtie, party hat, glasses; parent to `anchors.neck/hat/glasses`.
-8. **Animation:** damped expression blend, float, breath, deterministic blink, ear/tail, reaction.
-9. **UI:** seven panel sections (coat before colours? after expression), native colour inputs, palettes,
-   presets, language toggle, toasts, mobile sheet, keyboard shortcuts.
-10. **Snapshot/share:** dedicated square camera, transparent 2048² PNG, query-string look incl. `f=`.
-11. **Tests:** engine, repository, browser, in-page self-test. Add a screenshot generator.
-12. **Docs and release:** README, AGENTS, docs set, OG card, Pages, live suite, skill mirror.
+6. **Coat:** layered shells (4 soft / 8 plush), canvas strand alpha + bump, shader masks for face/ears/
+   belly, plus up to 60k GPU ribbons with wind/curl/clump/cursor physics. Add a `COAT_CONFIG` entry per
+   animal; never hard-code fur into a builder.
+7. **Posture and moods:** apply species posture before coats; implement Studio / Cloud Sky / Cozy Desk
+   lighting presets and the five fur sliders.
+8. **Accessories:** bowtie, party hat, glasses; parent to `anchors.neck/hat/glasses`.
+9. **Animation:** damped expression blend, float, breath, deterministic blink, ear/tail, reaction.
+10. **UI:** character, expression, fur, scene, colours, accessories, tools, presets, language, toasts,
+   mobile sheet, keyboard shortcuts.
+11. **Snapshot/share:** dedicated square camera, transparent 2048² PNG, query-string look incl. `f=`.
+12. **Tests:** engine, repository, browser, in-page self-test. Add a screenshot generator.
+13. **Docs and release:** README, AGENTS, docs set, OG card, Pages, live suite, skill mirror.
 
 ## Rig contract
 
@@ -111,6 +114,10 @@ accessories and captures `earBases`. Recolour through `rig.materials` roles (`ma
 | Snapshot resets orbit | main camera + `resize()` | dedicated snapshot camera |
 | Selftest accessories fail | builders don't create accessories | test `ACCESSORY_BUILDERS` |
 | Static suite fails | `state.json` line counts stale | regenerate after source edits |
+| Fur invisible | strands buried inside shells | sample roots at `mesh.scale * 1.16` |
+| Fur looks dusty | opaque thin strands | semi-transparent strands + shells, keep opacity ~0.6 |
+| Feet float | whole group bobs | counter-translate feet by the idle bob |
+| Pose hidden by fur | posture applied after coat | pose before `applyCoat` |
 
 ## Verification and release
 

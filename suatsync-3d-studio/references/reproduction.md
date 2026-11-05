@@ -95,41 +95,59 @@ is the next marker; the dedication ends at the media duration.
 
 Default values on a 5,837-second video:
 
-- intro: 0–240 s
-- nine rounds: equally spaced from 240 s to 5,537 s (≈588.6 s each)
-- dedication: 5,537 s–end (≈300 s)
+- intro: 0–218 s (Round 1 verse 1 begins at 3:38)
+- nine rounds: 264 s each (4:24), from 218 s to 2,594 s
+- dedication: 2,594 s–end (the remainder of the video)
 
 These are guesses chosen to match the video's shape. The UI states that they are estimates until the
 user calibrates.
 
 ### 3.2 Duration scaling
 
-If the media duration differs from 5,837 s and the user has **not** calibrated, scale every default
-marker by `duration / NOMINAL_DURATION`. If the user has calibrated, use the stored absolute markers,
-clamped to the current duration. This lets a local file of a different length work immediately while
-preserving a measured calibration.
+If the media duration differs from 5,837 s, scale the default section markers by
+`duration / NOMINAL_DURATION`. The explicit cue sheet is absolute for the source video; for a
+different recording, rebuild the sheet rather than relying on scaling.
 
 ### 3.3 Line timing inside a section
 
-There are no per-line timestamps. For section `s` with start `a`, end `b`, and lines `L`:
+If no explicit cue sheet exists, for section `s` with start `a`, end `b`, and
+lines `L`:
 
 ```text
+weight(line) = max(30, pali length without spaces) × (line.weight || 1)
 total = Σ weight(line)
 local = clamp(t - a, 0, b - a)
 lineStart(i) = a + (Σ weight before i / total) · (b - a)
 lineEnd(i)   = a + (Σ weight through i / total) · (b - a)
 ```
 
+`weight` is a **multiplier**, never an absolute weight. The reference dataset uses 1.5× for verse 9
+and 1.7× for verse 15. A bug that treated those as absolute values gave both verses under one second;
+if you reimplement this, add a test or inspect the computed starts.
+
 `lineAt(t)` returns the section, index, line, section bounds, line bounds and progress. This makes the
 dataset portable and survives tempo changes because the media clock is the source of truth.
 
-### 3.4 Calibration contract
+### 3.4 Explicit verse cues
 
-`state.calibration = { custom: false|true, markers: [11 numbers] }`.
-Validation requires finite, non-negative, strictly increasing values and a final marker above 60 s.
-The Sync Lab shows one row per marker with a numeric field and **Use current**; saving closes the
-dialog and re-renders. `Restore defaults` sets `custom: false` and writes the default array. Malformed
-stored calibration falls back to defaults in `normalizeStore`.
+For real per-verse sync, `data/timings.csv` holds 135 rows (9 rounds × 15 verses) with a
+`start_seconds` column. `scripts/build-timings.mjs` validates it and writes `timings.js` as
+`window.SUAT_TIMINGS = { rounds: { "1": [start, …] } }`, loaded before `script.js`.
+
+Precedence:
+
+1. Explicit cue sheet for a complete round — exact line starts, next start = line end.
+2. Proportional fallback for the intro, dedication, or an incomplete round.
+
+The CSV is the master; `timings.js` is generated and must not be hand-edited. Rounds with fewer than
+15 rows are rejected. The sheet is versioned with the app, so corrections ship to every visitor. See
+`data/README.md`. There is no in-app calibration screen.
+
+### 3.5 Starting point
+
+On boot the app forces the YouTube source, creates the player paused, and seeks to Round 1 verse 1
+(3:38). The intro and dedication remain reachable from the jump rail. `?noauto=1` disables the player
+creation for automated tests and screenshots.
 
 ## 4. Build the page
 
@@ -141,8 +159,8 @@ stored calibration falls back to defaults in `normalizeStore`.
 3. `.hero` with title, lede and four stats.
 4. `.studio` — three columns: path panel, karaoke, player panel.
 5. Fixed `.transport` at the bottom with seek, play, seek ±15 and focus.
-6. Four `<dialog>` elements: Sync Lab, About, Summary, History.
-7. Toast, noscript, Three.js CDN, `script.js`.
+6. Three `<dialog>` elements: About, Summary, History.
+7. Toast, noscript, Three.js CDN, `timings.js`, `script.js`.
 
 Use `data-i18n`, `data-i18n-html`, `data-i18n-aria` attributes rather than embedding English in JS.
 The title uses `data-i18n-html` because it contains `<br><em>`.
@@ -152,7 +170,7 @@ The title uses `data-i18n-html` because it contains `<br><em>`.
 The renderer caches these IDs (kebab → camelCase): `roundGrid`, `jumpRail`, `paliLine`, `romanLine`,
 `translationTh`, `translationEn`, `sectionBadge`, `statusChip`, `nowCount`, `lineList`,
 `lineProgress`, `seekBar`, `timeNow`, `timeTotal`, `playBtn`, `playWide`, `volumeSlider`,
-`tempoSlider`, `fadeToggle`, `syncDialog`, `syncRows`, `historyDialog`, `historyList`, `toast`,
+`tempoSlider`, `fadeToggle`, `historyDialog`, `historyList`, `toast`,
 `versionLine`, and the rest listed in `cacheElements()`. If you rename one, update the list.
 
 ### 4.3 CSS
@@ -173,8 +191,7 @@ The renderer caches these IDs (kebab → camelCase): `roundGrid`, `jumpRail`, `p
 
 ```js
 state = {
-  settings: { lang, script, volume, rate, fade, showVideo, source },
-  calibration: { custom, markers },
+  settings: { lang, script, volume, rate, fade, showVideo, source, theme, fontSize, atmosphere },
   session: { startedAt, savedAt, accum[9], done[9], completedAt },
   stats: { roundsTotal, totalSeconds, sessions: [{ date, rounds, seconds, completedAt }] },
   savedAt
@@ -191,10 +208,11 @@ lifetime stats. On `beforeunload`, persist.
 One `audio` object exposes `duration()`, `position()`, `playAudio()`, `pauseAudio()`, `seekTo()`,
 `applyRate()`, `applyVolume()`, `chime()`. The source is one of:
 
-- **YouTube** — `YT.Player`, created on demand inside `connectYouTube()`. Player vars: `autoplay:0`,
-  `controls:1`, `modestbranding:1`, `rel:0`, `playsinline:1`, plus `origin` only on http(s). On ready:
-  hide placeholder, set volume/rate, update duration. On state change 1/3 mark playing, 2/0 mark
-  paused. On error: show a toast and keep the timer available.
+- **YouTube** — `YT.Player`, created on boot (or via the reconnect button). `?noauto=1` disables it for
+  tests. Player vars: `autoplay:0`, `controls:1`, `modestbranding:1`, `rel:0`, `playsinline:1`, plus
+  `origin` only on http(s). On ready: hide placeholder, set volume/rate, seek to Round 1 verse 1,
+  update duration. On state change 1/3 mark playing, 2/0 mark paused. On error: show a reconnect
+  button and keep the timer available.
 - **File** — hidden `<audio>`, object URL, `preload=metadata`; on metadata set currentTime and attach a
   `MediaElementSource → Analyser → Gain → destination` graph. Revoke the previous object URL on change.
 - **Timer** — `timerPos` plus `(performance.now() - timerLast)/1000 * rate` while playing. Duration is
@@ -258,6 +276,17 @@ geometry and clone materials so each petal can light independently. `updatePetal
 an audio-level pulse, lerps petals and camera parallax, then renders. On mobile, push the camera back
 so the mandala does not dominate the text. On resize, update aspect, DPR (cap 2) and distance.
 
+**Themes and atmosphere.** Define four palettes (midnight, emerald, saffron, rosewood) with idle,
+active, done, emissive, core, glow, particle, halo, warm and cool colours. `applyWorldTheme` applies
+the palette to every material and light; `updatePetalStates` reads it for per-petal state. The CSS
+themes mirror the same accents for panels, lines and buttons.
+
+Build four backdrop layers once, behind the mandala: a star field; drifting cloud sprites; rising
+ocean bubbles with light shafts; forest fireflies, mist and thin beams. `applyAtmosphere` toggles one
+layer at a time and `html[data-atmosphere]` drives a slow CSS wash. Texture generation is shared with
+the glow sprite. Add `data-theme`, `data-font-size` and `data-atmosphere` to `<html>` from persisted
+settings, and use `--font-scale` in every reading-text `font-size`.
+
 ### 5.6 i18n
 
 Two complete string tables. `t(key, vars)` falls back to English, then to the key. `applyI18n` sets
@@ -267,7 +296,8 @@ self-test collects every static key and fails if either language is missing one.
 
 ### 5.7 Dialogs and extras
 
-- Sync Lab is a `<form method="dialog">`; all action buttons must be `type="button"`.
+- Dialogs are native `<form method="dialog">`; all action buttons must be `type="button"` unless they
+  intentionally submit/close.
 - Summary opens only when a full sitting finishes.
 - History lists up to 60 sittings and offers JSON export and a destructive clear with confirmation.
 - Print builds a new document with the intro, all 15 verses and the dedication, then calls `print()`.
@@ -282,21 +312,21 @@ node scripts/verify-browser.mjs --screenshots
 ```
 
 The static check enforces files, local links, script syntax, pinned Three.js, 15 verse ids, 20 complete
-line records, the 5,837 s duration, rate clamp, consent-gated YouTube, timer fallback, self-test
-exposure, calibration validation, no TODOs/eval/secrets/personal paths, package metadata and at least
+line records, the 5,837 s duration, rate clamp, auto-loading YouTube, timer fallback, self-test
+exposure, timing-sheet loading, no TODOs/eval/secrets/personal paths, package metadata and at least
 three screenshots.
 
 The browser check starts a static server and Chrome with SwiftShader, then:
 
 1. waits for `window.SuatSync`;
 2. runs 27 self-tests (dataset, markers, line mapping, streak, normalisation, i18n, DOM wiring);
-3. checks 8 DOM facts (9 pills, 11 jumps, WebGL, canvas size, consent placeholder, tabs, dialogs,
+3. checks 8 DOM facts (9 pills, 11 jumps, WebGL, canvas size, video panel, tabs, dialogs,
    intro line);
 4. runs 9 interactions (Roman render, round jump, 15 lines, seek-to-line, timer play, timer pause,
    round tracking, reset, Thai return);
-5. opens Sync Lab and checks 11 markers;
+5. checks the timing sheet anchors against the section markers;
 6. scans for uncaught exceptions and console errors;
-7. optionally writes the five screenshots.
+7. optionally writes the four screenshots.
 
 Expected tail:
 
@@ -304,7 +334,6 @@ Expected tail:
 PASS 27/27 in-app self-tests
 PASS 8/8 DOM checks
 PASS 9/9 interaction checks
-PASS Sync Lab opens with 11 markers
 PASS no uncaught runtime errors
 OK browser verification complete
 ```
@@ -334,7 +363,9 @@ OK browser verification complete
 - **CORS and the analyser.** Do not attempt to analyse YouTube audio; use a synthetic envelope and say
   so.
 - **Thai line height.** Thai vowels and tone marks need more leading than Latin; test at 320 px.
-- **Consent.** Loading the IFrame API on boot sets cookies before the visitor asks. Gate it.
+- **YouTube on start.** The product now loads the IFrame API on boot, which can set YouTube cookies.
+  Keep the disclosure in About/SECURITY accurate, and keep `?noauto=1` for tests. Do not add audible
+  autoplay; playback still needs a gesture.
 
 ## 9. Definition of done
 
@@ -345,7 +376,7 @@ OK browser verification complete
 - [ ] Volume fade, mute, tempo, restart and ±15 s behave.
 - [ ] Clicking a line seeks to that line; the active row follows playback.
 - [ ] A full timer sitting marks nine rounds, records a session, updates the streak.
-- [ ] Calibration saves, scales, validates and resets.
+- [ ] Timing sheet loads 9 × 15 starts and the first round shows 3:38/3:54.
 - [ ] Thai/English and Thai/Roman toggles preserve position and progress.
 - [ ] Mobile 390×844 is usable; no horizontal scroll; footer does not cover the active line at rest.
 - [ ] `check.mjs` and `verify-browser.mjs` pass; screenshots refreshed.

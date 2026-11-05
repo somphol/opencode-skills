@@ -7,7 +7,7 @@
      3. Utilities            4. Persistence and state
      5. Timeline engine      6. Audio engine (YouTube / file / timer)
      7. Karaoke rendering    8. Progress and sessions
-     9. Three.js mandala    10. Sync Lab and dialogs
+     9. Three.js mandala    10. Dialogs
     11. Events              12. Self-tests and boot
    ========================================================================== */
 
@@ -187,7 +187,7 @@
       skip: "Skip to player controls",
       eyebrow: "A quiet room for nine recitations",
       title: "Chant the Chinabunchorn,<br><em>one luminous line at a time.</em>",
-      lede: "Synchronized Pali, Thai meaning and English gloss, wrapped around a slow golden mandala. One video, nine rounds, no account, nothing leaves your device.",
+      lede: "Synchronized Pali, Thai meaning and English gloss, wrapped around a slow golden mandala. One video, nine rounds, no account; practice history stays on your device.",
       statRounds: "rounds",
       statVerses: "verses",
       statStreak: "day streak",
@@ -195,7 +195,7 @@
       pathTitle: "The nine rounds",
       pathCopy: "Each ring is a full recitation. Listen, chant, and the mandala remembers.",
       jumpTitle: "Jump to a section",
-      jumpHint: "Timings are estimates until you calibrate them in Sync Lab.",
+      jumpHint: "Verse timings come from the measured timing sheet.",
       streakTitle: "Your practice",
       streakEmpty: "Finish all nine rounds to begin a streak.",
       historyBtn: "Session history",
@@ -215,8 +215,9 @@
       tabYouTube: "YouTube",
       tabFile: "My audio",
       tabTimer: "Timer",
-      videoConsent: "YouTube loads only when you ask. No cookie is set before that.",
-      connect: "Connect the video",
+      videoConsent: "The chant video loads from YouTube when the page opens.",
+      videoErrorPlaceholder: "YouTube could not load here. Check your connection, reconnect, or use the timer.",
+      connect: "Reconnect video",
       videoCredit: "Chant video: Joao Felix · LAo569-mflM",
       videoLive: "Live video",
       hideVideo: "Hide video",
@@ -237,9 +238,19 @@
       tempoHint: "Slower or faster without changing pitch.",
       fadeLabel: "Soft fade",
       fadeHint: "Ease the volume in and out",
-      calibrationTitle: "Sync Lab",
-      calibrationCopy: "Line up the intro, the nine rounds and the dedication to your video. Saved on this device.",
-      openSync: "Calibrate",
+      appearanceTitle: "Appearance",
+      appearanceCopy: "Theme and reading size",
+      themeAria: "Colour theme",
+      textSize: "Text size",
+      themeMidnight: "Midnight",
+      themeEmerald: "Emerald",
+      themeSaffron: "Saffron",
+      themeRosewood: "Rosewood",
+      atmosphereLabel: "Background",
+      atmoNight: "Night",
+      atmoClouds: "Clouds",
+      atmoOcean: "Ocean",
+      atmoForest: "Forest",
       sessionTitle: "This sitting",
       sessionEmpty: "No rounds completed yet. The chant will remember as you go.",
       sessionSome: "{n} of 9 rounds complete.",
@@ -251,24 +262,11 @@
       playWide: "Play",
       pauseWide: "Pause",
       keyHint: "Space play · ← → seek",
-      syncEyebrow: "Timeline workshop",
-      syncTitle: "Sync Lab",
       closeAria: "Close",
-      syncCopy: "Play the video, pause where a section begins, then press “Use current”. The markers are stored locally. Default timings assume a 97-minute video.",
-      syncSection: "Section",
-      syncStart: "Starts at",
-      syncHint: "Markers must move forward in time.",
-      syncSaved: "Timeline saved. The karaoke follows your markers.",
-      syncInvalid: "Each marker must be later than the one before it.",
-      syncReset: "Restore defaults",
-      syncUseCurrent: "Use current",
-      syncSeconds: "seconds",
-      cancel: "Cancel",
-      save: "Save markers",
       aboutEyebrow: "About this studio",
       aboutTitle: "Made for a daily chant",
       aboutP1: "SuatSync 3D pairs the Chinabunchorn Chant with a calm, line-by-line reading surface. It is a practice aid, not a teacher: the Pali follows the traditional Thai recension, and the meanings are plain-language glosses.",
-      aboutP2: "Nothing is uploaded. Preferences, calibration, rounds and streaks live in this browser's localStorage. The YouTube player is only created after you press Connect, and Three.js is loaded from a CDN.",
+      aboutP2: "Nothing is uploaded. Preferences, rounds and streaks live in this browser's localStorage. The YouTube player loads when the page opens, and Three.js is loaded from a CDN.",
       creditChant: "Chant text",
       creditChantValue: "Thai Pali recension (public domain); Thai and English glosses by the project.",
       creditVideo: "Video",
@@ -299,7 +297,7 @@
       secRound: "Round {n}",
       secOutro: "Dedication",
       usingTimer: "Using the guided timer — no video needed.",
-      connectFirst: "Connect the video first, or switch to Timer.",
+      connectFirst: "The video is still loading, or press Reconnect.",
       videoLoading: "Connecting to YouTube…",
       videoReady: "Video ready. Press play when you are.",
       videoError: "YouTube could not load here. Use My audio or Timer instead.",
@@ -326,7 +324,7 @@
       skip: "ข้ามไปที่ปุ่มควบคุม",
       eyebrow: "พื้นที่เงียบสงบสำหรับการสวดเก้าจบ",
       title: "สวดชินบัญชร<br><em>ทีละบท ทีละลมหายใจ</em>",
-      lede: "บาลี คำแปลไทย และคำอธิบายภาษาอังกฤษที่ซิงก์กัน พร้อมมณฑลทองคำหมุนช้า ๆ วิดีโอเดียว เก้าจบ ไม่ต้องสมัครสมาชิก ข้อมูลทั้งหมดอยู่ในเครื่องของคุณ",
+      lede: "บาลี คำแปลไทย และคำอธิบายภาษาอังกฤษที่ซิงก์กัน พร้อมมณฑลทองคำหมุนช้า ๆ วิดีโอเดียว เก้าจบ ไม่ต้องสมัครสมาชิก ประวัติการปฏิบัติอยู่ในเครื่องของคุณ",
       statRounds: "รอบ",
       statVerses: "คาถา",
       statStreak: "วันติดต่อกัน",
@@ -334,7 +332,7 @@
       pathTitle: "เก้ารอบแห่งการสวด",
       pathCopy: "แต่ละวงคือการสวดเต็มหนึ่งรอบ ฟัง สวดตาม แล้วมณฑลจะจดจำ",
       jumpTitle: "กระโดดไปยังช่วงต่าง ๆ",
-      jumpHint: "เวลาเป็นการประมาณ จนกว่าคุณจะปรับใน Sync Lab",
+      jumpHint: "เวลาของแต่ละบทมาจากตารางเวลาที่วัดไว้",
       streakTitle: "การปฏิบัติของคุณ",
       streakEmpty: "สวดครบทั้งเก้าจบเพื่อเริ่มสถิติต่อเนื่อง",
       historyBtn: "ประวัติการสวด",
@@ -354,8 +352,9 @@
       tabYouTube: "ยูทูบ",
       tabFile: "ไฟล์เสียง",
       tabTimer: "ตัวจับเวลา",
-      videoConsent: "ยูทูบจะโหลดเมื่อคุณสั่งเท่านั้น ไม่มีการตั้งคุกกี้ก่อนหน้านั้น",
-      connect: "เชื่อมต่อวิดีโอ",
+      videoConsent: "วิดีโอบทสวดจะโหลดจากยูทูบเมื่อเปิดหน้า",
+      videoErrorPlaceholder: "ยูทูบโหลดไม่ได้ในที่นี้ ตรวจสอบการเชื่อมต่อแล้วลองใหม่ หรือใช้ตัวจับเวลา",
+      connect: "เชื่อมต่อวิดีโอใหม่",
       videoCredit: "วิดีโอบทสวด: Joao Felix · LAo569-mflM",
       videoLive: "วิดีโอ",
       hideVideo: "ซ่อนวิดีโอ",
@@ -376,9 +375,19 @@
       tempoHint: "ช้าลงหรือเร็วขึ้นโดยไม่เปลี่ยนระดับเสียง",
       fadeLabel: "เฟดเสียงนุ่มนวล",
       fadeHint: "ค่อย ๆ เพิ่มและลดเสียง",
-      calibrationTitle: "Sync Lab",
-      calibrationCopy: "ปรับบทนำ เก้ารอบ และบทแผ่เมตตาให้ตรงกับวิดีโอของคุณ บันทึกไว้ในเครื่องนี้",
-      openSync: "ปรับเวลา",
+      appearanceTitle: "รูปลักษณ์",
+      appearanceCopy: "ธีมและขนาดตัวอักษร",
+      themeAria: "ธีมสี",
+      textSize: "ขนาดตัวอักษร",
+      themeMidnight: "เที่ยงคืน",
+      themeEmerald: "มรกต",
+      themeSaffron: "หญ้าฝรั่น",
+      themeRosewood: "ไม้กุหลาบ",
+      atmosphereLabel: "ฉากหลัง",
+      atmoNight: "กลางคืน",
+      atmoClouds: "เมฆ",
+      atmoOcean: "ทะเล",
+      atmoForest: "ป่า",
       sessionTitle: "การสวดครั้งนี้",
       sessionEmpty: "ยังไม่ได้จบรอบใดเลย มณฑลจะจดจำเมื่อคุณสวดไปเรื่อย ๆ",
       sessionSome: "จบแล้ว {n} จาก 9 รอบ",
@@ -390,24 +399,11 @@
       playWide: "เล่น",
       pauseWide: "หยุด",
       keyHint: "Space เล่น · ← → เลื่อน",
-      syncEyebrow: "ห้องปรับไทม์ไลน์",
-      syncTitle: "Sync Lab",
       closeAria: "ปิด",
-      syncCopy: "เล่นวิดีโอ หยุดตรงจุดที่แต่ละช่วงเริ่ม แล้วกด “ใช้ตำแหน่งปัจจุบัน” จุดกำหนดจะถูกเก็บไว้ในเครื่อง ค่าเริ่มต้นอ้างอิงวิดีโอยาว 97 นาที",
-      syncSection: "ช่วง",
-      syncStart: "เริ่มที่",
-      syncHint: "จุดกำหนดต้องเรียงจากน้อยไปมาก",
-      syncSaved: "บันทึกไทม์ไลน์แล้ว คาราโอเกะจะตามจุดที่คุณกำหนด",
-      syncInvalid: "จุดกำหนดแต่ละจุดต้องอยู่หลังจุดก่อนหน้า",
-      syncReset: "คืนค่าเริ่มต้น",
-      syncUseCurrent: "ใช้ตำแหน่งปัจจุบัน",
-      syncSeconds: "วินาที",
-      cancel: "ยกเลิก",
-      save: "บันทึกจุดกำหนด",
       aboutEyebrow: "เกี่ยวกับสตูดิโอนี้",
       aboutTitle: "สร้างมาเพื่อการสวดทุกวัน",
       aboutP1: "SuatSync 3D จับคู่พระคาถาชินบัญชรกับพื้นที่อ่านทีละบทที่สงบนิ่ง เป็นเครื่องมือช่วยฝึก ไม่ใช่ครูผู้สอน บาลีใช้ฉบับสวดแบบไทยดั้งเดิม และคำแปลเป็นภาษาง่ายเพื่อทำความเข้าใจ",
-      aboutP2: "ไม่มีการอัปโหลดข้อมูล การตั้งค่า ไทม์ไลน์ รอบ และสถิติ เก็บใน localStorage ของเบราว์เซอร์นี้ วิดีโอยูทูบจะถูกสร้างหลังกดเชื่อมต่อเท่านั้น และ Three.js โหลดจาก CDN",
+      aboutP2: "ไม่มีการอัปโหลดข้อมูล การตั้งค่า รอบ และสถิติ เก็บใน localStorage ของเบราว์เซอร์นี้ วิดีโอยูทูบจะโหลดเมื่อเปิดหน้า และ Three.js โหลดจาก CDN",
       creditChant: "บทสวด",
       creditChantValue: "ฉบับบาลีไทย (สาธารณสมบัติ) คำแปลไทยและอังกฤษจัดทำโดยโครงการ",
       creditVideo: "วิดีโอ",
@@ -513,8 +509,14 @@
     return nav.indexOf("th") === 0 ? "th" : "en";
   }
 
+  function lineWeight(line) {
+    var base = Math.max(30, line.pali.replace(/\s+/g, "").length);
+    var multiplier = isFiniteNumber(line.weight) && line.weight > 0 ? line.weight : 1;
+    return base * multiplier;
+  }
+
   function weightedTotal(lines) {
-    return lines.reduce(function (sum, line) { return sum + (line.weight || Math.max(30, line.pali.replace(/\s+/g, "").length)); }, 0);
+    return lines.reduce(function (sum, line) { return sum + lineWeight(line); }, 0);
   }
 
   /* -------------------------------------------------------- 4. PERSISTENCE */
@@ -526,12 +528,15 @@
     rate: 1,
     fade: true,
     showVideo: true,
-    source: "youtube"
+    source: "youtube",
+    theme: "midnight",
+    fontSize: "medium",
+    atmosphere: "night"
   };
 
   function defaultMarkers() {
-    var intro = 240;
-    var outro = 5537;
+    var intro = 218;   // round 1 verse 1 at 3:38, measured from the source video
+    var outro = 2594;  // 43:14, inferred from the 4:24 round spacing
     var out = [0];
     for (var r = 0; r < 9; r++) out.push(intro + ((outro - intro) * r) / 9);
     out.push(outro);
@@ -548,16 +553,10 @@
       rate: clamp(isFiniteNumber(s.rate) ? s.rate : 1, 0.75, 1.25),
       fade: s.fade !== false,
       showVideo: s.showVideo !== false,
-      source: s.source === "file" || s.source === "timer" ? s.source : "youtube"
-    };
-
-    var cal = src.calibration && typeof src.calibration === "object" ? src.calibration : {};
-    var markers = Array.isArray(cal.markers) && cal.markers.length === 11
-      ? cal.markers.map(function (v) { return clamp(Number(v) || 0, 0, NOMINAL_DURATION); })
-      : defaultMarkers();
-    var calibration = {
-      custom: cal.custom === true,
-      markers: markers
+      source: s.source === "file" || s.source === "timer" ? s.source : "youtube",
+      theme: ["midnight", "emerald", "saffron", "rosewood"].indexOf(s.theme) >= 0 ? s.theme : "midnight",
+      fontSize: ["small", "medium", "large"].indexOf(s.fontSize) >= 0 ? s.fontSize : "medium",
+      atmosphere: ["night", "clouds", "ocean", "forest"].indexOf(s.atmosphere) >= 0 ? s.atmosphere : "night"
     };
 
     var sess = src.session && typeof src.session === "object" ? src.session : {};
@@ -590,7 +589,7 @@
       sessions: sessions
     };
 
-    return { settings: settings, calibration: calibration, session: session, stats: stats, savedAt: typeof src.savedAt === "string" ? src.savedAt : "" };
+    return { settings: settings, session: session, stats: stats, savedAt: typeof src.savedAt === "string" ? src.savedAt : "" };
   }
 
   var state = normalizeStore(null);
@@ -649,10 +648,6 @@
 
     markers: function () {
       var dur = Timeline.duration();
-      var cal = state.calibration;
-      if (cal.custom) {
-        return cal.markers.map(function (v) { return clamp(v, 0, dur); });
-      }
       var scale = dur / NOMINAL_DURATION;
       return defaultMarkers().map(function (v) { return clamp(v * scale, 0, dur); });
     },
@@ -683,6 +678,43 @@
       return s;
     },
 
+    explicitStarts: function (section) {
+      if (section < 1 || section > 9) return null;
+      var data = window.SUAT_TIMINGS;
+      if (!data || !data.rounds) return null;
+      var starts = data.rounds[String(section)];
+      if (!Array.isArray(starts) || starts.length !== 15) return null;
+      return starts;
+    },
+
+    lineStart: function (section, index) {
+      var start = Timeline.sectionStart(section);
+      var end = Timeline.sectionEnd(section);
+      var lines = Timeline.linesFor(section);
+      var safe = clamp(index, 0, lines.length - 1);
+      var explicit = Timeline.explicitStarts(section);
+      if (explicit) return clamp(explicit[safe], start, end);
+      var total = weightedTotal(lines);
+      var offset = 0;
+      for (var i = 0; i < safe; i++) offset += lineWeight(lines[i]);
+      return start + (offset / total) * (end - start);
+    },
+
+    lineEnd: function (section, index) {
+      var start = Timeline.sectionStart(section);
+      var end = Timeline.sectionEnd(section);
+      var lines = Timeline.linesFor(section);
+      var safe = clamp(index, 0, lines.length - 1);
+      var explicit = Timeline.explicitStarts(section);
+      if (explicit) {
+        return safe + 1 < explicit.length ? clamp(explicit[safe + 1], start, end) : end;
+      }
+      var total = weightedTotal(lines);
+      var offset = 0;
+      for (var i = 0; i < safe; i++) offset += lineWeight(lines[i]);
+      return start + ((offset + lineWeight(lines[safe])) / total) * (end - start);
+    },
+
     lineAt: function (time) {
       var dur = Timeline.duration();
       var t = clamp(isFiniteNumber(time) ? time : 0, 0, dur);
@@ -690,23 +722,32 @@
       var start = Timeline.sectionStart(section);
       var end = Timeline.sectionEnd(section);
       var lines = Timeline.linesFor(section);
-      var total = weightedTotal(lines);
-      var span = Math.max(1, end - start);
-      var local = clamp(t - start, 0, span);
-      var acc = 0;
       var index = lines.length - 1;
-      for (var i = 0; i < lines.length; i++) {
-        var w = lines[i].weight || Math.max(30, lines[i].pali.replace(/\s+/g, "").length);
-        var lineSpan = (w / total) * span;
-        if (local < acc + lineSpan || i === lines.length - 1) {
-          index = i;
-          break;
+      var explicit = Timeline.explicitStarts(section);
+
+      if (explicit) {
+        index = 0;
+        for (var e = 0; e < explicit.length; e++) {
+          if (t >= explicit[e]) index = e;
         }
-        acc += lineSpan;
+      } else {
+        var total = weightedTotal(lines);
+        var span = Math.max(1, end - start);
+        var local = clamp(t - start, 0, span);
+        var acc = 0;
+        for (var i = 0; i < lines.length; i++) {
+          var lineSpan = (lineWeight(lines[i]) / total) * span;
+          if (local < acc + lineSpan || i === lines.length - 1) {
+            index = i;
+            break;
+          }
+          acc += lineSpan;
+        }
       }
-      var weight = lines[index].weight || Math.max(30, lines[index].pali.replace(/\s+/g, "").length);
-      var lineStart = start + (acc / total) * span;
-      var lineEnd = start + ((acc + weight) / total) * span;
+
+      var lineStart = Timeline.lineStart(section, index);
+      var lineEnd = Timeline.lineEnd(section, index);
+      if (lineEnd <= lineStart) lineEnd = Math.min(end, lineStart + 0.5);
       return {
         section: section,
         index: index,
@@ -744,6 +785,7 @@
     fileName: "",
     playing: false,
     pendingPause: false,
+    pendingPlay: false,
     volume: state.settings.volume / 100,
     muted: false,
     rate: state.settings.rate,
@@ -752,6 +794,7 @@
     timerPos: 0,
     timerLast: 0,
     carry: null,
+    startAt: null,
     ctx: null,
     master: null,
     analyser: null,
@@ -777,7 +820,7 @@
         var y = audio.yt.getCurrentTime();
         return isFiniteNumber(y) ? y : 0;
       }
-      return 0;
+      return audio.startAt != null ? audio.startAt : 0;
     }
     if (audio.source === "file") {
       return audio.fileEl && isFiniteNumber(audio.fileEl.currentTime) ? audio.fileEl.currentTime : 0;
@@ -843,8 +886,13 @@
 
   function playAudio() {
     if (audio.source === "youtube" && !audio.ytReady) {
+      if (audio.ytLoading) {
+        audio.pendingPlay = true;
+        return;
+      }
       toast(t(audio.ytError ? "videoError" : "connectFirst"));
       if (!audio.ytLoading) connectYouTube();
+      audio.pendingPlay = true;
       return;
     }
     if (audio.source === "file" && !audio.fileEl) {
@@ -907,6 +955,8 @@
     var target = clamp(isFiniteNumber(position) ? position : 0, 0, audio.duration());
     if (audio.source === "youtube" && audio.ytReady && audio.yt && audio.yt.seekTo) {
       audio.yt.seekTo(target, true);
+    } else if (audio.source === "youtube" && !audio.ytReady) {
+      audio.startAt = target;
     } else if (audio.source === "file" && audio.fileEl) {
       try { audio.fileEl.currentTime = target; } catch (err) { /* metadata not ready */ }
     } else {
@@ -980,7 +1030,8 @@
     node.src = audio.fileURL;
     node.load();
     node.onloadedmetadata = function () {
-      var target = audio.carry != null ? audio.carry : 0;
+      var target = audio.carry != null ? audio.carry : (audio.startAt != null ? audio.startAt : 0);
+      audio.startAt = null;
       try { node.currentTime = clamp(target, 0, Math.max(0, (node.duration || 1) - 0.2)); } catch (err) { /* ignore */ }
       attachFileGraph();
       applyVolume();
@@ -1019,13 +1070,14 @@
   function failYouTube() {
     audio.ytLoading = false;
     audio.ytError = true;
+    audio.pendingPlay = false;
     if (el.videoPlaceholder) el.videoPlaceholder.hidden = false;
     if (el.videoBadge) el.videoBadge.hidden = true;
     renderSource();
     toast(t("videoError"));
   }
 
-  function connectYouTube() {
+  function connectYouTube(silent) {
     if (audio.ytReady) {
       if (audio.yt && audio.yt.playVideo) audio.yt.playVideo();
       return;
@@ -1034,7 +1086,8 @@
     audio.ytLoading = true;
     audio.ytError = false;
     if (el.sourceNote) el.sourceNote.textContent = t("videoLoading");
-    toast(t("videoLoading"));
+    renderSource();
+    if (!silent) toast(t("videoLoading"));
 
     var guard = window.setTimeout(function () {
       if (!audio.ytReady && audio.ytLoading) failYouTube();
@@ -1065,6 +1118,9 @@
                 audio.ytLoading = false;
                 audio.ytError = false;
                 audio.carry = null;
+                var start = audio.startAt;
+                audio.startAt = null;
+                if (start != null && audio.yt && audio.yt.seekTo) audio.yt.seekTo(start, true);
                 if (el.videoPlaceholder) el.videoPlaceholder.hidden = true;
                 if (el.videoBadge) el.videoBadge.hidden = false;
                 audio.volCurrent = audio.muted ? 0 : audio.volume;
@@ -1073,7 +1129,11 @@
                 updateDurationUI();
                 renderSource();
                 renderNow(true);
-                toast(t("videoReady"));
+                if (!silent) toast(t("videoReady"));
+                if (audio.pendingPlay) {
+                  audio.pendingPlay = false;
+                  window.setTimeout(playAudio, 250);
+                }
               },
               onStateChange: function (event) {
                 if (event.data === 1 || event.data === 3) {
@@ -1197,13 +1257,12 @@
       "seekCurrentBtn", "sourceNote", "videoShell", "videoPlaceholder", "videoBadge",
       "toggleVideoBtn", "fileBlock", "fileInput", "chooseFileBtn", "fileNote", "timerBlock",
       "playBtn", "playWide", "restartBtn", "muteBtn", "miniTime", "volumeSlider",
-      "volumeValue", "tempoSlider", "tempoValue", "fadeToggle", "syncBtn", "sessionPercent",
+      "volumeValue", "tempoSlider", "tempoValue", "fadeToggle", "sessionPercent",
       "sessionMeter", "sessionCopy", "resetSessionBtn", "seekBar", "timeNow", "timeTotal",
-      "backBtn", "fwdBtn", "focusBtn", "syncDialog", "syncRows", "syncStatus", "syncSave",
-      "syncCancel", "syncReset", "aboutDialog", "summaryDialog", "summaryRounds",
+      "backBtn", "fwdBtn", "focusBtn", "aboutDialog", "summaryDialog", "summaryRounds",
       "summaryMinutes", "summaryStreak", "historyDialog", "historyList", "exportBtn",
       "clearHistoryBtn", "historyBtn", "toast", "versionLine", "printBtn", "ytMount",
-      "aboutBtn", "connectBtn"
+      "aboutBtn", "connectBtn", "videoMessage"
     ].forEach(function (id) {
       el[id.replace(/-([a-z])/g, function (m, c) { return c.toUpperCase(); })] = document.getElementById(id);
     });
@@ -1306,6 +1365,13 @@
     }
     if (el.videoPlaceholder) el.videoPlaceholder.hidden = audio.ytReady === true;
     if (el.videoBadge) el.videoBadge.hidden = audio.ytReady !== true;
+    if (el.videoMessage) {
+      el.videoMessage.textContent = audio.ytError ? t("videoErrorPlaceholder") : audio.ytLoading ? t("videoLoading") : t("videoConsent");
+    }
+    if (el.connectBtn) {
+      el.connectBtn.hidden = audio.ytLoading || audio.ytReady;
+      el.connectBtn.textContent = t("connect");
+    }
     if (el.toggleVideoBtn) {
       el.toggleVideoBtn.setAttribute("aria-expanded", String(state.settings.showVideo));
       el.toggleVideoBtn.textContent = state.settings.showVideo ? t("hideVideo") : t("showVideo");
@@ -1318,16 +1384,9 @@
   function renderLineList(section) {
     if (!el.lineList) return;
     var lines = Timeline.linesFor(section);
-    var start = Timeline.sectionStart(section);
-    var end = Timeline.sectionEnd(section);
-    var span = Math.max(1, end - start);
-    var total = weightedTotal(lines);
-    var offset = 0;
     el.lineList.innerHTML = "";
     lines.forEach(function (line, index) {
-      var weight = line.weight || Math.max(30, line.pali.replace(/\s+/g, "").length);
-      var lineStart = start + (offset / total) * span;
-      offset += weight;
+      var lineStart = Timeline.lineStart(section, index);
       var item = document.createElement("li");
       item.className = "line-item";
       item.setAttribute("data-index", String(index));
@@ -1518,7 +1577,9 @@
     if (el.volumeSlider) el.volumeSlider.value = String(state.settings.volume);
     if (el.tempoSlider) el.tempoSlider.value = String(state.settings.rate);
     if (el.versionLine) el.versionLine.textContent = "v" + VERSION;
+    renderAppearance();
     renderNow(force !== false);
+    if (el.lineList) renderLineList(Timeline.sectionAt(audio.position()));
   }
 
   function setLanguage(lang) {
@@ -1538,6 +1599,51 @@
     renderAll(true);
   }
 
+  function renderAppearance() {
+    $$(".theme-swatch").forEach(function (button) {
+      button.setAttribute("aria-pressed", String(button.getAttribute("data-theme") === state.settings.theme));
+    });
+    $$(".font-btn").forEach(function (button) {
+      button.setAttribute("aria-pressed", String(button.getAttribute("data-font-size") === state.settings.fontSize));
+    });
+    $$(".atmosphere-btn").forEach(function (button) {
+      button.setAttribute("aria-pressed", String(button.getAttribute("data-atmosphere") === state.settings.atmosphere));
+    });
+  }
+
+  function applyAppearance() {
+    document.documentElement.setAttribute("data-theme", state.settings.theme);
+    document.documentElement.setAttribute("data-font-size", state.settings.fontSize);
+    document.documentElement.setAttribute("data-atmosphere", state.settings.atmosphere);
+    renderAppearance();
+    applyWorldTheme(state.settings.theme);
+    applyAtmosphere(state.settings.atmosphere);
+  }
+
+  function setTheme(name) {
+    var themes = ["midnight", "emerald", "saffron", "rosewood"];
+    if (themes.indexOf(name) < 0) return;
+    state.settings.theme = name;
+    persist();
+    applyAppearance();
+  }
+
+  function setFontSize(size) {
+    var sizes = ["small", "medium", "large"];
+    if (sizes.indexOf(size) < 0) return;
+    state.settings.fontSize = size;
+    persist();
+    applyAppearance();
+  }
+
+  function setAtmosphere(name) {
+    var scenes = ["night", "clouds", "ocean", "forest"];
+    if (scenes.indexOf(name) < 0) return;
+    state.settings.atmosphere = name;
+    persist();
+    applyAppearance();
+  }
+
   function toast(message) {
     if (!el.toast) return;
     el.toast.textContent = message;
@@ -1555,19 +1661,8 @@
     var target = Timeline.lineAt(audio.position());
     var safeIndex = clamp(Number(index) || 0, 0, lines.length - 1);
     if (safeIndex !== target.index) {
-      // Recompute the exact start of the chosen line from section geometry.
-      var start = Timeline.sectionStart(section);
-      var span = Math.max(1, Timeline.sectionEnd(section) - start);
-      var total = weightedTotal(lines);
-      var offset = 0;
-      for (var i = 0; i < safeIndex; i++) {
-        var line = lines[i];
-        offset += line.weight || Math.max(30, line.pali.replace(/\s+/g, "").length);
-      }
-      var chosen = lines[safeIndex];
-      var weight = chosen.weight || Math.max(30, chosen.pali.replace(/\s+/g, "").length);
-      var lineStart = start + (offset / total) * span;
-      var lineEnd = start + ((offset + weight) / total) * span;
+      var lineStart = Timeline.lineStart(section, safeIndex);
+      var lineEnd = Timeline.lineEnd(section, safeIndex);
       seekTo(lineStart + Math.min(0.4, (lineEnd - lineStart) * 0.05), true);
     }
     renderNow(true);
@@ -1743,7 +1838,6 @@
       version: VERSION,
       exportedAt: new Date().toISOString(),
       settings: state.settings,
-      calibration: state.calibration,
       stats: state.stats,
       session: state.session
     };
@@ -1801,6 +1895,29 @@
 
   /* --------------------------------------------------------- 9. 3D MANDALA */
 
+  var THEMES = {
+    midnight: {
+      idle: 0xc08a3e, active: 0xd9a54e, done: 0xffd98f, emissive: 0xffb347,
+      core: 0xffd88a, coreEmissive: 0xffb347, glow: 0xffd27a, particle: 0xf5c977,
+      halo: 0xb77b32, warm: 0xffc46b, cool: 0x7f8cff
+    },
+    emerald: {
+      idle: 0x3f8f6a, active: 0x63c995, done: 0xb9f7d3, emissive: 0x6effc0,
+      core: 0xc9ffe2, coreEmissive: 0x6effc0, glow: 0x9effcf, particle: 0xbaffd9,
+      halo: 0x2f7f62, warm: 0x8fffc4, cool: 0x4fa6ff
+    },
+    saffron: {
+      idle: 0xc08030, active: 0xe0a24e, done: 0xffd99a, emissive: 0xffb347,
+      core: 0xffe0a6, coreEmissive: 0xffb347, glow: 0xffcf7a, particle: 0xffd98f,
+      halo: 0xb36a24, warm: 0xffb45e, cool: 0x8a6bff
+    },
+    rosewood: {
+      idle: 0x9f5566, active: 0xc97b8b, done: 0xffc7d2, emissive: 0xff8fa3,
+      core: 0xffd0d9, coreEmissive: 0xff8fa3, glow: 0xffb6c4, particle: 0xffcbd5,
+      halo: 0x9c4f60, warm: 0xff9fae, cool: 0x7f7fff
+    }
+  };
+
   var world = {
     ready: false,
     scene: null,
@@ -1812,6 +1929,12 @@
     center: null,
     glow: null,
     particles: null,
+    halo: null,
+    warm: null,
+    cool: null,
+    palette: null,
+    atmospheres: {},
+    activeAtmosphere: "night",
     petals: [],
     innerPetals: [],
     pointer: { x: 0, y: 0 },
@@ -1850,6 +1973,181 @@
     });
   }
 
+  function buildAtmosphereLayers(texture) {
+    var layers = {};
+
+    // Night: a distant, slow star field behind the mandala.
+    var nightGroup = new THREE.Group();
+    var starCount = 220;
+    var starPositions = new Float32Array(starCount * 3);
+    for (var s = 0; s < starCount; s++) {
+      starPositions[s * 3] = (Math.random() - 0.5) * 18;
+      starPositions[s * 3 + 1] = (Math.random() - 0.5) * 12;
+      starPositions[s * 3 + 2] = -5 - Math.random() * 4;
+    }
+    var starGeo = new THREE.BufferGeometry();
+    starGeo.setAttribute("position", new THREE.BufferAttribute(starPositions, 3));
+    var stars = new THREE.Points(starGeo, new THREE.PointsMaterial({
+      color: 0xffe3a6, size: 0.045, map: texture, transparent: true, opacity: 0.55,
+      blending: THREE.AdditiveBlending, depthWrite: false, sizeAttenuation: true
+    }));
+    nightGroup.add(stars);
+    layers.night = nightGroup;
+
+    // Clouds: soft drifting sprites, two depths.
+    var cloudGroup = new THREE.Group();
+    cloudGroup.position.z = -3.2;
+    world.cloudSprites = [];
+    for (var c = 0; c < 32; c++) {
+      var cloudMat = new THREE.SpriteMaterial({
+        map: texture, color: 0xbcd4f0, transparent: true,
+        opacity: 0.12 + Math.random() * 0.13,
+        blending: THREE.AdditiveBlending, depthWrite: false
+      });
+      var cloud = new THREE.Sprite(cloudMat);
+      var scale = 5 + Math.random() * 6;
+      cloud.scale.set(scale, scale * (0.42 + Math.random() * 0.25), 1);
+      cloud.position.set((Math.random() - 0.5) * 19, (Math.random() - 0.5) * 9, (Math.random() - 0.5) * 3);
+      cloud.userData.baseY = cloud.position.y;
+      cloud.userData.speed = 0.08 + Math.random() * 0.18;
+      cloud.userData.phase = Math.random() * Math.PI * 2;
+      cloudGroup.add(cloud);
+      world.cloudSprites.push(cloud);
+    }
+    layers.clouds = cloudGroup;
+
+    // Ocean: rising bubbles and a few light shafts.
+    var oceanGroup = new THREE.Group();
+    var bubbleCount = 320;
+    var bubblePositions = new Float32Array(bubbleCount * 3);
+    world.bubbleSpeeds = new Float32Array(bubbleCount);
+    for (var b = 0; b < bubbleCount; b++) {
+      bubblePositions[b * 3] = (Math.random() - 0.5) * 15;
+      bubblePositions[b * 3 + 1] = (Math.random() - 0.5) * 13;
+      bubblePositions[b * 3 + 2] = -3.5 - Math.random() * 3;
+      world.bubbleSpeeds[b] = 0.06 + Math.random() * 0.22;
+    }
+    var bubbleGeo = new THREE.BufferGeometry();
+    bubbleGeo.setAttribute("position", new THREE.BufferAttribute(bubblePositions, 3));
+    var bubbles = new THREE.Points(bubbleGeo, new THREE.PointsMaterial({
+      color: 0x8fe3ff, size: 0.16, map: texture, transparent: true, opacity: 0.9,
+      blending: THREE.AdditiveBlending, depthWrite: false, sizeAttenuation: true
+    }));
+    oceanGroup.add(bubbles);
+    world.bubbles = bubbles;
+    var oceanGlow = new THREE.Sprite(new THREE.SpriteMaterial({
+      map: texture, color: 0x3fa9d8, transparent: true, opacity: 0.24,
+      blending: THREE.AdditiveBlending, depthWrite: false
+    }));
+    oceanGlow.scale.set(11, 8, 1);
+    oceanGlow.position.set(0, -0.5, -6);
+    oceanGroup.add(oceanGlow);
+    for (var shaft = 0; shaft < 3; shaft++) {
+      var shaftSprite = new THREE.Sprite(new THREE.SpriteMaterial({
+        map: texture, color: 0x55b8d8, transparent: true, opacity: 0.035,
+        blending: THREE.AdditiveBlending, depthWrite: false
+      }));
+      shaftSprite.scale.set(1.6 + shaft * 0.6, 9.5, 1);
+      shaftSprite.position.set(-4 + shaft * 4, 1.2, -4.5);
+      shaftSprite.material.rotation = 0.12 - shaft * 0.08;
+      oceanGroup.add(shaftSprite);
+    }
+    layers.ocean = oceanGroup;
+
+    // Forest: fireflies, mist and thin light shafts.
+    var forestGroup = new THREE.Group();
+    var flyCount = 200;
+    var flyPositions = new Float32Array(flyCount * 3);
+    world.flyData = [];
+    for (var f = 0; f < flyCount; f++) {
+      var fxp = (Math.random() - 0.5) * 14;
+      var fyp = (Math.random() - 0.5) * 11;
+      flyPositions[f * 3] = fxp;
+      flyPositions[f * 3 + 1] = fyp;
+      flyPositions[f * 3 + 2] = -2.8 - Math.random() * 3;
+      world.flyData.push({ x: fxp, y: fyp, phase: Math.random() * Math.PI * 2 });
+    }
+    var flyGeo = new THREE.BufferGeometry();
+    flyGeo.setAttribute("position", new THREE.BufferAttribute(flyPositions, 3));
+    var flies = new THREE.Points(flyGeo, new THREE.PointsMaterial({
+      color: 0xd8ff9e, size: 0.28, map: texture, transparent: true, opacity: 0.95,
+      blending: THREE.AdditiveBlending, depthWrite: false, sizeAttenuation: true
+    }));
+    forestGroup.add(flies);
+    world.flies = flies;
+    for (var mist = 0; mist < 4; mist++) {
+      var mistSprite = new THREE.Sprite(new THREE.SpriteMaterial({
+        map: texture, color: 0x8fd6a0, transparent: true, opacity: 0.055,
+        blending: THREE.NormalBlending, depthWrite: false
+      }));
+      mistSprite.scale.set(6 + mist, 2.4, 1);
+      mistSprite.position.set(-6 + mist * 4, -2 + mist * 0.7, -3.6);
+      forestGroup.add(mistSprite);
+    }
+    for (var ray = 0; ray < 4; ray++) {
+      var beam = new THREE.Mesh(
+        new THREE.PlaneGeometry(0.55 + ray * 0.12, 10),
+        new THREE.MeshBasicMaterial({
+          color: 0xc4ffb8, transparent: true, opacity: 0.07,
+          blending: THREE.AdditiveBlending, depthWrite: false, side: THREE.DoubleSide
+        })
+      );
+      beam.position.set(-4.5 + ray * 3, 1.5, -4.2);
+      beam.rotation.z = 0.12 - ray * 0.06;
+      forestGroup.add(beam);
+    }
+    layers.forest = forestGroup;
+
+    Object.keys(layers).forEach(function (key) {
+      layers[key].visible = key === "night";
+      world.scene.add(layers[key]);
+    });
+    world.atmospheres = layers;
+    world.activeAtmosphere = "night";
+  }
+
+  function applyAtmosphere(name) {
+    world.activeAtmosphere = name;
+    if (!world.ready) return;
+    Object.keys(world.atmospheres).forEach(function (key) {
+      world.atmospheres[key].visible = key === name;
+    });
+  }
+
+  function updateAtmospheres(now, dt) {
+    if (!world.ready) return;
+    var seconds = dt / 1000;
+    if (world.activeAtmosphere === "clouds" && world.cloudSprites) {
+      world.cloudSprites.forEach(function (cloud) {
+        cloud.position.x += cloud.userData.speed * seconds;
+        if (cloud.position.x > 10.5) cloud.position.x = -10.5;
+        cloud.position.y = cloud.userData.baseY + Math.sin(now / 7000 + cloud.userData.phase) * 0.16;
+      });
+    }
+    if (world.activeAtmosphere === "ocean" && world.bubbles && world.bubbleSpeeds) {
+      var positions = world.bubbles.geometry.attributes.position.array;
+      for (var i = 0; i < world.bubbleSpeeds.length; i++) {
+        positions[i * 3 + 1] += world.bubbleSpeeds[i] * seconds * 2.2;
+        if (positions[i * 3 + 1] > 6.5) positions[i * 3 + 1] = -6.5;
+      }
+      world.bubbles.geometry.attributes.position.needsUpdate = true;
+    }
+    if (world.activeAtmosphere === "forest" && world.flies && world.flyData) {
+      var flyPositions = world.flies.geometry.attributes.position.array;
+      for (var f = 0; f < world.flyData.length; f++) {
+        var data = world.flyData[f];
+        flyPositions[f * 3] = data.x + Math.sin(now / 3200 + data.phase) * 0.35;
+        flyPositions[f * 3 + 1] = data.y + Math.cos(now / 2600 + data.phase) * 0.25;
+      }
+      world.flies.geometry.attributes.position.needsUpdate = true;
+      world.flies.material.opacity = 0.55 + Math.sin(now / 900) * 0.2;
+    }
+    if (world.activeAtmosphere === "night") {
+      var night = world.atmospheres.night;
+      if (night) night.rotation.z += seconds * 0.004;
+    }
+  }
+
   function initWorld() {
     if (!window.THREE) return;
     var canvas = document.getElementById("scene-canvas");
@@ -1886,6 +2184,8 @@
 
     var glowTexture = makeGlowTexture();
     var petalGeometry = makePetalGeometry();
+    world.warm = warm;
+    world.cool = cool;
 
     var outerRing = new THREE.Mesh(
       new THREE.TorusGeometry(3.02, 0.012, 8, 180),
@@ -1897,6 +2197,7 @@
       new THREE.MeshBasicMaterial({ color: 0xe9b85c, transparent: true, opacity: 0.28 })
     );
     world.spin.add(innerRing);
+    world.rings = [outerRing, innerRing];
 
     for (var i = 0; i < 9; i++) {
       var angle = (i / 9) * Math.PI * 2;
@@ -1992,6 +2293,10 @@
     halo.scale.set(8.5, 8.5, 1);
     halo.position.z = -1;
     world.root.add(halo);
+    world.halo = halo;
+
+    buildAtmosphereLayers(glowTexture);
+    world.palette = THEMES[state.settings.theme] || THEMES.midnight;
 
     world.ready = true;
     updatePetalStates();
@@ -2000,18 +2305,41 @@
 
   function updatePetalStates() {
     if (!world.ready) return;
+    var pal = world.palette || THEMES.midnight;
     var section = Timeline.sectionAt(audio.position());
     world.petals.forEach(function (petal, i) {
       var done = state.session.done[i] === true;
       var active = section === i + 1;
       petal.material.emissiveIntensity = done ? 1.05 : active ? 0.5 : 0.13;
-      petal.material.color.setHex(done ? 0xffd98f : active ? 0xd9a54e : 0x8d6a34);
+      petal.material.color.setHex(done ? pal.done : active ? pal.active : pal.idle);
+      petal.material.emissive.setHex(pal.emissive);
       petal.userData.target = done ? 1.04 : active ? 1.01 : 0.9;
     });
     world.innerPetals.forEach(function (petal, i) {
       var lit = (i % 9) + 1 === section;
       petal.material.emissiveIntensity = lit ? 0.45 : 0.06;
+      petal.material.emissive.setHex(pal.emissive);
     });
+  }
+
+  function applyWorldTheme(name) {
+    var pal = THEMES[name] || THEMES.midnight;
+    world.palette = pal;
+    if (!world.ready) return;
+    if (world.center && world.center.material) {
+      world.center.material.color.setHex(pal.core);
+      world.center.material.emissive.setHex(pal.coreEmissive);
+    }
+    if (world.glow) world.glow.material.color.setHex(pal.glow);
+    if (world.particles) world.particles.material.color.setHex(pal.particle);
+    if (world.halo) world.halo.material.color.setHex(pal.halo);
+    if (world.warm) world.warm.color.setHex(pal.warm);
+    if (world.cool) world.cool.color.setHex(pal.cool);
+    (world.rings || []).forEach(function (ring, i) {
+      ring.material.color.setHex(pal.active);
+      ring.material.opacity = i === 0 ? 0.55 : 0.28;
+    });
+    updatePetalStates();
   }
 
   function resizeWorld() {
@@ -2051,89 +2379,11 @@
     world.camera.position.x += (px - world.camera.position.x) * 0.025;
     world.camera.position.y += (py - world.camera.position.y) * 0.025;
     world.camera.lookAt(0, 0, 0);
+    updateAtmospheres(now, dt);
     world.renderer.render(world.scene, world.camera);
   }
 
-  /* ------------------------------------------------ 10. SYNC LAB / DIALOGS */
-
-  function validateMarkers(values) {
-    if (!Array.isArray(values) || values.length !== 11) return false;
-    for (var i = 0; i < values.length; i++) {
-      if (!isFiniteNumber(values[i]) || values[i] < 0) return false;
-      if (i > 0 && values[i] <= values[i - 1]) return false;
-    }
-    return values[10] > 60;
-  }
-
-  function openSync() {
-    renderSyncRows();
-    if (el.syncDialog && typeof el.syncDialog.showModal === "function") el.syncDialog.showModal();
-  }
-
-  function renderSyncRows() {
-    if (!el.syncRows) return;
-    var markers = state.calibration.custom ? state.calibration.markers : Timeline.markers();
-    el.syncRows.innerHTML = "";
-    markers.forEach(function (marker, index) {
-      var tr = document.createElement("tr");
-      var tdLabel = document.createElement("td");
-      tdLabel.textContent = index === 0 ? t("secIntro") : index === 10 ? t("secOutro") : t("secRound", { n: index });
-      var tdInput = document.createElement("td");
-      var input = document.createElement("input");
-      input.type = "number";
-      input.min = "0";
-      input.max = String(Math.round(audio.duration()));
-      input.step = "0.1";
-      input.value = Number(marker).toFixed(1);
-      input.setAttribute("data-marker", String(index));
-      input.setAttribute("aria-label", tdLabel.textContent + " " + t("syncStart"));
-      var caption = document.createElement("span");
-      caption.className = "time-caption";
-      caption.textContent = formatTime(marker);
-      input.addEventListener("input", function () {
-        caption.textContent = formatTime(Number(input.value));
-        if (el.syncStatus) el.syncStatus.textContent = t("syncHint");
-      });
-      tdInput.appendChild(input);
-      tdInput.appendChild(caption);
-      var tdAction = document.createElement("td");
-      var use = document.createElement("button");
-      use.type = "button";
-      use.className = "text-btn";
-      use.textContent = t("syncUseCurrent");
-      use.addEventListener("click", function () {
-        var current = audio.position();
-        input.value = current.toFixed(1);
-        caption.textContent = formatTime(current);
-      });
-      tdAction.appendChild(use);
-      tr.appendChild(tdLabel);
-      tr.appendChild(tdInput);
-      tr.appendChild(tdAction);
-      el.syncRows.appendChild(tr);
-    });
-  }
-
-  function saveSync() {
-    var values = $$("input[data-marker]", el.syncRows).map(function (input) { return Number(input.value); });
-    if (!validateMarkers(values) || values[10] > audio.duration() + 1) {
-      if (el.syncStatus) el.syncStatus.textContent = t("syncInvalid");
-      return;
-    }
-    state.calibration = { custom: true, markers: values.map(function (v) { return Math.round(v * 10) / 10; }) };
-    persist();
-    if (el.syncDialog) el.syncDialog.close();
-    renderAll(true);
-    toast(t("syncSaved"));
-  }
-
-  function resetSync() {
-    state.calibration = { custom: false, markers: defaultMarkers() };
-    persist();
-    renderSyncRows();
-    renderAll(true);
-    if (el.syncStatus) el.syncStatus.textContent = t("syncHint");
-  }
+  /* --------------------------------------------------------------- 10. DIALOGS */
 
   function toggleFocus() {
     var on = document.body.classList.toggle("focus-mode");
@@ -2152,6 +2402,15 @@
     });
     $$("[data-script]").forEach(function (button) {
       button.addEventListener("click", function () { setScript(button.getAttribute("data-script")); });
+    });
+    $$(".theme-swatch").forEach(function (button) {
+      button.addEventListener("click", function () { setTheme(button.getAttribute("data-theme")); });
+    });
+    $$(".font-btn").forEach(function (button) {
+      button.addEventListener("click", function () { setFontSize(button.getAttribute("data-font-size")); });
+    });
+    $$(".atmosphere-btn").forEach(function (button) {
+      button.addEventListener("click", function () { setAtmosphere(button.getAttribute("data-atmosphere")); });
     });
 
     if (el.aboutBtn) el.aboutBtn.addEventListener("click", function () {
@@ -2196,7 +2455,7 @@
       tab.addEventListener("click", function () { setSource(tab.getAttribute("data-source")); });
     });
 
-    if (el.connectBtn) el.connectBtn.addEventListener("click", connectYouTube);
+    if (el.connectBtn) el.connectBtn.addEventListener("click", function () { connectYouTube(false); });
     if (el.toggleVideoBtn) el.toggleVideoBtn.addEventListener("click", function () {
       state.settings.showVideo = !state.settings.showVideo;
       persist();
@@ -2209,11 +2468,6 @@
         if (el.fileInput.files && el.fileInput.files[0]) loadFile(el.fileInput.files[0]);
       });
     }
-
-    if (el.syncBtn) el.syncBtn.addEventListener("click", openSync);
-    if (el.syncSave) el.syncSave.addEventListener("click", saveSync);
-    if (el.syncCancel) el.syncCancel.addEventListener("click", function () { if (el.syncDialog) el.syncDialog.close(); });
-    if (el.syncReset) el.syncReset.addEventListener("click", resetSync);
 
     if (el.seekBar) {
       el.seekBar.addEventListener("pointerdown", function () { ui.draggingSeek = true; });
@@ -2361,8 +2615,31 @@
     var defaults = defaultMarkers();
     check("11 default markers", defaults.length === 11, String(defaults.length));
     check("default markers strictly increase", defaults.every(function (v, i) { return i === 0 || v > defaults[i - 1]; }));
-    check("custom marker validator rejects flat lines", validateMarkers([0, 5, 5, 20, 30, 40, 50, 60, 70, 80, 90]) === false);
-    check("custom marker validator accepts a ramp", validateMarkers([0, 240, 800, 1400, 2000, 2600, 3200, 3800, 4400, 5000, 5537]) === true);
+    check("timing sheet has nine complete rounds", (function () {
+      var data = window.SUAT_TIMINGS;
+      if (!data || !data.rounds) return false;
+      for (var r = 1; r <= 9; r++) {
+        if (!Array.isArray(data.rounds[r]) || data.rounds[r].length !== 15) return false;
+      }
+      return true;
+    })());
+    check("timing sheet starts strictly increase", (function () {
+      var data = window.SUAT_TIMINGS;
+      if (!data || !data.rounds) return false;
+      for (var r = 1; r <= 9; r++) {
+        var arr = data.rounds[r];
+        for (var i = 1; i < arr.length; i++) if (arr[i] <= arr[i - 1]) return false;
+      }
+      return true;
+    })());
+    check("timing sheet anchors match section markers", (function () {
+      var data = window.SUAT_TIMINGS;
+      if (!data || !data.rounds) return false;
+      for (var r = 1; r <= 9; r++) {
+        if (Math.abs(data.rounds[r][0] - Timeline.markers()[r]) > 0.2) return false;
+      }
+      return true;
+    })());
     check("sectionAt(0) is the intro", Timeline.sectionAt(0) === 0);
     check("sectionAt(round 1 + 1s) is round 1", Timeline.sectionAt(Timeline.markers()[1] + 1) === 1);
     check("sectionAt(end - 1) is the dedication", Timeline.sectionAt(audio.duration() - 1) === 10);
@@ -2392,7 +2669,6 @@
       var n = normalizeStore({ settings: { volume: 1000, rate: 20 } });
       return n.settings.volume === 100 && n.settings.rate === 1.25;
     })());
-    check("normalise rejects malformed calibration", normalizeStore({ calibration: { markers: [1, 2, 3] } }).calibration.markers.length === 11);
     check("all static i18n keys exist in English and Thai", (function () {
       var keys = new Set();
       $$("[data-i18n]").forEach(function (node) { keys.add(node.getAttribute("data-i18n")); });
@@ -2438,15 +2714,18 @@
 
     ui.lang = state.settings.lang;
     ui.script = state.settings.script;
-    audio.source = state.settings.source;
+    audio.source = "youtube";
+    state.settings.source = "youtube";
     audio.volume = state.settings.volume / 100;
     audio.volTarget = audio.volume;
     audio.rate = state.settings.rate;
     audio.muted = false;
-    audio.timerPos = 0;
+    audio.startAt = defaultMarkers()[1];
+    audio.timerPos = audio.startAt;
 
     bindEvents();
     initWorld();
+    applyAppearance();
     renderAll(true);
     if (el.fadeToggle) el.fadeToggle.checked = state.settings.fade;
     if (el.volumeSlider) el.volumeSlider.value = String(state.settings.volume);
@@ -2454,9 +2733,13 @@
     setRangeFill(el.volumeSlider);
     setRangeFill(el.tempoSlider);
     renderHistory();
+    persist();
 
     if (!storageOK) window.setTimeout(function () { toast(t("storageOff")); }, 1200);
     if (!world.ready) document.body.classList.add("no-webgl");
+
+    var noAuto = /(?:[?&])noauto=1(?:&|$)/.test(location.search);
+    if (!noAuto) window.setTimeout(function () { connectYouTube(true); }, 250);
 
     window.requestAnimationFrame(loop);
     window.setInterval(backgroundTick, 1000);
@@ -2474,6 +2757,9 @@
       markers: Timeline.markers,
       setLanguage: setLanguage,
       setScript: setScript,
+      setTheme: setTheme,
+      setFontSize: setFontSize,
+      setAtmosphere: setAtmosphere,
       jumpToSection: jumpToSection,
       seekToLine: seekToLine,
       seekTo: seekTo,
@@ -2485,7 +2771,6 @@
       render: renderAll,
       runSelfTests: runSelfTests,
       renderHistory: renderHistory,
-      validateMarkers: validateMarkers,
       computeStreak: computeStreak,
       defaultMarkers: defaultMarkers,
       setSource: setSource

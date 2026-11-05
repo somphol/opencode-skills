@@ -72,39 +72,39 @@ and a dedication at the end. They are **not** measured from the audio.
 
 | Section | Starts at | Length |
 | --- | --- | --- |
-| Intro | 0:00 | 4:00 |
-| Round 1 | 4:00 | 9:49 |
-| Round 2 | 13:49 | 9:49 |
-| Round 3 | 23:37 | 9:49 |
-| Round 4 | 33:26 | 9:49 |
-| Round 5 | 43:14 | 9:49 |
-| Round 6 | 53:03 | 9:49 |
-| Round 7 | 1:02:51 | 9:49 |
-| Round 8 | 1:12:40 | 9:49 |
-| Round 9 | 1:22:28 | 9:49 |
-| Dedication | 1:32:17 | 5:00 |
+| Intro | 0:00 | 3:38 |
+| Round 1 | 3:38 | 4:24 |
+| Round 2 | 8:02 | 4:24 |
+| Round 3 | 12:26 | 4:24 |
+| Round 4 | 16:50 | 4:24 |
+| Round 5 | 21:14 | 4:24 |
+| Round 6 | 25:38 | 4:24 |
+| Round 7 | 30:02 | 4:24 |
+| Round 8 | 34:26 | 4:24 |
+| Round 9 | 38:50 | 4:24 |
+| Dedication | 43:14 | remainder |
 
-The exact seconds are in `defaultMarkers()`; they are computed as `240 + (5537 − 240) × r / 9` for
-round `r = 0…8`, with the dedication at 5,537 s. Total: 5,837 s.
+The exact seconds are in `defaultMarkers()`; they are computed as `218 + (2594 − 218) × r / 9` for
+round `r = 0…8`, with the dedication at 2,594 s. The first three round anchors (3:38, 8:02, 12:26) are
+measured; the rest follow the same 4:24 spacing. Each round's 15 verses occupy the first 3:51, followed
+by a 32.85-second gap. Per-verse starts live in `data/timings.csv`; replace any anchor you measure.
 
-### Calibration
+### Refining timings
 
-1. Open **Sync Lab**.
-2. Play the video and pause at the first word of the intro (usually 0:00), each round, and the
-   dedication.
-3. Press **Use current** on the matching row.
-4. Save. Markers must increase strictly; the app refuses overlaps.
-5. `Restore defaults` returns to the estimates above.
+1. Play the video and pause at the first syllable of a verse.
+2. Put that time in the matching `start_seconds` cell in [`../data/timings.csv`](../data/timings.csv),
+   as `3:54` or `234`.
+3. Run `npm run timings`. The build validates order and rewrites `timings.js`.
+4. Reload the studio.
 
-Calibration is stored per browser. It is not part of the public dataset and is not exported with the
-project.
+There is no in-app calibration screen; the CSV is the timing authority. It is committed with the app,
+so corrections ship to every visitor. See [../data/README.md](../data/README.md).
 
-### Why proportional line timing
+### Why proportional fallback
 
-The chant has no published per-line timestamps for this video, and a teacher's pauses vary. Assigning
-each line a share of its section proportional to its Pali length gives a stable, readable approximation
-that adapts to any duration. If you later obtain real timestamps, extend the line schema with
-`start`/`end` and update `lineAt`; keep the current fallback for uncalibrated data.
+Explicit verse starts cover rounds 1–9. The intro and dedication still use a proportional split based
+on text length, as does any round missing from the sheet. This keeps the timeline usable if you add a
+new recording or remove a round while editing.
 
 ## Translation policy
 

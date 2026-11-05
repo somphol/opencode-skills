@@ -68,3 +68,10 @@ Section order: characters → expression → **coat detail** → colours → acc
 Three buttons with `data-coat="off|soft|plush"`, `aria-pressed`, and a live `#coat-strand-count`.
 State key `coat`, share parameter `f`, presets include it. Smooth removes every shell; Soft and Plush
 rebuild them. Keyboard `C` cycles the levels.
+
+## Fur and scene controls
+
+- `[data-fur]` range inputs: length 0.4–1.8, density 0.1–1, curl/clump/breeze 0–1. Outputs update live.
+- `[data-lighting]` buttons: studio/sky/desk, aria-pressed, persisted.
+- State: `fur:{...}`, `lighting`; presets include both; share `u=length-density-curl-clump-breeze`, `g=`.
+- Snapshot hides pedestal, clouds, desk and perch; strands/shells remain.
