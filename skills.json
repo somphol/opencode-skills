@@ -53,6 +53,12 @@
       "source": "~/.config/opencode/skills/3d-puzzle-solver-studio",
       "description": "Build a tactile 3D sliding-puzzle studio with a parity-safe shuffle, an A* solver in a Web Worker, bilingual UI, local records, headless verification and a GitHub Pages release.",
       "license": "MIT"
+    },
+    {
+      "name": "lucky-draw-3d-studio",
+      "source": "~/.config/opencode/skills/lucky-draw-3d-studio",
+      "description": "Build a release-grade 3D lucky-draw prize-wheel studio with a cryptographically fair pick, spin physics, bilingual UI, synthesized audio, local history, headless verification and a GitHub Pages release.",
+      "license": "MIT"
     }
   ]
 }

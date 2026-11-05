@@ -26,6 +26,7 @@ so a changed skill refreshes in the client's cache.
 | [`leab-tui-studio`](leab-tui-studio/SKILL.md) — [Leab-Tui 3D](https://somphol.github.io/leab-tui-3d/) | Build a bilingual, static 3D **trick-taking studio** for a traditional tile game: rules contract, pure engine, heuristic AI, coach, undo, persistence, headless verification and a release handoff. |
 | [`cinematic-3d-release`](cinematic-3d-release/SKILL.md) | Turn a static Three.js app into a release-grade product: cinematic camera director, Step playback, release docs, reproduction blueprint and a build check. |
 | [`3d-puzzle-solver-studio`](3d-puzzle-solver-studio/SKILL.md) — [15-puzzle studio](https://somphol.github.io/full-3d-15-puzzle-studio/) | Build a tactile 3D sliding-puzzle studio: parity-safe shuffle, A* (Manhattan + linear conflicts) in a Web Worker, hints, bilingual UI, records, headless checks and a Pages release. Includes a runnable reference and scaffold script. |
+| [`lucky-draw-3d-studio`](lucky-draw-3d-studio/SKILL.md) — [Lucky Draw Studio](https://somphol.github.io/full-3d-lucky-draw-studio/) | Build a release-grade 3D lucky-draw prize wheel: cryptographically fair pick before the spin, textured 3D wheel, roster/presets, confetti, bilingual UI, local history, JSON/CSV export, four test layers and a Pages release. Includes a runnable reference and scaffold script. |
 
 ## Local install instead
 

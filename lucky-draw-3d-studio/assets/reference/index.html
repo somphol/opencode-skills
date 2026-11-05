@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#070b12">
+  <meta name="color-scheme" content="dark">
+  <title>Full 3D Lucky Draw &amp; Prize Wheel Studio</title>
+  <meta name="description" content="A fully 3D, bilingual lucky-draw prize wheel. Add three names or a whole roster, spin with a cryptographically fair pick, celebrate the winner and export the draw log. Static, backend-free and offline-capable after the first load.">
+  <meta name="author" content="Somphol Boonjing">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Full 3D Lucky Draw &amp; Prize Wheel Studio">
+  <meta property="og:description" content="Orbit a real 3D prize wheel, spin a fair draw, and celebrate the winner. Bilingual English/ไทย, synthesized audio, local history, JSON and CSV export.">
+  <meta property="og:image" content="assets/og-card.png">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:image" content="assets/og-card.png">
+  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="style.css">
+  <script type="importmap">
+    {
+      "imports": {
+        "three": "https://cdn.jsdelivr.net/npm/three@0.169.0/build/three.module.js",
+        "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.169.0/examples/jsm/"
+      }
+    }
+  </script>
+</head>
+<body>
+  <div class="app" id="app">
+    <header class="topbar">
+      <a class="brand" href="./" aria-label="Full 3D Lucky Draw Studio home">
+        <span class="brand-mark" aria-hidden="true">
+          <svg viewBox="0 0 44 44" role="img" focusable="false">
+            <circle cx="22" cy="22" r="19" fill="none" stroke="currentColor" stroke-width="2"/>
+            <path d="M22 22 L22 5 A17 17 0 0 1 37 13 Z" fill="currentColor" opacity=".92"/>
+            <path d="M22 22 L37 30 A17 17 0 0 1 27 38 Z" fill="currentColor" opacity=".55"/>
+            <path d="M22 22 L9 37 A17 17 0 0 1 5 22 Z" fill="currentColor" opacity=".3"/>
+            <circle cx="22" cy="22" r="3.4" fill="#070b12"/>
+          </svg>
+        </span>
+        <span class="brand-text">
+          <strong data-i18n="app.title">Lucky Draw Studio</strong>
+          <small data-i18n="app.subtitle">Full 3D prize wheel</small>
+        </span>
+      </a>
+
+      <div class="topbar-actions">
+        <span class="fair-chip" id="fair-chip" title="Each entry has an equal probability">
+          <span class="dot" aria-hidden="true"></span>
+          <span data-i18n="stage.fair">Fair pick</span>
+        </span>
+        <div class="segmented" role="group" aria-label="Language">
+          <button type="button" class="lang-btn is-active" id="lang-en" data-lang="en" aria-pressed="true">EN</button>
+          <button type="button" class="lang-btn" id="lang-th" data-lang="th" aria-pressed="false">ไทย</button>
+        </div>
+        <button type="button" class="icon-btn" id="sound-toggle" aria-pressed="true" aria-label="Toggle sound" title="Sound">
+          <svg class="icon-sound-on" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 9v6h4l5 4V5L8 9H4zm12.5 3a4.5 4.5 0 0 0-2.5-4v8a4.5 4.5 0 0 0 2.5-4z" fill="currentColor"/><path d="M14 3.2v2.1a6.7 6.7 0 0 1 0 13.4v2.1a8.8 8.8 0 0 0 0-17.6z" fill="currentColor" opacity=".7"/></svg>
+          <svg class="icon-sound-off" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 9v6h4l5 4V5L8 9H4z" fill="currentColor"/><path d="M16 9l5 6m0-6l-5 6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+        </button>
+        <button type="button" class="icon-btn" id="settings-toggle" aria-label="Open settings" title="Settings" aria-expanded="false" aria-controls="settings-drawer">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 8.5a3.5 3.5 0 1 0 0 7 3.5 3.5 0 0 0 0-7z" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M19.4 13.5a7.7 7.7 0 0 0 0-3l2-1.5-2-3.4-2.4 1a7.6 7.6 0 0 0-2.6-1.5L14 2.5h-4l-.4 2.6A7.6 7.6 0 0 0 7 6.6l-2.4-1-2 3.4 2 1.5a7.7 7.7 0 0 0 0 3l-2 1.5 2 3.4 2.4-1a7.6 7.6 0 0 0 2.6 1.5l.4 2.6h4l.4-2.6a7.6 7.6 0 0 0 2.6-1.5l2.4 1 2-3.4-2-1.5z" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/></svg>
+        </button>
+      </div>
+    </header>
+
+    <main class="layout">
+      <section class="stage" id="stage" aria-label="3D prize wheel">
+        <div class="stage-canvas" id="stage-canvas"></div>
+        <div class="stage-glow" aria-hidden="true"></div>
+
+        <div class="stage-top">
+          <div class="live-chip">
+            <span class="live-dot" aria-hidden="true"></span>
+            <span data-i18n="stage.live">Live draw</span>
+            <span class="live-sep" aria-hidden="true">/</span>
+            <span><span id="stage-count">0</span> <span data-i18n="stage.players">players</span></span>
+          </div>
+          <div class="stage-meta">
+            <span class="meta-pill" id="draws-pill"><span data-i18n="stage.draws">Draws</span> <b id="draws-count">0</b></span>
+          </div>
+        </div>
+
+        <p class="stage-hint" id="stage-hint" data-i18n="stage.hint">Drag to orbit · Scroll to zoom · Space to spin</p>
+
+        <div class="stage-bottom">
+          <div class="spin-wrap">
+            <button type="button" class="spin-btn" id="spin-btn" aria-describedby="stage-hint">
+              <span class="spin-btn-ring" aria-hidden="true"></span>
+              <span class="spin-btn-label" id="spin-label" data-i18n="stage.spin">Spin the wheel</span>
+              <span class="spin-btn-sub" id="spin-sub" data-i18n="stage.spinSub">Cryptographic pick</span>
+            </button>
+          </div>
+          <p class="stage-foot" id="stage-foot" data-i18n="stage.foot">Every entry has an equal chance. The stop is chosen before the wheel moves.</p>
+        </div>
+      </section>
+
+      <aside class="sidebar" id="sidebar" aria-label="Draw controls">
+        <div class="tabs" role="tablist" aria-label="Panels">
+          <button type="button" class="tab is-active" id="tab-roster" role="tab" aria-selected="true" aria-controls="panel-roster">
+            <span data-i18n="roster.title">Roster</span>
+            <span class="tab-count" id="tab-roster-count">0</span>
+          </button>
+          <button type="button" class="tab" id="tab-history" role="tab" aria-selected="false" aria-controls="panel-history">
+            <span data-i18n="history.title">History</span>
+            <span class="tab-count" id="tab-history-count">0</span>
+          </button>
+          <button type="button" class="tab-mobile-close icon-btn" id="sidebar-close" aria-label="Close controls">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+          </button>
+        </div>
+
+        <section class="panel is-active" id="panel-roster" role="tabpanel" aria-labelledby="tab-roster">
+          <div class="panel-head">
+            <div>
+              <h2 data-i18n="roster.quick">Quick entry</h2>
+              <p data-i18n="roster.quickHint">Type three or four names and the wheel rebuilds instantly.</p>
+            </div>
+          </div>
+
+          <div class="slots" id="slots">
+            <label class="slot">
+              <span>01</span>
+              <input type="text" id="slot-1" maxlength="28" autocomplete="off" spellcheck="false" placeholder="Player one" data-i18n-placeholder="roster.slot1">
+            </label>
+            <label class="slot">
+              <span>02</span>
+              <input type="text" id="slot-2" maxlength="28" autocomplete="off" spellcheck="false" placeholder="Player two" data-i18n-placeholder="roster.slot2">
+            </label>
+            <label class="slot">
+              <span>03</span>
+              <input type="text" id="slot-3" maxlength="28" autocomplete="off" spellcheck="false" placeholder="Player three" data-i18n-placeholder="roster.slot3">
+            </label>
+            <label class="slot">
+              <span>04</span>
+              <input type="text" id="slot-4" maxlength="28" autocomplete="off" spellcheck="false" placeholder="Player four" data-i18n-placeholder="roster.slot4">
+            </label>
+          </div>
+
+          <div class="panel-subhead">
+            <h2 data-i18n="roster.bulk">Bulk roster</h2>
+            <span class="hint-inline" data-i18n="roster.bulkHint">One name per line</span>
+          </div>
+          <textarea id="bulk-roster" class="bulk" rows="5" spellcheck="false" placeholder="Ada Lovelace&#10;Grace Hopper&#10;Alan Turing" data-i18n-placeholder="roster.bulkPlaceholder"></textarea>
+
+          <div class="preset-row" role="group" aria-label="Sample rosters">
+            <button type="button" class="chip-btn" data-preset="quick3" data-i18n="preset.quick3">3 players</button>
+            <button type="button" class="chip-btn" data-preset="quick4" data-i18n="preset.quick4">4 players</button>
+            <button type="button" class="chip-btn" data-preset="team" data-i18n="preset.team">Team Alpha</button>
+            <button type="button" class="chip-btn" data-preset="party" data-i18n="preset.party">Party 12</button>
+          </div>
+
+          <div class="roster-meta">
+            <span><b id="roster-count">0</b> <span data-i18n="roster.entries">entries</span></span>
+            <button type="button" class="link-btn" id="clear-roster" data-i18n="roster.clear">Clear roster</button>
+          </div>
+          <div class="chips" id="roster-chips" aria-live="polite"></div>
+          <p class="panel-note" id="roster-note" data-i18n="roster.note">A draw needs at least 2 entries. Duplicates are merged. Up to 32.</p>
+        </section>
+
+        <section class="panel" id="panel-history" role="tabpanel" aria-labelledby="tab-history" hidden>
+          <div class="panel-head">
+            <div>
+              <h2 data-i18n="history.heading">Draw history</h2>
+              <p data-i18n="history.sub">Newest first. Stored only in this browser.</p>
+            </div>
+          </div>
+
+          <div class="history-actions">
+            <button type="button" class="chip-btn" id="clear-history" data-i18n="history.clear">Clear log</button>
+            <button type="button" class="chip-btn" id="export-json" data-i18n="history.exportJson">Export JSON</button>
+            <button type="button" class="chip-btn" id="export-csv" data-i18n="history.exportCsv">Export CSV</button>
+          </div>
+
+          <ol class="history" id="history-list" aria-live="polite"></ol>
+          <p class="history-empty" id="history-empty" data-i18n="history.empty">No draws yet. Spin the wheel to start the record.</p>
+        </section>
+
+        <div class="sidebar-foot">
+          <span data-i18n="sidebar.local">Saved locally</span>
+          <button type="button" class="link-btn" id="help-toggle" data-i18n="sidebar.help">How it works</button>
+        </div>
+      </aside>
+    </main>
+  </div>
+
+  <div class="drawer-scrim" id="drawer-scrim" hidden></div>
+
+  <aside class="drawer" id="settings-drawer" aria-labelledby="settings-title" aria-hidden="true">
+    <div class="drawer-head">
+      <div>
+        <h2 id="settings-title" data-i18n="settings.title">Studio settings</h2>
+        <p data-i18n="settings.sub">Tune the spin, sound and draw behaviour.</p>
+      </div>
+      <button type="button" class="icon-btn" id="settings-close" aria-label="Close settings">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+      </button>
+    </div>
+
+    <div class="drawer-body">
+      <div class="setting">
+        <div class="setting-label">
+          <label for="duration-range" data-i18n="settings.duration">Spin duration</label>
+          <output id="duration-value" for="duration-range">5.5s</output>
+        </div>
+        <input type="range" id="duration-range" min="3" max="10" step="0.5" value="5.5">
+        <p class="setting-hint" data-i18n="settings.durationHint">Longer spins build more suspense. The result never changes.</p>
+      </div>
+
+      <div class="setting">
+        <div class="setting-label">
+          <label for="turns-range" data-i18n="settings.turns">Full turns</label>
+          <output id="turns-value" for="turns-range">6</output>
+        </div>
+        <input type="range" id="turns-range" min="2" max="14" step="1" value="6">
+      </div>
+
+      <div class="setting setting-row">
+        <div>
+          <label for="auto-remove" data-i18n="settings.autoRemove">Remove winners automatically</label>
+          <p class="setting-hint" data-i18n="settings.autoRemoveHint">Each name can win once. Rebuilds the wheel after every draw.</p>
+        </div>
+        <input type="checkbox" id="auto-remove" class="switch" role="switch">
+      </div>
+
+      <div class="setting setting-row">
+        <div>
+          <label for="sound-switch" data-i18n="settings.sound">Sound effects</label>
+          <p class="setting-hint" data-i18n="settings.soundHint">Peg ticks and the winner fanfare are synthesized in the browser.</p>
+        </div>
+        <input type="checkbox" id="sound-switch" class="switch" role="switch" checked>
+      </div>
+
+      <div class="drawer-divider"></div>
+
+      <section class="about">
+        <h3 data-i18n="about.title">How the draw works</h3>
+        <p data-i18n="about.body">The winning slice is chosen uniformly at random with the Web Crypto API before the wheel starts. The animation only travels to that slice, so the visual drama cannot influence the result.</p>
+        <h3 data-i18n="about.credits">Credits</h3>
+        <p class="credits-line">
+          <span data-i18n="about.builtWith">Built with</span>
+          <a href="https://opencode.ai" target="_blank" rel="noopener noreferrer">OpenCode</a>
+          <span aria-hidden="true">·</span>
+          <span>DeepSeek V4.1 Flash</span>
+          <span aria-hidden="true">·</span>
+          <a href="https://threejs.org" target="_blank" rel="noopener noreferrer">Three.js</a>
+        </p>
+        <p class="setting-hint" data-i18n="about.license">MIT licensed. No accounts, no tracking, no backend.</p>
+      </section>
+
+      <div class="drawer-actions">
+        <button type="button" class="chip-btn" id="settings-reset" data-i18n="settings.reset">Reset settings</button>
+      </div>
+
+      <section class="about shortcuts">
+        <h3 data-i18n="about.shortcuts">Keyboard</h3>
+        <ul class="key-list">
+          <li><kbd>Space</kbd><span data-i18n="key.spin">Spin / draw again</span></li>
+          <li><kbd>L</kbd><span data-i18n="key.lang">Switch language</span></li>
+          <li><kbd>S</kbd><span data-i18n="key.sound">Toggle sound</span></li>
+          <li><kbd>Esc</kbd><span data-i18n="key.escape">Close dialog or drawer</span></li>
+        </ul>
+      </section>
+    </div>
+  </aside>
+
+  <div class="modal" id="winner-modal" hidden>
+    <div class="modal-scrim" data-close-modal></div>
+    <canvas class="confetti" id="confetti" aria-hidden="true"></canvas>
+    <div class="winner-card" role="dialog" aria-modal="true" aria-labelledby="winner-title" aria-describedby="winner-meta">
+      <p class="winner-kicker" data-i18n="winner.kicker">And the winner is</p>
+      <h2 class="winner-name" id="winner-name">—</h2>
+      <p class="winner-meta" id="winner-meta">—</p>
+      <div class="winner-actions">
+        <button type="button" class="btn btn-primary" id="winner-remove" data-i18n="winner.remove">Remove &amp; keep spinning</button>
+        <button type="button" class="btn btn-ghost" id="winner-keep" data-i18n="winner.keep">Keep in roster</button>
+      </div>
+      <button type="button" class="modal-close icon-btn" id="winner-close" aria-label="Close winner dialog">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+      </button>
+      <p class="winner-foot" id="winner-foot" data-i18n="winner.foot">Every entry had the same chance.</p>
+    </div>
+  </div>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <button type="button" class="mobile-controls" id="sidebar-toggle" aria-controls="sidebar" aria-expanded="false">
+    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+    <span data-i18n="stage.controls">Roster</span>
+  </button>
+
+  <div class="loading" id="loading">
+    <div class="loading-mark" aria-hidden="true"></div>
+    <p data-i18n="loading.text">Preparing the studio</p>
+    <small data-i18n="loading.sub">Building the wheel and its textures</small>
+  </div>
+
+  <div class="selftest" id="selftest-panel" hidden>
+    <div class="selftest-card" role="dialog" aria-modal="true" aria-labelledby="selftest-title">
+      <div class="selftest-head">
+        <h2 id="selftest-title" data-i18n="selftest.title">Built-in self-test</h2>
+        <button type="button" class="icon-btn" id="selftest-close" aria-label="Close self-test">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+        </button>
+      </div>
+      <p class="selftest-summary" id="selftest-summary" data-i18n="selftest.running">Running checks…</p>
+      <ol class="selftest-list" id="selftest-list"></ol>
+      <p class="selftest-foot" data-i18n="selftest.foot">This page tests its own engine, textures, translations and storage. Add <code>?selftest</code> to any URL to open it.</p>
+    </div>
+  </div>
+
+  <noscript>
+    <div class="noscript">This studio needs JavaScript and WebGL to draw the wheel.</div>
+  </noscript>
+
+  <script type="module" src="script.js"></script>
+</body>
+</html>
