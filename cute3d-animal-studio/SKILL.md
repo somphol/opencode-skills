@@ -1,13 +1,13 @@
 ---
 name: Cute3D Animal Studio
-description: Build a release-grade, zero-asset 3D animal character studio with seven original procedural Three.js pets, layered fur and feather coats with GPU strand physics, species postures, idle and click animations, live colours and accessories, synthesized Web Audio, a bilingual EN/TH UI, local presets, transparent PNG export, four test layers and a GitHub Pages release.
-version: 1.2.0
+description: Build a release-grade, zero-asset 3D animal character studio with seven original procedural Three.js pets, layered fur and feather coats with a movable wind fan and wind-driven shell physics, species postures, idle and click animations, live colours and accessories, synthesized Web Audio, a bilingual EN/TH UI, local presets, transparent PNG export, four test layers and a GitHub Pages release.
+version: 1.3.0
 ---
 
 # Cute3D Animal Studio
 
 Turn "make me a cute 3D animal studio" into a shipped product: seven original characters built only
-from Three.js primitives, a layered fur/feather coat plus GPU strand system, a pastel soft-shadow studio,
+from Three.js primitives, a layered fur/feather coat plus GPU strand and fan-wind system, a pastel soft-shadow studio,
 breathing/blinking/jumping life, a bilingual customizer, local presets, transparent PNG export, real
 tests and a live URL.
 

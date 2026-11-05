@@ -381,7 +381,7 @@ const I18N = {
     'status.loading': 'Waking up the pets…',
     'common.sound': 'Sound',
     'common.reset': 'Reset',
-    'stage.hint': 'Drag to orbit · Scroll to zoom · Click the pet',
+    'stage.hint': 'Drag to orbit · Scroll to zoom · Click the pet · Drag the fan',
     'stage.meshes': 'meshes',
     'stage.react': 'React',
     'panel.open': 'Customize',
@@ -434,7 +434,7 @@ const I18N = {
     'fur.density': 'Density',
     'fur.curl': 'Curl',
     'fur.clump': 'Clumping',
-    'fur.breeze': 'Breeze',
+    'fur.breeze': 'Wind',
     'scene.studio': 'Studio',
     'scene.sky': 'Cloud Sky',
     'scene.desk': 'Cozy Desk',
@@ -513,7 +513,7 @@ const I18N = {
     'status.loading': 'กำลังปลุกเหล่าน้อง ๆ…',
     'common.sound': 'เสียง',
     'common.reset': 'รีเซ็ต',
-    'stage.hint': 'ลากเพื่อหมุน · เลื่อนเพื่อซูม · คลิกที่สัตว์',
+    'stage.hint': 'ลากเพื่อหมุน · เลื่อนเพื่อซูม · คลิกที่สัตว์ · ลากพัดลม',
     'stage.meshes': 'ชิ้นโมเดล',
     'stage.react': 'เล่นด้วย',
     'panel.open': 'แต่งตัว',
@@ -679,6 +679,7 @@ const defaultState = () => ({
   sound: true,
   coat: DEFAULT_COAT,
   lighting: DEFAULT_LIGHTING,
+  fanAngle: 0.6,
   fur: { ...DEFAULT_FUR },
   colors: Object.fromEntries(ANIMALS.map((id) => [id, { ...DEFAULT_COLORS[id] }])),
   accessories: { bowtie: false, partyHat: false, glasses: false },
@@ -711,6 +712,7 @@ if (stored && typeof stored === 'object') {
   state.coat = sanitizeCoat(stored.coat);
   state.lighting = sanitizeLighting(stored.lighting);
   state.fur = sanitizeFur(stored.fur);
+  state.fanAngle = Number.isFinite(stored.fanAngle) ? stored.fanAngle : 0.6;
   for (const id of ANIMALS) state.colors[id] = sanitizeColors(stored.colors?.[id], id);
   if (stored.accessories && typeof stored.accessories === 'object') {
     for (const key of ACCESSORIES) state.accessories[key] = Boolean(stored.accessories[key]);
@@ -1048,6 +1050,64 @@ deskGroup.name = 'cozy-desk';
   deskGroup.visible = false;
   scene.add(deskGroup);
 }
+
+
+const fanGroup = new THREE.Group();
+fanGroup.name = 'wind-fan';
+let fanBlades = null;
+let fanHead = null;
+{
+  const baseMat = new THREE.MeshStandardMaterial({ color: 0xf2a7b8, roughness: 0.6 });
+  const standMat = new THREE.MeshStandardMaterial({ color: 0xfff4ee, roughness: 0.7 });
+  const cageMat = new THREE.MeshStandardMaterial({ color: 0xb9a5e8, roughness: 0.5, metalness: 0.15 });
+  const bladeMat = new THREE.MeshStandardMaterial({ color: 0x9fd8c7, roughness: 0.55, side: THREE.DoubleSide });
+  const base = new THREE.Mesh(new THREE.CylinderGeometry(0.3, 0.34, 0.08, 28), baseMat);
+  base.position.y = 0.04;
+  base.receiveShadow = true;
+  const stand = new THREE.Mesh(new THREE.CylinderGeometry(0.045, 0.055, 0.85, 12), standMat);
+  stand.position.y = 0.47;
+  stand.castShadow = true;
+  fanGroup.add(base, stand);
+
+  fanHead = new THREE.Group();
+  fanHead.position.set(0, 1.02, 0);
+  const cage = new THREE.Mesh(new THREE.TorusGeometry(0.34, 0.035, 10, 40), cageMat);
+  cage.castShadow = true;
+  const cageBack = new THREE.Mesh(new THREE.TorusGeometry(0.28, 0.02, 8, 36), cageMat);
+  cageBack.position.z = -0.04;
+  fanHead.add(cage, cageBack);
+
+  fanBlades = new THREE.Group();
+  for (let i = 0; i < 4; i += 1) {
+    const blade = new THREE.Mesh(new THREE.CircleGeometry(0.2, 20, 0, Math.PI * 0.7), bladeMat);
+    blade.position.z = 0.02;
+    blade.rotation.z = (i / 4) * Math.PI * 2;
+    blade.scale.set(0.9, 0.55, 1);
+    fanBlades.add(blade);
+  }
+  const hub = new THREE.Mesh(new THREE.SphereGeometry(0.07, 16, 12), baseMat);
+  hub.position.z = 0.05;
+  fanBlades.add(hub);
+  fanHead.add(fanBlades);
+  fanGroup.add(fanHead);
+  fanGroup.scale.setScalar(1.25);
+  scene.add(fanGroup);
+}
+
+const fanWind = { direction: new THREE.Vector3(-1, 0.2, -1).normalize(), head: new THREE.Vector3() };
+const FAN_RADIUS = 2.05;
+
+const updateFanPose = (angle, { persist = false } = {}) => {
+  const a = Number(angle);
+  if (!Number.isFinite(a)) return;
+  state.fanAngle = ((a % (Math.PI * 2)) + Math.PI * 2) % (Math.PI * 2);
+  fanGroup.position.set(Math.cos(state.fanAngle) * FAN_RADIUS, 0.02, Math.sin(state.fanAngle) * FAN_RADIUS);
+  const dir = new THREE.Vector3(0, 1.3, 0).sub(fanGroup.position);
+  fanWind.direction.set(dir.x, 0, dir.z).normalize();
+  fanHead.rotation.y = Math.atan2(-fanGroup.position.x, -fanGroup.position.z);
+  if (persist) persistState();
+};
+
 
 /* ------------------------------------------------------------- materials */
 
@@ -2281,6 +2341,25 @@ const SHELL_TEX = {
   furLong: [makeShellAlphaTexture('fur-long', 101), makeShellAlphaTexture('fur-long', 137)],
 };
 
+const updateShellWind = (instance = rig) => {
+  if (!instance?.coatZones?.length || !fanHead) return;
+  const head = new THREE.Vector3();
+  fanHead.getWorldPosition(head);
+  const dir = new THREE.Vector3(0, 1.3, 0).sub(head).normalize();
+  const q = new THREE.Quaternion();
+  const touch = WIND.touch.value;
+  for (const zone of instance.coatZones) {
+    zone.mesh.getWorldQuaternion(q);
+    q.invert();
+    zone.windLocal.value.copy(dir).applyQuaternion(q).normalize();
+    if (WIND.touch.value.x < 900) {
+      zone.touchLocal.value.copy(zone.mesh.worldToLocal(touch.clone()));
+    } else {
+      zone.touchLocal.value.set(999, 999, 999);
+    }
+  }
+};
+
 const disposeCoat = (instance) => {
   if (!instance?.fluff) return;
   for (const mesh of instance.fluff) {
@@ -2310,7 +2389,13 @@ const strandRoleColor = (instance, role) => {
   return map[role]?.color ?? materials.main.color;
 };
 
-const coatMaterial = (kind, color, layer, shells, cutCode, texture) => {
+const WIND = {
+  time: { value: 0 },
+  speed: { value: state.fur.breeze },
+  touch: { value: new THREE.Vector3(999, 999, 999) },
+};
+
+const coatMaterial = (kind, color, layer, shells, cutCode, texture, windLocal, touchLocal) => {
   const material = new THREE.MeshStandardMaterial({
     color: new THREE.Color(color),
     alphaMap: texture,
@@ -2323,20 +2408,44 @@ const coatMaterial = (kind, color, layer, shells, cutCode, texture) => {
   });
   material.userData.fluff = true;
   material.userData.layer = layer;
-  material.userData.role = null;
-  if (cutCode) {
-    material.onBeforeCompile = (shader) => {
-      shader.vertexShader = 'varying vec3 vFurPos;\n' + shader.vertexShader.replace(
-        '#include <begin_vertex>',
-        '#include <begin_vertex>\nvFurPos = position;',
-      );
-      shader.fragmentShader = `varying vec3 vFurPos;\n${shader.fragmentShader.replace(
+  material.onBeforeCompile = (shader) => {
+    shader.uniforms.uWindTime = WIND.time;
+    shader.uniforms.uWindSpeed = WIND.speed;
+    shader.uniforms.uWindLocal = windLocal;
+    shader.uniforms.uTouchLocal = touchLocal;
+    shader.uniforms.uFurLayer = { value: layer / Math.max(1, shells - 1) };
+    shader.vertexShader = `uniform float uWindTime;
+uniform float uWindSpeed;
+uniform float uFurLayer;
+uniform vec3 uWindLocal;
+uniform vec3 uTouchLocal;
+varying vec3 vFurPos;
+${shader.vertexShader}`.replace(
+      '#include <begin_vertex>',
+      `#include <begin_vertex>
+      vFurPos = position;
+      float furH = uFurLayer;
+      float gust = 0.6 + 0.4 * sin(uWindTime * 2.1 + position.y * 4.0 + position.x * 3.0);
+      transformed += uWindLocal * uWindSpeed * pow(furH, 1.6) * 0.42 * gust;
+      float bend = uWindSpeed * pow(furH, 1.6) * 0.42;
+      transformed -= normal * bend * bend * 0.8;
+      vec3 toTouch = transformed - uTouchLocal;
+      float touchDist = length(toTouch);
+      transformed += normalize(toTouch + vec3(0.0001)) * smoothstep(0.4, 0.03, touchDist) * 0.16 * furH * furH;
+      `,
+    );
+    if (cutCode) {
+      shader.fragmentShader = `varying vec3 vFurPos;
+${shader.fragmentShader.replace(
         '#include <clipping_planes_fragment>',
         `#include <clipping_planes_fragment>\n${cutCode}`,
       )}`;
-    };
-    material.customProgramCacheKey = () => `fur-shell-${cutCode.length}-${cutCode.charCodeAt(2)}`;
-  }
+    } else {
+      shader.fragmentShader = `varying vec3 vFurPos;
+${shader.fragmentShader}`;
+    }
+  };
+  material.customProgramCacheKey = () => `fur-shell-${cutCode ? cutCode.length : 0}-${layer}`;
   return material;
 };
 
@@ -2354,6 +2463,9 @@ const addCoatZone = (instance, zone, level, rand) => {
     zone.mesh === 'body' ? 'if (vFurPos.z > 0.2 && length(vec2(vFurPos.x / 0.78, (vFurPos.y + 0.05) / 0.8)) < 1.0) discard;' :
     zone.mesh.startsWith('ear-') ? 'if (vFurPos.z > 0.35) discard;' : '';
   const baseColor = strandRoleColor(instance, zone.role);
+  const windLocal = { value: new THREE.Vector3(-1, 0.2, -0.5).normalize() };
+  const touchLocal = { value: new THREE.Vector3(999, 999, 999) };
+  instance.coatZones.push({ mesh, windLocal, touchLocal });
   for (let layer = 0; layer < shells; layer += 1) {
     const texture = textureSet[layer % textureSet.length].clone();
     if (koala) {
@@ -2364,7 +2476,7 @@ const addCoatZone = (instance, zone, level, rand) => {
     texture.offset.set(rand() * 0.6, rand() * 0.6);
     texture.rotation = rand() * Math.PI * 2;
     texture.center.set(0.5, 0.5);
-    const material = coatMaterial(usesFeather ? 'feather' : 'fur', baseColor, layer, shells, cutCode, texture);
+    const material = coatMaterial(usesFeather ? 'feather' : 'fur', baseColor, layer, shells, cutCode, texture, windLocal, touchLocal);
     material.userData.role = zone.role;
     const shell = new THREE.Mesh(mesh.geometry, material);
     shell.position.copy(mesh.position);
@@ -2631,6 +2743,7 @@ const updateFurUniforms = () => {
   STRAND_UNIFORMS.length.value = state.fur.length;
   STRAND_UNIFORMS.curl.value = state.fur.curl;
   STRAND_UNIFORMS.clump.value = state.fur.clump;
+  WIND.speed.value = state.fur.breeze;
   if (rig?.spriteMaterials) {
     for (const material of rig.spriteMaterials) material.size = 0.12 * state.fur.length;
   }
@@ -2890,6 +3003,7 @@ const buildAnimal = (id, colors) => {
   applyPosture(instance);
   instance.earBases = instance.ears.map((ear) => ear.rotation.z);
   instance.fluff = [];
+  instance.coatZones = [];
   instance.fluffMaterials = new Map();
   instance.strandMeshes = [];
   instance.strandMaterials = new Map();
@@ -3184,6 +3298,7 @@ const setAnimal = (id, { quiet = false } = {}) => {
   updatePetCard();
   updateMeshCount();
   if (window.__cute3d) window.__cute3d.rig = rig;
+  updateShellWind(rig);
   pose.headTilt = 0;
   pose.headNod = 0;
   react = { active: false, time: 0, duration: 0.92, dir: 1, landed: false };
@@ -3311,13 +3426,30 @@ const raycaster = new THREE.Raycaster();
 const pointer = new THREE.Vector2();
 const cursorPlane = new THREE.Plane(new THREE.Vector3(0, 0, 1), 0);
 const cursorPoint = new THREE.Vector3();
+const fanPlane = new THREE.Plane(new THREE.Vector3(0, 1, 0), -0.04);
+const fanPoint = new THREE.Vector3();
 let pointerDown = null;
+let draggingFan = false;
 
-renderer.domElement.addEventListener('pointermove', (event) => {
+const pointerNdc = (event) => {
   const rect = renderer.domElement.getBoundingClientRect();
   pointer.x = ((event.clientX - rect.left) / rect.width) * 2 - 1;
   pointer.y = -((event.clientY - rect.top) / rect.height) * 2 + 1;
   raycaster.setFromCamera(pointer, camera);
+};
+
+renderer.domElement.addEventListener('pointermove', (event) => {
+  pointerNdc(event);
+  if (draggingFan) {
+    if (raycaster.ray.intersectPlane(fanPlane, fanPoint)) {
+      const radius = Math.min(2.2, Math.max(1.5, Math.hypot(fanPoint.x, fanPoint.z)));
+      const angle = Math.atan2(fanPoint.z, fanPoint.x);
+      fanGroup.position.set(Math.cos(angle) * radius, 0.02, Math.sin(angle) * radius);
+      updateFanPose(angle, { persist: true });
+      updateShellWind();
+    }
+    return;
+  }
   if (raycaster.ray.intersectPlane(cursorPlane, cursorPoint)) {
     STRAND_UNIFORMS.cursor.value.copy(cursorPoint);
   }
@@ -3328,10 +3460,25 @@ renderer.domElement.addEventListener('pointerleave', () => {
 });
 
 renderer.domElement.addEventListener('pointerdown', (event) => {
+  pointerNdc(event);
+  if (raycaster.intersectObject(fanGroup, true).length) {
+    draggingFan = true;
+    controls.enabled = false;
+    pointerDown = null;
+    renderer.domElement.setPointerCapture?.(event.pointerId);
+    return;
+  }
   pointerDown = { x: event.clientX, y: event.clientY, at: performance.now() };
 });
 
 renderer.domElement.addEventListener('pointerup', (event) => {
+  if (draggingFan) {
+    draggingFan = false;
+    controls.enabled = true;
+    pointerDown = null;
+    renderer.domElement.releasePointerCapture?.(event.pointerId);
+    return;
+  }
   if (!pointerDown) return;
   const dx = event.clientX - pointerDown.x;
   const dy = event.clientY - pointerDown.y;
@@ -3436,6 +3583,7 @@ const applyPreset = (id) => {
   state.fur = sanitizeFur(preset.fur);
   setAnimal(preset.animal, { quiet: true });
   applyLighting(state.lighting);
+  updateFanPose(state.fanAngle);
   syncLightingButtons();
   syncFurSliders();
   applyCoat(rig, state.coat);
@@ -3472,7 +3620,7 @@ const captureSnapshot = (size = 2048) => {
   const previousClear = new THREE.Color();
   renderer.getClearColor(previousClear);
   const previousAlpha = renderer.getClearAlpha();
-  const studioProps = [pedestal, pedestalRim, propGroup, sparkles, cloudGroup, deskGroup, perchGroup];
+  const studioProps = [pedestal, pedestalRim, propGroup, sparkles, cloudGroup, deskGroup, perchGroup, fanGroup];
   const previousVisibility = studioProps.map((node) => node.visible);
 
   scene.background = null;
@@ -3670,6 +3818,8 @@ const animate = () => {
   }
 
   STRAND_UNIFORMS.time.value = elapsed;
+  WIND.time.value = elapsed;
+  if (rig?.coatZones?.length) updateShellWind(rig);
 
   if (rig) {
     const bob = Math.sin(elapsed * 1.45 + rig.seed) * 0.045 * pose.floatAmp * (reducedMotion ? 0.3 : 1);
@@ -3783,6 +3933,7 @@ const animate = () => {
   });
 
   pedestalRim.rotation.z = elapsed * 0.05;
+  if (fanBlades) fanBlades.rotation.z += dt * (2 + state.fur.breeze * 26);
   if (cloudGroup.visible) {
     cloudGroup.children.forEach((cluster, index) => {
       const baseX = cluster.userData.baseX ?? 0;
@@ -3976,6 +4127,7 @@ const boot = () => {
   syncCoatButtons();
   syncFurSliders();
   applyLighting(state.lighting);
+  updateFanPose(state.fanAngle);
   syncLightingButtons();
   syncSoundButtons();
   updatePetCard();
@@ -3996,7 +4148,7 @@ const boot = () => {
 
   window.__cute3d = {
     ready: true,
-    version: '1.2.0',
+    version: '1.3.0',
     engine: ENGINE,
     state,
     scene,
@@ -4014,6 +4166,8 @@ const boot = () => {
     setAccessory: (key, value) => setAccessory(key, value, { quiet: true }),
     setColors: (colors) => setColors(colors, { quiet: true }),
     setCoat: (level) => setCoat(level, { quiet: true }),
+    setFanAngle: (angle) => updateFanPose(angle, { persist: true }),
+    fanPosition: () => fanGroup.position.toArray(),
     setFur: (key, value) => setFur(key, value),
     setLighting: (name) => setLighting(name, { quiet: true }),
     strandCount: () => (rig ? (rig.fluffCount || 0) + (rig.strandCount || 0) : 0),

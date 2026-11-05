@@ -89,3 +89,12 @@ on desktop and fills the remaining viewport on mobile. `ResizeObserver` handles 
 | Cozy Desk | amber key, higher exposure | wooden table, mug, plant, books |
 
 `applyLighting()` owns colors, exposure, pedestal/desk/cloud visibility and `body[data-lighting]`.
+
+
+## Wind fan
+
+- Procedural fan: base, stand, cage ring, mint blades, rose hub, scale 1.25.
+- Drag the fan on the ground plane; clamp radius 1.5–2.2 around the pet.
+- `fanAngle` persists; wind direction = fan head → pet centre.
+- Shell fur displaces by layer², gusts, flattens windward, arc-corrects by stiffness.
+- Hidden in transparent snapshots.

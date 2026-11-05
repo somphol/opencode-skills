@@ -75,3 +75,9 @@ rebuild them. Keyboard `C` cycles the levels.
 - `[data-lighting]` buttons: studio/sky/desk, aria-pressed, persisted.
 - State: `fur:{...}`, `lighting`; presets include both; share `u=length-density-curl-clump-breeze`, `g=`.
 - Snapshot hides pedestal, clouds, desk and perch; strands/shells remain.
+
+
+## Wind fan interaction
+
+Dragging the 3D fan changes the wind direction for the fur shader. The `Wind` slider controls base speed;
+`fanAngle` persists. A pointer move also pushes fur locally. The fan is hidden from the PNG snapshot.
