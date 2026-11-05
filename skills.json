@@ -47,6 +47,12 @@
       "source": "~/.config/opencode/skills/leab-tui-studio",
       "description": "Build a bilingual, static 3D trick-taking studio for a traditional tile or card game — research and freeze the rules, write a pure engine, add a 3D table, heuristic AI, coach, persistence, headless verification and a release-grade handoff.",
       "license": "MIT"
+    },
+    {
+      "name": "3d-puzzle-solver-studio",
+      "source": "~/.config/opencode/skills/3d-puzzle-solver-studio",
+      "description": "Build a tactile 3D sliding-puzzle studio with a parity-safe shuffle, an A* solver in a Web Worker, bilingual UI, local records, headless verification and a GitHub Pages release.",
+      "license": "MIT"
     }
   ]
 }

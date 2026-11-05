@@ -240,6 +240,32 @@
         "templates/AGENTS.md",
         "templates/RULES.md"
       ]
+    },
+    {
+      "name": "3d-puzzle-solver-studio",
+      "version": "269d44a8c3f4",
+      "description": "Build a tactile 3D sliding-puzzle studio with a parity-safe shuffle, an A* solver in a Web Worker, bilingual UI, local records, headless verification and a GitHub Pages release.",
+      "license": "MIT",
+      "files": [
+        "ATTRIBUTION.md",
+        "README.md",
+        "SKILL.md",
+        "assets/reference/REPRODUCTION.md",
+        "assets/reference/SOLVER.md",
+        "assets/reference/index.html",
+        "assets/reference/script.js",
+        "assets/reference/style.css",
+        "assets/reference/tests/engine.test.mjs",
+        "assets/reference/tests/lib/fixtures.mjs",
+        "references/CHECKLIST.md",
+        "references/ENGINE.md",
+        "references/PUBLISH.md",
+        "references/SCENE.md",
+        "references/UI.md",
+        "references/VERIFY.md",
+        "scripts/scaffold.mjs",
+        "scripts/verify-browser.mjs"
+      ]
     }
   ]
 }
