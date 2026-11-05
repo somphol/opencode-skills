@@ -374,7 +374,7 @@
     },
     {
       "name": "suatsync-3d-studio",
-      "version": "01f0a864621b",
+      "version": "211949da3f41",
       "description": "Build a bilingual, static 3D chanting and karaoke studio around a sacred or traditional text — synchronized lines, a calibratable timeline, YouTube/local/timer audio, streaks, a procedural mandala, headless verification and a GitHub Pages release.",
       "license": "MIT",
       "files": [

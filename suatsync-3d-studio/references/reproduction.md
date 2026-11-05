@@ -276,8 +276,11 @@ geometry and clone materials so each petal can light independently. `updatePetal
 an audio-level pulse, lerps petals and camera parallax, then renders. On mobile, push the camera back
 so the mandala does not dominate the text. On resize, update aspect, DPR (cap 2) and distance.
 
-**Themes and atmosphere.** Define four palettes (midnight, emerald, saffron, rosewood) with idle,
-active, done, emissive, core, glow, particle, halo, warm and cool colours. `applyWorldTheme` applies
+**Themes and atmosphere.** Define seven palettes (midnight, emerald, saffron, rosewood, parchment,
+daylight, sandalwood) with idle, active, done, emissive, core, glow, particle, halo, warm and cool
+colours. The light palettes also need light surface tokens (`--surface-soft`, `--surface-deep`,
+`--surface-solid`, `--surface-video`, `--surface-toast`, `--transport-rgb`, `--line-soft`,
+`--on-gold`) or the cards and transport remain dark. `applyWorldTheme` applies
 the palette to every material and light; `updatePetalStates` reads it for per-petal state. The CSS
 themes mirror the same accents for panels, lines and buttons.
 

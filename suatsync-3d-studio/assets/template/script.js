@@ -246,6 +246,9 @@
       themeEmerald: "Emerald",
       themeSaffron: "Saffron",
       themeRosewood: "Rosewood",
+      themeParchment: "Parchment",
+      themeDaylight: "Daylight",
+      themeSandalwood: "Sandalwood",
       atmosphereLabel: "Background",
       atmoNight: "Night",
       atmoClouds: "Clouds",
@@ -383,6 +386,9 @@
       themeEmerald: "มรกต",
       themeSaffron: "หญ้าฝรั่น",
       themeRosewood: "ไม้กุหลาบ",
+      themeParchment: "กระดาษเก่า",
+      themeDaylight: "แสงวัน",
+      themeSandalwood: "จันทน์",
       atmosphereLabel: "ฉากหลัง",
       atmoNight: "กลางคืน",
       atmoClouds: "เมฆ",
@@ -554,7 +560,7 @@
       fade: s.fade !== false,
       showVideo: s.showVideo !== false,
       source: s.source === "file" || s.source === "timer" ? s.source : "youtube",
-      theme: ["midnight", "emerald", "saffron", "rosewood"].indexOf(s.theme) >= 0 ? s.theme : "midnight",
+      theme: ["midnight", "emerald", "saffron", "rosewood", "parchment", "daylight", "sandalwood"].indexOf(s.theme) >= 0 ? s.theme : "midnight",
       fontSize: ["small", "medium", "large"].indexOf(s.fontSize) >= 0 ? s.fontSize : "medium",
       atmosphere: ["night", "clouds", "ocean", "forest"].indexOf(s.atmosphere) >= 0 ? s.atmosphere : "night"
     };
@@ -1621,7 +1627,7 @@
   }
 
   function setTheme(name) {
-    var themes = ["midnight", "emerald", "saffron", "rosewood"];
+    var themes = ["midnight", "emerald", "saffron", "rosewood", "parchment", "daylight", "sandalwood"];
     if (themes.indexOf(name) < 0) return;
     state.settings.theme = name;
     persist();
@@ -1915,6 +1921,21 @@
       idle: 0x9f5566, active: 0xc97b8b, done: 0xffc7d2, emissive: 0xff8fa3,
       core: 0xffd0d9, coreEmissive: 0xff8fa3, glow: 0xffb6c4, particle: 0xffcbd5,
       halo: 0x9c4f60, warm: 0xff9fae, cool: 0x7f7fff
+    },
+    parchment: {
+      idle: 0xa8793e, active: 0xc9a15e, done: 0xe7c07a, emissive: 0xffcf7a,
+      core: 0xffe3a8, coreEmissive: 0xffb347, glow: 0xffcf7a, particle: 0xd9b06a,
+      halo: 0xc08a3e, warm: 0xffd49a, cool: 0x9fb7c9
+    },
+    daylight: {
+      idle: 0x5f98ad, active: 0x7eb8cc, done: 0xb9e0ec, emissive: 0x8fe3ff,
+      core: 0xd9f6ff, coreEmissive: 0x8fe3ff, glow: 0xa8e5f7, particle: 0x9ed7e8,
+      halo: 0x6fb2c8, warm: 0xbfe8ff, cool: 0x7fb7ff
+    },
+    sandalwood: {
+      idle: 0xb0674a, active: 0xcf8464, done: 0xf2bfa6, emissive: 0xffb08a,
+      core: 0xffd7c2, coreEmissive: 0xffb08a, glow: 0xffbfa0, particle: 0xf0b494,
+      halo: 0xc07858, warm: 0xffc09a, cool: 0xb79cff
     }
   };
 

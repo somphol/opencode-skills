@@ -1,7 +1,7 @@
 ---
 name: SuatSync 3D Studio
-description: Build a bilingual, static 3D chanting and karaoke studio around a sacred or traditional text — synchronized lines, an editable timing sheet, YouTube/local/timer audio, four themes, four animated backdrops, streaks, a procedural mandala, headless verification and a GitHub Pages release.
-version: 1.1.0
+description: Build a bilingual, static 3D chanting and karaoke studio around a sacred or traditional text — synchronized lines, an editable timing sheet, YouTube/local/timer audio, seven dark and light themes, four animated backdrops, streaks, a procedural mandala, headless verification and a GitHub Pages release.
+version: 1.2.0
 ---
 
 # SuatSync 3D Studio
@@ -102,7 +102,7 @@ not count. This protects the streak from becoming a click counter.
 - Dark, warm, one accent; no large flat gold surfaces.
 - The active line is the interface: colour, wash and a thin progress rule, not reflowing scale.
 - A single procedural 3D motif tied to the content (lotus petals = rounds, inner petals = verses).
-- Four themes that recolour both CSS and the 3D palette; three reading sizes via one `--font-scale`;
+- Seven themes (four dark, three light) that recolour both CSS and the 3D palette; three reading sizes via one `--font-scale`;
   four backdrop layers (night, clouds, ocean, forest) behind the motif.
 - Thai/Pali line-height 1.6–1.7; test at 320 px.
 - Fixed footer reserves bottom padding; global `[hidden] { display:none !important; }`.

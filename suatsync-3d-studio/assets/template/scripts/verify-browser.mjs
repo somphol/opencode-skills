@@ -299,6 +299,20 @@ async function main() {
       await evaluate("document.querySelector('#toast').classList.remove('show')");
       await capture("docs/screenshot-ocean.png");
 
+      await evaluate(`(async () => {
+        const S = window.SuatSync;
+        S.setTheme('daylight');
+        S.setAtmosphere('clouds');
+        S.setFontSize('medium');
+        S.jumpToSection(4);
+        S.seekTo(S.timeline.markers()[4] + 80, true);
+        S.render(true);
+        window.scrollTo(0, document.querySelector('.studio').offsetTop - 14);
+      })()`);
+      await sleep(3400);
+      await evaluate("document.querySelector('#toast').classList.remove('show')");
+      await capture("docs/screenshot-daylight.png");
+
       await setViewport(390, 844, true);
       await evaluate(`(async () => {
         const S = window.SuatSync;
