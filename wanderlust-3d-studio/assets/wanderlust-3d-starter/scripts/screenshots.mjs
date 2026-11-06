@@ -77,7 +77,7 @@ try {
 
   await page.evaluate(() => {
     document.documentElement.style.scrollBehavior = 'auto';
-    window.scrollTo(0, document.querySelector('#explore').offsetTop + 10);
+    window.scrollTo(0, document.querySelector('#explore').offsetTop);
   });
   await sleep(500);
   await shot('desktop-explorer.jpg');
@@ -177,7 +177,7 @@ try {
 
   await page.evaluate(() => {
     document.documentElement.style.scrollBehavior = 'auto';
-    window.scrollTo(0, document.querySelector('#explore').offsetTop + 10);
+    window.scrollTo(0, document.querySelector('#explore').offsetTop);
   });
   await sleep(500);
   await shot('mobile-explorer.jpg');

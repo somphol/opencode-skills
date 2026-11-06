@@ -585,7 +585,7 @@
     },
     {
       "name": "wanderlust-3d-studio",
-      "version": "a2760d6c3ff2",
+      "version": "489e31920103",
       "description": "Build and release a zero-build, photography-led travel atlas — 3 regions × 5 curated destinations, verified Unsplash imagery, hero slider, live search and interest/budget filters, destination modals with deep links, a localStorage itinerary, headless verification, professional docs and GitHub Pages.",
       "license": "MIT",
       "files": [
