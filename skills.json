@@ -95,6 +95,12 @@
       "source": "~/.config/opencode/skills/wanderlust-3d-studio",
       "description": "Build and release a zero-build, photography-led travel atlas — 3 regions × 5 curated destinations, verified Unsplash imagery, hero slider, live search and interest/budget filters, destination modals with deep links, a localStorage itinerary, headless verification, professional docs and GitHub Pages.",
       "license": "MIT"
+    },
+    {
+      "name": "leab-tui-p2p-studio",
+      "source": "~/.config/opencode/skills/leab-tui-p2p-studio",
+      "description": "Add serverless, host-authoritative WebRTC multiplayer to a static Three.js table game — room lobby, two-human start, bot fill, per-seat redaction, ghost meshes, disconnect-to-bot, a two-browser test harness and a release-grade handoff.",
+      "license": "MIT"
     }
   ]
 }
