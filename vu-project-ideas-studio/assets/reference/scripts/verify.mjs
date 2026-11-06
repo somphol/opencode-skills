@@ -107,7 +107,7 @@ check("state usage total adds up",
   (state.usage?.cacheReadTokens || 0) + (state.usage?.cacheWriteTokens || 0) === state.usage?.totalTokens);
 check("state records a Pages target", typeof state.deployment?.pages === "string" && state.deployment.pages.startsWith("https://"));
 
-check("README names the catalog", read("README.md").includes("54"));
+check("README and album links are coherent", read("README.md").includes("project-album") && html.includes("project-album"));
 check("AGENTS names the state file", read("AGENTS.md").includes("state.json"));
 check("sitemap contains an absolute URL", /<loc>https:\/\/[^<]+<\/loc>/.test(read("sitemap.xml")));
 check("prompt index has 54 rows", (read("prompts/README.md").match(/^\| \d{2} \|/gm) || []).length === 54);

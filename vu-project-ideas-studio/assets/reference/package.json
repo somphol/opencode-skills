@@ -1,6 +1,6 @@
 {
   "name": "vu-project-ideas",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "private": true,
   "type": "module",
   "description": "A searchable library of 54 production-grade project briefs with copy-ready prompts.",

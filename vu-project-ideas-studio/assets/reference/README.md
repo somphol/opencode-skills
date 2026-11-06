@@ -16,8 +16,9 @@ one, read the spec, copy the complete prompt, and paste it into OpenCode, Claude
 other coding agent.
 
 It is **not** an app generator, a course, or a collection of finished products. Two briefs link to
-older live builds as examples; the other 52 are specifications waiting for a build. There is no
-backend, account, analytics, cookie or build step.
+older live builds as examples; the other 52 are specifications waiting for a build. Finished,
+manually polished builds are collected in the [Project Album](https://somphol.github.io/project-album/).
+There is no backend, account, analytics, cookie or build step.
 
 **Start here:** <https://somphol.github.io/vu_project_ideas/>
 

@@ -3,6 +3,13 @@
 All notable changes to this project are documented here. The format follows
 [Keep a Changelog](https://keepachangelog.com/en/1.1.0/); versions follow [SemVer](https://semver.org/).
 
+## [1.0.2] — 2026-11-05
+
+### Added
+
+- Links to the [Project Album](https://somphol.github.io/project-album/) — finished, manually polished
+  builds — in the header, credits, footer, README and agent handoff.
+
 ## [1.0.1] — 2026-11-05
 
 ### Fixed

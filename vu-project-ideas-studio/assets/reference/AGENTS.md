@@ -11,7 +11,7 @@ backend, account, analytics, cookie or build step. It is **not** an app generato
 older live builds, the other 52 are specifications for a future build.
 
 Live: <https://somphol.github.io/vu_project_ideas/> · Local master: `~/Projects/vu_project_ideas` ·
-Release **1.0.1**, MIT.
+Release **1.0.2**, MIT.
 
 ## 2. Commands
 
@@ -100,6 +100,7 @@ file or `file://` origin leaves the static fallback in place.
 ## 6. Continuity
 
 - Live: <https://somphol.github.io/vu_project_ideas/>
+- Finished builds: <https://somphol.github.io/project-album/>
 - Source: <https://github.com/somphol/vu_project_ideas>
 - Local master: `~/Projects/vu_project_ideas`
 - Build record: `state.json` (session id, elapsed, tokens, verification, deployment, credits)
