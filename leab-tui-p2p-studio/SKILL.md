@@ -201,6 +201,30 @@ the version for removals. See `references/protocol.md`.
 - **Leave is destructive for the host.** Put a visible **Leave room** action in the normal Actions panel, not only inside the lobby. Confirm first and explain the consequence: host closes the room for everyone; guest becomes a bot. Hide it in solo. Keep it below the table on phones so it never covers the hand.
 - **Do not offer Start after kickoff.** Once `net.started`, hide/disable Start and show “Match in progress”. A rematch goes through the normal New match flow.
 
+## Text chat and voice
+
+Keep the two paths separate.
+
+**Chat** is host-routed over the data channel:
+
+- Guest sends `{type:"chat", text}`; host finds the sender profile, rate-limits (~350 ms), normalises/caps at 200 chars, appends once and broadcasts `{type:"chat", entry}` to every guest.
+- Include the last 20–30 entries in `welcome`.
+- Escape text; never render HTML. Keep it memory-only; clear on room close.
+- A collapsible glass panel in the sidebar is enough; it must not cover the hand dock on phones.
+
+**Voice** is a full mesh of PeerJS media calls, not a data-channel payload:
+
+- Install one `peer.on("call")` handler. Only voice-active peers are called.
+- The lexicographically larger peer id initiates, so both sides agree on one call per pair.
+- `getUserMedia({audio:{echoCancellation,noiseSuppression,autoGainControl}})` only after a **Join voice** gesture; HTTPS/localhost is required.
+- Attach remote streams to hidden `<audio class="remote-player-audio" autoplay playsinline>` elements.
+- **Mute mic**: `localStream.getAudioTracks()[0].enabled = false`. Do not stop the track or close the call.
+- **Mute others**: set `.muted` on every remote audio element. It must be independent of the mic.
+- Speaking pulse: one `AnalyserNode` per stream at ~120 ms, RMS threshold, never connected to `destination`. Apply `.speaking` to the avatar and scoreboard row; keep a text status line.
+- Relay `voice-state` through the host. Put `peerId` and `voice` flags in the roster so every client can build the mesh.
+- Full mesh means N×(N−1)/2 paths; with four seats that is six. No TURN means some NATs fail.
+- Test with a synthetic oscillator stream (`joinWithStream`) in headless Chrome; the production path still needs a real microphone.
+
 ## Verification that actually catches leaks
 
 1. **In-page self-test** (pure): room code shape/normalization, peer-id stability, redaction hides
@@ -244,6 +268,8 @@ More in `references/pitfalls.md`.
 - [ ] A normal load asks before dealing; a saved solo game offers Resume match.
 - [ ] Host and guest must confirm a name; invite links do not reuse a stale identity.
 - [ ] A visible Leave room action confirms, hides in solo, and stays out of the phone hand dock.
+- [ ] Chat is escaped, capped, rate-limited and echoed through the host.
+- [ ] Voice joins only on a gesture, attaches remote audio, and mutes mic/deafen independently.
 - [ ] Two humans can start; empty seats become bots; four humans fit.
 - [ ] Each guest sees own hand real, others ghosted; the wire payload is asserted.
 - [ ] Guest seat is at the bottom; table world rotates, not camera.
