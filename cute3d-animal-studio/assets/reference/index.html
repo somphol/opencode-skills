@@ -231,10 +231,30 @@
               <span class="coat-mark" aria-hidden="true">❋</span>
               <span data-i18n="coat.plush">Plush</span>
             </button>
-            <button class="coat-btn" type="button" data-coat="vfx" aria-pressed="false">
-              <span class="coat-mark" aria-hidden="true">✦</span>
-              <span data-i18n="coat.vfx">VFX</span>
-            </button>
+          </div>
+          <div class="outer-row" id="outer-row" hidden>
+            <div class="outer-head">
+              <span data-i18n="coat.outer">Outer coat</span>
+              <small data-i18n="coat.outerHint">Koala only</small>
+            </div>
+            <div class="coat-grid coat-grid-outer" role="group" aria-label="Choose the outer coat layer" data-i18n-aria="a11y.outerCoat">
+              <button class="coat-btn" type="button" data-outer="none" aria-pressed="false">
+                <span class="coat-mark" aria-hidden="true">◌</span>
+                <span data-i18n="coat.none">None</span>
+              </button>
+              <button class="coat-btn is-active" type="button" data-outer="pelt" aria-pressed="true">
+                <span class="coat-mark" aria-hidden="true">◍</span>
+                <span data-i18n="coat.pelt">Pelt</span>
+              </button>
+              <button class="coat-btn" type="button" data-outer="velvet" aria-pressed="false">
+                <span class="coat-mark" aria-hidden="true">❋</span>
+                <span data-i18n="coat.velvet">Velvet</span>
+              </button>
+              <button class="coat-btn" type="button" data-outer="vfx" aria-pressed="false">
+                <span class="coat-mark" aria-hidden="true">✦</span>
+                <span data-i18n="coat.vfx">VFX</span>
+              </button>
+            </div>
           </div>
           <div class="fur-sliders" id="fur-sliders">
             <label class="slider-row" for="fur-length">

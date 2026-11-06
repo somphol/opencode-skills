@@ -1,6 +1,6 @@
 ---
 name: Cute3D Animal Studio
-description: Build a release-grade, zero-asset 3D animal character studio with seven original procedural Three.js pets, layered fur and feather shells, a real koala-only GPU strand coat plus an optional VFX groom, with an inherited wind fan, species postures, idle/click animations, live colours/accessories, Web Audio, a bilingual EN/TH UI, local presets, transparent PNG export, four test layers and GitHub Pages.
+description: Build a release-grade, zero-asset 3D animal character studio with seven original procedural Three.js pets, layered fur and feather shells, a universal base coat plus a koala-only outer row (Pelt / Velvet / VFX) with rooted skin attachment, with an inherited wind fan, species postures, idle/click animations, live colours/accessories, Web Audio, a bilingual EN/TH UI, local presets, transparent PNG export, four test layers and GitHub Pages.
 version: 1.5.1
 ---
 
@@ -12,7 +12,7 @@ breathing/blinking/jumping life, a bilingual customizer, local presets, transpar
 tests and a live URL.
 
 This skill is written from a completed build: **Cute3D: Procedural Code-Only Animal Studio** —
-19 engine, 83 repository, 26 browser and 20 in-page checks, zero console errors. The shipped reference
+19 engine, 84 repository, 26 browser and 20 in-page checks, zero console errors. The shipped reference
 source is in `assets/reference/`; the live product is at
 <https://somphol.github.io/cute3d-animal-studio/>.
 
@@ -36,7 +36,7 @@ Do not stop at "it renders". A release has all of these:
 | Gate | Command | Expected |
 | --- | --- | --- |
 | Engine | `node --test tests/engine.test.mjs` | 19/19 |
-| Repository | `node --test tests/static.test.mjs` | 83/83 |
+| Repository | `node --test tests/static.test.mjs` | 84/84 |
 | Browser | `node tests/browser.test.mjs` | 26/26, zero console errors |
 | In-page | `/?selftest` | 20/20 |
 | Live copy | `TEST_URL=https://… node tests/browser.test.mjs` | 26/26 |

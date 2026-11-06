@@ -801,8 +801,41 @@ a:hover {
 
 .coat-grid {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-columns: repeat(3, 1fr);
   gap: 6px;
+}
+
+.outer-row {
+  margin-top: 10px;
+  padding-top: 9px;
+  border-top: 1px solid rgba(53, 42, 46, 0.08);
+}
+
+.outer-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 8px;
+  margin-bottom: 5px;
+  color: var(--ink-soft);
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+}
+
+.coat-grid-outer { grid-template-columns: repeat(4, 1fr); }
+
+.outer-head small {
+  color: var(--ink-faint);
+  font-size: 8.5px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.coat-grid-outer .coat-btn {
+  padding-top: 7px;
+  padding-bottom: 7px;
 }
 
 .coat-btn {

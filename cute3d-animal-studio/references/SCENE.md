@@ -77,11 +77,16 @@ on desktop and fills the remaining viewport on mobile. `ResizeObserver` handles 
 - `STRAND_UNIFORMS`: time, breeze, length, curl, clump, cursor. Vertex shader bends by `h²`; cursor is
   raycast onto plane z = 0.
 - Density changes `InstancedMesh.count`; never rebuild geometry on slider input.
-- Koala Plush strand material is opaque, `depthWrite:true`, tinted toward the main role colour,
-  root-to-tip vertex shading, tangent-plane flow.
+- Two-row fur studio: base `Coat` (Smooth/Soft/Plush) is universal; koala-only `Outer coat` is
+  None/Pelt/Velvet/VFX.
+- Pelt strand material is opaque, `depthWrite:true`, tinted toward the main role colour, root-to-tip
+  vertex shading, tangent-plane flow.
+- Velvet is a 1.018 cushion + 24 light shells + sheen; no micro-strand blizzard.
+- Shells, cushions and strand InstancedMeshes are children of the source mesh. VFX roots are local at
+  1.008; the ribbon starts inside the skin. Never parent to `mesh.parent` or use 1.2× roots.
 - Koala VFX: no decorative shells; a dark undercoat per zone plus ~133k strands (190k target) with
-  uniform random sphere roots, per-instance normal/seed/tint/role, and a custom Kajiya–Kay shader. VFX
-  is disabled for other animals and falls back to Plush.
+  uniform random sphere roots, per-instance normal/seed/tint/role/guard/clump, and a custom Kajiya–Kay
+  shader. VFX is disabled for other animals and falls back to Pelt.
 - Max 100k at density 1/Plush; ~45k at Soft. Other animals are shell-only.
 - `STRAND_UNIFORMS` keys must match the GLSL exactly: `uTime`, `uBreeze`, `uLength`, `uCurl`, `uClump`,
   `uCursor`. A name mismatch silently leaves them zero and collapses the coat into dots.

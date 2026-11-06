@@ -17,8 +17,10 @@ const createStudioEngine = () => {
   const ACCESSORIES = ['bowtie', 'partyHat', 'glasses'];
   const COLOR_KEYS = ['main', 'belly', 'blush'];
   const PRESET_LIMIT = 10;
-  const COAT_LEVELS = ['off', 'soft', 'plush', 'vfx'];
+  const COAT_LEVELS = ['off', 'soft', 'plush'];
   const DEFAULT_COAT = 'soft';
+  const OUTER_LEVELS = ['none', 'pelt', 'velvet', 'vfx'];
+  const DEFAULT_OUTER = 'pelt';
   const LIGHTING_PRESETS = ['studio', 'sky', 'desk'];
   const DEFAULT_LIGHTING = 'studio';
   const DEFAULT_FUR = { length: 1, density: 0.7, curl: 0.35, clump: 0.4, breeze: 0.3 };
@@ -159,6 +161,7 @@ const createStudioEngine = () => {
   };
 
   const sanitizeCoat = (value) => (COAT_LEVELS.includes(value) ? value : DEFAULT_COAT);
+  const sanitizeOuter = (value) => (OUTER_LEVELS.includes(value) ? value : DEFAULT_OUTER);
   const sanitizeLighting = (value) => (LIGHTING_PRESETS.includes(value) ? value : DEFAULT_LIGHTING);
   const sanitizeFur = (raw) => {
     const source = raw && typeof raw === 'object' ? raw : {};
@@ -187,7 +190,9 @@ const createStudioEngine = () => {
     const colors = sanitizeColors(raw.colors, animal);
     const accessories = sanitizeAccessories(raw.accessories);
     const expression = EXPRESSIONS.includes(raw.expression) ? raw.expression : 'happy';
-    const coat = sanitizeCoat(raw.coat);
+    let coat = sanitizeCoat(raw.coat);
+    let outer = sanitizeOuter(raw.outer);
+    if (raw.coat === 'vfx') { coat = 'plush'; outer = 'vfx'; }
     const lighting = sanitizeLighting(raw.lighting);
     const fur = sanitizeFur(raw.fur);
     let name = typeof raw.name === 'string' ? raw.name.trim().slice(0, 42) : '';
@@ -197,7 +202,7 @@ const createStudioEngine = () => {
       id = `p-${hashString(`${animal}|${name}|${JSON.stringify(colors)}`).toString(36)}`;
     }
     const createdAt = Number.isFinite(raw.createdAt) ? Math.max(0, raw.createdAt) : 0;
-    return { id, name, animal, colors, accessories, expression, coat, lighting, fur, createdAt };
+    return { id, name, animal, colors, accessories, expression, coat, outer, lighting, fur, createdAt };
   };
 
   const sanitizePresets = (raw) => {
@@ -231,6 +236,7 @@ const createStudioEngine = () => {
     params.set('o', worn.join(','));
     params.set('l', state.lang === 'th' ? 'th' : 'en');
     params.set('f', sanitizeCoat(state.coat));
+    params.set('v', sanitizeOuter(state.outer));
     params.set('g', sanitizeLighting(state.lighting));
     const fur = sanitizeFur(state.fur);
     params.set('u', [fur.length, fur.density, fur.curl, fur.clump, fur.breeze].join('-'));
@@ -270,13 +276,15 @@ const createStudioEngine = () => {
       ),
     );
     const lang = params.get('l') === 'th' ? 'th' : 'en';
-    const coat = sanitizeCoat(params.get('f'));
+    let coat = sanitizeCoat(params.get('f'));
+    let outer = sanitizeOuter(params.get('v'));
+    if (params.get('f') === 'vfx') { coat = 'plush'; outer = 'vfx'; }
     const lighting = sanitizeLighting(params.get('g'));
     const furParts = (params.get('u') || '').split('-').map(Number);
     const fur = sanitizeFur({
       length: furParts[0], density: furParts[1], curl: furParts[2], clump: furParts[3], breeze: furParts[4],
     });
-    return { animal, expression, colors, accessories, lang, coat, lighting, fur, valid: Boolean(animal) };
+    return { animal, expression, colors, accessories, lang, coat, outer, lighting, fur, valid: Boolean(animal) };
   };
 
   const soundPattern = (kind) => {
@@ -335,6 +343,8 @@ const createStudioEngine = () => {
     COLOR_KEYS,
     COAT_LEVELS,
     DEFAULT_COAT,
+    OUTER_LEVELS,
+    DEFAULT_OUTER,
     LIGHTING_PRESETS,
     DEFAULT_LIGHTING,
     DEFAULT_FUR,
@@ -358,6 +368,7 @@ const createStudioEngine = () => {
     sanitizeColors,
     sanitizeAccessories,
     sanitizeCoat,
+    sanitizeOuter,
     sanitizeLighting,
     sanitizeFur,
     sanitizePreset,
@@ -429,6 +440,18 @@ const I18N = {
     'coat.soft': 'Soft',
     'coat.plush': 'Plush',
     'coat.vfx': 'VFX',
+    'coat.outer': 'ชั้นนอก',
+    'coat.outerHint': 'เฉพาะโคอาล่า',
+    'coat.none': 'ไม่มี',
+    'coat.pelt': 'ขนชั้นนอก',
+    'coat.velvet': 'กำมะหยี่',
+    'a11y.outerCoat': 'เลือกชั้นขนด้านนอก',
+    'coat.outer': 'Outer coat',
+    'coat.outerHint': 'Koala only',
+    'coat.none': 'None',
+    'coat.pelt': 'Pelt',
+    'coat.velvet': 'Velvet',
+    'a11y.outerCoat': 'Choose the outer coat layer',
     'coat.hint': 'Soft shells plus thousands of GPU strands that move with the breeze.',
     'coat.strands': '{n} strands',
     'fur.length': 'Length',
@@ -562,6 +585,18 @@ const I18N = {
     'coat.soft': 'นุ่ม',
     'coat.plush': 'ฟูหนา',
     'coat.vfx': 'VFX',
+    'coat.outer': 'ชั้นนอก',
+    'coat.outerHint': 'เฉพาะโคอาล่า',
+    'coat.none': 'ไม่มี',
+    'coat.pelt': 'ขนชั้นนอก',
+    'coat.velvet': 'กำมะหยี่',
+    'a11y.outerCoat': 'เลือกชั้นขนด้านนอก',
+    'coat.outer': 'Outer coat',
+    'coat.outerHint': 'Koala only',
+    'coat.none': 'None',
+    'coat.pelt': 'Pelt',
+    'coat.velvet': 'Velvet',
+    'a11y.outerCoat': 'Choose the outer coat layer',
     'coat.hint': 'เปลือกขนนุ่ม ๆ พร้อมเส้นขนหลายพันเส้นขยับตามลม',
     'coat.strands': '{n} เส้น',
     'fur.length': 'ความยาว',
@@ -651,9 +686,9 @@ import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
 const ENGINE = createStudioEngine();
 const {
   ANIMALS, EXPRESSIONS, ACCESSORIES, COLOR_KEYS, PRESET_LIMIT,
-  DEFAULT_COLORS, PALETTES, COAT_LEVELS, DEFAULT_COAT, LIGHTING_PRESETS, DEFAULT_LIGHTING, DEFAULT_FUR,
+  DEFAULT_COLORS, PALETTES, COAT_LEVELS, DEFAULT_COAT, OUTER_LEVELS, DEFAULT_OUTER, LIGHTING_PRESETS, DEFAULT_LIGHTING, DEFAULT_FUR,
   clamp, damp, lerp, smoothstep, easeOutCubic, normalizeHex, mixHex, shade, blinkScale, expressionPose,
-  sanitizeColors, sanitizeCoat, sanitizeLighting, sanitizeFur,
+  sanitizeColors, sanitizeCoat, sanitizeOuter, sanitizeLighting, sanitizeFur,
   sanitizePresets, snapshotFilename, encodeShareState, decodeShareState,
   soundPattern, clampSnapshotSize, formatMeshLabel,
 } = ENGINE;
@@ -680,6 +715,7 @@ const defaultState = () => ({
   lang: 'en',
   sound: true,
   coat: DEFAULT_COAT,
+  outer: DEFAULT_OUTER,
   lighting: DEFAULT_LIGHTING,
   fanAngle: 0.6,
   fur: { ...DEFAULT_FUR },
@@ -712,6 +748,8 @@ if (stored && typeof stored === 'object') {
   if (stored.lang === 'th' || stored.lang === 'en') state.lang = stored.lang;
   if (typeof stored.sound === 'boolean') state.sound = stored.sound;
   state.coat = sanitizeCoat(stored.coat);
+  state.outer = sanitizeOuter(stored.outer);
+  if (stored.coat === 'vfx') { state.coat = 'plush'; state.outer = 'vfx'; }
   state.lighting = sanitizeLighting(stored.lighting);
   state.fur = sanitizeFur(stored.fur);
   state.fanAngle = Number.isFinite(stored.fanAngle) ? stored.fanAngle : 0.6;
@@ -2440,7 +2478,7 @@ const WIND = {
   touch: { value: new THREE.Vector3(999, 999, 999) },
 };
 
-const coatMaterial = (kind, color, layer, shells, cutCode, texture, windLocal, touchLocal) => {
+const coatMaterial = (kind, color, layer, shells, cutCode, texture, windLocal, touchLocal, velvet = false) => {
   const common = {
     color: new THREE.Color(color),
     alphaMap: texture,
@@ -2457,11 +2495,11 @@ const coatMaterial = (kind, color, layer, shells, cutCode, texture, windLocal, t
     })
     : new THREE.MeshPhysicalMaterial({
       ...common,
-      map: COAT_PATTERN.fur,
-      bumpScale: 0.09,
-      alphaTest: 0.34 + (layer / Math.max(1, shells - 1)) * 0.2,
-      roughness: 0.94,
-      sheen: 0.6,
+      ...(velvet ? {} : { map: COAT_PATTERN.fur }),
+      bumpScale: velvet ? 0.018 : 0.09,
+      alphaTest: velvet ? 0.2 + (layer / Math.max(1, shells - 1)) * 0.22 : 0.34 + (layer / Math.max(1, shells - 1)) * 0.2,
+      roughness: velvet ? 0.98 : 0.94,
+      sheen: velvet ? 0.92 : 0.6,
       sheenColor: new THREE.Color(color).lerp(new THREE.Color('#ffffff'), 0.45),
       sheenRoughness: 0.8,
     });
@@ -2509,16 +2547,17 @@ ${shader.fragmentShader}`;
   return material;
 };
 
-const addCoatZone = (instance, zone, level, rand) => {
-  if (instance.id === 'koala' && level === 'vfx') return 0;
+const addCoatZone = (instance, zone, level, rand, outer) => {
+  if (outer === 'vfx') return 0;
   const mesh = instance.group.getObjectByName(zone.mesh);
   if (!mesh || !mesh.isMesh) return 0;
   const config = COAT_CONFIG[instance.id];
   const usesFeather = config?.kind === 'feather';
   const plush = level === 'plush';
+  const velvet = outer === 'velvet';
   const koala = instance.id === 'koala';
-  const shells = plush ? (koala ? 12 : usesFeather ? 8 : 10) : (koala ? 6 : usesFeather ? 4 : 5);
-  const thickness = (zone.thickness || (usesFeather ? 0.045 : koala ? 0.08 : 0.09)) * (plush ? 1 : 0.58);
+  const shells = velvet ? (plush ? 24 : 12) : plush ? (koala ? 12 : usesFeather ? 8 : 10) : (koala ? 6 : usesFeather ? 4 : 5);
+  const thickness = (zone.thickness || (usesFeather ? 0.045 : velvet ? 0.14 : koala ? 0.08 : 0.09)) * (plush ? 1 : 0.58);
   const textureSet = SHELL_TEX[usesFeather ? 'feather' : 'fur'];
   const cutCode = zone.mesh === 'head-mesh' ? 'if (vFurPos.z > 0.58) discard;' :
     zone.mesh === 'body' ? 'if (vFurPos.z > 0.2 && length(vec2(vFurPos.x / 0.78, (vFurPos.y + 0.05) / 0.8)) < 1.0) discard;' :
@@ -2538,13 +2577,16 @@ const addCoatZone = (instance, zone, level, rand) => {
     texture.rotation = rand() * Math.PI * 2;
     texture.center.set(0.5, 0.5);
     texture.repeat.set(usesFeather ? 1 : 1.3, usesFeather ? 1 : 1.3);
-    const material = coatMaterial(usesFeather ? 'feather' : 'fur', baseColor, layer, shells, cutCode, texture, windLocal, touchLocal);
+    const material = coatMaterial(usesFeather ? 'feather' : 'fur', baseColor, layer, shells, cutCode, texture, windLocal, touchLocal, velvet);
     material.userData.role = zone.role;
     const shell = new THREE.Mesh(mesh.geometry, material);
-    shell.position.copy(mesh.position);
-    shell.quaternion.copy(mesh.quaternion);
+    // Attach the shell to the skin mesh, not to its parent. The shell is in the
+    // same local space as the geometry, so breathing, head tilts and ear wiggles
+    // carry the coat with the body instead of leaving it floating behind.
+    shell.position.set(0, 0, 0);
+    shell.quaternion.identity();
     const scale = 1.004 + ((layer + 1) / shells) * thickness;
-    shell.scale.copy(mesh.scale).multiplyScalar(scale);
+    shell.scale.set(scale, scale, scale);
     if (zone.stretch) shell.scale.multiply(new THREE.Vector3(zone.stretch[0], zone.stretch[1], zone.stretch[2]));
     shell.name = `coat-${zone.mesh}-${layer}`;
     shell.userData.shellLayer = layer;
@@ -2552,7 +2594,7 @@ const addCoatZone = (instance, zone, level, rand) => {
     shell.castShadow = false;
     shell.receiveShadow = false;
     shell.renderOrder = 1;
-    mesh.parent.add(shell);
+    mesh.add(shell);
     instance.fluff.push(shell);
     const roleMaterials = instance.fluffMaterials.get(zone.role) || [];
     roleMaterials.push(material);
@@ -2585,7 +2627,8 @@ const makeStrandGeometry = () => {
     // Dark root, bright middle, slightly warm tip. The gradient is the fibre's
     // own occlusion; it reads as depth even when the body behind it is smooth.
     const shadeValue = 0.5 + t * 0.42 + Math.sin(t * Math.PI) * 0.08;
-    positions.push(-width, t, z, width, t, z);
+    const y = -0.05 + t * 1.05;
+    positions.push(-width, y, z, width, y, z);
     colors.push(shadeValue, shadeValue, shadeValue, shadeValue, shadeValue, shadeValue);
     if (row < rows - 1) {
       const a = row * 2;
@@ -2668,7 +2711,8 @@ const makeVfxStrandGeometry = () => {
     const t = row / (rows - 1);
     const width = (1 - t) ** 0.68 * 0.5 + 0.01;
     const z = t * t * 0.18 + Math.sin(t * Math.PI) * 0.04;
-    positions.push(-width, t, z, width, t, z);
+    const y = -0.06 + t * 1.06;
+    positions.push(-width, y, z, width, y, z);
     uvs.push(0, t, 1, t);
     if (row < rows - 1) {
       const a = row * 2;
@@ -2686,7 +2730,7 @@ const makeVfxStrandGeometry = () => {
 
 const VFX_STRAND_GEO = makeVfxStrandGeometry();
 
-const vfxStrandMaterial = (color, bellyColor = color) => new THREE.ShaderMaterial({
+const vfxStrandMaterial = (color, bellyColor = color, mode = 'vfx') => new THREE.ShaderMaterial({
   uniforms: {
     uTime: STRAND_UNIFORMS.uTime,
     uBreeze: STRAND_UNIFORMS.uBreeze,
@@ -2697,7 +2741,10 @@ const vfxStrandMaterial = (color, bellyColor = color) => new THREE.ShaderMateria
     uColor: { value: new THREE.Color(color) },
     uBelly: { value: new THREE.Color(bellyColor) },
     uBellyTip: { value: new THREE.Color(bellyColor).lerp(new THREE.Color('#ffffff'), 0.08) },
-    uTip: { value: new THREE.Color(color).lerp(new THREE.Color('#ffffff'), 0.1) },
+    uTip: { value: new THREE.Color(color).lerp(new THREE.Color('#ffffff'), mode === 'velvet' ? 0.16 : 0.1) },
+    uSpec: { value: mode === 'velvet' ? 0.02 : 0.72 },
+    uRootAO: { value: mode === 'velvet' ? 0.94 : 0.28 },
+    uTintVar: { value: mode === 'velvet' ? 0.04 : 0.42 },
     uKey: { value: new THREE.Vector3(3.4, 6.4, 4.6).normalize() },
     uFill: { value: new THREE.Vector3(-4.5, 3, 2).normalize() },
   },
@@ -2712,12 +2759,15 @@ const vfxStrandMaterial = (color, bellyColor = color) => new THREE.ShaderMateria
     attribute float aSeed;
     attribute float aTint;
     attribute float aRole;
+    attribute float aGuard;
+    attribute vec3 aClump;
     varying vec3 vWorld;
     varying vec3 vTangent;
     varying vec3 vNormalW;
     varying vec2 vUv;
     varying float vTint;
     varying float vRole;
+    varying float vGuard;
     void main() {
       vec3 transformed = position;
       float h = clamp(uv.y, 0.0, 1.0);
@@ -2729,6 +2779,7 @@ const vfxStrandMaterial = (color, bellyColor = color) => new THREE.ShaderMateria
       transformed.x += sin(h * 5.4 + phase) * uCurl * h * 0.013;
       transformed.z += cos(h * 5.4 + phase * 0.8) * uCurl * h * 0.009;
       transformed.x += sin(aSeed * 21.0) * uClump * h * h * 0.012;
+      transformed += aClump * uClump * h * h;
       vec4 local = vec4(transformed, 1.0);
       #ifdef USE_INSTANCING
         local = instanceMatrix * local;
@@ -2741,6 +2792,7 @@ const vfxStrandMaterial = (color, bellyColor = color) => new THREE.ShaderMateria
       vUv = uv;
       vTint = aTint;
       vRole = aRole;
+      vGuard = aGuard;
       gl_Position = projectionMatrix * viewMatrix * world;
     }
   `,
@@ -2751,12 +2803,16 @@ const vfxStrandMaterial = (color, bellyColor = color) => new THREE.ShaderMateria
     uniform vec3 uTip;
     uniform vec3 uKey;
     uniform vec3 uFill;
+    uniform float uSpec;
+    uniform float uRootAO;
+    uniform float uTintVar;
     varying vec3 vWorld;
     varying vec3 vTangent;
     varying vec3 vNormalW;
     varying vec2 vUv;
     varying float vTint;
     varying float vRole;
+    varying float vGuard;
     void main() {
       vec3 T = normalize(vTangent);
       vec3 N = normalize(vNormalW);
@@ -2766,13 +2822,14 @@ const vfxStrandMaterial = (color, bellyColor = color) => new THREE.ShaderMateria
       float TH = clamp(dot(T, H), -1.0, 1.0);
       float sinTH = sqrt(max(0.0, 1.0 - TH * TH));
       // Kajiya-Kay: two shifted specular lobes along the fibre.
-      float spec = pow(sinTH, 86.0) * 0.72 + pow(sinTH, 15.0) * 0.16;
+      float spec = pow(sinTH, 86.0) * uSpec + pow(sinTH, 15.0) * uSpec * 0.22;
+      spec *= mix(0.35, 1.0, vGuard);
       float diff = 0.28 + 0.72 * max(dot(N, L), 0.0);
       float fill = max(dot(N, normalize(uFill)), 0.0) * 0.22;
       vec3 tipColor = mix(uTip, uBellyTip, vRole);
       vec3 base = mix(mix(uColor, uBelly, vRole), tipColor, smoothstep(0.0, 0.86, vUv.y));
-      base *= 0.72 + 0.42 * vTint;
-      float ao = mix(0.28, 1.0, pow(vUv.y, 0.55));
+      base *= (1.08 - uTintVar) + uTintVar * vTint;
+      float ao = mix(uRootAO, 1.0, pow(vUv.y, 0.55));
       float rim = pow(1.0 - max(dot(N, V), 0.0), 2.2) * 0.07;
       vec3 col = base * (diff + fill) * ao + vec3(1.0, 0.94, 0.84) * spec + rim * base;
       gl_FragColor = vec4(col, 1.0);
@@ -2787,7 +2844,7 @@ const vfxStrandMaterial = (color, bellyColor = color) => new THREE.ShaderMateria
   toneMapped: true,
 });
 
-const sampleVfxRoots = (mesh, zone, target, rand) => {
+const sampleVfxRoots = (mesh, zone, target, rand, rootScale = 1.008) => {
   const points = [];
   const normals = [];
   const attempts = Math.ceil(target * 24);
@@ -2804,32 +2861,76 @@ const sampleVfxRoots = (mesh, zone, target, rand) => {
     if (zone.maxZ !== undefined && dir.z > zone.maxZ) continue;
     if (zone.skipBelly && dir.z > 0.4 && (dir.x / 0.6) ** 2 + ((dir.y + 0.03) / 0.6) ** 2 < 1) continue;
     if (zone.skipFace && dir.z > 0.56 && Math.abs(dir.x) < 0.42 && dir.y > -0.32 && dir.y < 0.24) continue;
-    const point = new THREE.Vector3(
-      dir.x * mesh.scale.x * 1.2,
-      dir.y * mesh.scale.y * 1.2,
-      dir.z * mesh.scale.z * 1.2,
-    ).applyQuaternion(mesh.quaternion).add(mesh.position);
-    const normal = new THREE.Vector3(
-      dir.x / Math.max(0.001, mesh.scale.x ** 2),
-      dir.y / Math.max(0.001, mesh.scale.y ** 2),
-      dir.z / Math.max(0.001, mesh.scale.z ** 2),
-    ).applyQuaternion(mesh.quaternion).normalize();
-    points.push(point.addScaledVector(normal, 0.006));
+    // Roots live in the source mesh's local space, 0.8% above the skin.
+    // The InstancedMesh is parented to that mesh, so the coat inherits every
+    // breath, head tilt, ear wiggle and tail movement.
+    const point = dir.clone().multiplyScalar(rootScale);
+    const normal = dir.clone().normalize();
+    points.push(point);
     normals.push(normal);
   }
   return { points, normals };
 };
 
-const buildVfxKoala = (instance, level) => {
+const buildVelvetCushion = (instance) => {
+  if (!instance?.group) return 0;
+  instance.vfxUndercoat = [];
+  const zones = ['body', 'belly', 'head-mesh', 'ear-left', 'ear-right', 'tail'];
+  let added = 0;
+  for (const name of zones) {
+    const mesh = instance.group.getObjectByName(name);
+    if (!mesh || !mesh.isMesh) continue;
+    const role = name === 'belly' ? 'belly' : 'main';
+    const color = strandRoleColor(instance, role).clone().lerp(new THREE.Color('#ffffff'), 0.16);
+    const material = new THREE.MeshPhysicalMaterial({
+      color,
+      bumpMap: BUMP_TEX.fur,
+      bumpScale: 0.025,
+      roughness: 0.96,
+      metalness: 0,
+      sheen: 0.9,
+      sheenColor: new THREE.Color(color).lerp(new THREE.Color('#ffffff'), 0.4),
+      sheenRoughness: 0.92,
+    });
+    const cushion = new THREE.Mesh(mesh.geometry, material);
+    cushion.name = `velvet-cushion-${name}`;
+    cushion.position.set(0, 0, 0);
+    cushion.quaternion.identity();
+    cushion.scale.setScalar(1.012);
+    cushion.castShadow = false;
+    cushion.receiveShadow = false;
+    cushion.userData.shellLayer = 0;
+    cushion.userData.shellCount = 1;
+    mesh.add(cushion);
+    instance.fluff.push(cushion);
+    instance.vfxUndercoat.push(cushion);
+    const mats = instance.fluffMaterials.get(role) || [];
+    mats.push(material);
+    instance.fluffMaterials.set(role, mats);
+    added += 1;
+  }
+  return added;
+};
+
+const buildVfxKoala = (instance, level, mode = 'vfx') => {
   disposeStrands(instance);
-  const budget = level === 'vfx' ? (window.innerWidth < 800 ? 80000 : 190000) : 90000;
-  const zones = [
-    { mesh: 'body', role: 'main', weight: 48, len: [0.04, 0.08], radius: [0.004, 0.007], minY: -0.45, skipBelly: true },
-    { mesh: 'belly', role: 'belly', weight: 12, len: [0.028, 0.052], radius: [0.0038, 0.0065], minZ: 0.1 },
-    { mesh: 'head-mesh', role: 'main', weight: 21, len: [0.035, 0.07], radius: [0.0032, 0.006], skipFace: true },
-    { mesh: 'ear-left', role: 'main', weight: 6, len: [0.055, 0.11], radius: [0.0038, 0.0068], maxZ: 0.25 },
-    { mesh: 'ear-right', role: 'main', weight: 6, len: [0.055, 0.11], radius: [0.0038, 0.0068], maxZ: 0.25 },
-    { mesh: 'tail', role: 'main', weight: 2, len: [0.018, 0.035], radius: [0.003, 0.0052] },
+  const budget = mode === 'velvet'
+    ? (level === 'plush' ? (window.innerWidth < 800 ? 40000 : 75000) : 40000)
+    : (level === 'plush' ? (window.innerWidth < 800 ? 80000 : 190000) : 90000);
+  const zones = mode === 'velvet' ? [
+    { mesh: 'body', role: 'main', weight: 46, len: [0.02, 0.045], radius: [0.006, 0.01], minY: -0.45 },
+    { mesh: 'belly', role: 'belly', weight: 14, len: [0.012, 0.028], radius: [0.005, 0.0085], minZ: 0.1 },
+    { mesh: 'head-mesh', role: 'main', weight: 22, len: [0.016, 0.038], radius: [0.0055, 0.009], skipFace: true },
+    { mesh: 'ear-left', role: 'main', weight: 6, len: [0.02, 0.045], radius: [0.0058, 0.0095], maxZ: 0.22 },
+    { mesh: 'ear-right', role: 'main', weight: 6, len: [0.02, 0.045], radius: [0.0058, 0.0095], maxZ: 0.22 },
+    { mesh: 'tail', role: 'main', weight: 2, len: [0.012, 0.028], radius: [0.005, 0.0085] },
+  ] : [
+    { mesh: 'body', role: 'main', weight: 48, len: [0.03, 0.06], radius: [0.004, 0.007], minY: -0.45, skipBelly: true },
+    { mesh: 'belly', role: 'belly', weight: 12, len: [0.02, 0.04], radius: [0.0035, 0.006], minZ: 0.1 },
+    { mesh: 'head-mesh', role: 'main', weight: 21, len: [0.025, 0.05], radius: [0.003, 0.0056], skipFace: true },
+    { mesh: 'ear-left', role: 'main', weight: 6, len: [0.04, 0.08], radius: [0.0035, 0.0062], maxZ: 0.25 },
+    { mesh: 'ear-right', role: 'main', weight: 6, len: [0.04, 0.08], radius: [0.0035, 0.0062], maxZ: 0.25 },
+    { mesh: 'tail', role: 'main', weight: 2, len: [0.015, 0.03], radius: [0.0028, 0.0048] },
   ];
   const totalWeight = zones.reduce((sum, zone) => sum + zone.weight, 0);
   const rand = mulberry32((instance.fluffSeed || 23) * 503);
@@ -2840,36 +2941,50 @@ const buildVfxKoala = (instance, level) => {
   for (const zone of zones) {
     const mesh = instance.group.getObjectByName(zone.mesh);
     if (!mesh || !mesh.isMesh) continue;
-    const underColor = strandRoleColor(instance, zone.role).clone().multiplyScalar(zone.role === 'belly' ? 0.96 : 0.62);
-    const under = new THREE.Mesh(
-      mesh.geometry,
-      new THREE.MeshStandardMaterial({ color: underColor, roughness: 1, metalness: 0 }),
-    );
-    under.name = `vfx-undercoat-${zone.mesh}`;
-    under.position.copy(mesh.position);
-    under.quaternion.copy(mesh.quaternion);
-    under.scale.copy(mesh.scale).multiplyScalar(1.004);
+    const roleColor = strandRoleColor(instance, zone.role);
+    const underColor = mode === 'velvet'
+      ? roleColor.clone().lerp(new THREE.Color('#ffffff'), 0.18)
+      : roleColor.clone().multiplyScalar(zone.role === 'belly' ? 0.96 : 0.62);
+    const underMaterial = mode === 'velvet'
+      ? new THREE.MeshPhysicalMaterial({
+        color: underColor,
+        bumpMap: BUMP_TEX.fur,
+        bumpScale: 0.02,
+        roughness: 0.96,
+        metalness: 0,
+        sheen: 0.8,
+        sheenColor: new THREE.Color(underColor).lerp(new THREE.Color('#ffffff'), 0.35),
+        sheenRoughness: 0.9,
+      })
+      : new THREE.MeshStandardMaterial({ color: underColor, roughness: 1, metalness: 0 });
+    const under = new THREE.Mesh(mesh.geometry, underMaterial);
+    under.name = `${mode}-undercoat-${zone.mesh}`;
+    under.position.set(0, 0, 0);
+    under.quaternion.identity();
+    under.scale.setScalar(mode === 'velvet' ? 1.018 : 1.002);
     under.castShadow = false;
     under.receiveShadow = false;
     under.userData.shellLayer = 0;
     under.userData.shellCount = 1;
-    mesh.parent.add(under);
+    mesh.add(under);
     instance.fluff.push(under);
     instance.vfxUndercoat.push(under);
     const underMats = instance.fluffMaterials.get(zone.role) || [];
     underMats.push(under.material);
     instance.fluffMaterials.set(zone.role, underMats);
     const target = Math.max(1, Math.round((budget * zone.weight) / totalWeight));
-    const { points, normals } = sampleVfxRoots(mesh, zone, target, rand);
+    const { points, normals } = sampleVfxRoots(mesh, zone, target, rand, mode === 'velvet' ? 1.014 : 1.008);
     if (!points.length) continue;
     const baseColor = strandRoleColor(instance, zone.role);
-    const material = vfxStrandMaterial(baseColor, strandRoleColor(instance, 'belly'));
+    const material = vfxStrandMaterial(baseColor, strandRoleColor(instance, 'belly'), mode);
     const geometry = VFX_STRAND_GEO.clone();
     geometry.userData.shared = false;
     const normalsAttr = new THREE.InstancedBufferAttribute(new Float32Array(points.length * 3), 3);
     const seedsAttr = new THREE.InstancedBufferAttribute(new Float32Array(points.length), 1);
     const tintsAttr = new THREE.InstancedBufferAttribute(new Float32Array(points.length), 1);
     const rolesAttr = new THREE.InstancedBufferAttribute(new Float32Array(points.length), 1);
+    const guardsAttr = new THREE.InstancedBufferAttribute(new Float32Array(points.length), 1);
+    const clumpsAttr = new THREE.InstancedBufferAttribute(new Float32Array(points.length * 3), 3);
     const inst = new THREE.InstancedMesh(geometry, material, points.length);
     inst.name = `vfx-${zone.mesh}`;
     inst.frustumCulled = false;
@@ -2884,11 +2999,16 @@ const buildVfxKoala = (instance, level) => {
       seedsAttr.setX(i, rand());
       tintsAttr.setX(i, rand());
       const p = points[i];
-      const nx = (p.x - mesh.position.x) / mesh.scale.x;
-      const ny = (p.y - mesh.position.y) / mesh.scale.y;
-      const nz = (p.z - mesh.position.z) / mesh.scale.z;
-      const belly = zone.role === 'belly';
+      const belly = zone.role === 'belly' || (zone.mesh === 'body' && p.z > 0.2 && (p.x / 0.62) ** 2 + ((p.y + 0.03) / 0.68) ** 2 < 1);
       rolesAttr.setX(i, belly ? 1 : 0);
+      const guard = mode === 'velvet' ? (i % 30 === 0 ? 1 : 0) : (i % 9 === 0 ? 1 : 0);
+      guardsAttr.setX(i, guard);
+      const clump = new THREE.Vector3(
+        Math.sin(p.x * 9.0 + p.y * 5.0) * 0.7,
+        0,
+        Math.cos(p.z * 8.0 + p.y * 4.0) * 0.7,
+      ).multiplyScalar(0.012);
+      clumpsAttr.setXYZ(i, clump.x, clump.y, clump.z);
       const tangent = new THREE.Vector3(rand() * 2 - 1, rand() * 2 - 1, rand() * 2 - 1);
       tangent.addScaledVector(n, -tangent.dot(n));
       if (tangent.lengthSq() < 1e-6) tangent.set(1, 0, 0);
@@ -2911,8 +3031,8 @@ const buildVfxKoala = (instance, level) => {
       const faceAxis = new THREE.Vector3().crossVectors(sideAxis, out).normalize();
       quat.setFromRotationMatrix(new THREE.Matrix4().makeBasis(sideAxis, out, faceAxis));
       quat.multiply(new THREE.Quaternion().setFromAxisAngle(out, (rand() - 0.5) * 0.2));
-      const length = zone.len[0] + rand() * (zone.len[1] - zone.len[0]);
-      const width = zone.radius[0] + rand() * (zone.radius[1] - zone.radius[0]);
+      const length = (zone.len[0] + rand() * (zone.len[1] - zone.len[0])) * (guard ? 1.35 : 1);
+      const width = (zone.radius[0] + rand() * (zone.radius[1] - zone.radius[0])) * (guard ? 1.2 : 1);
       matrix.compose(points[i], quat, new THREE.Vector3(width * 2.4, length, width * 2.4));
       inst.setMatrixAt(i, matrix);
     }
@@ -2921,8 +3041,10 @@ const buildVfxKoala = (instance, level) => {
     geometry.setAttribute('aSeed', seedsAttr);
     geometry.setAttribute('aTint', tintsAttr);
     geometry.setAttribute('aRole', rolesAttr);
+    geometry.setAttribute('aGuard', guardsAttr);
+    geometry.setAttribute('aClump', clumpsAttr);
     inst.userData.baseCount = points.length;
-    mesh.parent.add(inst);
+    mesh.add(inst);
     instance.strandMeshes.push(inst);
     const materials = instance.strandMaterials.get(zone.role) || [];
     materials.push(material);
@@ -2956,7 +3078,7 @@ const disposeStrands = (instance) => {
 };
 
 const sampleStrandRoots = (mesh, zone, target, rand, skipBelly = false) => {
-  const surfaceScale = 1.28;
+  const surfaceScale = 1.008;
   const points = [];
   const normals = [];
   let attempts = 0;
@@ -2971,15 +3093,9 @@ const sampleStrandRoots = (mesh, zone, target, rand, skipBelly = false) => {
     if (zone.minZ !== undefined && dir.z < zone.minZ) continue;
     if (zone.maxZ !== undefined && dir.z > zone.maxZ) continue;
     if (skipBelly && dir.z > 0.35 && Math.abs(dir.x) < 0.6 && dir.y > -0.35) continue;
-    const point = new THREE.Vector3(dir.x * mesh.scale.x * surfaceScale, dir.y * mesh.scale.y * surfaceScale, dir.z * mesh.scale.z * surfaceScale)
-      .applyQuaternion(mesh.quaternion)
-      .add(mesh.position);
-    const normal = new THREE.Vector3(
-      dir.x / Math.max(0.001, mesh.scale.x ** 2),
-      dir.y / Math.max(0.001, mesh.scale.y ** 2),
-      dir.z / Math.max(0.001, mesh.scale.z ** 2),
-    ).applyQuaternion(mesh.quaternion).normalize();
-    points.push(point.addScaledVector(normal, 0.012));
+    const point = dir.clone().multiplyScalar(surfaceScale);
+    const normal = dir.clone().normalize();
+    points.push(point);
     normals.push(normal);
   }
   return { points, normals };
@@ -2987,7 +3103,6 @@ const sampleStrandRoots = (mesh, zone, target, rand, skipBelly = false) => {
 
 const buildStrands = (instance, level) => {
   if (!instance || instance.id !== 'koala') return 0;
-  if (level === 'vfx') return buildVfxKoala(instance, level);
   if (level === 'off') {
     disposeStrands(instance);
     return 0;
@@ -3063,7 +3178,7 @@ const buildStrands = (instance, level) => {
     }
     inst.instanceMatrix.needsUpdate = true;
     inst.userData.baseCount = points.length;
-    mesh.parent.add(inst);
+    mesh.add(inst);
     instance.strandMeshes.push(inst);
     const materials = instance.strandMaterials.get(zone.role) || [];
     materials.push(material);
@@ -3302,28 +3417,32 @@ const applySpriteDensity = (instance = rig) => {
 };
 
 
-const applyCoat = (instance, level) => {
+const applyCoat = (instance, level, outer = state.outer) => {
   if (!instance) return 0;
   const next = sanitizeCoat(level);
-  const effective = next === 'vfx' && instance.id !== 'koala' ? 'plush' : next;
-  if (instance.coatLevel === effective && instance.fluff?.length) return instance.fluffCount;
+  const outerNext = instance.id === 'koala' && next !== 'off' ? sanitizeOuter(outer) : 'pelt';
+  const key = `${next}:${outerNext}`;
+  if (instance.coatState === key) return instance.fluffCount;
   disposeCoat(instance);
   disposeSpriteFur(instance);
-  instance.coatLevel = effective;
-  if (effective === 'off') {
-    instance.fluffCount = 0;
-    instance.strandCount = 0;
-    disposeStrands(instance);
-    disposeSpriteFur(instance);
-    return 0;
-  }
+  disposeStrands(instance);
+  instance.coatState = key;
+  instance.coatLevel = next;
+  instance.outerLevel = outerNext;
+  instance.fluffCount = 0;
+  instance.strandCount = 0;
+  if (next === 'off') return 0;
   const config = COAT_CONFIG[instance.id];
   if (!config) return 0;
   const rand = mulberry32((instance.fluffSeed || 11) * 97);
   let count = 0;
-  for (const zone of config.zones) count += addCoatZone(instance, zone, effective, rand);
+  if (outerNext !== 'vfx') {
+    for (const zone of config.zones) count += addCoatZone(instance, zone, next, rand, outerNext);
+  }
   instance.fluffCount = count;
-  buildStrands(instance, effective);
+  if (outerNext === 'vfx') buildVfxKoala(instance, next, 'vfx');
+  else if (outerNext === 'velvet') buildVelvetCushion(instance);
+  else if (outerNext === 'pelt') buildStrands(instance, next);
   return count;
 };
 
@@ -3334,7 +3453,9 @@ const refreshCoatColors = (instance) => {
     const color = strandRoleColor(instance, role);
     for (const material of materials) {
       const layer = material.userData.layer || 0;
-      if (instance.id === 'koala') {
+      if (instance.outerLevel === 'velvet') {
+        material.color.copy(color).multiplyScalar(0.9 + layer * 0.005).lerp(white, Math.min(0.05, layer * 0.003));
+      } else if (instance.id === 'koala') {
         material.color.copy(color).multiplyScalar(0.62 + layer * 0.026).lerp(white, Math.min(0.08, layer * 0.006));
       } else {
         material.color.copy(color).multiplyScalar(0.94 + layer * 0.007).lerp(white, Math.min(0.04, layer * 0.004));
@@ -3381,7 +3502,7 @@ const buildAnimal = (id, colors) => {
   instance.strandMaterials = new Map();
   instance.strandCount = 0;
   instance.feet.forEach((foot) => { foot.userData.baseY = foot.position.y; });
-  applyCoat(instance, sanitizeCoat(state.coat));
+  applyCoat(instance, sanitizeCoat(state.coat), sanitizeOuter(state.outer));
   for (const key of ACCESSORIES) {
     const accessory = ACCESSORY_BUILDERS[key]();
     accessory.visible = false;
@@ -3406,6 +3527,7 @@ const applyColors = (instance, colors) => {
   mats.accent.color.set(shade(colors.blush, -0.18));
   mats.cream.color.set(mixHex(colors.belly, '#ffffff', 0.35));
   refreshCoatColors(instance);
+  refreshStrandColors(instance);
 };
 
 const applyAccessories = () => {
@@ -3618,15 +3740,25 @@ const setLighting = (name, { quiet = false } = {}) => {
   if (!quiet) toast(t('toast.lighting', { name: t(`scene.${name}`) }), '💡');
 };
 
+const syncOuterButtons = () => {
+  const isKoala = state.animal === 'koala';
+  const row = $('#outer-row');
+  if (row) row.hidden = !isKoala;
+  for (const button of $$('[data-outer]')) {
+    const active = button.dataset.outer === state.outer;
+    button.classList.toggle('is-active', active);
+    button.setAttribute('aria-pressed', String(active));
+    button.disabled = !isKoala;
+  }
+};
+
 const syncCoatButtons = () => {
   for (const button of $$('[data-coat]')) {
     const active = button.dataset.coat === state.coat;
-    const koalaOnly = button.dataset.coat === 'vfx';
     button.classList.toggle('is-active', active);
     button.setAttribute('aria-pressed', String(active));
-    button.disabled = koalaOnly && state.animal !== 'koala';
-    if (koalaOnly) button.title = state.animal === 'koala' ? 'High-density VFX groom' : 'VFX groom is koala-only';
   }
+  syncOuterButtons();
   const count = $('#coat-strand-count');
   if (count) {
     const n = ((rig?.fluffCount || 0) + (rig?.strandCount || 0)).toLocaleString(state.lang === 'th' ? 'th-TH' : 'en-US');
@@ -3703,9 +3835,19 @@ const setSound = (on, { quiet = false } = {}) => {
 
 const setCoat = (level, { quiet = false } = {}) => {
   if (!COAT_LEVELS.includes(level) || !rig) return;
-  if (level === 'vfx' && state.animal !== 'koala') return;
   state.coat = level;
-  applyCoat(rig, level);
+  applyCoat(rig, level, state.outer);
+  applyColors(rig, state.colors[state.animal]);
+  syncCoatButtons();
+  persistState();
+  audio.play('pop');
+  if (!quiet) toast(t('toast.coat', { name: t(`coat.${level}`) }), '🧶');
+};
+
+const setOuter = (level, { quiet = false } = {}) => {
+  if (!OUTER_LEVELS.includes(level) || !rig || state.animal !== 'koala') return;
+  state.outer = level;
+  applyCoat(rig, state.coat, level);
   applyColors(rig, state.colors[state.animal]);
   syncCoatButtons();
   persistState();
@@ -3937,6 +4079,7 @@ const savePreset = () => {
     accessories: { ...state.accessories },
     expression: state.expression,
     coat: state.coat,
+    outer: state.outer,
     lighting: state.lighting,
     fur: { ...state.fur },
     createdAt: Date.now(),
@@ -3955,6 +4098,8 @@ const applyPreset = (id) => {
   state.accessories = { ...preset.accessories };
   state.expression = preset.expression;
   state.coat = sanitizeCoat(preset.coat);
+  state.outer = sanitizeOuter(preset.outer);
+  if (preset.coat === 'vfx') { state.coat = 'plush'; state.outer = 'vfx'; }
   state.lighting = sanitizeLighting(preset.lighting);
   state.fur = sanitizeFur(preset.fur);
   setAnimal(preset.animal, { quiet: true });
@@ -3962,7 +4107,7 @@ const applyPreset = (id) => {
   updateFanPose(state.fanAngle);
   syncLightingButtons();
   syncFurSliders();
-  applyCoat(rig, state.coat);
+  applyCoat(rig, state.coat, state.outer);
   syncCoatButtons();
   applyColors(rig, preset.colors);
   syncColorInputs(preset.colors);
@@ -4045,6 +4190,7 @@ const buildShareUrl = () => {
     accessories: state.accessories,
     lang: state.lang,
     coat: state.coat,
+    outer: state.outer,
     lighting: state.lighting,
     fur: state.fur,
   });
@@ -4075,6 +4221,7 @@ on('[data-animal]', 'click', (event) => setAnimal(event.currentTarget.dataset.an
 $('#animal-select')?.addEventListener('change', (event) => setAnimal(event.target.value));
 on('[data-expr]', 'click', (event) => setExpression(event.currentTarget.dataset.expr));
 on('[data-coat]', 'click', (event) => setCoat(event.currentTarget.dataset.coat));
+on('[data-outer]', 'click', (event) => setOuter(event.currentTarget.dataset.outer));
 on('[data-lighting]', 'click', (event) => setLighting(event.currentTarget.dataset.lighting));
 for (const input of $$('[data-fur]')) {
   input.addEventListener('input', (event) => setFur(event.target.dataset.fur, Number(event.target.value)));
@@ -4167,6 +4314,10 @@ document.addEventListener('keydown', (event) => {
   if (event.key.toLowerCase() === 'c') {
     const index = COAT_LEVELS.indexOf(state.coat);
     setCoat(COAT_LEVELS[(index + 1) % COAT_LEVELS.length]);
+  }
+  if (event.key.toLowerCase() === 'v' && state.animal === 'koala') {
+    const index = OUTER_LEVELS.indexOf(state.outer);
+    setOuter(OUTER_LEVELS[(index + 1) % OUTER_LEVELS.length]);
   }
 });
 
@@ -4412,12 +4563,14 @@ const runSelfTest = async () => {
     const cleared = bear.fluff.length === 0 && bear.fluffCount === 0 && bear.strandMeshes.length === 0;
     disposeRig(bear);
     const koala = buildAnimal('koala', DEFAULT_COLORS.koala);
-    applyCoat(koala, 'plush');
+    applyCoat(koala, 'plush', 'pelt');
     const strands = koala.strandMeshes.length > 2 && koala.strandCount > 10000;
-    applyCoat(koala, 'vfx');
+    applyCoat(koala, 'plush', 'vfx');
     const vfx = koala.strandMeshes.length >= 4 && koala.strandCount > 50000;
+    applyCoat(koala, 'plush', 'velvet');
+    const velvet = koala.fluffCount > 10000 && koala.strandCount === 0;
     disposeRig(koala);
-    return shells && cleared && strands && vfx;
+    return shells && cleared && strands && vfx && velvet;
   });
   await check('Three accessories are built', () =>
     ACCESSORIES.every((key) => {
@@ -4485,6 +4638,7 @@ const applyShareFromUrl = () => {
   state.colors[shared.animal] = shared.colors;
   state.accessories = shared.accessories;
   state.coat = shared.coat;
+  state.outer = shared.outer;
   state.lighting = shared.lighting;
   state.fur = shared.fur;
   return true;
@@ -4530,7 +4684,7 @@ const boot = () => {
 
   window.__cute3d = {
     ready: true,
-    version: '1.5.1',
+    version: '1.6.0',
     engine: ENGINE,
     state,
     scene,
@@ -4548,6 +4702,7 @@ const boot = () => {
     setAccessory: (key, value) => setAccessory(key, value, { quiet: true }),
     setColors: (colors) => setColors(colors, { quiet: true }),
     setCoat: (level) => setCoat(level, { quiet: true }),
+    setOuter: (level) => setOuter(level, { quiet: true }),
     setFanAngle: (angle) => updateFanPose(angle, { persist: true }),
     fanPosition: () => fanGroup.position.toArray(),
     setFur: (key, value) => setFur(key, value),
