@@ -67,3 +67,5 @@ skill when its `version` string changes, which `sync.mjs` derives from the conte
   <https://github.com/somphol/algorithm-explorer> and <https://somphol.github.io/algorithm-explorer/>.
 - `vu-project-ideas-studio` source: `~/.config/opencode/skills/vu-project-ideas-studio`; reference app at
   <https://github.com/somphol/vu_project_ideas> and <https://somphol.github.io/vu_project_ideas/>.
+- `wanderlust-3d-studio` source: `~/.config/opencode/skills/wanderlust-3d-studio`; reference app at
+  <https://github.com/somphol/wanderlust-3d> and <https://somphol.github.io/wanderlust-3d/>.

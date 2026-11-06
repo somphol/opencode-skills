@@ -89,6 +89,12 @@
       "source": "~/.config/opencode/skills/vu-project-ideas-studio",
       "description": "Turn a long, messy prompt list into a release-grade, searchable project-brief catalog — parse blocks, merge duplicates, curate metadata, compose one current request prefix, generate copy-ready Markdown, add search/filters/deep links, verify at 390 px, publish to GitHub Pages and record elapsed time and tokens.",
       "license": "MIT"
+    },
+    {
+      "name": "wanderlust-3d-studio",
+      "source": "~/.config/opencode/skills/wanderlust-3d-studio",
+      "description": "Build and release a zero-build, photography-led travel atlas — 3 regions × 5 curated destinations, verified Unsplash imagery, hero slider, live search and interest/budget filters, destination modals with deep links, a localStorage itinerary, headless verification, professional docs and GitHub Pages.",
+      "license": "MIT"
     }
   ]
 }

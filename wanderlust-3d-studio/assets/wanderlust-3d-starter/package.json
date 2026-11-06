@@ -1,0 +1,19 @@
+{
+  "name": "wanderlust-3d",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Wanderlust 3D — a zero-build, photography-led travel atlas for 15 destinations across Japan, Italy and Costa Rica.",
+  "type": "module",
+  "scripts": {
+    "serve": "node scripts/serve.mjs",
+    "verify": "node scripts/verify.mjs",
+    "verify:images": "node scripts/check-images.mjs",
+    "screenshots": "node scripts/screenshots.mjs"
+  },
+  "devDependencies": {
+    "puppeteer-core": "^24.0.0"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}

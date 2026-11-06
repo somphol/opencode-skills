@@ -1,0 +1,20 @@
+{
+  "name": "Wanderlust 3D — Global Destination Explorer",
+  "short_name": "Wanderlust 3D",
+  "description": "A photography-led atlas of 15 destinations across Japan, Italy and Costa Rica, with seasons, budgets and a persistent itinerary builder.",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#f7f2e8",
+  "theme_color": "#0d3b2e",
+  "lang": "en",
+  "categories": ["travel", "lifestyle", "education"],
+  "icons": [
+    {
+      "src": "assets/icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}

@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-label="Wanderlust 3D compass">
+  <rect width="512" height="512" rx="112" fill="#0d3b2e"/>
+  <circle cx="256" cy="256" r="158" fill="none" stroke="#f3ead8" stroke-width="10" opacity=".9"/>
+  <circle cx="256" cy="256" r="120" fill="none" stroke="#f3ead8" stroke-width="2" opacity=".25"/>
+  <path d="M332 180 285 285 180 332 227 227Z" fill="#e8794f"/>
+  <path d="M256 74v28M256 410v28M74 256h28M410 256h28" stroke="#f3ead8" stroke-width="8" stroke-linecap="round" opacity=".75"/>
+</svg>
