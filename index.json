@@ -461,7 +461,7 @@
     },
     {
       "name": "vu-project-ideas-studio",
-      "version": "4bd033145a0f",
+      "version": "864dafbf5341",
       "description": "Turn a long, messy prompt list into a release-grade, searchable project-brief catalog — parse blocks, merge duplicates, curate metadata, compose one current request prefix, generate copy-ready Markdown, add search/filters/deep links, verify at 390 px, publish to GitHub Pages and record elapsed time and tokens.",
       "license": "MIT",
       "files": [
