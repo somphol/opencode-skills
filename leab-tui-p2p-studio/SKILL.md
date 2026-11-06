@@ -192,6 +192,15 @@ remaining cards appear to reshuffle. Deriving from the real tile id (even a hash
 Stamp every envelope with `__leab: PROTOCOL_VERSION`. Ignore unknown types; add fields freely; bump
 the version for removals. See `references/protocol.md`.
 
+## Launch, identity and exit
+
+- **Ask before dealing.** A normal load should show the mode overlay before creating a game. If you deal in the background, a first-time visitor can later see a phantom “Resume match” for a game they never chose. Skip the overlay only for explicit `?mode=solo`, `?selftest=1`, `?demo=1`, host/join deep links or tests.
+- **Resume is a real choice.** When a solo save exists, add a Resume card showing round, trick and score. Starting solo again should create a fresh match.
+- **Require a name.** Every host and guest confirms their own handle before connecting. Store it locally, trim to ~18 chars, keep the menu and join fields in sync, and refuse with a clear message when empty.
+- **Invite links carry a room, not an identity.** `?room=CODE` pre-fills the join panel and asks for a name. Only `?room=CODE&name=Bea` may auto-join (for tests/automation). Never silently reuse the last player's name from a shared browser.
+- **Leave is destructive for the host.** Put a visible **Leave room** action in the normal Actions panel, not only inside the lobby. Confirm first and explain the consequence: host closes the room for everyone; guest becomes a bot. Hide it in solo. Keep it below the table on phones so it never covers the hand.
+- **Do not offer Start after kickoff.** Once `net.started`, hide/disable Start and show “Match in progress”. A rematch goes through the normal New match flow.
+
 ## Verification that actually catches leaks
 
 1. **In-page self-test** (pure): room code shape/normalization, peer-id stability, redaction hides
@@ -232,6 +241,9 @@ More in `references/pitfalls.md`.
 
 - [ ] Solo still passes its full suite; no visual regression.
 - [ ] Launch lobby, host, join, copy link and room chip work in EN and TH.
+- [ ] A normal load asks before dealing; a saved solo game offers Resume match.
+- [ ] Host and guest must confirm a name; invite links do not reuse a stale identity.
+- [ ] A visible Leave room action confirms, hides in solo, and stays out of the phone hand dock.
 - [ ] Two humans can start; empty seats become bots; four humans fit.
 - [ ] Each guest sees own hand real, others ghosted; the wire payload is asserted.
 - [ ] Guest seat is at the bottom; table world rotates, not camera.

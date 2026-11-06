@@ -621,7 +621,7 @@
     },
     {
       "name": "leab-tui-p2p-studio",
-      "version": "261f98c051a1",
+      "version": "daa1e5173c28",
       "description": "Add serverless, host-authoritative WebRTC multiplayer to a static Three.js table game — room lobby, two-human start, bot fill, per-seat redaction, ghost meshes, disconnect-to-bot, a two-browser test harness and a release-grade handoff.",
       "license": "MIT",
       "files": [
