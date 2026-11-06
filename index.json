@@ -640,7 +640,7 @@
     },
     {
       "name": "multiplayerization",
-      "version": "a28247e4eb3b",
+      "version": "9751549ce66a",
       "description": "Add real-time multiplayer to any app — choose authority and transport, design rooms and a versioned protocol, gate access with approval and strong passcodes, project private state, add chat/voice, test with two clients and release without a backend (or with one).",
       "license": "MIT",
       "files": [

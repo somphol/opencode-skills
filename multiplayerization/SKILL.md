@@ -161,8 +161,7 @@ Rules:
 - Host creates a short room code; guests enter it.
 - Optional **host approval**: a guest request is queued, not seated. Only Approve assigns a role and
   sends the welcome/state.
-- Optional **passcode**: 15+ characters, upper/lower/digit/symbol, deny-list/sequence checks; store a
-  digest in memory. Never put it in the invite URL.
+- **Passcode**: if used, generate it automatically (20 chars, four classes); **New PIN** rotates it. Store only a digest in memory. Never put it in the invite URL. Policy details belong behind an ⓘ, not a wall of text.
 - **Copy invite link** sends the URL only; **Copy room info** may include the passcode, with a warning.
 - Show a roster, pending requests, connection status and a way to leave.
 

@@ -49,7 +49,7 @@ Keep the room lifecycle in one module. Do not let UI buttons call transport meth
 | --- | --- | --- |
 | Auto room code | on for Host | generate on click; no user input |
 | Auto retry code collision | on | 3–5 attempts on `unavailable-id` |
-| Auto passcode | optional | **Generate** button; off by default |
+| Auto passcode | on when a passcode is used | generate 20 chars on room open; **New PIN** rotates |
 | Auto approve requests | **off** | only for trusted LAN/workshop; explicit toggle with warning |
 | Auto start | **off** | explicit “start when N humans” option; never start with one |
 | Auto fill empty seats | on at start | bots/placeholders for the fixed seat count |
@@ -191,7 +191,7 @@ Minimum:
 - mode overlay: Solo / Host / Join (+ Resume local)
 - name field
 - room code + Copy invite
-- optional passcode + Generate / Save + reveal once
+- auto passcode + Copy / New PIN + reveal once + ⓘ policy
 - approval toggle
 - pending list with Approve / Deny
 - roster with roles and connection state
