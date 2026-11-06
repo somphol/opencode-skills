@@ -19,6 +19,7 @@ so a changed skill refreshes in the client's cache.
 | --- | --- |
 | [`city-miniature`](city-miniature/SKILL.md) — [Bangkok example](https://somphol.github.io/bangkok-miniature/) | Build an interactive 3D miniature of a city **from scratch** as one self-contained HTML file. The San Francisco diorama is a mechanism reference; the blank starter and city brief are the workflow. |
 | [`city-3d-tour-guide`](city-3d-tour-guide/SKILL.md) — [Bangkok guide](https://somphol.github.io/bangkok-3d-tour-guide/) | Build a bilingual, static 3D **tourist guide** with five authored landmarks, drone/walk/transit modes, drag-look controls, lighting, audio, itinerary export and a full release handoff. Includes the working Bangkok app as a mechanism reference. |
+| [`multiplayerization`](multiplayerization/SKILL.md) | Add **real-time multiplayer** to any app: authority/transport choice, rooms, versioned protocol, host approval, strong passcode generator, per-participant projection, chat/voice, abuse caps, two-client tests and release docs. |
 | [`session-export`](session-export/SKILL.md) | Export OpenCode sessions to Markdown with a maintained TOC and JSON index, sanitized. Local master, optional private mirror. |
 | [`session-to-skill`](session-to-skill/SKILL.md) | Turn a finished session or project into a reusable skill: extract the template, write the instructions, prove it by scaffolding. |
 | [`skill-publish`](skill-publish/SKILL.md) | Publish a skill to GitHub: validate, lay out `skills/<id>/`, write handoff and attribution notes, serve an HTTP catalog via Pages. |

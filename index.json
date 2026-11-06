@@ -637,6 +637,28 @@
         "templates/MULTIPLAYER.md",
         "templates/PROTOCOL.md"
       ]
+    },
+    {
+      "name": "multiplayerization",
+      "version": "a28247e4eb3b",
+      "description": "Add real-time multiplayer to any app — choose authority and transport, design rooms and a versioned protocol, gate access with approval and strong passcodes, project private state, add chat/voice, test with two clients and release without a backend (or with one).",
+      "license": "MIT",
+      "files": [
+        "ATTRIBUTION.md",
+        "SKILL.md",
+        "references/access-and-security.md",
+        "references/app-patterns.md",
+        "references/chat-and-voice.md",
+        "references/decision-guide.md",
+        "references/hosting-and-auto.md",
+        "references/protocol-design.md",
+        "references/release.md",
+        "references/testing.md",
+        "templates/AGENTS.md",
+        "templates/PROTOCOL.md",
+        "templates/SECURITY.md",
+        "templates/two-client-check.mjs"
+      ]
     }
   ]
 }
