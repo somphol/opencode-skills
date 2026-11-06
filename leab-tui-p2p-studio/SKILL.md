@@ -201,6 +201,18 @@ the version for removals. See `references/protocol.md`.
 - **Leave is destructive for the host.** Put a visible **Leave room** action in the normal Actions panel, not only inside the lobby. Confirm first and explain the consequence: host closes the room for everyone; guest becomes a bot. Hide it in solo. Keep it below the table on phones so it never covers the hand.
 - **Do not offer Start after kickoff.** Once `net.started`, hide/disable Start and show “Match in progress”. A rematch goes through the normal New match flow.
 
+## Room security (assume public source)
+
+Treat the room code as an identifier, not a secret. Add three gates:
+
+1. **Host approval on by default.** `hello` → PIN check → pending queue. Only an explicit host **Approve** assigns a seat and sends `welcome`. Deny, wrong PIN, expiry (120 s), busy and in-progress close the connection. Cap pending requests (~6).
+2. **Optional strong PIN.** Policy: 15–64 chars, upper + lower + digit + symbol, no whitespace, reject common passwords, sequences, repeats, the room code and host name. Hash with SHA-256 and keep **only the digest in memory**. Show the plain PIN once for sharing; never put it in state, roster, URL, export or localStorage.
+3. **Caps and allowlists.** Live connections (~16), per-connection messages (~80/10 s), inbound envelope (~16 KB), chat (200 chars / 350 ms), action tiles (6), voice calls only from approved roster peer IDs. Add a wrong-PIN lockout (~8 attempts / 60 s).
+
+UI: **Generate** makes a 20-char grouped PIN; **Copy room info** copies code + optional PIN + link; **Copy invite link** never includes the PIN. Warn that Copy room info puts the PIN in the clipboard. The host's plain PIN should live only in a temporary reveal element, not in app state.
+
+Say plainly in the README, SECURITY.md and lobby: the PIN is a brute-force cost, not authentication. Approval is the access-control decision. No anti-cheat, MFA or DDoS guarantee.
+
 ## Text chat and voice
 
 Keep the two paths separate.
@@ -268,6 +280,9 @@ More in `references/pitfalls.md`.
 - [ ] A normal load asks before dealing; a saved solo game offers Resume match.
 - [ ] Host and guest must confirm a name; invite links do not reuse a stale identity.
 - [ ] A visible Leave room action confirms, hides in solo, and stays out of the phone hand dock.
+- [ ] Host approval holds every guest; only Approve assigns a seat.
+- [ ] PIN is 15+ chars with four classes, generated on demand, stored as a digest only, and absent from URL/state/export.
+- [ ] Connection, message, payload, chat and voice-call caps are enforced.
 - [ ] Chat is escaped, capped, rate-limited and echoed through the host.
 - [ ] Voice joins only on a gesture, attaches remote audio, and mutes mic/deafen independently.
 - [ ] Two humans can start; empty seats become bots; four humans fit.
