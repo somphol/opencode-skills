@@ -17,7 +17,7 @@ const createStudioEngine = () => {
   const ACCESSORIES = ['bowtie', 'partyHat', 'glasses'];
   const COLOR_KEYS = ['main', 'belly', 'blush'];
   const PRESET_LIMIT = 10;
-  const COAT_LEVELS = ['off', 'soft', 'plush'];
+  const COAT_LEVELS = ['off', 'soft', 'plush', 'vfx'];
   const DEFAULT_COAT = 'soft';
   const LIGHTING_PRESETS = ['studio', 'sky', 'desk'];
   const DEFAULT_LIGHTING = 'studio';
@@ -428,6 +428,7 @@ const I18N = {
     'coat.off': 'Smooth',
     'coat.soft': 'Soft',
     'coat.plush': 'Plush',
+    'coat.vfx': 'VFX',
     'coat.hint': 'Soft shells plus thousands of GPU strands that move with the breeze.',
     'coat.strands': '{n} strands',
     'fur.length': 'Length',
@@ -560,6 +561,7 @@ const I18N = {
     'coat.off': 'เรียบ',
     'coat.soft': 'นุ่ม',
     'coat.plush': 'ฟูหนา',
+    'coat.vfx': 'VFX',
     'coat.hint': 'เปลือกขนนุ่ม ๆ พร้อมเส้นขนหลายพันเส้นขยับตามลม',
     'coat.strands': '{n} เส้น',
     'fur.length': 'ความยาว',
@@ -2043,6 +2045,7 @@ const COAT_SCALE = {
   off: { count: 0, length: 0, radius: 0 },
   soft: { count: 0.55, length: 0.82, radius: 0.9 },
   plush: { count: 1, length: 1.12, radius: 1.12 },
+  vfx: { count: 1, length: 1.2, radius: 1.05 },
 };
 
 const COAT_CONFIG = {
@@ -2507,6 +2510,7 @@ ${shader.fragmentShader}`;
 };
 
 const addCoatZone = (instance, zone, level, rand) => {
+  if (instance.id === 'koala' && level === 'vfx') return 0;
   const mesh = instance.group.getObjectByName(zone.mesh);
   if (!mesh || !mesh.isMesh) return 0;
   const config = COAT_CONFIG[instance.id];
@@ -2652,7 +2656,290 @@ ${shader.vertexShader}`.replace(
   return material;
 };
 
+
+/* ---------------------------------------------------------- VFX strand groom */
+
+const makeVfxStrandGeometry = () => {
+  const rows = 7;
+  const positions = [];
+  const uvs = [];
+  const indices = [];
+  for (let row = 0; row < rows; row += 1) {
+    const t = row / (rows - 1);
+    const width = (1 - t) ** 0.68 * 0.5 + 0.01;
+    const z = t * t * 0.18 + Math.sin(t * Math.PI) * 0.04;
+    positions.push(-width, t, z, width, t, z);
+    uvs.push(0, t, 1, t);
+    if (row < rows - 1) {
+      const a = row * 2;
+      indices.push(a, a + 2, a + 1, a + 1, a + 2, a + 3);
+    }
+  }
+  const geometry = new THREE.BufferGeometry();
+  geometry.setAttribute('position', new THREE.Float32BufferAttribute(positions, 3));
+  geometry.setAttribute('uv', new THREE.Float32BufferAttribute(uvs, 2));
+  geometry.setIndex(indices);
+  geometry.computeVertexNormals();
+  geometry.userData.shared = true;
+  return geometry;
+};
+
+const VFX_STRAND_GEO = makeVfxStrandGeometry();
+
+const vfxStrandMaterial = (color, bellyColor = color) => new THREE.ShaderMaterial({
+  uniforms: {
+    uTime: STRAND_UNIFORMS.uTime,
+    uBreeze: STRAND_UNIFORMS.uBreeze,
+    uLength: STRAND_UNIFORMS.uLength,
+    uCurl: STRAND_UNIFORMS.uCurl,
+    uClump: STRAND_UNIFORMS.uClump,
+    uCursor: STRAND_UNIFORMS.uCursor,
+    uColor: { value: new THREE.Color(color) },
+    uBelly: { value: new THREE.Color(bellyColor) },
+    uTip: { value: new THREE.Color(color).lerp(new THREE.Color('#ffffff'), 0.12) },
+    uKey: { value: new THREE.Vector3(3.4, 6.4, 4.6).normalize() },
+    uFill: { value: new THREE.Vector3(-4.5, 3, 2).normalize() },
+  },
+  vertexShader: `
+    uniform float uTime;
+    uniform float uBreeze;
+    uniform float uLength;
+    uniform float uCurl;
+    uniform float uClump;
+    uniform vec3 uCursor;
+    attribute vec3 aNormal;
+    attribute float aSeed;
+    attribute float aTint;
+    attribute float aRole;
+    varying vec3 vWorld;
+    varying vec3 vTangent;
+    varying vec3 vNormalW;
+    varying vec2 vUv;
+    varying float vTint;
+    varying float vRole;
+    void main() {
+      vec3 transformed = position;
+      float h = clamp(uv.y, 0.0, 1.0);
+      transformed.y *= uLength;
+      float phase = aSeed * 6.2831853;
+      float gust = sin(uTime * 1.35 + phase * 1.7) * 0.62 + sin(uTime * 0.61 + phase * 0.83 + 1.7) * 0.38;
+      transformed.x += gust * uBreeze * h * h * 0.042;
+      transformed.z += cos(uTime * 0.94 + phase) * uBreeze * h * h * 0.022;
+      transformed.x += sin(h * 5.4 + phase) * uCurl * h * 0.013;
+      transformed.z += cos(h * 5.4 + phase * 0.8) * uCurl * h * 0.009;
+      transformed.x += sin(aSeed * 21.0) * uClump * h * h * 0.012;
+      vec4 local = vec4(transformed, 1.0);
+      #ifdef USE_INSTANCING
+        local = instanceMatrix * local;
+      #endif
+      vec4 world = modelMatrix * local;
+      vWorld = world.xyz;
+      mat3 im = mat3(instanceMatrix);
+      vTangent = normalize(mat3(modelMatrix) * im * vec3(0.0, 1.0, 0.0));
+      vNormalW = normalize(mat3(modelMatrix) * im * aNormal);
+      vUv = uv;
+      vTint = aTint;
+      vRole = aRole;
+      gl_Position = projectionMatrix * viewMatrix * world;
+    }
+  `,
+  fragmentShader: `
+    uniform vec3 uColor;
+    uniform vec3 uBelly;
+    uniform vec3 uTip;
+    uniform vec3 uKey;
+    uniform vec3 uFill;
+    varying vec3 vWorld;
+    varying vec3 vTangent;
+    varying vec3 vNormalW;
+    varying vec2 vUv;
+    varying float vTint;
+    varying float vRole;
+    void main() {
+      vec3 T = normalize(vTangent);
+      vec3 N = normalize(vNormalW);
+      vec3 V = normalize(cameraPosition - vWorld);
+      vec3 L = normalize(uKey);
+      vec3 H = normalize(L + V);
+      float TH = clamp(dot(T, H), -1.0, 1.0);
+      float sinTH = sqrt(max(0.0, 1.0 - TH * TH));
+      // Kajiya-Kay: two shifted specular lobes along the fibre.
+      float spec = pow(sinTH, 86.0) * 0.72 + pow(sinTH, 15.0) * 0.16;
+      float diff = 0.28 + 0.72 * max(dot(N, L), 0.0);
+      float fill = max(dot(N, normalize(uFill)), 0.0) * 0.22;
+      vec3 base = mix(mix(uColor, uBelly, vRole), uTip, smoothstep(0.0, 0.86, vUv.y));
+      base *= 0.72 + 0.42 * vTint;
+      float ao = mix(0.28, 1.0, pow(vUv.y, 0.55));
+      float rim = pow(1.0 - max(dot(N, V), 0.0), 2.2) * 0.07;
+      vec3 col = base * (diff + fill) * ao + vec3(1.0, 0.94, 0.84) * spec + rim * base;
+      gl_FragColor = vec4(col, 1.0);
+      #include <tonemapping_fragment>
+      #include <colorspace_fragment>
+    }
+  `,
+  side: THREE.DoubleSide,
+  transparent: false,
+  depthWrite: true,
+  depthTest: true,
+  toneMapped: true,
+});
+
+const sampleVfxRoots = (mesh, zone, target, rand) => {
+  const points = [];
+  const normals = [];
+  const attempts = Math.ceil(target * 24);
+  let i = 0;
+  while (i < attempts && points.length < target) {
+    i += 1;
+    const u = rand() * 2 - 1;
+    const radius = Math.sqrt(Math.max(0, 1 - u * u));
+    const theta = rand() * Math.PI * 2;
+    const dir = new THREE.Vector3(radius * Math.cos(theta), u, radius * Math.sin(theta));
+    if (zone.minY !== undefined && dir.y < zone.minY) continue;
+    if (zone.maxY !== undefined && dir.y > zone.maxY) continue;
+    if (zone.minZ !== undefined && dir.z < zone.minZ) continue;
+    if (zone.maxZ !== undefined && dir.z > zone.maxZ) continue;
+    if (zone.skipBelly && dir.z > 0.42 && Math.abs(dir.x) < 0.5 && dir.y > -0.58 && dir.y < 0.32) continue;
+    if (zone.skipFace && dir.z > 0.48 && Math.abs(dir.x) < 0.52 && dir.y > -0.42 && dir.y < 0.36) continue;
+    const point = new THREE.Vector3(
+      dir.x * mesh.scale.x * 1.2,
+      dir.y * mesh.scale.y * 1.2,
+      dir.z * mesh.scale.z * 1.2,
+    ).applyQuaternion(mesh.quaternion).add(mesh.position);
+    const normal = new THREE.Vector3(
+      dir.x / Math.max(0.001, mesh.scale.x ** 2),
+      dir.y / Math.max(0.001, mesh.scale.y ** 2),
+      dir.z / Math.max(0.001, mesh.scale.z ** 2),
+    ).applyQuaternion(mesh.quaternion).normalize();
+    points.push(point.addScaledVector(normal, 0.006));
+    normals.push(normal);
+  }
+  return { points, normals };
+};
+
+const buildVfxKoala = (instance, level) => {
+  disposeStrands(instance);
+  const budget = level === 'vfx' ? (window.innerWidth < 800 ? 80000 : 190000) : 90000;
+  const zones = [
+    { mesh: 'body', role: 'main', weight: 46, len: [0.025, 0.05], radius: [0.004, 0.0068], minY: -0.45 },
+    { mesh: 'belly', role: 'belly', weight: 7, len: [0.012, 0.025], radius: [0.0032, 0.0058], minZ: 0.1 },
+    { mesh: 'head-mesh', role: 'main', weight: 21, len: [0.025, 0.05], radius: [0.0032, 0.0058], skipFace: true },
+    { mesh: 'ear-left', role: 'main', weight: 6, len: [0.055, 0.11], radius: [0.0038, 0.0068], maxZ: 0.25 },
+    { mesh: 'ear-right', role: 'main', weight: 6, len: [0.055, 0.11], radius: [0.0038, 0.0068], maxZ: 0.25 },
+    { mesh: 'tail', role: 'main', weight: 2, len: [0.018, 0.035], radius: [0.003, 0.0052] },
+  ];
+  const totalWeight = zones.reduce((sum, zone) => sum + zone.weight, 0);
+  const rand = mulberry32((instance.fluffSeed || 23) * 503);
+  instance.strandMeshes = [];
+  instance.strandMaterials = new Map();
+  instance.vfxUndercoat = [];
+  let total = 0;
+  for (const zone of zones) {
+    const mesh = instance.group.getObjectByName(zone.mesh);
+    if (!mesh || !mesh.isMesh) continue;
+    const underColor = strandRoleColor(instance, zone.role).clone().multiplyScalar(zone.role === 'belly' ? 0.96 : 0.62);
+    const under = new THREE.Mesh(
+      mesh.geometry,
+      new THREE.MeshStandardMaterial({ color: underColor, roughness: 1, metalness: 0 }),
+    );
+    under.name = `vfx-undercoat-${zone.mesh}`;
+    under.position.copy(mesh.position);
+    under.quaternion.copy(mesh.quaternion);
+    under.scale.copy(mesh.scale).multiplyScalar(1.004);
+    under.castShadow = false;
+    under.receiveShadow = false;
+    under.userData.shellLayer = 0;
+    under.userData.shellCount = 1;
+    mesh.parent.add(under);
+    instance.fluff.push(under);
+    instance.vfxUndercoat.push(under);
+    const underMats = instance.fluffMaterials.get(zone.role) || [];
+    underMats.push(under.material);
+    instance.fluffMaterials.set(zone.role, underMats);
+    const target = Math.max(1, Math.round((budget * zone.weight) / totalWeight));
+    const { points, normals } = sampleVfxRoots(mesh, zone, target, rand);
+    if (!points.length) continue;
+    const baseColor = strandRoleColor(instance, zone.role);
+    const material = vfxStrandMaterial(baseColor, strandRoleColor(instance, 'belly'));
+    const geometry = VFX_STRAND_GEO.clone();
+    geometry.userData.shared = false;
+    const normalsAttr = new THREE.InstancedBufferAttribute(new Float32Array(points.length * 3), 3);
+    const seedsAttr = new THREE.InstancedBufferAttribute(new Float32Array(points.length), 1);
+    const tintsAttr = new THREE.InstancedBufferAttribute(new Float32Array(points.length), 1);
+    const rolesAttr = new THREE.InstancedBufferAttribute(new Float32Array(points.length), 1);
+    const inst = new THREE.InstancedMesh(geometry, material, points.length);
+    inst.name = `vfx-${zone.mesh}`;
+    inst.frustumCulled = false;
+    inst.castShadow = false;
+    inst.receiveShadow = false;
+    inst.renderOrder = 4;
+    const matrix = new THREE.Matrix4();
+    const quat = new THREE.Quaternion();
+    for (let i = 0; i < points.length; i += 1) {
+      const n = normals[i];
+      normalsAttr.setXYZ(i, n.x, n.y, n.z);
+      seedsAttr.setX(i, rand());
+      tintsAttr.setX(i, rand());
+      const p = points[i];
+      const nx = (p.x - mesh.position.x) / mesh.scale.x;
+      const ny = (p.y - mesh.position.y) / mesh.scale.y;
+      const nz = (p.z - mesh.position.z) / mesh.scale.z;
+      const belly = zone.role === 'belly' || (zone.mesh === 'body' && nz > 0.2 && (nx / 0.62) ** 2 + ((ny + 0.03) / 0.68) ** 2 < 1);
+      rolesAttr.setX(i, belly ? 1 : 0);
+      const tangent = new THREE.Vector3(rand() * 2 - 1, rand() * 2 - 1, rand() * 2 - 1);
+      tangent.addScaledVector(n, -tangent.dot(n));
+      if (tangent.lengthSq() < 1e-6) tangent.set(1, 0, 0);
+      tangent.normalize();
+      const flow = new THREE.Vector3(
+        Math.sin(points[i].y * 2.6 + points[i].z * 3.1) * 0.26,
+        -1,
+        Math.cos(points[i].x * 2.3 + points[i].z * 2.7) * 0.2,
+      );
+      flow.addScaledVector(n, -flow.dot(n));
+      if (flow.lengthSq() < 1e-6) flow.set(0, -1, 0);
+      flow.normalize();
+      const out = n.clone().multiplyScalar(0.3)
+        .addScaledVector(flow, 0.68)
+        .addScaledVector(tangent, 0.12 + (rand() - 0.5) * 0.08)
+        .normalize();
+      const sideAxis = new THREE.Vector3().crossVectors(n, out);
+      if (sideAxis.lengthSq() < 1e-5) sideAxis.set(1, 0, 0).cross(out);
+      sideAxis.normalize();
+      const faceAxis = new THREE.Vector3().crossVectors(sideAxis, out).normalize();
+      quat.setFromRotationMatrix(new THREE.Matrix4().makeBasis(sideAxis, out, faceAxis));
+      quat.multiply(new THREE.Quaternion().setFromAxisAngle(out, (rand() - 0.5) * 0.2));
+      const length = zone.len[0] + rand() * (zone.len[1] - zone.len[0]);
+      const width = zone.radius[0] + rand() * (zone.radius[1] - zone.radius[0]);
+      matrix.compose(points[i], quat, new THREE.Vector3(width * 2.4, length, width * 2.4));
+      inst.setMatrixAt(i, matrix);
+    }
+    inst.instanceMatrix.needsUpdate = true;
+    geometry.setAttribute('aNormal', normalsAttr);
+    geometry.setAttribute('aSeed', seedsAttr);
+    geometry.setAttribute('aTint', tintsAttr);
+    geometry.setAttribute('aRole', rolesAttr);
+    inst.userData.baseCount = points.length;
+    mesh.parent.add(inst);
+    instance.strandMeshes.push(inst);
+    const materials = instance.strandMaterials.get(zone.role) || [];
+    materials.push(material);
+    instance.strandMaterials.set(zone.role, materials);
+    total += points.length;
+  }
+  instance.strandCount = total;
+  applyStrandDensity(instance);
+  updateFurUniforms();
+  return total;
+};
+
 const disposeStrands = (instance) => {
+  if (instance?.vfxUndercoat) {
+    for (const mesh of instance.vfxUndercoat) {
+      if (mesh.parent) mesh.parent.remove(mesh);
+      mesh.material?.dispose();
+    }
+    instance.vfxUndercoat = [];
+  }
   if (!instance?.strandMeshes) return;
   for (const mesh of instance.strandMeshes) {
     if (mesh.parent) mesh.parent.remove(mesh);
@@ -2697,6 +2984,7 @@ const sampleStrandRoots = (mesh, zone, target, rand, skipBelly = false) => {
 
 const buildStrands = (instance, level) => {
   if (!instance || instance.id !== 'koala') return 0;
+  if (level === 'vfx') return buildVfxKoala(instance, level);
   if (level === 'off') {
     disposeStrands(instance);
     return 0;
@@ -2824,7 +3112,15 @@ const refreshStrandColors = (instance) => {
   if (!instance?.strandMaterials) return;
   for (const [role, materials] of instance.strandMaterials.entries()) {
     const color = strandRoleColor(instance, role).clone().lerp(new THREE.Color('#ffffff'), 0.32);
-    for (const material of materials) material.color.copy(color);
+    for (const material of materials) {
+      if (material.uniforms?.uColor) {
+        material.uniforms.uColor.value.copy(strandRoleColor(instance, role));
+        material.uniforms.uTip.value.copy(strandRoleColor(instance, role)).lerp(new THREE.Color('#ffffff'), 0.12);
+        if (material.uniforms.uBelly) material.uniforms.uBelly.value.copy(strandRoleColor(instance, 'belly'));
+      } else {
+        material.color.copy(color);
+      }
+    }
   }
 };
 
@@ -3006,11 +3302,12 @@ const applySpriteDensity = (instance = rig) => {
 const applyCoat = (instance, level) => {
   if (!instance) return 0;
   const next = sanitizeCoat(level);
-  if (instance.coatLevel === next && instance.fluff?.length) return instance.fluffCount;
+  const effective = next === 'vfx' && instance.id !== 'koala' ? 'plush' : next;
+  if (instance.coatLevel === effective && instance.fluff?.length) return instance.fluffCount;
   disposeCoat(instance);
   disposeSpriteFur(instance);
-  instance.coatLevel = next;
-  if (next === 'off') {
+  instance.coatLevel = effective;
+  if (effective === 'off') {
     instance.fluffCount = 0;
     instance.strandCount = 0;
     disposeStrands(instance);
@@ -3021,9 +3318,9 @@ const applyCoat = (instance, level) => {
   if (!config) return 0;
   const rand = mulberry32((instance.fluffSeed || 11) * 97);
   let count = 0;
-  for (const zone of config.zones) count += addCoatZone(instance, zone, next, rand);
+  for (const zone of config.zones) count += addCoatZone(instance, zone, effective, rand);
   instance.fluffCount = count;
-  buildStrands(instance, next);
+  buildStrands(instance, effective);
   return count;
 };
 
@@ -3321,8 +3618,11 @@ const setLighting = (name, { quiet = false } = {}) => {
 const syncCoatButtons = () => {
   for (const button of $$('[data-coat]')) {
     const active = button.dataset.coat === state.coat;
+    const koalaOnly = button.dataset.coat === 'vfx';
     button.classList.toggle('is-active', active);
     button.setAttribute('aria-pressed', String(active));
+    button.disabled = koalaOnly && state.animal !== 'koala';
+    if (koalaOnly) button.title = state.animal === 'koala' ? 'High-density VFX groom' : 'VFX groom is koala-only';
   }
   const count = $('#coat-strand-count');
   if (count) {
@@ -3400,6 +3700,7 @@ const setSound = (on, { quiet = false } = {}) => {
 
 const setCoat = (level, { quiet = false } = {}) => {
   if (!COAT_LEVELS.includes(level) || !rig) return;
+  if (level === 'vfx' && state.animal !== 'koala') return;
   state.coat = level;
   applyCoat(rig, level);
   applyColors(rig, state.colors[state.animal]);
@@ -4110,8 +4411,10 @@ const runSelfTest = async () => {
     const koala = buildAnimal('koala', DEFAULT_COLORS.koala);
     applyCoat(koala, 'plush');
     const strands = koala.strandMeshes.length > 2 && koala.strandCount > 10000;
+    applyCoat(koala, 'vfx');
+    const vfx = koala.strandMeshes.length >= 4 && koala.strandCount > 50000;
     disposeRig(koala);
-    return shells && cleared && strands;
+    return shells && cleared && strands && vfx;
   });
   await check('Three accessories are built', () =>
     ACCESSORIES.every((key) => {
@@ -4224,7 +4527,7 @@ const boot = () => {
 
   window.__cute3d = {
     ready: true,
-    version: '1.4.0',
+    version: '1.5.0',
     engine: ENGINE,
     state,
     scene,

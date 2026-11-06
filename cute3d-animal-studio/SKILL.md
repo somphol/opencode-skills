@@ -1,7 +1,7 @@
 ---
 name: Cute3D Animal Studio
-description: Build a release-grade, zero-asset 3D animal character studio with seven original procedural Three.js pets, layered fur and feather shells, a real koala-only GPU strand coat with an inherited wind fan, species postures, idle/click animations, live colours/accessories, Web Audio, a bilingual EN/TH UI, local presets, transparent PNG export, four test layers and GitHub Pages.
-version: 1.4.0
+description: Build a release-grade, zero-asset 3D animal character studio with seven original procedural Three.js pets, layered fur and feather shells, a real koala-only GPU strand coat plus an optional VFX groom, with an inherited wind fan, species postures, idle/click animations, live colours/accessories, Web Audio, a bilingual EN/TH UI, local presets, transparent PNG export, four test layers and GitHub Pages.
+version: 1.5.0
 ---
 
 # Cute3D Animal Studio
@@ -12,7 +12,7 @@ breathing/blinking/jumping life, a bilingual customizer, local presets, transpar
 tests and a live URL.
 
 This skill is written from a completed build: **Cute3D: Procedural Code-Only Animal Studio** —
-19 engine, 82 repository, 25 browser and 20 in-page checks, zero console errors. The shipped reference
+19 engine, 83 repository, 26 browser and 20 in-page checks, zero console errors. The shipped reference
 source is in `assets/reference/`; the live product is at
 <https://somphol.github.io/cute3d-animal-studio/>.
 
@@ -36,10 +36,10 @@ Do not stop at "it renders". A release has all of these:
 | Gate | Command | Expected |
 | --- | --- | --- |
 | Engine | `node --test tests/engine.test.mjs` | 19/19 |
-| Repository | `node --test tests/static.test.mjs` | 82/82 |
-| Browser | `node tests/browser.test.mjs` | 25/25, zero console errors |
+| Repository | `node --test tests/static.test.mjs` | 83/83 |
+| Browser | `node tests/browser.test.mjs` | 26/26, zero console errors |
 | In-page | `/?selftest` | 20/20 |
-| Live copy | `TEST_URL=https://… node tests/browser.test.mjs` | 25/25 |
+| Live copy | `TEST_URL=https://… node tests/browser.test.mjs` | 26/26 |
 | Visuals | `node scripts/screenshot.mjs` | 14 fresh assets |
 | Docs | README, AGENTS, 14 docs, community files | links resolve |
 | Metadata | `state.json`, licence, sitemap, OG card | shape valid |
@@ -66,7 +66,7 @@ If a number is lower, fix the cause; never edit the claim.
 6. **Attach accessories to head/neck anchors.** Never re-add a head-parented anchor to the animal group.
 7. **Test the look, not just the DOM.** Assert transparency, accessory visibility, eye scale, line
    counts, i18n parity and zero console errors.
-8. **Shells for all, strands for the koala.** Layered alpha-tested shells give the plush/feather body on
+8. **Shells for all, strands for the koala, optional VFX for the koala.** Layered alpha-tested shells give the plush/feather body on
    all seven animals. The koala adds up to 100k opaque, depth-writing ribbons with tangent-plane flow;
    other animals stay shell-only. The `STRAND_UNIFORMS` keys must match GLSL exactly (`uTime`,
    `uBreeze`, …); a mismatch zeroes length/wind and collapses every strand to a dot. See
