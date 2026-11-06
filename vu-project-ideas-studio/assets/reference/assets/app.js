@@ -367,7 +367,7 @@
   });
 
   detail.addEventListener("click", (event) => {
-    if (event.target === detail) closeDetail();
+    if (event.target === detail || event.target.closest?.("[data-close-detail]")) closeDetail();
   });
 
   $$(".tab", detail).forEach((tab) => {

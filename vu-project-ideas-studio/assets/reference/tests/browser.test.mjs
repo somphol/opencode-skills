@@ -273,9 +273,9 @@ async function main() {
     check("glance has source label", (await evaluate("document.querySelector('#glance-source').textContent")).length > 3);
 
     await screenshot("assets/detail.png", { width: 1440, height: 1100 });
-    await evaluate("document.querySelector('#detail').close()");
+    await evaluate("document.querySelector('[data-close-detail]').click()");
     await sleep(150);
-    check("dialog closes", !(await evaluate("document.querySelector('#detail').open")));
+    check("close button closes the dialog", !(await evaluate("document.querySelector('#detail').open")));
     check("hash cleared", (await evaluate("location.hash")) === "");
 
     // Deep link

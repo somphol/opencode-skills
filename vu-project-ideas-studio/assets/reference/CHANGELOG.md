@@ -3,6 +3,14 @@
 All notable changes to this project are documented here. The format follows
 [Keep a Changelog](https://keepachangelog.com/en/1.1.0/); versions follow [SemVer](https://semver.org/).
 
+## [1.0.1] — 2026-11-05
+
+### Fixed
+
+- The drawer's explicit close button now closes the brief. Escape, backdrop click and the native
+  dialog already worked; the header button had no listener. The browser suite now clicks that button
+  rather than calling `dialog.close()` directly.
+
 ## [1.0.0] — 2026-11-05
 
 ### Added

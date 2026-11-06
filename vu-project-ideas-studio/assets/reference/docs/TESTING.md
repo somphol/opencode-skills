@@ -43,7 +43,7 @@ printed.
 | Shortlist | favorite persists, counter updates, filter shows one |
 | Drawer | opens, title matches, current prefix present once, task verbatim, hash written |
 | Glance | tab opens, stack chips and source label present |
-| Close | dialog closes, hash cleared |
+| Close button | closes the dialog, clears the hash |
 | Deep link | `#p/…` opens the right brief |
 | Theme | toggles to dark |
 | Mobile 390 px | no page overflow, no drawer overflow, prompt fits |

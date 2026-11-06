@@ -11,7 +11,7 @@ backend, account, analytics, cookie or build step. It is **not** an app generato
 older live builds, the other 52 are specifications for a future build.
 
 Live: <https://somphol.github.io/vu_project_ideas/> · Local master: `~/Projects/vu_project_ideas` ·
-Release **1.0.0**, MIT.
+Release **1.0.1**, MIT.
 
 ## 2. Commands
 

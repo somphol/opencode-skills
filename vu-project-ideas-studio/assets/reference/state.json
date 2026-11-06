@@ -1,13 +1,13 @@
 {
   "project": "VU Project Ideas — 54 build briefs for your next studio",
-  "release": "1.0.0",
+  "release": "1.0.1",
   "session": {
     "id": "ses_e51d0ff73ffevsWX7XgTOjLWLR",
     "title": "VU Project Ideas catalog",
     "startedAt": "2026-11-06T00:07:58Z",
-    "capturedAt": "2026-11-06T00:53:05Z",
-    "elapsedSeconds": 2707,
-    "elapsed": "45m 7s",
+    "capturedAt": "2026-11-06T01:11:49Z",
+    "elapsedSeconds": 3830,
+    "elapsed": "1h 3m 50s",
     "note": "Built in one OpenCode session: recovered 55 prompt blocks from the local session database, parsed them into 54 unique briefs, curated metadata, built a static searchable catalog, generated 54 copy-ready Markdown files, verified in headless Chrome, documented, and published to GitHub Pages."
   },
   "model": {
@@ -16,12 +16,12 @@
     "provider": "opencode-go"
   },
   "usage": {
-    "inputTokens": 441879,
-    "outputTokens": 92408,
-    "reasoningTokens": 57724,
-    "cacheReadTokens": 20116736,
+    "inputTokens": 454908,
+    "outputTokens": 96886,
+    "reasoningTokens": 61369,
+    "cacheReadTokens": 23304704,
     "cacheWriteTokens": 55134,
-    "totalTokens": 20763881,
+    "totalTokens": 23973001,
     "costUSD": 0.0,
     "note": "Read from the OpenCode session database (session_v2). totalTokens is the sum of the five counters; repeated prompt cache reads dominate the figure. costUSD is 0 on the flat-rate plan. This block is refreshed at the end of the session."
   },
