@@ -1,7 +1,7 @@
 ---
 name: Cute3D Animal Studio
-description: Build a release-grade, zero-asset 3D animal character studio with seven original procedural Three.js pets, layered fur and feather coats with a movable wind fan and wind-driven shell physics, species postures, idle and click animations, live colours and accessories, synthesized Web Audio, a bilingual EN/TH UI, local presets, transparent PNG export, four test layers and a GitHub Pages release.
-version: 1.3.0
+description: Build a release-grade, zero-asset 3D animal character studio with seven original procedural Three.js pets, layered fur and feather shells, a real koala-only GPU strand coat with an inherited wind fan, species postures, idle/click animations, live colours/accessories, Web Audio, a bilingual EN/TH UI, local presets, transparent PNG export, four test layers and GitHub Pages.
+version: 1.4.0
 ---
 
 # Cute3D Animal Studio
@@ -66,8 +66,11 @@ If a number is lower, fix the cause; never edit the claim.
 6. **Attach accessories to head/neck anchors.** Never re-add a head-parented anchor to the animal group.
 7. **Test the look, not just the DOM.** Assert transparency, accessory visibility, eye scale, line
    counts, i18n parity and zero console errors.
-8. **Coat is shell-based.** Do not replace it with solid strands, particles or small cards: they read as
-   wire, dust and paper. See `references/RIGS.md` and `references/SCENE.md`.
+8. **Shells for all, strands for the koala.** Layered alpha-tested shells give the plush/feather body on
+   all seven animals. The koala adds up to 100k opaque, depth-writing ribbons with tangent-plane flow;
+   other animals stay shell-only. The `STRAND_UNIFORMS` keys must match GLSL exactly (`uTime`,
+   `uBreeze`, …); a mismatch zeroes length/wind and collapses every strand to a dot. See
+   `references/RIGS.md` and `references/SCENE.md`.
 9. **Ship the handoff.** `AGENTS.md` with commands, architecture, decisions, known issues and continuity
    must be in the same push as the release.
 
@@ -82,9 +85,10 @@ If a number is lower, fix the cause; never edit the claim.
    materials, `baseScale` on every mesh.
 5. **Seven rigs:** bear 25, bunny 27, penguin 19, shiba 26, koala 23, conure 50, fold 32 base meshes.
    Follow the rig contract in `references/RIGS.md`; keep belly patches forward and counts distinct.
-6. **Coat:** layered shells (4 soft / 8 plush), canvas strand alpha + bump, shader masks for face/ears/
-   belly, plus up to 60k GPU ribbons with wind/curl/clump/cursor physics. Add a `COAT_CONFIG` entry per
-   animal; never hard-code fur into a builder.
+6. **Coat:** layered shells (5/10 fur, 6/12 koala, 4/8 feather), fine canvas alpha + colour map + bump,
+   shader masks for face/ears/belly. Add up to 100k opaque koala ribbons with tangent flow, root-tip
+   shading, wind/curl/clump/cursor uniforms and shell layer visibility tied to density. Add a
+   `COAT_CONFIG` entry per animal; never hard-code fur into a builder.
 7. **Posture and moods:** apply species posture before coats; implement Studio / Cloud Sky / Cozy Desk
    lighting presets and the five fur sliders.
 8. **Accessories:** bowtie, party hat, glasses; parent to `anchors.neck/hat/glasses`.
@@ -115,7 +119,7 @@ accessories and captures `earBases`. Recolour through `rig.materials` roles (`ma
 | Selftest accessories fail | builders don't create accessories | test `ACCESSORY_BUILDERS` |
 | Static suite fails | `state.json` line counts stale | regenerate after source edits |
 | Fur invisible | strands buried inside shells | sample roots at `mesh.scale * 1.16` |
-| Fur looks dusty | opaque thin strands | semi-transparent strands + shells, keep opacity ~0.6 |
+| Fur looks dusty or collapsed | `STRAND_UNIFORMS` names don't match GLSL, so length is 0 | rename to `uTime/uBreeze/uLength/uCurl/uClump/uCursor`; verify on the koala |
 | Feet float | whole group bobs | counter-translate feet by the idle bob |
 | Pose hidden by fur | posture applied after coat | pose before `applyCoat` |
 

@@ -77,8 +77,12 @@ on desktop and fills the remaining viewport on mobile. `ResizeObserver` handles 
 - `STRAND_UNIFORMS`: time, breeze, length, curl, clump, cursor. Vertex shader bends by `h²`; cursor is
   raycast onto plane z = 0.
 - Density changes `InstancedMesh.count`; never rebuild geometry on slider input.
-- Strand material is transparent (opacity ≈0.62), `depthWrite:false`, tinted 30% toward white.
-- Max 60k at density 1/Plush; 30k base at Soft.
+- Koala strand material is opaque, `depthWrite:true`, tinted toward the main role colour, root-to-tip
+  vertex shading, tangent-plane flow.
+- Max 100k at density 1/Plush; ~45k at Soft. Other animals are shell-only.
+- `STRAND_UNIFORMS` keys must match the GLSL exactly: `uTime`, `uBreeze`, `uLength`, `uCurl`, `uClump`,
+  `uCursor`. A name mismatch silently leaves them zero and collapses the coat into dots.
+- Shell wind gain is tiny (`0.008` feather, `0.025` fur); the visible wind lives in the koala strands.
 
 ## Lighting presets
 

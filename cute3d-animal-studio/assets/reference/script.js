@@ -2091,12 +2091,12 @@ const COAT_CONFIG = {
   koala: {
     kind: 'fur',
     zones: [
-      { mesh: 'body', role: 'main', count: 680, len: [0.08, 0.18], radius: [0.007, 0.015], minY: -0.45, droop: 0.35, tilt: 0.55 },
-      { mesh: 'belly', role: 'belly', count: 220, len: [0.04, 0.1], radius: [0.005, 0.011], minZ: 0.1, droop: 0.18, tilt: 0.45 },
-      { mesh: 'head-mesh', role: 'main', count: 400, len: [0.07, 0.15], radius: [0.006, 0.013], minY: -0.02, maxZ: 0.5, droop: 0.15, tilt: 0.55 },
-      { mesh: 'ear-left', role: 'main', count: 220, len: [0.12, 0.26], radius: [0.007, 0.014], droop: 0.05, tilt: 0.8, stretch: [1.02, 1.12, 1.02] },
-      { mesh: 'ear-right', role: 'main', count: 220, len: [0.12, 0.26], radius: [0.007, 0.014], droop: 0.05, tilt: 0.8, stretch: [1.02, 1.12, 1.02] },
-      { mesh: 'tail', role: 'main', count: 80, len: [0.05, 0.12], radius: [0.006, 0.012], droop: 0.2, tilt: 0.8 },
+      { mesh: 'body', role: 'main', count: 1700, len: [0.028, 0.052], radius: [0.004, 0.008], minY: -0.45, droop: 0.35, tilt: 0.55 },
+      { mesh: 'belly', role: 'belly', count: 420, len: [0.015, 0.03], radius: [0.0035, 0.007], minZ: 0.1, droop: 0.18, tilt: 0.45 },
+      { mesh: 'head-mesh', role: 'main', count: 1000, len: [0.024, 0.045], radius: [0.0045, 0.009], minY: -0.02, maxZ: 0.5, droop: 0.15, tilt: 0.55 },
+      { mesh: 'ear-left', role: 'main', count: 320, len: [0.03, 0.055], radius: [0.004, 0.008], maxZ: 0.25, droop: 0.05, tilt: 0.8, stretch: [1.02, 1.12, 1.02] },
+      { mesh: 'ear-right', role: 'main', count: 320, len: [0.03, 0.055], radius: [0.004, 0.008], maxZ: 0.25, droop: 0.05, tilt: 0.8, stretch: [1.02, 1.12, 1.02] },
+      { mesh: 'tail', role: 'main', count: 140, len: [0.02, 0.04], radius: [0.0035, 0.007], droop: 0.2, tilt: 0.8 },
     ],
   },
   conure: {
@@ -2131,70 +2131,65 @@ const mulberry32 = (seed) => {
 };
 
 const makeShellAlphaTexture = (kind, seed) => {
+  const size = 512;
   const canvas = document.createElement('canvas');
-  canvas.width = 256;
-  canvas.height = 256;
+  canvas.width = size;
+  canvas.height = size;
   const ctx = canvas.getContext('2d');
-  ctx.clearRect(0, 0, 256, 256);
+  ctx.clearRect(0, 0, size, size);
   let value = seed;
   const rand = () => {
     value = (value * 1664525 + 1013904223) % 4294967296;
     return value / 4294967296;
   };
-  if (kind === 'fur-long') {
-    for (let i = 0; i < 1900; i += 1) {
-      const x = rand() * 256;
-      const y = rand() * 256;
-      const length = 14 + rand() * 26;
-      const slant = (rand() - 0.5) * 0.7;
-      const gradient = ctx.createLinearGradient(x, y, x + slant * length, y - length);
-      gradient.addColorStop(0, 'rgba(255,255,255,0.25)');
-      gradient.addColorStop(0.3, `rgba(255,255,255,${0.65 + rand() * 0.35})`);
-      gradient.addColorStop(1, 'rgba(255,255,255,0.04)');
-      ctx.strokeStyle = gradient;
-      ctx.lineWidth = 0.9 + rand() * 1.4;
-      ctx.beginPath();
-      ctx.moveTo(x, y);
-      ctx.quadraticCurveTo(x + slant * length * 0.5, y - length * 0.6, x + slant * length, y - length);
-      ctx.stroke();
-    }
-  } else if (kind === 'feather') {
-    for (let row = 0; row < 18; row += 1) {
-      for (let col = 0; col < 14; col += 1) {
-        const x = col * 19 + (row % 2) * 9 + rand() * 4;
-        const y = row * 15 + rand() * 4;
-        ctx.strokeStyle = `rgba(255,255,255,${0.5 + rand() * 0.5})`;
-        ctx.lineWidth = 1.4 + rand() * 1.2;
+  const drawFibre = (x, y, length, lean, width, alpha) => {
+    const gradient = ctx.createLinearGradient(x, y, x + lean, y - length);
+    gradient.addColorStop(0, `rgba(255,255,255,${alpha * 0.35})`);
+    gradient.addColorStop(0.3, `rgba(255,255,255,${alpha})`);
+    gradient.addColorStop(0.86, `rgba(255,255,255,${alpha * 0.72})`);
+    gradient.addColorStop(1, 'rgba(255,255,255,0)');
+    ctx.strokeStyle = gradient;
+    ctx.lineWidth = width;
+    ctx.beginPath();
+    ctx.moveTo(x, y);
+    ctx.quadraticCurveTo(x + lean * 0.45, y - length * 0.62, x + lean, y - length);
+    ctx.stroke();
+  };
+  if (kind === 'feather') {
+    for (let row = 0; row < 22; row += 1) {
+      for (let col = 0; col < 18; col += 1) {
+        const x = col * 29 + (row % 2) * 14 + rand() * 6;
+        const y = row * 24 + rand() * 6;
+        ctx.strokeStyle = `rgba(255,255,255,${0.45 + rand() * 0.45})`;
+        ctx.lineWidth = 1.4 + rand() * 1.1;
         ctx.beginPath();
-        ctx.arc(x, y, 5 + rand() * 5, Math.PI * 0.15, Math.PI * 0.85);
+        ctx.arc(x, y, 10 + rand() * 5, Math.PI * 0.12, Math.PI * 0.88);
         ctx.stroke();
       }
     }
   } else {
-    for (let i = 0; i < 3200; i += 1) {
-      const x = rand() * 256;
-      const y = rand() * 256;
-      const length = 4 + rand() * 9;
-      const slant = (rand() - 0.5) * 0.5;
-      const gradient = ctx.createLinearGradient(x, y, x + slant * length, y - length);
-      gradient.addColorStop(0, 'rgba(255,255,255,0.35)');
-      gradient.addColorStop(0.25, `rgba(255,255,255,${0.7 + rand() * 0.3})`);
-      gradient.addColorStop(1, 'rgba(255,255,255,0.08)');
-      ctx.strokeStyle = gradient;
-      ctx.lineWidth = 0.8 + rand() * 1.5;
-      ctx.beginPath();
-      ctx.moveTo(x, y);
-      ctx.quadraticCurveTo(x + slant * length * 0.5, y - length * 0.6, x + slant * length, y - length);
-      ctx.stroke();
+    const long = kind === 'fur-long';
+    for (let i = 0; i < 36000; i += 1) {
+      const x = rand() * size;
+      const y = rand() * size;
+      const length = long ? 3 + rand() * 7 : 2 + rand() * 5;
+      const lean = (rand() - 0.5) * (long ? 5 : 3);
+      drawFibre(x, y, length, lean, 0.35 + rand() * 0.55, 0.24 + rand() * 0.4);
+    }
+    for (let i = 0; i < 2400; i += 1) {
+      const x = rand() * size;
+      const y = rand() * size;
+      const length = long ? 10 + rand() * 14 : 7 + rand() * 10;
+      const lean = (rand() - 0.5) * 8;
+      drawFibre(x, y, length, lean, 0.5 + rand() * 0.45, 0.55 + rand() * 0.4);
     }
   }
   const texture = new THREE.CanvasTexture(canvas);
   texture.wrapS = THREE.RepeatWrapping;
   texture.wrapT = THREE.RepeatWrapping;
-  texture.anisotropy = 4;
+  texture.anisotropy = 8;
   return texture;
 };
-
 const makeBumpTexture = (kind, seed) => {
   const canvas = document.createElement('canvas');
   canvas.width = 256;
@@ -2257,41 +2252,60 @@ const makeBumpTexture = (kind, seed) => {
 const BUMP_TEX = { fur: makeBumpTexture('fur', 11), feather: makeBumpTexture('feather', 29) };
 
 const makeCoatPattern = (kind, seed) => {
+  const size = 512;
   const canvas = document.createElement('canvas');
-  canvas.width = 256;
-  canvas.height = 256;
+  canvas.width = size;
+  canvas.height = size;
   const ctx = canvas.getContext('2d');
-  ctx.fillStyle = '#d2d2d2';
-  ctx.fillRect(0, 0, 256, 256);
+  ctx.fillStyle = '#d6d6d6';
+  ctx.fillRect(0, 0, size, size);
   let value = seed;
   const rand = () => {
     value = (value * 1664525 + 1013904223) % 4294967296;
     return value / 4294967296;
   };
   if (kind === 'feather') {
-    for (let row = 0; row < 30; row += 1) {
-      for (let col = 0; col < 24; col += 1) {
-        const light = rand() > 0.35;
-        ctx.strokeStyle = light ? 'rgba(255,255,255,0.35)' : 'rgba(0,0,0,0.22)';
-        ctx.lineWidth = 1.2;
+    for (let row = 0; row < 52; row += 1) {
+      for (let col = 0; col < 42; col += 1) {
+        const light = rand() > 0.4;
+        ctx.strokeStyle = light ? `rgba(255,255,255,${0.08 + rand() * 0.14})` : `rgba(20,20,30,${0.04 + rand() * 0.08})`;
+        ctx.lineWidth = 1 + rand() * 1.2;
         ctx.beginPath();
-        ctx.arc(col * 11 + (row % 2) * 5, row * 9, 5.5, Math.PI * 0.1, Math.PI * 0.9);
+        ctx.arc(col * 12 + (row % 2) * 6, row * 10, 5 + rand() * 3, Math.PI * 0.12, Math.PI * 0.88);
         ctx.stroke();
       }
     }
   } else {
-    for (let i = 0; i < 5200; i += 1) {
-      const x = rand() * 256;
-      const y = rand() * 256;
-      const length = 3 + rand() * 7;
-      const slant = (rand() - 0.5) * 0.8;
-      ctx.strokeStyle = rand() > 0.48
-        ? `rgba(255,255,255,${0.08 + rand() * 0.16})`
-        : `rgba(0,0,0,${0.05 + rand() * 0.1})`;
-      ctx.lineWidth = 0.6 + rand() * 1.1;
+    // Fine directional grain. The shells already carry the silhouette; this
+    // map is what makes the front read as fibre instead of velvet.
+    for (let i = 0; i < 42000; i += 1) {
+      const x = rand() * size;
+      const y = rand() * size;
+      const length = 2 + rand() * 6;
+      const lean = (rand() - 0.5) * 2.4;
+      const light = rand() > 0.46;
+      ctx.strokeStyle = light
+        ? `rgba(255,255,255,${0.06 + rand() * 0.15})`
+        : `rgba(10,12,18,${0.03 + rand() * 0.09})`;
+      ctx.lineWidth = 0.45 + rand() * 0.65;
       ctx.beginPath();
       ctx.moveTo(x, y);
-      ctx.quadraticCurveTo(x + slant * length * 0.5, y - length * 0.6, x + slant * length, y - length);
+      ctx.quadraticCurveTo(x + lean * 0.5, y - length * 0.6, x + lean, y - length);
+      ctx.stroke();
+    }
+    for (let i = 0; i < 3800; i += 1) {
+      const x = rand() * size;
+      const y = rand() * size;
+      const length = 8 + rand() * 12;
+      const lean = (rand() - 0.5) * 6;
+      const light = rand() > 0.5;
+      ctx.strokeStyle = light
+        ? `rgba(255,255,255,${0.08 + rand() * 0.16})`
+        : `rgba(10,12,18,${0.04 + rand() * 0.08})`;
+      ctx.lineWidth = 0.6 + rand() * 0.65;
+      ctx.beginPath();
+      ctx.moveTo(x, y);
+      ctx.quadraticCurveTo(x + lean * 0.5, y - length * 0.6, x + lean, y - length);
       ctx.stroke();
     }
   }
@@ -2299,10 +2313,9 @@ const makeCoatPattern = (kind, seed) => {
   texture.wrapS = THREE.RepeatWrapping;
   texture.wrapT = THREE.RepeatWrapping;
   texture.colorSpace = THREE.SRGBColorSpace;
-  texture.anisotropy = 4;
+  texture.anisotropy = 8;
   return texture;
 };
-
 const COAT_PATTERN = { fur: makeCoatPattern('fur', 7), feather: makeCoatPattern('feather', 13) };
 
 const KOALA_HAIR_TEX = (() => {
@@ -2335,9 +2348,38 @@ const KOALA_HAIR_TEX = (() => {
   return texture;
 })();
 
+const makeFeatherAlphaTexture = (seed) => {
+  const canvas = document.createElement('canvas');
+  canvas.width = 256;
+  canvas.height = 256;
+  const ctx = canvas.getContext('2d');
+  ctx.clearRect(0, 0, 256, 256);
+  let value = seed;
+  const rand = () => {
+    value = (value * 1664525 + 1013904223) % 4294967296;
+    return value / 4294967296;
+  };
+  for (let row = 0; row < 18; row += 1) {
+    for (let col = 0; col < 14; col += 1) {
+      const x = col * 19 + (row % 2) * 9 + rand() * 4;
+      const y = row * 15 + rand() * 4;
+      ctx.strokeStyle = `rgba(255,255,255,${0.5 + rand() * 0.5})`;
+      ctx.lineWidth = 1.4 + rand() * 1.2;
+      ctx.beginPath();
+      ctx.arc(x, y, 5 + rand() * 5, Math.PI * 0.15, Math.PI * 0.85);
+      ctx.stroke();
+    }
+  }
+  const texture = new THREE.CanvasTexture(canvas);
+  texture.wrapS = THREE.RepeatWrapping;
+  texture.wrapT = THREE.RepeatWrapping;
+  texture.anisotropy = 4;
+  return texture;
+};
+
 const SHELL_TEX = {
   fur: [makeShellAlphaTexture('fur', 17), makeShellAlphaTexture('fur', 43), makeShellAlphaTexture('fur', 79)],
-  feather: [makeShellAlphaTexture('feather', 31), makeShellAlphaTexture('feather', 67)],
+  feather: [makeFeatherAlphaTexture(31), makeFeatherAlphaTexture(67)],
   furLong: [makeShellAlphaTexture('fur-long', 101), makeShellAlphaTexture('fur-long', 137)],
 };
 
@@ -2396,16 +2438,30 @@ const WIND = {
 };
 
 const coatMaterial = (kind, color, layer, shells, cutCode, texture, windLocal, touchLocal) => {
-  const material = new THREE.MeshStandardMaterial({
+  const common = {
     color: new THREE.Color(color),
     alphaMap: texture,
     bumpMap: BUMP_TEX[kind],
-    bumpScale: kind === 'feather' ? 0.008 : 0.02,
-    alphaTest: 0.42 + (layer / Math.max(1, shells - 1)) * 0.12,
-    roughness: kind === 'feather' ? 0.82 : 0.96,
     metalness: 0,
     side: THREE.FrontSide,
-  });
+  };
+  const material = kind === 'feather'
+    ? new THREE.MeshStandardMaterial({
+      ...common,
+      bumpScale: 0.008,
+      alphaTest: 0.42 + (layer / Math.max(1, shells - 1)) * 0.12,
+      roughness: 0.82,
+    })
+    : new THREE.MeshPhysicalMaterial({
+      ...common,
+      map: COAT_PATTERN.fur,
+      bumpScale: 0.09,
+      alphaTest: 0.34 + (layer / Math.max(1, shells - 1)) * 0.2,
+      roughness: 0.94,
+      sheen: 0.6,
+      sheenColor: new THREE.Color(color).lerp(new THREE.Color('#ffffff'), 0.45),
+      sheenRoughness: 0.8,
+    });
   material.userData.fluff = true;
   material.userData.layer = layer;
   material.onBeforeCompile = (shader) => {
@@ -2414,6 +2470,7 @@ const coatMaterial = (kind, color, layer, shells, cutCode, texture, windLocal, t
     shader.uniforms.uWindLocal = windLocal;
     shader.uniforms.uTouchLocal = touchLocal;
     shader.uniforms.uFurLayer = { value: layer / Math.max(1, shells - 1) };
+    const windGain = kind === 'feather' ? 0.008 : 0.025;
     shader.vertexShader = `uniform float uWindTime;
 uniform float uWindSpeed;
 uniform float uFurLayer;
@@ -2426,8 +2483,8 @@ ${shader.vertexShader}`.replace(
       vFurPos = position;
       float furH = uFurLayer;
       float gust = 0.6 + 0.4 * sin(uWindTime * 2.1 + position.y * 4.0 + position.x * 3.0);
-      transformed += uWindLocal * uWindSpeed * pow(furH, 1.6) * 0.42 * gust;
-      float bend = uWindSpeed * pow(furH, 1.6) * 0.42;
+      transformed += uWindLocal * uWindSpeed * pow(furH, 1.6) * ${windGain.toFixed(4)} * gust;
+      float bend = uWindSpeed * pow(furH, 1.6) * ${windGain.toFixed(4)};
       transformed -= normal * bend * bend * 0.8;
       vec3 toTouch = transformed - uTouchLocal;
       float touchDist = length(toTouch);
@@ -2445,7 +2502,7 @@ ${shader.fragmentShader.replace(
 ${shader.fragmentShader}`;
     }
   };
-  material.customProgramCacheKey = () => `fur-shell-${cutCode ? cutCode.length : 0}-${layer}`;
+  material.customProgramCacheKey = () => `fur-shell-${kind}-${cutCode ? cutCode.length : 0}-${layer}`;
   return material;
 };
 
@@ -2456,9 +2513,9 @@ const addCoatZone = (instance, zone, level, rand) => {
   const usesFeather = config?.kind === 'feather';
   const plush = level === 'plush';
   const koala = instance.id === 'koala';
-  const shells = plush ? (koala ? 6 : 8) : (koala ? 3 : 4);
-  const thickness = (zone.thickness || (usesFeather ? 0.045 : koala ? 0.2 : 0.09)) * (plush ? 1 : 0.58);
-  const textureSet = koala && !usesFeather ? SHELL_TEX.furLong : SHELL_TEX[usesFeather ? 'feather' : 'fur'];
+  const shells = plush ? (koala ? 12 : usesFeather ? 8 : 10) : (koala ? 6 : usesFeather ? 4 : 5);
+  const thickness = (zone.thickness || (usesFeather ? 0.045 : koala ? 0.08 : 0.09)) * (plush ? 1 : 0.58);
+  const textureSet = SHELL_TEX[usesFeather ? 'feather' : 'fur'];
   const cutCode = zone.mesh === 'head-mesh' ? 'if (vFurPos.z > 0.58) discard;' :
     zone.mesh === 'body' ? 'if (vFurPos.z > 0.2 && length(vec2(vFurPos.x / 0.78, (vFurPos.y + 0.05) / 0.8)) < 1.0) discard;' :
     zone.mesh.startsWith('ear-') ? 'if (vFurPos.z > 0.35) discard;' : '';
@@ -2476,6 +2533,7 @@ const addCoatZone = (instance, zone, level, rand) => {
     texture.offset.set(rand() * 0.6, rand() * 0.6);
     texture.rotation = rand() * Math.PI * 2;
     texture.center.set(0.5, 0.5);
+    texture.repeat.set(usesFeather ? 1 : 1.3, usesFeather ? 1 : 1.3);
     const material = coatMaterial(usesFeather ? 'feather' : 'fur', baseColor, layer, shells, cutCode, texture, windLocal, touchLocal);
     material.userData.role = zone.role;
     const shell = new THREE.Mesh(mesh.geometry, material);
@@ -2485,6 +2543,8 @@ const addCoatZone = (instance, zone, level, rand) => {
     shell.scale.copy(mesh.scale).multiplyScalar(scale);
     if (zone.stretch) shell.scale.multiply(new THREE.Vector3(zone.stretch[0], zone.stretch[1], zone.stretch[2]));
     shell.name = `coat-${zone.mesh}-${layer}`;
+    shell.userData.shellLayer = layer;
+    shell.userData.shellCount = shells;
     shell.castShadow = false;
     shell.receiveShadow = false;
     shell.renderOrder = 1;
@@ -2501,24 +2561,26 @@ const addCoatZone = (instance, zone, level, rand) => {
 /* ---------------------------------------------------------- strand fur pass */
 
 const STRAND_UNIFORMS = {
-  time: { value: 0 },
-  breeze: { value: state.fur.breeze },
-  length: { value: state.fur.length },
-  curl: { value: state.fur.curl },
-  clump: { value: state.fur.clump },
-  cursor: { value: new THREE.Vector3(999, 999, 999) },
+  uTime: { value: 0 },
+  uBreeze: { value: state.fur.breeze },
+  uLength: { value: state.fur.length },
+  uCurl: { value: state.fur.curl },
+  uClump: { value: state.fur.clump },
+  uCursor: { value: new THREE.Vector3(999, 999, 999) },
 };
 
 const makeStrandGeometry = () => {
-  const rows = 4;
+  const rows = 6;
   const positions = [];
   const colors = [];
   const indices = [];
   for (let row = 0; row < rows; row += 1) {
     const t = row / (rows - 1);
-    const width = (1 - t) * 0.5 + 0.015;
-    const z = t * t * 0.14;
-    const shadeValue = 0.5 + t * 0.75;
+    const width = (1 - t) ** 0.72 * 0.5 + 0.012;
+    const z = t * t * 0.2 + Math.sin(t * Math.PI) * 0.035;
+    // Dark root, bright middle, slightly warm tip. The gradient is the fibre's
+    // own occlusion; it reads as depth even when the body behind it is smooth.
+    const shadeValue = 0.5 + t * 0.42 + Math.sin(t * Math.PI) * 0.08;
     positions.push(-width, t, z, width, t, z);
     colors.push(shadeValue, shadeValue, shadeValue, shadeValue, shadeValue, shadeValue);
     if (row < rows - 1) {
@@ -2553,27 +2615,12 @@ const TUFT_GEO = (() => {
 })();
 
 const strandMaterial = (color, opaque = false) => {
-  const material = opaque
-    ? new THREE.MeshStandardMaterial({
-      color: new THREE.Color(color),
-      vertexColors: true,
-      side: THREE.DoubleSide,
-      roughness: 0.98,
-      metalness: 0,
-      transparent: false,
-      depthWrite: true,
-    })
-    : new THREE.MeshStandardMaterial({
-      color: new THREE.Color(color),
-      vertexColors: true,
-      side: THREE.DoubleSide,
-      roughness: 0.98,
-      metalness: 0,
-      transparent: true,
-      opacity: 0.62,
-      depthWrite: false,
-    });
-  material.userData.exactColor = opaque;
+  const material = new THREE.MeshBasicMaterial({
+    color: new THREE.Color(color),
+    vertexColors: true,
+    side: THREE.DoubleSide,
+    transparent: false,
+  });
   material.onBeforeCompile = (shader) => {
     Object.assign(shader.uniforms, STRAND_UNIFORMS);
     shader.vertexShader = `uniform float uTime;
@@ -2589,19 +2636,19 @@ ${shader.vertexShader}`.replace(
       vec3 strandRoot = vec3(instanceMatrix[3][0], instanceMatrix[3][1], instanceMatrix[3][2]);
       float strandPhase = strandRoot.x * 8.0 + strandRoot.z * 6.0 + strandRoot.y * 4.0;
       transformed.y *= uLength;
-      float wind = sin(uTime * 1.8 + strandPhase) * 0.65 + sin(uTime * 0.9 + strandPhase * 1.7) * 0.35;
-      transformed.x += wind * uBreeze * strandH * strandH * 0.12;
-      transformed.z += cos(uTime * 1.3 + strandPhase) * uBreeze * strandH * strandH * 0.05;
-      transformed.x += sin(strandH * 6.283 + strandPhase) * uCurl * strandH * 0.032;
-      transformed.z += cos(strandH * 6.283 + strandPhase) * uCurl * strandH * 0.024;
-      transformed.x += sin(strandPhase * 0.7) * uClump * strandH * strandH * 0.028;
+      float wind = sin(uTime * 1.4 + strandPhase * 0.55) * 0.68 + sin(uTime * 0.63 + strandPhase * 0.27 + 1.7) * 0.32;
+      transformed.x += wind * uBreeze * strandH * strandH * 0.052;
+      transformed.z += cos(uTime * 1.05 + strandPhase * 0.5) * uBreeze * strandH * strandH * 0.028;
+      transformed.x += sin(strandH * 5.2 + strandPhase) * uCurl * strandH * 0.018;
+      transformed.z += cos(strandH * 5.2 + strandPhase * 0.8) * uCurl * strandH * 0.012;
+      transformed.x += sin(strandPhase * 0.45) * uClump * strandH * strandH * 0.014;
       vec2 cursorDelta = strandRoot.xz - uCursor.xz;
-      float cursorPush = smoothstep(1.35, 0.0, length(cursorDelta)) * 0.18;
+      float cursorPush = smoothstep(1.35, 0.0, length(cursorDelta)) * 0.09;
       transformed.xz += normalize(cursorDelta + vec2(0.00001)) * cursorPush * strandH * strandH;
       `,
     );
   };
-  material.customProgramCacheKey = () => 'strand-fur';
+  material.customProgramCacheKey = () => 'strand-fur-basic-wind';
   return material;
 };
 
@@ -2610,6 +2657,7 @@ const disposeStrands = (instance) => {
   for (const mesh of instance.strandMeshes) {
     if (mesh.parent) mesh.parent.remove(mesh);
     mesh.material?.dispose();
+    if (mesh.geometry && !mesh.geometry.userData.shared) mesh.geometry.dispose();
     mesh.dispose?.();
   }
   instance.strandMeshes = [];
@@ -2618,7 +2666,7 @@ const disposeStrands = (instance) => {
 };
 
 const sampleStrandRoots = (mesh, zone, target, rand, skipBelly = false) => {
-  const surfaceScale = 1.16;
+  const surfaceScale = 1.28;
   const points = [];
   const normals = [];
   let attempts = 0;
@@ -2648,7 +2696,7 @@ const sampleStrandRoots = (mesh, zone, target, rand, skipBelly = false) => {
 };
 
 const buildStrands = (instance, level) => {
-  if (!instance || instance.id === 'koala') return 0;
+  if (!instance || instance.id !== 'koala') return 0;
   if (level === 'off') {
     disposeStrands(instance);
     return 0;
@@ -2657,7 +2705,7 @@ const buildStrands = (instance, level) => {
   if (!config) return 0;
   disposeStrands(instance);
   const koala = instance.id === 'koala';
-  const maxStrands = level === 'plush' ? 60000 : 30000;
+  const maxStrands = level === 'plush' ? (instance.id === 'koala' ? 100000 : 60000) : 45000;
   const totalWeight = config.zones.reduce((sum, zone) => sum + zone.count, 0) || 1;
   const rand = mulberry32((instance.fluffSeed || 11) * 131 + 7);
   instance.strandMeshes = [];
@@ -2669,43 +2717,56 @@ const buildStrands = (instance, level) => {
     const target = Math.max(1, Math.round((maxStrands * zone.count) / totalWeight));
     const { points, normals } = sampleStrandRoots(
       mesh, zone, target, rand,
-      zone.mesh === 'body' && !koala,
+      zone.mesh === 'body',
     );
     if (!points.length) continue;
     const material = strandMaterial(
       koala
-        ? strandRoleColor(instance, zone.role).clone().lerp(new THREE.Color('#ffffff'), 0.1)
-        : strandRoleColor(instance, zone.role).clone().lerp(new THREE.Color('#ffffff'), 0.2),
-      koala,
+        ? strandRoleColor(instance, zone.role).clone().lerp(new THREE.Color('#ffffff'), 0.05)
+        : strandRoleColor(instance, zone.role).clone().lerp(new THREE.Color('#ffffff'), 0.16),
+      true,
     );
-    const inst = new THREE.InstancedMesh(STRAND_GEO, material, points.length);
+    const geometry = STRAND_GEO.clone();
+    geometry.userData.shared = false;
+    const inst = new THREE.InstancedMesh(geometry, material, points.length);
     inst.name = `strands-${zone.mesh}`;
     inst.castShadow = false;
     inst.receiveShadow = false;
     inst.frustumCulled = false;
+    inst.renderOrder = 3;
     const matrix = new THREE.Matrix4();
     const quat = new THREE.Quaternion();
-    const UP_LOCAL = new THREE.Vector3(0, 1, 0);
-    const DOWN_LOCAL = new THREE.Vector3(0, -1, 0);
     for (let i = 0; i < points.length; i += 1) {
       const n = normals[i];
       const tangent = new THREE.Vector3(rand() * 2 - 1, rand() * 2 - 1, rand() * 2 - 1);
       tangent.addScaledVector(n, -tangent.dot(n));
       if (tangent.lengthSq() < 1e-6) tangent.set(1, 0, 0);
       tangent.normalize();
-      const out = tangent.clone().multiplyScalar(0.92)
-        .addScaledVector(n, 0.18)
-        .addScaledVector(DOWN_LOCAL, 0.22 + rand() * 0.25)
+      // A groomed coat flows down and slightly out, with a gentle swirl.
+      // Random tangential hair reads as static fuzz; a shared flow reads as fur.
+      const flow = new THREE.Vector3(
+        Math.sin(points[i].y * 2.3 + points[i].z * 2.8) * 0.24,
+        -1,
+        Math.cos(points[i].x * 2.1 + points[i].z * 3.2) * 0.18,
+      );
+      // Keep the flow tangent to the body. A world-space down vector with a
+      // swirl can point into the torso on the front, burying every strand.
+      flow.addScaledVector(n, -flow.dot(n));
+      if (flow.lengthSq() < 1e-6) flow.set(0, -1, 0);
+      flow.normalize();
+      const out = n.clone().multiplyScalar(0.3)
+        .addScaledVector(flow, 0.7)
+        .addScaledVector(tangent, 0.1 + (rand() - 0.5) * 0.06)
         .normalize();
       const sideAxis = new THREE.Vector3().crossVectors(n, out);
       if (sideAxis.lengthSq() < 1e-5) sideAxis.set(1, 0, 0).cross(out);
       sideAxis.normalize();
       const faceAxis = new THREE.Vector3().crossVectors(sideAxis, out).normalize();
       quat.setFromRotationMatrix(new THREE.Matrix4().makeBasis(sideAxis, out, faceAxis));
-      quat.multiply(new THREE.Quaternion().setFromAxisAngle(out, (rand() - 0.5) * 0.22));
-      const length = (zone.len[0] + rand() * (zone.len[1] - zone.len[0])) * (koala ? 2.2 : 1.55);
+      quat.multiply(new THREE.Quaternion().setFromAxisAngle(out, (rand() - 0.5) * 0.18));
+      const length = (zone.len[0] + rand() * (zone.len[1] - zone.len[0])) * (koala ? 1 : 0.45);
       const width = zone.radius[0] + rand() * (zone.radius[1] - zone.radius[0]);
-      const widthScale = koala ? 2.4 : 3.0;
+      const widthScale = koala ? 2 : 1.6;
       matrix.compose(points[i], quat, new THREE.Vector3(width * widthScale, length, width * widthScale));
       inst.setMatrixAt(i, matrix);
     }
@@ -2725,7 +2786,17 @@ const buildStrands = (instance, level) => {
 };
 
 const applyStrandDensity = (instance = rig) => {
-  if (!instance?.strandMeshes) return;
+  if (!instance) return;
+  if (instance.fluff) {
+    for (const shell of instance.fluff) {
+      const layer = shell.userData.shellLayer;
+      const shells = shell.userData.shellCount;
+      if (layer === undefined || !shells) continue;
+      const visibleLayers = Math.max(2, Math.round(shells * (0.55 + 0.45 * state.fur.density)));
+      shell.visible = layer < visibleLayers;
+    }
+  }
+  if (!instance.strandMeshes) return;
   let total = 0;
   for (const mesh of instance.strandMeshes) {
     const base = mesh.userData.baseCount || 0;
@@ -2739,10 +2810,10 @@ const applyStrandDensity = (instance = rig) => {
 };
 
 const updateFurUniforms = () => {
-  STRAND_UNIFORMS.breeze.value = state.fur.breeze;
-  STRAND_UNIFORMS.length.value = state.fur.length;
-  STRAND_UNIFORMS.curl.value = state.fur.curl;
-  STRAND_UNIFORMS.clump.value = state.fur.clump;
+  STRAND_UNIFORMS.uBreeze.value = state.fur.breeze;
+  STRAND_UNIFORMS.uLength.value = state.fur.length;
+  STRAND_UNIFORMS.uCurl.value = state.fur.curl;
+  STRAND_UNIFORMS.uClump.value = state.fur.clump;
   WIND.speed.value = state.fur.breeze;
   if (rig?.spriteMaterials) {
     for (const material of rig.spriteMaterials) material.size = 0.12 * state.fur.length;
@@ -2784,6 +2855,7 @@ const addKoalaTufts = (instance, level) => {
     const inst = new THREE.InstancedMesh(TUFT_GEO, material, points.length);
     inst.name = `tuft-${zone.mesh}`;
     inst.frustumCulled = false;
+    inst.renderOrder = 3;
     const matrix = new THREE.Matrix4();
     const quat = new THREE.Quaternion();
     const up = new THREE.Vector3(0, 1, 0);
@@ -3451,12 +3523,12 @@ renderer.domElement.addEventListener('pointermove', (event) => {
     return;
   }
   if (raycaster.ray.intersectPlane(cursorPlane, cursorPoint)) {
-    STRAND_UNIFORMS.cursor.value.copy(cursorPoint);
+    STRAND_UNIFORMS.uCursor.value.copy(cursorPoint);
   }
 });
 
 renderer.domElement.addEventListener('pointerleave', () => {
-  STRAND_UNIFORMS.cursor.value.set(999, 999, 999);
+  STRAND_UNIFORMS.uCursor.value.set(999, 999, 999);
 });
 
 renderer.domElement.addEventListener('pointerdown', (event) => {
@@ -3817,7 +3889,7 @@ const animate = () => {
     pose[key] = damp(pose[key] ?? target[key], target[key], lambda, dt);
   }
 
-  STRAND_UNIFORMS.time.value = elapsed;
+  STRAND_UNIFORMS.uTime.value = elapsed;
   WIND.time.value = elapsed;
   if (rig?.coatZones?.length) updateShellWind(rig);
 
@@ -4028,14 +4100,18 @@ const runSelfTest = async () => {
       decoded.accessories.bowtie && decoded.accessories.glasses;
   });
   await check('Snapshot filename is safe', () => /^cute3d-[a-z]+-\d{4}-\d{2}-\d{2}\.png$/.test(snapshotFilename('bear', new Date('2026-11-04T12:00:00Z'))));
-  await check('Coat builds strands and smooth mode clears them', () => {
-    const instance = buildAnimal('bear', DEFAULT_COLORS.bear);
-    const plush = applyCoat(instance, 'plush');
-    const built = instance.fluff.length > 2 && plush > 300 && instance.strandMeshes.length > 2 && instance.strandCount > 10000;
-    applyCoat(instance, 'off');
-    const cleared = instance.fluff.length === 0 && instance.fluffCount === 0 && instance.strandMeshes.length === 0;
-    disposeRig(instance);
-    return built && cleared;
+  await check('Coat builds shells, koala strands, and smooth clears both', () => {
+    const bear = buildAnimal('bear', DEFAULT_COLORS.bear);
+    const plush = applyCoat(bear, 'plush');
+    const shells = bear.fluff.length > 2 && plush > 300 && bear.strandMeshes.length === 0;
+    applyCoat(bear, 'off');
+    const cleared = bear.fluff.length === 0 && bear.fluffCount === 0 && bear.strandMeshes.length === 0;
+    disposeRig(bear);
+    const koala = buildAnimal('koala', DEFAULT_COLORS.koala);
+    applyCoat(koala, 'plush');
+    const strands = koala.strandMeshes.length > 2 && koala.strandCount > 10000;
+    disposeRig(koala);
+    return shells && cleared && strands;
   });
   await check('Three accessories are built', () =>
     ACCESSORIES.every((key) => {
@@ -4148,7 +4224,7 @@ const boot = () => {
 
   window.__cute3d = {
     ready: true,
-    version: '1.3.0',
+    version: '1.4.0',
     engine: ENGINE,
     state,
     scene,
@@ -4173,8 +4249,8 @@ const boot = () => {
     strandCount: () => (rig ? (rig.fluffCount || 0) + (rig.strandCount || 0) : 0),
     furStrands: () => rig?.strandCount || 0,
     furUniforms: () => ({
-      breeze: STRAND_UNIFORMS.breeze.value,
-      cursor: STRAND_UNIFORMS.cursor.value.toArray(),
+      breeze: STRAND_UNIFORMS.uBreeze.value,
+      cursor: STRAND_UNIFORMS.uCursor.value.toArray(),
     }),
     setLang: (lang) => setLang(lang, { quiet: true }),
     setSound: (on) => setSound(on, { quiet: true }),
