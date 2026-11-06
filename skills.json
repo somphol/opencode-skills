@@ -83,6 +83,12 @@
       "source": "~/.config/opencode/skills/algorithm-explorer-studio",
       "description": "Build a release-grade, zero-asset 3D algorithm-pattern explorer: 15 deterministic step engines, 15 procedural Three.js scenes, mark-synchronized Python/JS/C++ code, a 30-question quiz, local practice tracking, 106-check verification and a GitHub Pages release.",
       "license": "MIT"
+    },
+    {
+      "name": "vu-project-ideas-studio",
+      "source": "~/.config/opencode/skills/vu-project-ideas-studio",
+      "description": "Turn a long, messy prompt list into a release-grade, searchable project-brief catalog — parse blocks, merge duplicates, curate metadata, compose one current request prefix, generate copy-ready Markdown, add search/filters/deep links, verify at 390 px, publish to GitHub Pages and record elapsed time and tokens.",
+      "license": "MIT"
     }
   ]
 }

@@ -1,0 +1,17 @@
+Can you create new project in ~/Projects to host this {{TITLE}} project
+
+Please also upload this as a project to github.
+
+You should also try NOT to trigger repeated Keychain prompts.
+
+At the end also add the state file to the project to show how long it takes for you do create the entire game and how many tokens consumption in total.  We should also credit the OpenCode and the model we are using too.
+
+Please make sure you document everything that other AI agent needs to know to re-produce the project here in the project because otherwise the information will be lost after this session is terminated.
+
+Please also populate the project with docs that is normally needed to look like professional release.
+
+After everything is done, please also turn what you have done here into a skill so that other user who try to do the same thing can learn from you.  Please also publish the backup copy of the skill to GitHub
+
+Please try to minimize token consumption without  compromising on the  coding / outcome quality.
+
+===========

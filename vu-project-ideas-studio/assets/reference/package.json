@@ -1,0 +1,20 @@
+{
+  "name": "vu-project-ideas",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "A searchable library of 54 production-grade project briefs with copy-ready prompts.",
+  "license": "MIT",
+  "author": "Somphol Boonjing",
+  "scripts": {
+    "build": "python3 scripts/build.py",
+    "start": "python3 -m http.server 4173",
+    "test": "node scripts/verify.mjs",
+    "test:browser": "node tests/browser.test.mjs",
+    "verify": "npm test && npm run test:browser",
+    "screenshot": "node tests/browser.test.mjs"
+  },
+  "engines": {
+    "node": ">=22"
+  }
+}

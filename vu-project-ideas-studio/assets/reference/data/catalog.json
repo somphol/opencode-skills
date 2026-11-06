@@ -1,0 +1,1725 @@
+{
+  "version": "1.0.0",
+  "updated": "2026-11-05",
+  "counts": {
+    "projects": 54,
+    "tracks": 9,
+    "words": 26748,
+    "live": 2
+  },
+  "tracks": [
+    {
+      "id": "game",
+      "name": "Games & Arcade",
+      "color": "#ff6b4a",
+      "description": "Arcade loops, sports, table games and playful physics."
+    },
+    {
+      "id": "puzzle",
+      "name": "Puzzles & Strategy",
+      "color": "#d99a00",
+      "description": "Boards, solvers and games where the thinking is the point."
+    },
+    {
+      "id": "stem",
+      "name": "STEM & Algorithms",
+      "color": "#0aa6b8",
+      "description": "Math, code and pattern visualizers that teach by manipulation."
+    },
+    {
+      "id": "language",
+      "name": "Language & Reading",
+      "color": "#7a5cff",
+      "description": "Reading, vocabulary, pronunciation and typing studios."
+    },
+    {
+      "id": "city",
+      "name": "Cities & Travel",
+      "color": "#19a974",
+      "description": "Landmarks, transit and walkable 3D guides."
+    },
+    {
+      "id": "sim",
+      "name": "Simulation & Vehicles",
+      "color": "#3b7ddd",
+      "description": "Vehicles, weather, physics and cockpit-style HUDs."
+    },
+    {
+      "id": "calm",
+      "name": "Calm & Focus",
+      "color": "#8b7bb8",
+      "description": "Chanting, meditation, lullabies and ambient study rooms."
+    },
+    {
+      "id": "craft",
+      "name": "Creative Studios",
+      "color": "#d65a8c",
+      "description": "Character builders, brick kits and staged performances."
+    },
+    {
+      "id": "life",
+      "name": "Tools & Daily Life",
+      "color": "#607080",
+      "description": "Useful everyday interfaces with a considered visual system."
+    }
+  ],
+  "projects": [
+    {
+      "id": "cute3d-procedural-code-only-animal-studio",
+      "n": 1,
+      "title": "Cute3D: Procedural Code-Only Animal Studio",
+      "tagline": "Build seven original animals from spheres and capsules, then dress them in live fur and wind.",
+      "track": "craft",
+      "trackName": "Creative Studios",
+      "stack": [
+        "Three.js",
+        "Web Audio",
+        "LocalStorage",
+        "JSON I/O",
+        "EN / TH",
+        "Physics"
+      ],
+      "features": [
+        "3D / WebGL",
+        "Physics",
+        "Procedural audio",
+        "Bilingual ENG/TH",
+        "Local save + export",
+        "Procedural content"
+      ],
+      "live": null,
+      "size": "L",
+      "words": 1095,
+      "chars": 9062,
+      "readMinutes": 5,
+      "sourceTitle": "Cute3D: Procedural Code-Only Animal Studio",
+      "aliases": [],
+      "promptFile": "01-cute3d-procedural-code-only-animal-studio.md"
+    },
+    {
+      "id": "algorithm-explorer-top-15-swe-interview-patterns",
+      "n": 2,
+      "title": "Algorithm Explorer: Top 15 SWE Interview Patterns",
+      "tagline": "Fifteen interview patterns, each with a deterministic 3D trace and synchronized code.",
+      "track": "stem",
+      "trackName": "STEM & Algorithms",
+      "stack": [
+        "Three.js",
+        "LocalStorage",
+        "Single file"
+      ],
+      "features": [
+        "3D / WebGL",
+        "Local save + export",
+        "Single-file build",
+        "Responsive HUD"
+      ],
+      "live": null,
+      "size": "L",
+      "words": 887,
+      "chars": 7613,
+      "readMinutes": 5,
+      "sourceTitle": "Algorithm Explorer: Top 15 SWE Interview Patterns",
+      "aliases": [],
+      "promptFile": "02-algorithm-explorer-top-15-swe-interview-patterns.md"
+    },
+    {
+      "id": "suatsync-3d-chinabunchorn-9-chanting-studio",
+      "n": 3,
+      "title": "SuatSync 3D: Chinabunchorn 9 Chanting Studio",
+      "tagline": "A bilingual chanting and karaoke studio for the Chinabunchorn nine-recitation practice.",
+      "track": "calm",
+      "trackName": "Calm & Focus",
+      "stack": [
+        "Three.js",
+        "Canvas 2D",
+        "LocalStorage",
+        "EN / TH"
+      ],
+      "features": [
+        "3D / WebGL",
+        "Bilingual ENG/TH",
+        "Local save + export",
+        "Canvas rendering"
+      ],
+      "live": null,
+      "size": "M",
+      "words": 433,
+      "chars": 4141,
+      "readMinutes": 2,
+      "sourceTitle": "SuatSync 3D: Chinabunchorn 9 Recitations Chanting & Karaoke Studio",
+      "aliases": [
+        "SuatSync 3D: Chinabunchorn 9 Recitations Chanting & Karaoke Studio"
+      ],
+      "promptFile": "03-suatsync-3d-chinabunchorn-9-chanting-studio.md"
+    },
+    {
+      "id": "serenity-3d-the-observer-and-mind-watching-studio",
+      "n": 4,
+      "title": "Serenity 3D: The Observer & Mind-Watching Studio",
+      "tagline": "Twenty guided observer scripts across sky, stream and orb worlds.",
+      "track": "calm",
+      "trackName": "Calm & Focus",
+      "stack": [
+        "Three.js",
+        "Web Audio",
+        "Web Speech",
+        "LocalStorage",
+        "EN / TH"
+      ],
+      "features": [
+        "3D / WebGL",
+        "Procedural audio",
+        "Bilingual ENG/TH",
+        "Local save + export",
+        "Speech in / out",
+        "Procedural content"
+      ],
+      "live": null,
+      "size": "L",
+      "words": 2008,
+      "chars": 17287,
+      "readMinutes": 10,
+      "sourceTitle": "Serenity 3D: The Observer & Mind-Watching Studio",
+      "aliases": [],
+      "promptFile": "04-serenity-3d-the-observer-and-mind-watching-studio.md"
+    },
+    {
+      "id": "vintage-wurlitzer-3d-lullaby-jukebox",
+      "n": 5,
+      "title": "Vintage Wurlitzer 3D Lullaby Jukebox",
+      "tagline": "A 1940s bubbler jukebox with 50 procedural lullabies and archive performances.",
+      "track": "calm",
+      "trackName": "Calm & Focus",
+      "stack": [
+        "Three.js",
+        "Canvas 2D",
+        "Web Audio",
+        "LocalStorage",
+        "EN / TH"
+      ],
+      "features": [
+        "3D / WebGL",
+        "Procedural audio",
+        "Bilingual ENG/TH",
+        "Local save + export",
+        "Canvas rendering",
+        "Procedural content"
+      ],
+      "live": null,
+      "size": "M",
+      "words": 511,
+      "chars": 4237,
+      "readMinutes": 3,
+      "sourceTitle": "Vintage Wurlitzer 3D Lullaby Jukebox & Sleep Studio",
+      "aliases": [
+        "Vintage Wurlitzer 3D Lullaby Jukebox & Sleep Studio"
+      ],
+      "promptFile": "05-vintage-wurlitzer-3d-lullaby-jukebox.md"
+    },
+    {
+      "id": "full-3d-lucky-draw-and-prize-wheel-studio",
+      "n": 6,
+      "title": "Full 3D Lucky Draw & Prize Wheel Studio",
+      "tagline": "A fair 3D prize wheel with spin physics, confetti and a winner log.",
+      "track": "game",
+      "trackName": "Games & Arcade",
+      "stack": [
+        "Three.js",
+        "Canvas 2D",
+        "Web Audio",
+        "LocalStorage",
+        "JSON I/O",
+        "EN / TH"
+      ],
+      "features": [
+        "3D / WebGL",
+        "Physics",
+        "Procedural audio",
+        "Bilingual ENG/TH",
+        "Local save + export",
+        "Canvas rendering"
+      ],
+      "live": null,
+      "size": "M",
+      "words": 557,
+      "chars": 4545,
+      "readMinutes": 3,
+      "sourceTitle": "Full 3D Lucky Draw & Prize Wheel Studio",
+      "aliases": [],
+      "promptFile": "06-full-3d-lucky-draw-and-prize-wheel-studio.md"
+    },
+    {
+      "id": "leab-tui-3d-xiangqi-trick-taking-studio",
+      "n": 7,
+      "title": "Leab-Tui 3D: Xiangqi Trick-Taking Studio",
+      "tagline": "A 3D Xiangqi-tile trick-taking table with an AI coach.",
+      "track": "puzzle",
+      "trackName": "Puzzles & Strategy",
+      "stack": [
+        "Three.js",
+        "Web Audio",
+        "LocalStorage",
+        "JSON I/O",
+        "EN / TH",
+        "AI / Solver"
+      ],
+      "features": [
+        "3D / WebGL",
+        "Physics",
+        "Procedural audio",
+        "Bilingual ENG/TH",
+        "Local save + export",
+        "AI opponent / solver"
+      ],
+      "live": null,
+      "size": "M",
+      "words": 561,
+      "chars": 4529,
+      "readMinutes": 3,
+      "sourceTitle": "Leab-Tui 3D: Traditional Xiangqi Trick-Taking Studio",
+      "aliases": [
+        "Leab-Tui 3D: Traditional Xiangqi Trick-Taking Studio"
+      ],
+      "promptFile": "07-leab-tui-3d-xiangqi-trick-taking-studio.md"
+    },
+    {
+      "id": "full-3d-15-puzzle-studio-and-auto-solver",
+      "n": 8,
+      "title": "Full 3D 15-Puzzle Studio & Auto-Solver",
+      "tagline": "A tactile 4x4 sliding puzzle with a parity-safe shuffle and A* solver.",
+      "track": "puzzle",
+      "trackName": "Puzzles & Strategy",
+      "stack": [
+        "Three.js",
+        "Web Audio",
+        "LocalStorage",
+        "JSON I/O",
+        "EN / TH",
+        "AI / Solver"
+      ],
+      "features": [
+        "3D / WebGL",
+        "Procedural audio",
+        "Bilingual ENG/TH",
+        "Local save + export",
+        "AI opponent / solver"
+      ],
+      "live": null,
+      "size": "M",
+      "words": 535,
+      "chars": 4361,
+      "readMinutes": 3,
+      "sourceTitle": "Full 3D 15-Puzzle Studio & Auto-Solver",
+      "aliases": [],
+      "promptFile": "08-full-3d-15-puzzle-studio-and-auto-solver.md"
+    },
+    {
+      "id": "outbreak-3d-rogue-survival",
+      "n": 9,
+      "title": "Outbreak 3D: Rogue Survival",
+      "tagline": "A first-person zombie wave shooter with rogue-lite perk drafting.",
+      "track": "game",
+      "trackName": "Games & Arcade",
+      "stack": [
+        "Three.js",
+        "Web Audio",
+        "LocalStorage",
+        "EN / TH"
+      ],
+      "features": [
+        "3D / WebGL",
+        "Procedural audio",
+        "Bilingual ENG/TH",
+        "Local save + export",
+        "Procedural content"
+      ],
+      "live": null,
+      "size": "M",
+      "words": 531,
+      "chars": 4450,
+      "readMinutes": 3,
+      "sourceTitle": "Outbreak 3D: Rogue Survival",
+      "aliases": [],
+      "promptFile": "09-outbreak-3d-rogue-survival.md"
+    },
+    {
+      "id": "full-3d-chess-academy-and-studio",
+      "n": 10,
+      "title": "Full 3D Chess Academy & Studio",
+      "tagline": "A complete 3D chess academy with coaching and mini puzzles.",
+      "track": "puzzle",
+      "trackName": "Puzzles & Strategy",
+      "stack": [
+        "Three.js",
+        "Web Audio",
+        "LocalStorage",
+        "JSON I/O",
+        "EN / TH"
+      ],
+      "features": [
+        "3D / WebGL",
+        "Procedural audio",
+        "Bilingual ENG/TH",
+        "Local save + export"
+      ],
+      "live": null,
+      "size": "M",
+      "words": 531,
+      "chars": 4424,
+      "readMinutes": 3,
+      "sourceTitle": "Full 3D Chess Academy & Studio",
+      "aliases": [],
+      "promptFile": "10-full-3d-chess-academy-and-studio.md"
+    },
+    {
+      "id": "isometric-chess-academy-and-studio",
+      "n": 11,
+      "title": "Isometric Chess Academy & Studio",
+      "tagline": "A 2.5D isometric chess studio with a beginner blunder guard.",
+      "track": "puzzle",
+      "trackName": "Puzzles & Strategy",
+      "stack": [
+        "Canvas 2D",
+        "Web Audio",
+        "LocalStorage",
+        "JSON I/O",
+        "EN / TH"
+      ],
+      "features": [
+        "Procedural audio",
+        "Bilingual ENG/TH",
+        "Local save + export",
+        "Canvas rendering"
+      ],
+      "live": null,
+      "size": "M",
+      "words": 460,
+      "chars": 3956,
+      "readMinutes": 3,
+      "sourceTitle": "Isometric Chess Academy & Studio",
+      "aliases": [],
+      "promptFile": "11-isometric-chess-academy-and-studio.md"
+    },
+    {
+      "id": "khan-trig-companion-unit-4-equations-and-identities",
+      "n": 12,
+      "title": "Khan Trig Companion: Unit 4 Equations & Identities",
+      "tagline": "Inverse trig, identities and multi-solution equations in three playgrounds.",
+      "track": "stem",
+      "trackName": "STEM & Algorithms",
+      "stack": [
+        "Canvas 2D",
+        "LocalStorage",
+        "JSON I/O",
+        "EN / TH",
+        "AI / Solver"
+      ],
+      "features": [
+        "Bilingual ENG/TH",
+        "Local save + export",
+        "AI opponent / solver",
+        "Canvas rendering"
+      ],
+      "live": null,
+      "size": "M",
+      "words": 490,
+      "chars": 4495,
+      "readMinutes": 3,
+      "sourceTitle": "Khan Trig Companion: Unit 4 Equations & Identities Studio",
+      "aliases": [
+        "Khan Trig Companion: Unit 4 Equations & Identities Studio"
+      ],
+      "promptFile": "12-khan-trig-companion-unit-4-equations-and-identities.md"
+    },
+    {
+      "id": "khan-trig-companion-unit-3-non-right-triangles",
+      "n": 13,
+      "title": "Khan Trig Companion: Unit 3 Non-Right Triangles",
+      "tagline": "Law of Sines, Law of Cosines and real surveying problems.",
+      "track": "stem",
+      "trackName": "STEM & Algorithms",
+      "stack": [
+        "Canvas 2D",
+        "LocalStorage",
+        "JSON I/O",
+        "EN / TH",
+        "AI / Solver"
+      ],
+      "features": [
+        "Bilingual ENG/TH",
+        "Local save + export",
+        "AI opponent / solver",
+        "Canvas rendering"
+      ],
+      "live": null,
+      "size": "M",
+      "words": 481,
+      "chars": 4135,
+      "readMinutes": 3,
+      "sourceTitle": "Khan Trig Companion: Unit 3 Non-Right Triangles Studio",
+      "aliases": [
+        "Khan Trig Companion: Unit 3 Non-Right Triangles Studio"
+      ],
+      "promptFile": "13-khan-trig-companion-unit-3-non-right-triangles.md"
+    },
+    {
+      "id": "khan-trig-companion-unit-2-trigonometric-functions",
+      "n": 14,
+      "title": "Khan Trig Companion: Unit 2 Trigonometric Functions",
+      "tagline": "Unit circle, wave transformations and exact-value drills.",
+      "track": "stem",
+      "trackName": "STEM & Algorithms",
+      "stack": [
+        "Canvas 2D",
+        "LocalStorage",
+        "JSON I/O",
+        "EN / TH"
+      ],
+      "features": [
+        "Bilingual ENG/TH",
+        "Local save + export",
+        "Canvas rendering"
+      ],
+      "live": null,
+      "size": "M",
+      "words": 433,
+      "chars": 3804,
+      "readMinutes": 2,
+      "sourceTitle": "Khan Trig Companion: Unit 2 Trigonometric Functions Studio",
+      "aliases": [
+        "Khan Trig Companion: Unit 2 Trigonometric Functions Studio"
+      ],
+      "promptFile": "14-khan-trig-companion-unit-2-trigonometric-functions.md"
+    },
+    {
+      "id": "khan-trig-companion-unit-1-right-triangles",
+      "n": 15,
+      "title": "Khan Trig Companion: Unit 1 Right Triangles",
+      "tagline": "SOH-CAH-TOA, special triangles and reciprocal ratios.",
+      "track": "stem",
+      "trackName": "STEM & Algorithms",
+      "stack": [
+        "Canvas 2D",
+        "LocalStorage",
+        "JSON I/O",
+        "EN / TH",
+        "AI / Solver"
+      ],
+      "features": [
+        "Bilingual ENG/TH",
+        "Local save + export",
+        "AI opponent / solver",
+        "Canvas rendering"
+      ],
+      "live": null,
+      "size": "L",
+      "words": 726,
+      "chars": 5963,
+      "readMinutes": 4,
+      "sourceTitle": "Khan Trig Companion: Unit 1 Right Triangle Studio",
+      "aliases": [
+        "Khan Trig Companion: Unit 1 Right Triangle Studio"
+      ],
+      "promptFile": "15-khan-trig-companion-unit-1-right-triangles.md"
+    },
+    {
+      "id": "city-name-3d-urban-tourist-guide",
+      "n": 16,
+      "title": "[CITY_NAME] 3D: Urban Tourist Guide",
+      "tagline": "A city-agnostic 3D tourist guide template with three camera modes.",
+      "track": "city",
+      "trackName": "Cities & Travel",
+      "stack": [
+        "Three.js",
+        "Web Audio",
+        "LocalStorage",
+        "JSON I/O",
+        "EN / TH"
+      ],
+      "features": [
+        "3D / WebGL",
+        "Procedural audio",
+        "Local save + export",
+        "Procedural content"
+      ],
+      "live": null,
+      "size": "M",
+      "words": 437,
+      "chars": 3699,
+      "readMinutes": 2,
+      "sourceTitle": "[CITY_NAME] 3D: Interactive Urban Tourist Guide & Explorer Studio",
+      "aliases": [
+        "[CITY_NAME] 3D: Interactive Urban Tourist Guide & Explorer Studio"
+      ],
+      "promptFile": "16-city-name-3d-urban-tourist-guide.md"
+    },
+    {
+      "id": "the-virtual-playhouse-ai-classic-theatre",
+      "n": 17,
+      "title": "The Virtual Playhouse: AI Classic Theatre",
+      "tagline": "A proscenium stage that performs classic literature from JSON scripts.",
+      "track": "craft",
+      "trackName": "Creative Studios",
+      "stack": [
+        "Three.js",
+        "Canvas 2D",
+        "Web Audio"
+      ],
+      "features": [
+        "3D / WebGL",
+        "Procedural audio",
+        "Local save + export",
+        "Canvas rendering",
+        "Procedural content"
+      ],
+      "live": null,
+      "size": "S",
+      "words": 369,
+      "chars": 3103,
+      "readMinutes": 2,
+      "sourceTitle": "The Virtual Playhouse: AI Classic Theatre & Audience Simulator",
+      "aliases": [
+        "The Virtual Playhouse: AI Classic Theatre & Audience Simulator"
+      ],
+      "promptFile": "17-the-virtual-playhouse-ai-classic-theatre.md"
+    },
+    {
+      "id": "bts-sukhumvit-line-3d-bangkok-driver-simulator",
+      "n": 18,
+      "title": "BTS Sukhumvit Line 3D: Bangkok Driver Simulator",
+      "tagline": "Bangkok's Sukhumvit Line as a four-view driver simulator.",
+      "track": "city",
+      "trackName": "Cities & Travel",
+      "stack": [
+        "Three.js",
+        "Web Audio",
+        "EN / TH"
+      ],
+      "features": [
+        "3D / WebGL",
+        "Procedural audio",
+        "Bilingual ENG/TH",
+        "Procedural content"
+      ],
+      "live": null,
+      "size": "M",
+      "words": 555,
+      "chars": 4341,
+      "readMinutes": 3,
+      "sourceTitle": "BTS Sukhumvit Line 3D: Authentic Bangkok City & Driver Simulator",
+      "aliases": [
+        "BTS Sukhumvit Line 3D: Authentic Bangkok City & Driver Simulator"
+      ],
+      "promptFile": "18-bts-sukhumvit-line-3d-bangkok-driver-simulator.md"
+    },
+    {
+      "id": "wat-arun-3d-riverside-sanctuary-walkthrough",
+      "n": 19,
+      "title": "Wat Arun 3D: Riverside Sanctuary Walkthrough",
+      "tagline": "A first-person walkthrough of Wat Arun with dawn, sunset and night light.",
+      "track": "city",
+      "trackName": "Cities & Travel",
+      "stack": [
+        "Three.js",
+        "Web Audio",
+        "LocalStorage",
+        "EN / TH"
+      ],
+      "features": [
+        "3D / WebGL",
+        "Procedural audio",
+        "Bilingual ENG/TH",
+        "Local save + export",
+        "Procedural content"
+      ],
+      "live": null,
+      "size": "M",
+      "words": 606,
+      "chars": 4897,
+      "readMinutes": 3,
+      "sourceTitle": "Wat Arun 3D: Virtual Riverside Sanctuary & Walkthrough Studio",
+      "aliases": [
+        "Wat Arun 3D: Virtual Riverside Sanctuary & Walkthrough Studio"
+      ],
+      "promptFile": "19-wat-arun-3d-riverside-sanctuary-walkthrough.md"
+    },
+    {
+      "id": "makruk-3d-authentic-thai-chess-academy",
+      "n": 20,
+      "title": "Makruk 3D: Authentic Thai Chess Academy",
+      "tagline": "Authentic Makruk pieces, an AI opponent and beginner move assist.",
+      "track": "puzzle",
+      "trackName": "Puzzles & Strategy",
+      "stack": [
+        "Three.js",
+        "Web Audio",
+        "LocalStorage",
+        "JSON I/O",
+        "EN / TH",
+        "AI / Solver"
+      ],
+      "features": [
+        "3D / WebGL",
+        "Procedural audio",
+        "Bilingual ENG/TH",
+        "Local save + export",
+        "AI opponent / solver",
+        "Procedural content"
+      ],
+      "live": null,
+      "size": "M",
+      "words": 603,
+      "chars": 4636,
+      "readMinutes": 3,
+      "sourceTitle": "Makruk 2.5D: Thai Chess Academy & Beginner Studio",
+      "aliases": [
+        "Makruk 2.5D: Thai Chess Academy & Beginner Studio"
+      ],
+      "promptFile": "20-makruk-3d-authentic-thai-chess-academy.md"
+    },
+    {
+      "id": "millionaire-race-2-5d-wealth-and-asset-tycoon",
+      "n": 21,
+      "title": "Millionaire Race 2.5D: Wealth & Asset Tycoon",
+      "tagline": "A 24-tile wealth race with physics dice and AI rivals.",
+      "track": "game",
+      "trackName": "Games & Arcade",
+      "stack": [
+        "Three.js",
+        "Cannon.js",
+        "Canvas 2D",
+        "Web Audio",
+        "LocalStorage",
+        "JSON I/O"
+      ],
+      "features": [
+        "3D / WebGL",
+        "Physics",
+        "Procedural audio",
+        "Local save + export",
+        "AI opponent / solver",
+        "Canvas rendering"
+      ],
+      "live": null,
+      "size": "L",
+      "words": 705,
+      "chars": 4898,
+      "readMinutes": 4,
+      "sourceTitle": "Millionaire Race 2.5D: Wealth & Asset Tycoon Studio",
+      "aliases": [
+        "Millionaire Race 2.5D: Wealth & Asset Tycoon Studio"
+      ],
+      "promptFile": "21-millionaire-race-2-5d-wealth-and-asset-tycoon.md"
+    },
+    {
+      "id": "rajadamnern-muay-thai-3d-ring-physics-studio",
+      "n": 22,
+      "title": "Rajadamnern Muay Thai 3D: Ring Physics Studio",
+      "tagline": "Muay Thai timing drills against a physics-driven heavy bag.",
+      "track": "sim",
+      "trackName": "Simulation & Vehicles",
+      "stack": [
+        "Three.js",
+        "Cannon.js",
+        "Canvas 2D",
+        "Web Audio",
+        "LocalStorage",
+        "JSON I/O"
+      ],
+      "features": [
+        "3D / WebGL",
+        "Physics",
+        "Procedural audio",
+        "Bilingual ENG/TH",
+        "Local save + export",
+        "Canvas rendering"
+      ],
+      "live": null,
+      "size": "M",
+      "words": 417,
+      "chars": 3638,
+      "readMinutes": 2,
+      "sourceTitle": "Rajadamnern Muay Thai 3D: Ring Physics & Timing Studio",
+      "aliases": [
+        "Rajadamnern Muay Thai 3D: Ring Physics & Timing Studio"
+      ],
+      "promptFile": "22-rajadamnern-muay-thai-3d-ring-physics-studio.md"
+    },
+    {
+      "id": "yaowarat-street-food-barista-3d",
+      "n": 23,
+      "title": "Yaowarat Street Food Barista 3D",
+      "tagline": "A Yaowarat night-market stall with wok, tea and grill stations.",
+      "track": "sim",
+      "trackName": "Simulation & Vehicles",
+      "stack": [
+        "Three.js",
+        "Web Audio",
+        "LocalStorage",
+        "JSON I/O",
+        "EN / TH",
+        "Physics"
+      ],
+      "features": [
+        "3D / WebGL",
+        "Physics",
+        "Procedural audio",
+        "Bilingual ENG/TH",
+        "Local save + export",
+        "Responsive HUD"
+      ],
+      "live": null,
+      "size": "M",
+      "words": 460,
+      "chars": 3804,
+      "readMinutes": 3,
+      "sourceTitle": "Yaowarat Street Food Barista 3D: Night Market Culinary Studio",
+      "aliases": [
+        "Yaowarat Street Food Barista 3D: Night Market Culinary Studio"
+      ],
+      "promptFile": "23-yaowarat-street-food-barista-3d.md"
+    },
+    {
+      "id": "bangkok-night-cruise-3d-tuk-tuk-and-express-boat",
+      "n": 24,
+      "title": "Bangkok Night Cruise 3D: Tuk-Tuk & Express Boat",
+      "tagline": "Tuk-tuk and express-boat deliveries through neon Bangkok.",
+      "track": "sim",
+      "trackName": "Simulation & Vehicles",
+      "stack": [
+        "Three.js",
+        "Cannon.js",
+        "Web Audio",
+        "LocalStorage",
+        "JSON I/O",
+        "Physics"
+      ],
+      "features": [
+        "3D / WebGL",
+        "Physics",
+        "Procedural audio",
+        "Local save + export"
+      ],
+      "live": null,
+      "size": "M",
+      "words": 389,
+      "chars": 3481,
+      "readMinutes": 2,
+      "sourceTitle": "Bangkok Night Cruise 3D: Cyber Tuk-Tuk & Express Boat Studio",
+      "aliases": [
+        "Bangkok Night Cruise 3D: Cyber Tuk-Tuk & Express Boat Studio"
+      ],
+      "promptFile": "24-bangkok-night-cruise-3d-tuk-tuk-and-express-boat.md"
+    },
+    {
+      "id": "ocean-beach-3d-pacific-swell-and-rip-current",
+      "n": 25,
+      "title": "Ocean Beach 3D: Pacific Swell & Rip Current",
+      "tagline": "Pacific swell, rip currents and a Cliff House rescue challenge.",
+      "track": "sim",
+      "trackName": "Simulation & Vehicles",
+      "stack": [
+        "Three.js",
+        "Cannon.js",
+        "Web Audio",
+        "LocalStorage",
+        "JSON I/O",
+        "Physics"
+      ],
+      "features": [
+        "3D / WebGL",
+        "Physics",
+        "Procedural audio",
+        "Local save + export",
+        "Procedural content"
+      ],
+      "live": null,
+      "size": "M",
+      "words": 477,
+      "chars": 4050,
+      "readMinutes": 3,
+      "sourceTitle": "Ocean Beach 3D: Pacific Swell & Cliff House Rip Current Studio",
+      "aliases": [
+        "Ocean Beach 3D: Pacific Swell & Cliff House Rip Current Studio"
+      ],
+      "promptFile": "25-ocean-beach-3d-pacific-swell-and-rip-current.md"
+    },
+    {
+      "id": "golden-gate-fog-3d-atmospheric-flight",
+      "n": 26,
+      "title": "Golden Gate Fog 3D: Atmospheric Flight",
+      "tagline": "Glide through Karl the Fog and the Golden Gate waypoint rings.",
+      "track": "sim",
+      "trackName": "Simulation & Vehicles",
+      "stack": [
+        "Three.js",
+        "Cannon.js",
+        "Web Audio",
+        "LocalStorage",
+        "JSON I/O",
+        "Physics"
+      ],
+      "features": [
+        "3D / WebGL",
+        "Physics",
+        "Procedural audio",
+        "Local save + export",
+        "Procedural content"
+      ],
+      "live": null,
+      "size": "M",
+      "words": 475,
+      "chars": 4087,
+      "readMinutes": 3,
+      "sourceTitle": "Golden Gate Fog 3D: Atmospheric Flight & Bridge Simulator",
+      "aliases": [
+        "Golden Gate Fog 3D: Atmospheric Flight & Bridge Simulator"
+      ],
+      "promptFile": "26-golden-gate-fog-3d-atmospheric-flight.md"
+    },
+    {
+      "id": "powell-and-market-3d-cable-car-physics",
+      "n": 27,
+      "title": "Powell & Market 3D: Cable Car Physics",
+      "tagline": "A cable car grip, brake and Lombard Street challenge.",
+      "track": "sim",
+      "trackName": "Simulation & Vehicles",
+      "stack": [
+        "Three.js",
+        "Cannon.js",
+        "Web Audio",
+        "LocalStorage",
+        "JSON I/O",
+        "Physics"
+      ],
+      "features": [
+        "3D / WebGL",
+        "Physics",
+        "Procedural audio",
+        "Local save + export"
+      ],
+      "live": null,
+      "size": "M",
+      "words": 420,
+      "chars": 3564,
+      "readMinutes": 2,
+      "sourceTitle": "Powell & Market 3D: San Francisco Cable Car Physics Studio",
+      "aliases": [
+        "Powell & Market 3D: San Francisco Cable Car Physics Studio"
+      ],
+      "promptFile": "27-powell-and-market-3d-cable-car-physics.md"
+    },
+    {
+      "id": "harbour-bridge-cyberclimb-3d-high-wire-coaster",
+      "n": 28,
+      "title": "Harbour Bridge CyberClimb 3D: High-Wire Coaster",
+      "tagline": "A gravity coaster over the Sydney Harbour Bridge arch.",
+      "track": "sim",
+      "trackName": "Simulation & Vehicles",
+      "stack": [
+        "Three.js",
+        "Cannon.js",
+        "Web Audio",
+        "LocalStorage",
+        "JSON I/O",
+        "Physics"
+      ],
+      "features": [
+        "3D / WebGL",
+        "Physics",
+        "Procedural audio",
+        "Local save + export"
+      ],
+      "live": null,
+      "size": "S",
+      "words": 375,
+      "chars": 3383,
+      "readMinutes": 2,
+      "sourceTitle": "Harbour Bridge CyberClimb 3D: High-Wire Coaster",
+      "aliases": [],
+      "promptFile": "28-harbour-bridge-cyberclimb-3d-high-wire-coaster.md"
+    },
+    {
+      "id": "bondi-surf-3d-hydrodynamic-wave-simulator",
+      "n": 29,
+      "title": "Bondi Surf 3D: Hydrodynamic Wave Simulator",
+      "tagline": "Gerstner waves, barrel rides and trick scoring at Bondi.",
+      "track": "sim",
+      "trackName": "Simulation & Vehicles",
+      "stack": [
+        "Three.js",
+        "Cannon.js",
+        "Web Audio",
+        "LocalStorage",
+        "JSON I/O",
+        "Physics"
+      ],
+      "features": [
+        "3D / WebGL",
+        "Physics",
+        "Procedural audio",
+        "Local save + export",
+        "Procedural content"
+      ],
+      "live": null,
+      "size": "M",
+      "words": 448,
+      "chars": 3770,
+      "readMinutes": 3,
+      "sourceTitle": "Bondi Surf 3D: Hydrodynamic Wave & Ocean Simulator",
+      "aliases": [
+        "Bondi Surf 3D: Hydrodynamic Wave & Ocean Simulator"
+      ],
+      "promptFile": "29-bondi-surf-3d-hydrodynamic-wave-simulator.md"
+    },
+    {
+      "id": "sydney-harbor-ferry-master-3d",
+      "n": 30,
+      "title": "Sydney Harbor Ferry Master 3D",
+      "tagline": "Dock a Sydney ferry at Circular Quay without scratching the paint.",
+      "track": "sim",
+      "trackName": "Simulation & Vehicles",
+      "stack": [
+        "Three.js",
+        "Cannon.js",
+        "Web Audio",
+        "LocalStorage",
+        "JSON I/O",
+        "Physics"
+      ],
+      "features": [
+        "3D / WebGL",
+        "Physics",
+        "Procedural audio",
+        "Local save + export"
+      ],
+      "live": null,
+      "size": "M",
+      "words": 389,
+      "chars": 3455,
+      "readMinutes": 2,
+      "sourceTitle": "Sydney Harbor Ferry Master 3D: Captain's Simulator",
+      "aliases": [
+        "Sydney Harbor Ferry Master 3D: Captain's Simulator"
+      ],
+      "promptFile": "30-sydney-harbor-ferry-master-3d.md"
+    },
+    {
+      "id": "aami-park-3d-penalty-shootout-studio",
+      "n": 31,
+      "title": "AAMI Park 3D: Penalty Shootout Studio",
+      "tagline": "AAMI Park penalties with weather, curve and goalkeeper AI.",
+      "track": "sim",
+      "trackName": "Simulation & Vehicles",
+      "stack": [
+        "Three.js",
+        "Cannon.js",
+        "Web Audio",
+        "LocalStorage",
+        "JSON I/O",
+        "Physics"
+      ],
+      "features": [
+        "3D / WebGL",
+        "Physics",
+        "Procedural audio",
+        "Local save + export",
+        "Responsive HUD"
+      ],
+      "live": null,
+      "size": "S",
+      "words": 375,
+      "chars": 3403,
+      "readMinutes": 2,
+      "sourceTitle": "AAMI Park 3D: Stadium Match Day & Penalty Shootout Studio",
+      "aliases": [
+        "AAMI Park 3D: Stadium Match Day & Penalty Shootout Studio"
+      ],
+      "promptFile": "31-aami-park-3d-penalty-shootout-studio.md"
+    },
+    {
+      "id": "laneway-barista-melbourne-espresso-studio",
+      "n": 32,
+      "title": "Laneway Barista: Melbourne Espresso Studio",
+      "tagline": "Dial in espresso, microfoam and latte art in a Melbourne laneway.",
+      "track": "sim",
+      "trackName": "Simulation & Vehicles",
+      "stack": [
+        "Three.js",
+        "Canvas 2D",
+        "Web Audio",
+        "LocalStorage",
+        "JSON I/O",
+        "Physics"
+      ],
+      "features": [
+        "3D / WebGL",
+        "Physics",
+        "Procedural audio",
+        "Local save + export",
+        "Canvas rendering",
+        "Responsive HUD"
+      ],
+      "live": null,
+      "size": "M",
+      "words": 422,
+      "chars": 3666,
+      "readMinutes": 2,
+      "sourceTitle": "Laneway Barista: Melbourne Café & Espresso Master Studio",
+      "aliases": [
+        "Laneway Barista: Melbourne Café & Espresso Master Studio"
+      ],
+      "promptFile": "32-laneway-barista-melbourne-espresso-studio.md"
+    },
+    {
+      "id": "tramtracker-2088-melbourne-trams-3d",
+      "n": 33,
+      "title": "TramTracker 2088: Melbourne Trams 3D",
+      "tagline": "Melbourne's tram network with hook turns and Myki chimes.",
+      "track": "sim",
+      "trackName": "Simulation & Vehicles",
+      "stack": [
+        "Three.js",
+        "Cannon.js",
+        "Canvas 2D",
+        "Web Audio",
+        "LocalStorage",
+        "JSON I/O"
+      ],
+      "features": [
+        "3D / WebGL",
+        "Physics",
+        "Procedural audio",
+        "Local save + export",
+        "Canvas rendering",
+        "Responsive HUD"
+      ],
+      "live": null,
+      "size": "M",
+      "words": 401,
+      "chars": 3539,
+      "readMinutes": 2,
+      "sourceTitle": "TramTracker 2088: Melbourne Yarra Trams 3D Simulator",
+      "aliases": [
+        "TramTracker 2088: Melbourne Yarra Trams 3D Simulator"
+      ],
+      "promptFile": "33-tramtracker-2088-melbourne-trams-3d.md"
+    },
+    {
+      "id": "nexus-2035-futuristic-4br-house-tour",
+      "n": 34,
+      "title": "Nexus 2035: Futuristic 4BR House Tour",
+      "tagline": "A room-by-room smart-home tour of a 2035 four-bedroom house.",
+      "track": "life",
+      "trackName": "Tools & Daily Life",
+      "stack": [
+        "Three.js",
+        "LocalStorage",
+        "JSON I/O"
+      ],
+      "features": [
+        "3D / WebGL",
+        "Local save + export"
+      ],
+      "live": null,
+      "size": "M",
+      "words": 486,
+      "chars": 4181,
+      "readMinutes": 3,
+      "sourceTitle": "Nexus 2035: Futuristic 4BR House Tour Studio",
+      "aliases": [
+        "Nexus 2035: Futuristic 4BR House Tour Studio"
+      ],
+      "promptFile": "34-nexus-2035-futuristic-4br-house-tour.md"
+    },
+    {
+      "id": "hearth-and-home-3d-cozy-fireplace-sanctuary",
+      "n": 35,
+      "title": "Hearth & Home 3D: Cozy Fireplace Sanctuary",
+      "tagline": "A procedural fire, crackle synth and Pomodoro sanctuary.",
+      "track": "calm",
+      "trackName": "Calm & Focus",
+      "stack": [
+        "Three.js",
+        "Web Audio",
+        "LocalStorage",
+        "JSON I/O"
+      ],
+      "features": [
+        "3D / WebGL",
+        "Procedural audio",
+        "Local save + export",
+        "Procedural content"
+      ],
+      "live": null,
+      "size": "S",
+      "words": 343,
+      "chars": 3035,
+      "readMinutes": 2,
+      "sourceTitle": "Hearth & Home 3D: Cozy Fireplace & Study Sanctuary",
+      "aliases": [
+        "Hearth & Home 3D: Cozy Fireplace & Study Sanctuary"
+      ],
+      "promptFile": "35-hearth-and-home-3d-cozy-fireplace-sanctuary.md"
+    },
+    {
+      "id": "sky-and-sea-3d-ambient-study-sanctuary",
+      "n": 36,
+      "title": "Sky & Sea 3D: Ambient Study Sanctuary",
+      "tagline": "Auto-piloted ocean and cloud scenery with ambient focus audio.",
+      "track": "calm",
+      "trackName": "Calm & Focus",
+      "stack": [
+        "Three.js",
+        "Web Audio",
+        "LocalStorage",
+        "JSON I/O"
+      ],
+      "features": [
+        "3D / WebGL",
+        "Procedural audio",
+        "Local save + export",
+        "Procedural content"
+      ],
+      "live": null,
+      "size": "S",
+      "words": 366,
+      "chars": 3233,
+      "readMinutes": 2,
+      "sourceTitle": "Sky & Sea 3D: Ambient Study & Focus Sanctuary",
+      "aliases": [
+        "Sky & Sea 3D: Ambient Study & Focus Sanctuary"
+      ],
+      "promptFile": "36-sky-and-sea-3d-ambient-study-sanctuary.md"
+    },
+    {
+      "id": "oceancraft-3d-deep-sea-fishing-studio",
+      "n": 37,
+      "title": "OceanCraft 3D: Deep Sea Fishing Studio",
+      "tagline": "Deep-sea fishing with buoyancy, tension and a catch logbook.",
+      "track": "sim",
+      "trackName": "Simulation & Vehicles",
+      "stack": [
+        "Three.js",
+        "Web Audio",
+        "LocalStorage",
+        "JSON I/O",
+        "Physics"
+      ],
+      "features": [
+        "3D / WebGL",
+        "Physics",
+        "Procedural audio",
+        "Local save + export",
+        "Procedural content",
+        "Responsive HUD"
+      ],
+      "live": null,
+      "size": "M",
+      "words": 418,
+      "chars": 3485,
+      "readMinutes": 2,
+      "sourceTitle": "OceanCraft 3D: Deep Sea Fishing & Hydrodynamics Studio",
+      "aliases": [
+        "OceanCraft 3D: Deep Sea Fishing & Hydrodynamics Studio"
+      ],
+      "promptFile": "37-oceancraft-3d-deep-sea-fishing-studio.md"
+    },
+    {
+      "id": "cybertype-terminal-typing-studio",
+      "n": 38,
+      "title": "CyberType: Terminal Typing Studio",
+      "tagline": "A retro terminal trainer for prose, code and math symbols.",
+      "track": "language",
+      "trackName": "Language & Reading",
+      "stack": [
+        "Web Audio",
+        "LocalStorage",
+        "JSON I/O"
+      ],
+      "features": [
+        "Procedural audio",
+        "Local save + export",
+        "Procedural content",
+        "Responsive HUD"
+      ],
+      "live": null,
+      "size": "S",
+      "words": 355,
+      "chars": 3114,
+      "readMinutes": 2,
+      "sourceTitle": "CyberType: Terminal Typing & Code Speed Studio",
+      "aliases": [
+        "CyberType: Terminal Typing & Code Speed Studio"
+      ],
+      "promptFile": "38-cybertype-terminal-typing-studio.md"
+    },
+    {
+      "id": "cyberdoom-retro-3d-shooter-studio",
+      "n": 39,
+      "title": "CyberDoom: Retro 3D Shooter Studio",
+      "tagline": "A 1990s-style FPS arena with billboard enemies and a marine HUD.",
+      "track": "game",
+      "trackName": "Games & Arcade",
+      "stack": [
+        "Three.js",
+        "Canvas 2D",
+        "Web Audio",
+        "LocalStorage",
+        "JSON I/O"
+      ],
+      "features": [
+        "3D / WebGL",
+        "Procedural audio",
+        "Local save + export",
+        "Canvas rendering",
+        "Procedural content"
+      ],
+      "live": null,
+      "size": "M",
+      "words": 406,
+      "chars": 3456,
+      "readMinutes": 2,
+      "sourceTitle": "CyberDoom: Retro 3D First-Person Shooter Studio",
+      "aliases": [
+        "CyberDoom: Retro 3D First-Person Shooter Studio"
+      ],
+      "promptFile": "39-cyberdoom-retro-3d-shooter-studio.md"
+    },
+    {
+      "id": "neon-horizon-2088-cyberpunk-pinball",
+      "n": 40,
+      "title": "NEON HORIZON 2088: Cyberpunk Pinball",
+      "tagline": "A cyberpunk pinball table with plasma bumpers and wire loops.",
+      "track": "game",
+      "trackName": "Games & Arcade",
+      "stack": [
+        "Three.js",
+        "Cannon.js",
+        "Canvas 2D",
+        "Web Audio",
+        "LocalStorage",
+        "JSON I/O"
+      ],
+      "features": [
+        "3D / WebGL",
+        "Physics",
+        "Procedural audio",
+        "Local save + export",
+        "Canvas rendering",
+        "Responsive HUD"
+      ],
+      "live": null,
+      "size": "M",
+      "words": 426,
+      "chars": 3713,
+      "readMinutes": 2,
+      "sourceTitle": "NEON HORIZON 2088: Cyberpunk 3D Pinball Studio",
+      "aliases": [
+        "NEON HORIZON 2088: Cyberpunk 3D Pinball Studio"
+      ],
+      "promptFile": "40-neon-horizon-2088-cyberpunk-pinball.md"
+    },
+    {
+      "id": "pinball-studio-3d",
+      "n": 41,
+      "title": "Pinball Studio 3D",
+      "tagline": "A classic pinball cabinet with flippers, slingshots and high scores.",
+      "track": "game",
+      "trackName": "Games & Arcade",
+      "stack": [
+        "Three.js",
+        "Cannon.js",
+        "Canvas 2D",
+        "Web Audio",
+        "LocalStorage",
+        "JSON I/O"
+      ],
+      "features": [
+        "3D / WebGL",
+        "Physics",
+        "Procedural audio",
+        "Local save + export",
+        "Canvas rendering",
+        "Responsive HUD"
+      ],
+      "live": null,
+      "size": "S",
+      "words": 367,
+      "chars": 3277,
+      "readMinutes": 2,
+      "sourceTitle": "Pinball Studio 3D",
+      "aliases": [],
+      "promptFile": "41-pinball-studio-3d.md"
+    },
+    {
+      "id": "brickstep-3d-pro-250-piece-assembly-studio",
+      "n": 42,
+      "title": "BrickStep 3D Pro: 250-Piece Assembly Studio",
+      "tagline": "A 250-piece brick assembly studio with ghost previews and snapping.",
+      "track": "craft",
+      "trackName": "Creative Studios",
+      "stack": [
+        "Three.js",
+        "LocalStorage",
+        "JSON I/O"
+      ],
+      "features": [
+        "3D / WebGL",
+        "Local save + export",
+        "Procedural content"
+      ],
+      "live": null,
+      "size": "S",
+      "words": 357,
+      "chars": 3064,
+      "readMinutes": 2,
+      "sourceTitle": "BrickStep 3D Pro",
+      "aliases": [
+        "BrickStep 3D Pro"
+      ],
+      "promptFile": "42-brickstep-3d-pro-250-piece-assembly-studio.md"
+    },
+    {
+      "id": "gutenberg-reader-studio-and-vocabulary-lab",
+      "n": 43,
+      "title": "Gutenberg Reader Studio & Vocabulary Lab",
+      "tagline": "Project Gutenberg reading with Bionic mode, RSVP and an SRS word bank.",
+      "track": "language",
+      "trackName": "Language & Reading",
+      "stack": [
+        "Web Audio",
+        "LocalStorage",
+        "JSON I/O",
+        "SRS"
+      ],
+      "features": [
+        "Procedural audio",
+        "Local save + export",
+        "Spaced repetition"
+      ],
+      "live": null,
+      "size": "M",
+      "words": 402,
+      "chars": 3579,
+      "readMinutes": 2,
+      "sourceTitle": "Gutenberg Reader Studio & Vocabulary Lab",
+      "aliases": [],
+      "promptFile": "43-gutenberg-reader-studio-and-vocabulary-lab.md"
+    },
+    {
+      "id": "snooker-3d-championship-table-and-referee",
+      "n": 44,
+      "title": "Snooker 3D: Championship Table & Referee",
+      "tagline": "A full 22-ball snooker table with spin, fouls and referee scoring.",
+      "track": "game",
+      "trackName": "Games & Arcade",
+      "stack": [
+        "Three.js",
+        "Cannon.js",
+        "LocalStorage",
+        "JSON I/O",
+        "Physics",
+        "AI / Solver"
+      ],
+      "features": [
+        "3D / WebGL",
+        "Physics",
+        "Local save + export",
+        "AI opponent / solver"
+      ],
+      "live": null,
+      "size": "M",
+      "words": 452,
+      "chars": 3765,
+      "readMinutes": 3,
+      "sourceTitle": "Snooker Game (3D)",
+      "aliases": [
+        "Snooker Game (3D)"
+      ],
+      "promptFile": "44-snooker-3d-championship-table-and-referee.md"
+    },
+    {
+      "id": "20-tab-3d-trigonometry-master-booklet",
+      "n": 45,
+      "title": "20-Tab 3D Trigonometry Master Booklet",
+      "tagline": "Twenty 3D trig modules, real-world simulators and spaced review.",
+      "track": "stem",
+      "trackName": "STEM & Algorithms",
+      "stack": [
+        "Three.js",
+        "LocalStorage",
+        "JSON I/O",
+        "SRS"
+      ],
+      "features": [
+        "3D / WebGL",
+        "Physics",
+        "Local save + export",
+        "Spaced repetition",
+        "Responsive HUD"
+      ],
+      "live": null,
+      "size": "M",
+      "words": 631,
+      "chars": 4742,
+      "readMinutes": 3,
+      "sourceTitle": "3D Trigonometry Master Booklet",
+      "aliases": [
+        "3D Trigonometry Master Booklet"
+      ],
+      "promptFile": "45-20-tab-3d-trigonometry-master-booklet.md"
+    },
+    {
+      "id": "voa-newsroom-500-words-esl-studio",
+      "n": 46,
+      "title": "VOA Newsroom: 500 Words ESL Studio",
+      "tagline": "A newsroom-themed VOA vocabulary studio with five activities.",
+      "track": "language",
+      "trackName": "Language & Reading",
+      "stack": [
+        "Web Speech",
+        "LocalStorage",
+        "JSON I/O",
+        "SRS"
+      ],
+      "features": [
+        "Local save + export",
+        "Speech in / out",
+        "Spaced repetition",
+        "Responsive HUD"
+      ],
+      "live": null,
+      "size": "L",
+      "words": 689,
+      "chars": 5576,
+      "readMinutes": 4,
+      "sourceTitle": "VOA Newsroom 500 Words",
+      "aliases": [
+        "VOA Newsroom 500 Words"
+      ],
+      "promptFile": "46-voa-newsroom-500-words-esl-studio.md"
+    },
+    {
+      "id": "us-map-jigsaw-3d",
+      "n": 47,
+      "title": "US Map Jigsaw 3D",
+      "tagline": "A dual-layer US map and capitals jigsaw with 3D snapping.",
+      "track": "puzzle",
+      "trackName": "Puzzles & Strategy",
+      "stack": [
+        "Three.js",
+        "Web Audio",
+        "Single file"
+      ],
+      "features": [
+        "3D / WebGL",
+        "Procedural audio",
+        "Single-file build"
+      ],
+      "live": "https://somphol.github.io/us-map-jigsaw-3d/",
+      "size": "M",
+      "words": 453,
+      "chars": 2905,
+      "readMinutes": 3,
+      "sourceTitle": "US Map Jigsaw 3D",
+      "aliases": [],
+      "promptFile": "47-us-map-jigsaw-3d.md"
+    },
+    {
+      "id": "word-practice-esl-pronunciation-coach",
+      "n": 48,
+      "title": "Word Practice: ESL Pronunciation Coach",
+      "tagline": "A minimal ESL pronunciation coach with TTS and speech recognition.",
+      "track": "language",
+      "trackName": "Language & Reading",
+      "stack": [
+        "Web Speech"
+      ],
+      "features": [
+        "Speech in / out",
+        "Responsive HUD"
+      ],
+      "live": "https://somphol.github.io/word-practice/",
+      "size": "S",
+      "words": 333,
+      "chars": 2271,
+      "readMinutes": 2,
+      "sourceTitle": "Word Practice",
+      "aliases": [
+        "Word Practice"
+      ],
+      "promptFile": "48-word-practice-esl-pronunciation-coach.md"
+    },
+    {
+      "id": "flappy-bird-3d",
+      "n": 49,
+      "title": "Flappy Bird 3D",
+      "tagline": "A third-person 3D flappy flyer through endless pipe tunnels.",
+      "track": "game",
+      "trackName": "Games & Arcade",
+      "stack": [
+        "Three.js",
+        "Web Audio",
+        "LocalStorage",
+        "Physics",
+        "Single file"
+      ],
+      "features": [
+        "3D / WebGL",
+        "Physics",
+        "Procedural audio",
+        "Local save + export",
+        "Single-file build"
+      ],
+      "live": null,
+      "size": "S",
+      "words": 228,
+      "chars": 1452,
+      "readMinutes": 2,
+      "sourceTitle": "Flappy Bird 3D",
+      "aliases": [],
+      "promptFile": "49-flappy-bird-3d.md"
+    },
+    {
+      "id": "rubiks-cube-3d-solver-and-simulator",
+      "n": 50,
+      "title": "Rubik's Cube 3D Solver & Simulator",
+      "tagline": "A glossy 3D cube with slice turns and an animated solver.",
+      "track": "puzzle",
+      "trackName": "Puzzles & Strategy",
+      "stack": [
+        "Three.js",
+        "Web Audio",
+        "AI / Solver",
+        "Single file"
+      ],
+      "features": [
+        "3D / WebGL",
+        "Procedural audio",
+        "AI opponent / solver",
+        "Single-file build"
+      ],
+      "live": null,
+      "size": "M",
+      "words": 498,
+      "chars": 3441,
+      "readMinutes": 3,
+      "sourceTitle": "Rubik Cube",
+      "aliases": [
+        "Rubik Cube"
+      ],
+      "promptFile": "50-rubiks-cube-3d-solver-and-simulator.md"
+    },
+    {
+      "id": "klondike-solitaire",
+      "n": 51,
+      "title": "Klondike Solitaire",
+      "tagline": "Klondike Solitaire with drag-and-drop, undo and auto-complete.",
+      "track": "game",
+      "trackName": "Games & Arcade",
+      "stack": [
+        "Web Audio",
+        "LocalStorage",
+        "Single file"
+      ],
+      "features": [
+        "Procedural audio",
+        "Local save + export",
+        "Single-file build"
+      ],
+      "live": null,
+      "size": "M",
+      "words": 427,
+      "chars": 2817,
+      "readMinutes": 2,
+      "sourceTitle": "Solitaire",
+      "aliases": [
+        "Solitaire"
+      ],
+      "promptFile": "51-klondike-solitaire.md"
+    },
+    {
+      "id": "texas-holdem-poker",
+      "n": 52,
+      "title": "Texas Hold'em Poker",
+      "tagline": "A no-limit Texas Hold'em table with AI opponents.",
+      "track": "game",
+      "trackName": "Games & Arcade",
+      "stack": [
+        "Canvas 2D",
+        "AI / Solver",
+        "Single file"
+      ],
+      "features": [
+        "AI opponent / solver",
+        "Single-file build",
+        "Canvas rendering"
+      ],
+      "live": null,
+      "size": "S",
+      "words": 353,
+      "chars": 2177,
+      "readMinutes": 2,
+      "sourceTitle": "Texas Hold'em",
+      "aliases": [
+        "Texas Hold'em"
+      ],
+      "promptFile": "52-texas-holdem-poker.md"
+    },
+    {
+      "id": "pong-classic",
+      "n": 53,
+      "title": "Pong Classic",
+      "tagline": "The original neon Pong, rebuilt in one canvas.",
+      "track": "game",
+      "trackName": "Games & Arcade",
+      "stack": [
+        "Canvas 2D",
+        "Single file"
+      ],
+      "features": [
+        "Single-file build",
+        "Canvas rendering"
+      ],
+      "live": null,
+      "size": "S",
+      "words": 70,
+      "chars": 425,
+      "readMinutes": 1,
+      "sourceTitle": "pong_classic",
+      "aliases": [
+        "pong_classic"
+      ],
+      "promptFile": "53-pong-classic.md"
+    },
+    {
+      "id": "world-clock-dashboard",
+      "n": 54,
+      "title": "World Clock Dashboard",
+      "tagline": "A timezone dashboard with analog and digital clocks.",
+      "track": "life",
+      "trackName": "Tools & Daily Life",
+      "stack": [
+        "LocalStorage",
+        "Single file"
+      ],
+      "features": [
+        "Local save + export",
+        "Single-file build",
+        "Responsive HUD"
+      ],
+      "live": null,
+      "size": "S",
+      "words": 126,
+      "chars": 864,
+      "readMinutes": 1,
+      "sourceTitle": "World Clock",
+      "aliases": [
+        "World Clock"
+      ],
+      "promptFile": "54-world-clock-dashboard.md"
+    }
+  ]
+}

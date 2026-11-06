@@ -1,0 +1,123 @@
+{
+  "project": "VU Project Ideas — 54 build briefs for your next studio",
+  "release": "1.0.0",
+  "session": {
+    "id": "ses_e51d0ff73ffevsWX7XgTOjLWLR",
+    "title": "VU Project Ideas catalog",
+    "startedAt": "2026-11-06T00:07:58Z",
+    "capturedAt": "2026-11-06T00:48:13Z",
+    "elapsedSeconds": 2415,
+    "elapsed": "40m 15s",
+    "note": "Built in one OpenCode session: recovered 55 prompt blocks from the local session database, parsed them into 54 unique briefs, curated metadata, built a static searchable catalog, generated 54 copy-ready Markdown files, verified in headless Chrome, documented, and published to GitHub Pages."
+  },
+  "model": {
+    "name": "DeepSeek V4.1 Flash",
+    "id": "deepseek-v4.1-flash",
+    "provider": "opencode-go"
+  },
+  "usage": {
+    "inputTokens": 425242,
+    "outputTokens": 87472,
+    "reasoningTokens": 51780,
+    "cacheReadTokens": 15286528,
+    "cacheWriteTokens": 55134,
+    "totalTokens": 15906156,
+    "costUSD": 0.0,
+    "note": "Read from the OpenCode session database (session_v2). totalTokens is the sum of the five counters; repeated prompt cache reads dominate the figure. costUSD is 0 on the flat-rate plan. This block is refreshed at the end of the session."
+  },
+  "artifacts": {
+    "sourceFiles": [
+      "index.html",
+      "assets/style.css",
+      "assets/app.js",
+      "data/projects.js",
+      "data/catalog.json",
+      "data/source.json",
+      "data/metadata.json",
+      "data/prefix.txt"
+    ],
+    "generated": [
+      "prompts/ (54 Markdown briefs + README)",
+      "docs/CATALOG.md"
+    ],
+    "supportingFiles": [
+      "README.md",
+      "AGENTS.md",
+      "CHANGELOG.md",
+      "CONTRIBUTING.md",
+      "CODE_OF_CONDUCT.md",
+      "SECURITY.md",
+      "SUPPORT.md",
+      "LICENSE",
+      "THIRD_PARTY_NOTICES.md",
+      "state.json",
+      "docs/README.md",
+      "docs/ARCHITECTURE.md",
+      "docs/REPRODUCTION.md",
+      "docs/PROVENANCE.md",
+      "docs/DESIGN.md",
+      "docs/TESTING.md",
+      "docs/DEPLOYMENT.md",
+      "docs/DECISIONS.md",
+      "docs/ACCESSIBILITY.md",
+      "docs/PERFORMANCE.md",
+      "docs/PRIVACY.md",
+      "docs/FAQ.md",
+      "docs/ROADMAP.md",
+      "tests/browser.test.mjs",
+      "scripts/build.py",
+      "scripts/verify.mjs",
+      "scripts/extract-session.py",
+      "scripts/parse-source.py",
+      ".github/workflows/ci.yml",
+      "assets/favicon.svg",
+      "assets/studio.png",
+      "assets/studio-dark.png",
+      "assets/library.png",
+      "assets/detail.png",
+      "assets/mobile.png",
+      "assets/mobile-detail.png",
+      "assets/og-card.png",
+      "robots.txt",
+      "sitemap.xml",
+      ".nojekyll",
+      ".gitignore",
+      ".editorconfig"
+    ]
+  },
+  "verification": {
+    "method": "Dependency-free Node static checks plus headless Chrome over the DevTools Protocol",
+    "staticChecks": 365,
+    "browserChecks": 31,
+    "consoleErrors": 0,
+    "status": "passed locally and live",
+    "liveBrowserChecks": 31
+  },
+  "deployment": {
+    "repository": "https://github.com/somphol/vu_project_ideas",
+    "pages": "https://somphol.github.io/vu_project_ideas/",
+    "host": "GitHub Pages",
+    "branch": "main",
+    "path": "/",
+    "status": "live",
+    "verifiedAt": "2026-11-06T00:48:13Z",
+    "note": "Pages built from main / root. The 31-check browser suite passed against the live URL with zero console errors."
+  },
+  "credits": {
+    "tool": "OpenCode",
+    "toolURL": "https://opencode.ai",
+    "model": "DeepSeek V4.1 Flash",
+    "modelID": "opencode-go/deepseek-v4.1-flash",
+    "license": "MIT"
+  },
+  "skill": {
+    "name": "vu-project-ideas-studio",
+    "title": "VU Project Ideas Studio",
+    "status": "published",
+    "catalog": "https://somphol.github.io/opencode-skills/",
+    "source": "https://github.com/somphol/vu_project_ideas",
+    "local": "~/.config/opencode/skills/vu-project-ideas-studio",
+    "catalogPath": "https://somphol.github.io/opencode-skills/vu-project-ideas-studio/",
+    "validation": "Static 365/365 and browser 31/31 in a scaffolded temp project; reference copied into the skill."
+  }
+}

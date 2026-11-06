@@ -14,18 +14,22 @@ import { fileURLToPath } from 'node:url'
 
 const ROOT = resolve(dirname(fileURLToPath(import.meta.url)))
 const MANIFEST = JSON.parse(readFileSync(join(ROOT, 'skills.json'), 'utf8'))
-const SKIP = new Set(['node_modules', 'dist', 'dist-single', 'shots', 'film', '.git', '.DS_Store', 'docs'])
+const SKIP = new Set(['node_modules', 'dist', 'dist-single', 'shots', 'film', '.git', '.DS_Store'])
+
+// Skip a top-level docs/ folder, but keep docs nested inside a skill reference.
+const skipEntry = (name, rel) => SKIP.has(name) || (name === 'docs' && !rel.includes('/'))
 
 const args = process.argv.slice(2)
 const check = args.includes('--check')
 const only = args.find((a) => !a.startsWith('--'))
 
-function walk(dir, base = dir) {
+function walk(dir, base = dir, rel = '') {
   const out = []
   for (const entry of readdirSync(dir, { withFileTypes: true })) {
-    if (SKIP.has(entry.name) || entry.name.startsWith('.')) continue
+    const childRel = rel ? `${rel}/${entry.name}` : entry.name
+    if (skipEntry(entry.name, childRel) || entry.name.startsWith('.')) continue
     const full = join(dir, entry.name)
-    if (entry.isDirectory()) out.push(...walk(full, base))
+    if (entry.isDirectory()) out.push(...walk(full, base, childRel))
     else if (entry.isFile()) out.push(relative(base, full))
   }
   return out.sort()
@@ -56,7 +60,14 @@ for (const skill of MANIFEST.skills) {
   }
   if (!check) {
     rmSync(dest, { recursive: true, force: true })
-    cpSync(src, dest, { recursive: true, filter: (p) => !SKIP.has(p.split('/').pop()) })
+    cpSync(src, dest, {
+      recursive: true,
+      filter: (p) => {
+        const rel = relative(src, p)
+        if (!rel) return true
+        return !skipEntry(rel.split('/').pop(), rel)
+      },
+    })
   }
   const files = walk(dest)
   const version = hashFiles(dest, files).slice(0, 12)
