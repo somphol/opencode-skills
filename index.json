@@ -350,7 +350,7 @@
     },
     {
       "name": "cute3d-animal-studio",
-      "version": "62e64d2311cb",
+      "version": "4c75ff19d818",
       "description": "Build a release-grade, zero-asset 3D animal character studio with seven original procedural Three.js pets, layered fur/feather coats, GPU strand fur, a movable wind fan, species postures, five fur controls, three lighting moods, bilingual UI, local presets, transparent PNG export, four test layers and a GitHub Pages release.",
       "license": "MIT",
       "files": [

@@ -2696,7 +2696,8 @@ const vfxStrandMaterial = (color, bellyColor = color) => new THREE.ShaderMateria
     uCursor: STRAND_UNIFORMS.uCursor,
     uColor: { value: new THREE.Color(color) },
     uBelly: { value: new THREE.Color(bellyColor) },
-    uTip: { value: new THREE.Color(color).lerp(new THREE.Color('#ffffff'), 0.12) },
+    uBellyTip: { value: new THREE.Color(bellyColor).lerp(new THREE.Color('#ffffff'), 0.08) },
+    uTip: { value: new THREE.Color(color).lerp(new THREE.Color('#ffffff'), 0.1) },
     uKey: { value: new THREE.Vector3(3.4, 6.4, 4.6).normalize() },
     uFill: { value: new THREE.Vector3(-4.5, 3, 2).normalize() },
   },
@@ -2746,6 +2747,7 @@ const vfxStrandMaterial = (color, bellyColor = color) => new THREE.ShaderMateria
   fragmentShader: `
     uniform vec3 uColor;
     uniform vec3 uBelly;
+    uniform vec3 uBellyTip;
     uniform vec3 uTip;
     uniform vec3 uKey;
     uniform vec3 uFill;
@@ -2767,7 +2769,8 @@ const vfxStrandMaterial = (color, bellyColor = color) => new THREE.ShaderMateria
       float spec = pow(sinTH, 86.0) * 0.72 + pow(sinTH, 15.0) * 0.16;
       float diff = 0.28 + 0.72 * max(dot(N, L), 0.0);
       float fill = max(dot(N, normalize(uFill)), 0.0) * 0.22;
-      vec3 base = mix(mix(uColor, uBelly, vRole), uTip, smoothstep(0.0, 0.86, vUv.y));
+      vec3 tipColor = mix(uTip, uBellyTip, vRole);
+      vec3 base = mix(mix(uColor, uBelly, vRole), tipColor, smoothstep(0.0, 0.86, vUv.y));
       base *= 0.72 + 0.42 * vTint;
       float ao = mix(0.28, 1.0, pow(vUv.y, 0.55));
       float rim = pow(1.0 - max(dot(N, V), 0.0), 2.2) * 0.07;
@@ -2799,8 +2802,8 @@ const sampleVfxRoots = (mesh, zone, target, rand) => {
     if (zone.maxY !== undefined && dir.y > zone.maxY) continue;
     if (zone.minZ !== undefined && dir.z < zone.minZ) continue;
     if (zone.maxZ !== undefined && dir.z > zone.maxZ) continue;
-    if (zone.skipBelly && dir.z > 0.42 && Math.abs(dir.x) < 0.5 && dir.y > -0.58 && dir.y < 0.32) continue;
-    if (zone.skipFace && dir.z > 0.48 && Math.abs(dir.x) < 0.52 && dir.y > -0.42 && dir.y < 0.36) continue;
+    if (zone.skipBelly && dir.z > 0.4 && (dir.x / 0.6) ** 2 + ((dir.y + 0.03) / 0.6) ** 2 < 1) continue;
+    if (zone.skipFace && dir.z > 0.56 && Math.abs(dir.x) < 0.42 && dir.y > -0.32 && dir.y < 0.24) continue;
     const point = new THREE.Vector3(
       dir.x * mesh.scale.x * 1.2,
       dir.y * mesh.scale.y * 1.2,
@@ -2821,9 +2824,9 @@ const buildVfxKoala = (instance, level) => {
   disposeStrands(instance);
   const budget = level === 'vfx' ? (window.innerWidth < 800 ? 80000 : 190000) : 90000;
   const zones = [
-    { mesh: 'body', role: 'main', weight: 46, len: [0.025, 0.05], radius: [0.004, 0.0068], minY: -0.45 },
-    { mesh: 'belly', role: 'belly', weight: 7, len: [0.012, 0.025], radius: [0.0032, 0.0058], minZ: 0.1 },
-    { mesh: 'head-mesh', role: 'main', weight: 21, len: [0.025, 0.05], radius: [0.0032, 0.0058], skipFace: true },
+    { mesh: 'body', role: 'main', weight: 48, len: [0.04, 0.08], radius: [0.004, 0.007], minY: -0.45, skipBelly: true },
+    { mesh: 'belly', role: 'belly', weight: 12, len: [0.028, 0.052], radius: [0.0038, 0.0065], minZ: 0.1 },
+    { mesh: 'head-mesh', role: 'main', weight: 21, len: [0.035, 0.07], radius: [0.0032, 0.006], skipFace: true },
     { mesh: 'ear-left', role: 'main', weight: 6, len: [0.055, 0.11], radius: [0.0038, 0.0068], maxZ: 0.25 },
     { mesh: 'ear-right', role: 'main', weight: 6, len: [0.055, 0.11], radius: [0.0038, 0.0068], maxZ: 0.25 },
     { mesh: 'tail', role: 'main', weight: 2, len: [0.018, 0.035], radius: [0.003, 0.0052] },
@@ -2884,7 +2887,7 @@ const buildVfxKoala = (instance, level) => {
       const nx = (p.x - mesh.position.x) / mesh.scale.x;
       const ny = (p.y - mesh.position.y) / mesh.scale.y;
       const nz = (p.z - mesh.position.z) / mesh.scale.z;
-      const belly = zone.role === 'belly' || (zone.mesh === 'body' && nz > 0.2 && (nx / 0.62) ** 2 + ((ny + 0.03) / 0.68) ** 2 < 1);
+      const belly = zone.role === 'belly';
       rolesAttr.setX(i, belly ? 1 : 0);
       const tangent = new THREE.Vector3(rand() * 2 - 1, rand() * 2 - 1, rand() * 2 - 1);
       tangent.addScaledVector(n, -tangent.dot(n));
@@ -4527,7 +4530,7 @@ const boot = () => {
 
   window.__cute3d = {
     ready: true,
-    version: '1.5.0',
+    version: '1.5.1',
     engine: ENGINE,
     state,
     scene,

@@ -1,7 +1,7 @@
 ---
 name: Cute3D Animal Studio
 description: Build a release-grade, zero-asset 3D animal character studio with seven original procedural Three.js pets, layered fur and feather shells, a real koala-only GPU strand coat plus an optional VFX groom, with an inherited wind fan, species postures, idle/click animations, live colours/accessories, Web Audio, a bilingual EN/TH UI, local presets, transparent PNG export, four test layers and GitHub Pages.
-version: 1.5.0
+version: 1.5.1
 ---
 
 # Cute3D Animal Studio
