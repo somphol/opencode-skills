@@ -6,21 +6,21 @@
   <meta name="theme-color" content="#fdf1f4">
   <meta name="color-scheme" content="light">
   <title>Cute3D — Procedural Code-Only Animal Studio</title>
-  <meta name="description" content="A zero-asset 3D animal studio. Meet seven original code-built pets, orbit the studio, dress them up, change their colours and download a transparent PNG. Bilingual English/ไทย, GPU strand fur, three lighting moods, procedural audio, no model files.">
+  <meta name="description" content="A zero-asset 3D animal studio. Meet eight original code-built pets, orbit the studio, dress them up, change their colours and download a transparent PNG. Bilingual English/ไทย, GPU strand fur, three lighting moods, procedural audio, no model files.">
   <meta name="author" content="Somphol Boonjing">
   <meta name="keywords" content="three.js, procedural, 3D, code-only, animal, character studio, WebGL, bilingual">
   <link rel="canonical" href="https://somphol.github.io/cute3d-animal-studio/">
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="Cute3D Animal Studio">
   <meta property="og:title" content="Cute3D — Procedural Code-Only Animal Studio">
-  <meta property="og:description" content="Seven original pets, up to 60k GPU fur strands, three cozy lighting moods. Orbit, customize, animate and download a transparent PNG.">
+  <meta property="og:description" content="Eight original pets, up to 100k GPU fur strands, three cozy lighting moods. Orbit, customize, animate and download a transparent PNG.">
   <meta property="og:url" content="https://somphol.github.io/cute3d-animal-studio/">
   <meta property="og:image" content="https://somphol.github.io/cute3d-animal-studio/assets/og-card.png">
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="Cute3D — Procedural Code-Only Animal Studio">
-  <meta name="twitter:description" content="Seven original pets, zero 3D assets. Seven procedural Three.js characters with strand fur, species postures and cozy lighting moods — customizable and downloadable.">
+  <meta name="twitter:description" content="Eight original pets, zero 3D assets. Eight procedural Three.js characters with strand fur, species postures and cozy lighting moods — customizable and downloadable.">
   <meta name="twitter:image" content="https://somphol.github.io/cute3d-animal-studio/assets/og-card.png">
   <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
   <link rel="apple-touch-icon" href="assets/favicon.svg">
@@ -133,7 +133,7 @@
       <div class="panel-head">
         <div>
           <h2 class="panel-title" data-i18n="panel.title">Studio</h2>
-          <p class="panel-sub" data-i18n="panel.sub">Seven friends, zero model files.</p>
+          <p class="panel-sub" data-i18n="panel.sub">Eight friends, zero model files.</p>
         </div>
         <button class="panel-close" id="panel-close" type="button" aria-label="Close panel" data-i18n-aria="a11y.close">✕</button>
       </div>
@@ -152,7 +152,8 @@
               <option value="penguin" data-i18n="animal.penguin">Penguin</option>
               <option value="shiba" data-i18n="animal.shiba">Shiba</option>
               <option value="koala" data-i18n="animal.koala">Koala</option>
-              <option value="conure" data-i18n="animal.conure">Sun Conure</option>
+              <option value="hippo" data-i18n="animal.hippo">Baby Hippo</option>
+            <option value="conure" data-i18n="animal.conure">Sun Conure</option>
               <option value="fold" data-i18n="animal.fold">Scottish Fold</option>
             </select>
             <span class="select-chevron" aria-hidden="true">▾</span>
@@ -182,6 +183,11 @@
               <span class="animal-thumb" aria-hidden="true">🐨</span>
               <span class="animal-name" data-i18n="animal.koala">Koala</span>
               <span class="animal-trait" data-i18n="animal.koalaTrait">Dreamy</span>
+            </button>
+            <button class="animal-card" type="button" data-animal="hippo" aria-pressed="false">
+              <span class="animal-thumb" aria-hidden="true">🦛</span>
+              <span class="animal-name" data-i18n="animal.hippo">Baby Hippo</span>
+              <span class="animal-trait" data-i18n="animal.hippoTrait">Splashy</span>
             </button>
             <button class="animal-card" type="button" data-animal="conure" aria-pressed="false">
               <span class="animal-thumb" aria-hidden="true">🦜</span>

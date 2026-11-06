@@ -1,18 +1,18 @@
 ---
 name: Cute3D Animal Studio
-description: Build a release-grade, zero-asset 3D animal character studio with seven original procedural Three.js pets, layered fur and feather shells, a universal base coat plus a koala/fold outer row (Pelt / Velvet / VFX / Film) with rooted skin attachment, an optional walk loop, an inherited wind fan, species postures, idle/click animations, live colours/accessories, Web Audio, a bilingual EN/TH UI, local presets, transparent PNG export, four test layers and GitHub Pages.
-version: 1.7.0
+description: Build a release-grade, zero-asset 3D animal character studio with eight original procedural Three.js pets, layered fur and feather shells, a universal base coat plus a koala/fold outer row (Pelt / Velvet / VFX / Film) with rooted skin attachment, an optional walk loop, an inherited wind fan, species postures, idle/click animations, live colours/accessories, Web Audio, a bilingual EN/TH UI, local presets, transparent PNG export, four test layers and GitHub Pages.
+version: 1.8.0
 ---
 
 # Cute3D Animal Studio
 
-Turn "make me a cute 3D animal studio" into a shipped product: seven original characters built only
+Turn "make me a cute 3D animal studio" into a shipped product: eight original characters built only
 from Three.js primitives, a layered fur/feather coat plus GPU strand and fan-wind system, a pastel soft-shadow studio,
 breathing/blinking/jumping life, a bilingual customizer, local presets, transparent PNG export, real
 tests and a live URL.
 
 This skill is written from a completed build: **Cute3D: Procedural Code-Only Animal Studio** —
-19 engine, 87 repository, 28 browser and 21 in-page checks, zero console errors. The shipped reference
+19 engine, 88 repository, 28 browser and 21 in-page checks, zero console errors. The shipped reference
 source is in `assets/reference/`; the live product is at
 <https://somphol.github.io/cute3d-animal-studio/>.
 
@@ -36,11 +36,11 @@ Do not stop at "it renders". A release has all of these:
 | Gate | Command | Expected |
 | --- | --- | --- |
 | Engine | `node --test tests/engine.test.mjs` | 19/19 |
-| Repository | `node --test tests/static.test.mjs` | 87/87 |
+| Repository | `node --test tests/static.test.mjs` | 88/88 |
 | Browser | `node tests/browser.test.mjs` | 28/28, zero console errors |
 | In-page | `/?selftest` | 21/21 |
 | Live copy | `TEST_URL=https://… node tests/browser.test.mjs` | 28/28 |
-| Visuals | `node scripts/screenshot.mjs` | 18 fresh assets |
+| Visuals | `node scripts/screenshot.mjs` | 19 fresh assets |
 | Docs | README, AGENTS, 14 docs, community files | links resolve |
 | Metadata | `state.json`, licence, sitemap, OG card | shape valid |
 | Handoff | `AGENTS.md` in the **same push** | current |
@@ -54,8 +54,8 @@ If a number is lower, fix the cause; never edit the claim.
    textures are allowed; downloaded ones are not. The only runtime dependency is Three.js, pinned in an
    import map.
 2. **Original characters only.** Button eyes, blush and rounded muzzles are fine; third-party mascots,
-   palettes, names and silhouettes are not. Run the repository test's trademark guard. Seven species
-   ship: bear, bunny, penguin, shiba, koala, sun conure and Scottish Fold.
+   palettes, names and silhouettes are not. Run the repository test's trademark guard. Eight species
+   ship: bear, bunny, penguin, shiba, koala, baby hippo, sun conure and Scottish Fold.
 3. **Keep the engine pure.** Maths and validation live between `/* ENGINE:START */` and
    `/* ENGINE:END */` with no DOM, `window`, `THREE`, `localStorage` or imports. Node slices it with
    `new Function`.
@@ -67,7 +67,7 @@ If a number is lower, fix the cause; never edit the claim.
 7. **Test the look, not just the DOM.** Assert transparency, accessory visibility, eye scale, line
    counts, i18n parity and zero console errors.
 8. **Two-row coat: shells for all, outer modes for the koala and the fold.** Layered alpha-tested
-   shells give the plush/feather body on all seven animals. `Outer coat` (None/Pelt/Velvet/VFX/Film)
+   shells give the plush/feather body on all eight animals. `Outer coat` (None/Pelt/Velvet/VFX/Film)
    applies only to `OUTER_ANIMALS = ['koala','fold']`: Pelt adds up to 100k opaque, depth-writing
    ribbons; Velvet adds a thick cushion + light shells; VFX adds a ~133k rooted groom; Film removes the
    coat and adds a fresnel rim shell plus a warm key/cool fill pair. The `STRAND_UNIFORMS` keys must
@@ -88,7 +88,9 @@ If a number is lower, fix the cause; never edit the claim.
    pedestal, shadow disc, decorative props, CSS backdrop.
 4. **Materials and helpers:** shared unit sphere/cone/circle, capsule/torus helpers, role-tagged
    materials, `baseScale` on every mesh.
-5. **Seven rigs:** bear 25, bunny 27, penguin 19, shiba 26, koala 23, conure 50, fold 32 base meshes.
+5. **Eight rigs:** bear, bunny, penguin, shiba, koala, baby hippo, sun conure and Scottish Fold.
+   The hippo adds a wide cream muzzle, nostrils, two teeth and stubby arms; keep every silhouette
+   distinct.
    Follow the rig contract in `references/RIGS.md`; keep belly patches forward and counts distinct.
 6. **Coat:** layered shells (5/10 fur, 6/12 koala, 4/8 feather), fine canvas alpha + colour map + bump,
    shader masks for face/ears/belly. Add the `Outer coat` row for koala/fold: Pelt ribbons with tangent

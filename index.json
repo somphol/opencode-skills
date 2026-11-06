@@ -350,8 +350,8 @@
     },
     {
       "name": "cute3d-animal-studio",
-      "version": "fc46e8103624",
-      "description": "Build a release-grade, zero-asset 3D animal character studio with seven original procedural Three.js pets, layered fur and feather shells, a universal base coat plus a koala/fold outer row (Pelt / Velvet / VFX / Film) with rooted skin attachment, an optional walk loop, an inherited wind fan, species postures, idle/click animations, live colours/accessories, Web Audio, a bilingual EN/TH UI, local presets, transparent PNG export, four test layers and GitHub Pages.",
+      "version": "eaffc2d10d2f",
+      "description": "Build a release-grade, zero-asset 3D animal character studio with eight original procedural Three.js pets, layered fur and feather shells, a universal base coat plus a koala/fold outer row (Pelt / Velvet / VFX / Film) with rooted skin attachment, an optional walk loop, an inherited wind fan, species postures, idle/click animations, live colours/accessories, Web Audio, a bilingual EN/TH UI, local presets, transparent PNG export, four test layers and GitHub Pages.",
       "license": "MIT",
       "files": [
         "ATTRIBUTION.md",
@@ -360,6 +360,7 @@
         "assets/og-card.png",
         "assets/preview-film.png",
         "assets/preview-fold-film.png",
+        "assets/preview-hippo.png",
         "assets/preview-velvet.png",
         "assets/preview-vfx.png",
         "assets/preview.png",

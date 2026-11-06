@@ -109,6 +109,17 @@ anchors.hat; glasses → anchors.glasses.
 - Eyes ±0.29, z 0.66; blush ±0.50.
 - Coat: long silver shells on body/head/ears/tail; ear mask reveals the cream inner ear.
 
+## Baby Hippo (chunky lilac)
+
+- Body `(0.90, 0.94, 0.82)` at y 0.97; cream belly `(0.60, 0.64, 0.26)` at `(0, 0.95, 0.64)`.
+- Stubby legs `(0.14, 0.20)` at ±0.36; cream paws ±0.36 at z 0.12. Short arms at ±0.94, z 0.18.
+- Head y 2.00, sphere `(0.88, 0.78, 0.76)`; round ears on pivots ±0.58, y 0.62, outer
+  `(0.20, 0.22, 0.11)` + cream inner.
+- Signature muzzle: cream ellipsoid `(0.56, 0.30, 0.35)` at `(0, −0.17, 0.55)`; two dark nostrils
+  `(0.06, 0.045, 0.03)` at ±0.15, z 0.87; smile torus; two tiny cream teeth at ±0.19, z 0.88.
+- Eyes ±0.31, z 0.65; blush ±0.56. Posture plants the feet and pushes the arms forward.
+- Coat: short fur on body/belly/head/ears/tail; the head mask keeps the whole muzzle bare.
+
 ## Sun Conure (base 50 meshes)
 
 - Yellow body `(0.80, 1.00, 0.72)` at 1.00; orange chest `(0.60, 0.74, 0.28)` at z 0.50; green mantle.

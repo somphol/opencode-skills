@@ -1,6 +1,6 @@
 /* Cute3D — Procedural Code-Only Animal Studio
  * ---------------------------------------------------------------------------
- * Everything you can see is generated at runtime: seven animal characters,
+ * Everything you can see is generated at runtime: eight animal characters,
  * their accessories, the studio props and every sound. No model files, no
  * texture files, no audio files. The only remote dependency is Three.js from a CDN.
  *
@@ -12,7 +12,7 @@
 
 /* ENGINE:START */
 const createStudioEngine = () => {
-  const ANIMALS = ['bear', 'bunny', 'penguin', 'shiba', 'koala', 'conure', 'fold'];
+  const ANIMALS = ['bear', 'bunny', 'penguin', 'shiba', 'koala', 'hippo', 'conure', 'fold'];
   const EXPRESSIONS = ['happy', 'sleepy', 'curious', 'wiggle'];
   const ACCESSORIES = ['bowtie', 'partyHat', 'glasses'];
   const COLOR_KEYS = ['main', 'belly', 'blush'];
@@ -32,6 +32,7 @@ const createStudioEngine = () => {
     penguin: { main: '#55688a', belly: '#fffaf4', blush: '#ffb6c4' },
     shiba: { main: '#e8ad6d', belly: '#fff7e9', blush: '#ffae9d' },
     koala: { main: '#a7adb5', belly: '#fbf6ee', blush: '#f0b1b8' },
+    hippo: { main: '#b3a7cd', belly: '#fbf1e4', blush: '#f2a8b8' },
     conure: { main: '#f8cf5c', belly: '#ffa63d', blush: '#ff8f68' },
     fold: { main: '#c3bab2', belly: '#fbf3ea', blush: '#eda9b3' },
   };
@@ -398,13 +399,13 @@ const I18N = {
     'stage.meshes': 'meshes',
     'stage.react': 'React',
     'stage.walk': 'Walk',
-    'toast.walkOn': 'Off for a stroll',
+    'toast.walkOn': 'Out for a stroll',
     'toast.walkOff': 'Back to the stage',
     'panel.open': 'Customize',
     'panel.title': 'Studio',
-    'panel.sub': 'Seven friends, zero model files.',
+    'panel.sub': 'Eight friends, zero model files.',
     'section.animals': 'Characters',
-    'section.animalsNote': '7 originals',
+    'section.animalsNote': '{n} originals',
     'section.expression': 'Expression',
     'section.expressionNote': 'Tap to try',
     'section.colors': 'Colours',
@@ -424,6 +425,8 @@ const I18N = {
     'animal.shibaTrait': 'Cheerful',
     'animal.koala': 'Koala',
     'animal.koalaTrait': 'Dreamy',
+    'animal.hippo': 'Baby Hippo',
+    'animal.hippoTrait': 'Splashy',
     'animal.conure': 'Sun Conure',
     'animal.conureTrait': 'Radiant',
     'animal.fold': 'Scottish Fold',
@@ -482,6 +485,8 @@ const I18N = {
     'pet.shiba.tagline': 'Curled tail, bright eyes, endless good cheer.',
     'pet.koala.name': 'Kumo the Koala',
     'pet.koala.tagline': 'Fluffy ears, slow blinks, endless tree dreams.',
+    'pet.hippo.name': 'Momo the Baby Hippo',
+    'pet.hippo.tagline': 'A tiny river hippo with the biggest yawn.',
     'pet.conure.name': 'Sol the Sun Conure',
     'pet.conure.tagline': 'A pocket of sunshine with emerald wings.',
     'pet.fold.name': 'Biscuit the Scottish Fold',
@@ -530,7 +535,7 @@ const I18N = {
     'preset.meta': '{animal} · {accessories}',
     'preset.none': 'no accessories',
     'meta.title': 'Cute3D — Procedural Code-Only Animal Studio',
-    'meta.desc': 'A zero-asset 3D animal studio with seven original code-built pets, bilingual English/ไทย UI, procedural audio and transparent PNG snapshots.',
+    'meta.desc': 'A zero-asset 3D animal studio with eight original code-built pets, bilingual English/ไทย UI, procedural audio and transparent PNG snapshots.',
   },
   th: {
     'brand.sub': 'สตูดิโอสัตว์ 3D จากโค้ด',
@@ -546,9 +551,9 @@ const I18N = {
     'toast.walkOff': 'กลับมาอยู่กับที่',
     'panel.open': 'แต่งตัว',
     'panel.title': 'สตูดิโอ',
-    'panel.sub': 'เจ็ดเพื่อนน้อย ไม่มีไฟล์โมเดล',
+    'panel.sub': 'แปดเพื่อนน้อย ไม่มีไฟล์โมเดล',
     'section.animals': 'ตัวละคร',
-    'section.animalsNote': 'เจ็ดต้นฉบับ',
+    'section.animalsNote': '{n} ตัวต้นฉบับ',
     'section.expression': 'อารมณ์',
     'section.expressionNote': 'ลองกดดู',
     'section.colors': 'สีสัน',
@@ -568,6 +573,8 @@ const I18N = {
     'animal.shibaTrait': 'ร่าเริง',
     'animal.koala': 'โคอาล่า',
     'animal.koalaTrait': 'ขี้ฝัน',
+    'animal.hippo': 'ฮิปโปน้อย',
+    'animal.hippoTrait': 'ชอบน้ำ',
     'animal.conure': 'ซันคอนัวร์',
     'animal.conureTrait': 'สดใส',
     'animal.fold': 'สก็อตติชโฟลด์',
@@ -626,6 +633,8 @@ const I18N = {
     'pet.shiba.tagline': 'หางม้วน ตาใส ร่าเริงไม่หยุด',
     'pet.koala.name': 'คูโมะ โคอาล่า',
     'pet.koala.tagline': 'หูฟู ตาช้า ฝันถึงต้นไม้ทั้งวัน',
+    'pet.hippo.name': 'โมโม่ ฮิปโปน้อย',
+    'pet.hippo.tagline': 'ฮิปโปตัวจิ๋ว หาวได้น่ารักที่สุด',
     'pet.conure.name': 'โซล ซันคอนัวร์',
     'pet.conure.tagline': 'แสงแดดก้อนน้อยพร้อมปีกมรกต',
     'pet.fold.name': 'บิสกิต สก็อตติชโฟลด์',
@@ -674,7 +683,7 @@ const I18N = {
     'preset.meta': '{animal} · {accessories}',
     'preset.none': 'ไม่ใส่เครื่องประดับ',
     'meta.title': 'Cute3D — สตูดิโอสัตว์ 3D จากโค้ด',
-    'meta.desc': 'สตูดิโอสัตว์ 3D ที่ไม่ใช้ไฟล์โมเดลเลย เจ็ดตัวละครต้นฉบับสร้างจากโค้ด รองรับสองภาษา เสียงสังเคราะห์ และภาพ PNG พื้นหลังโปร่งใส',
+    'meta.desc': 'สตูดิโอสัตว์ 3D ที่ไม่ใช้ไฟล์โมเดลเลย แปดตัวละครต้นฉบับสร้างจากโค้ด รองรับสองภาษา เสียงสังเคราะห์ และภาพ PNG โปร่งใส',
   },
 };
 /* I18N:END */
@@ -699,7 +708,7 @@ const STORE = {
   lang: 'cute3d:lang:v1',
 };
 
-const ANIMAL_EMOJI = { bear: '🧸', bunny: '🐰', penguin: '🐧', shiba: '🐕', koala: '🐨', conure: '🦜', fold: '🐱' };
+const ANIMAL_EMOJI = { bear: '🧸', bunny: '🐰', penguin: '🐧', shiba: '🐕', koala: '🐨', hippo: '🦛', conure: '🦜', fold: '🐱' };
 
 const $ = (selector, root = document) => root.querySelector(selector);
 const $$ = (selector, root = document) => Array.from(root.querySelectorAll(selector));
@@ -1943,6 +1952,76 @@ const buildFold = (materials) => {
 
 
 
+const buildHippo = (materials) => {
+  const group = new THREE.Group();
+  const body = sphere(materials, 'main', { pos: [0, 0.97, 0], scale: [0.9, 0.94, 0.82], name: 'body' });
+  const belly = sphere(materials, 'belly', { pos: [0, 0.95, 0.64], scale: [0.6, 0.64, 0.26], name: 'belly' });
+  const legL = capsule(0.14, 0.2, materials, 'main', { pos: [-0.36, 0.2, 0.02], rot: [0.06, 0, 0], name: 'leg-left' });
+  const legR = capsule(0.14, 0.2, materials, 'main', { pos: [0.36, 0.2, 0.02], rot: [0.06, 0, 0], name: 'leg-right' });
+  const pawL = sphere(materials, 'belly', { pos: [-0.36, 0.1, 0.12], scale: [0.16, 0.1, 0.18], name: 'paw-left' });
+  const pawR = sphere(materials, 'belly', { pos: [0.36, 0.1, 0.12], scale: [0.16, 0.1, 0.18], name: 'paw-right' });
+  const armL = capsule(0.13, 0.26, materials, 'main', { pos: [-0.94, 0.98, 0.18], rot: [0.18, 0, 0.55], name: 'arm-left' });
+  const armR = capsule(0.13, 0.26, materials, 'main', { pos: [0.94, 0.98, 0.18], rot: [0.18, 0, -0.55], name: 'arm-right' });
+
+  const tailPivot = new THREE.Group();
+  tailPivot.position.set(0, 0.9, -0.72);
+  tailPivot.add(sphere(materials, 'main', { pos: [0, 0, -0.02], scale: [0.1, 0.12, 0.1], name: 'tail' }));
+
+  const head = new THREE.Group();
+  head.position.set(0, 2.0, 0.02);
+  head.name = 'head';
+  head.add(sphere(materials, 'main', { scale: [0.88, 0.78, 0.76], name: 'head-mesh' }));
+
+  const makeEar = (side) => {
+    const pivot = new THREE.Group();
+    pivot.position.set(side * 0.58, 0.62, 0.04);
+    pivot.rotation.z = side * 0.14;
+    const outer = sphere(materials, 'main', { pos: [0, 0, 0], scale: [0.2, 0.22, 0.11], name: `ear-${side < 0 ? 'left' : 'right'}` });
+    const inner = sphere(materials, 'inner', { pos: [0, 0, 0.07], scale: [0.12, 0.14, 0.05], name: 'inner-ear' });
+    pivot.add(outer, inner);
+    return pivot;
+  };
+  const earL = makeEar(-1);
+  const earR = makeEar(1);
+
+  const eyeL = sphere(materials, 'eye', { pos: [-0.31, 0.1, 0.65], scale: [0.095, 0.1, 0.07], name: 'eye-left' });
+  const eyeR = sphere(materials, 'eye', { pos: [0.31, 0.1, 0.65], scale: [0.095, 0.1, 0.07], name: 'eye-right' });
+  const glintL = sphere(materials, 'glint', { pos: [-0.34, 0.14, 0.71], scale: [0.03, 0.03, 0.02], name: 'glint-left' });
+  const glintR = sphere(materials, 'glint', { pos: [0.28, 0.14, 0.71], scale: [0.03, 0.03, 0.02], name: 'glint-right' });
+
+  const muzzle = sphere(materials, 'belly', { pos: [0, -0.17, 0.55], scale: [0.56, 0.3, 0.35], name: 'muzzle' });
+  const nostrilL = sphere(materials, 'nose', { pos: [-0.15, -0.05, 0.87], scale: [0.06, 0.045, 0.03], name: 'nostril-left' });
+  const nostrilR = sphere(materials, 'nose', { pos: [0.15, -0.05, 0.87], scale: [0.06, 0.045, 0.03], name: 'nostril-right' });
+  const mouth = torusArc(0.1, 0.016, Math.PI, null, null, {
+    pos: [0, -0.27, 0.85], rot: [0, 0, Math.PI], material: materials.nose, name: 'mouth',
+  });
+  const toothL = mesh(SHARED_GEO.cone, materials.cream, {
+    pos: [-0.19, -0.31, 0.88], rot: [Math.PI, 0, 0.1], scale: [0.05, 0.09, 0.045], name: 'tooth-left',
+  });
+  const toothR = mesh(SHARED_GEO.cone, materials.cream, {
+    pos: [0.19, -0.31, 0.88], rot: [Math.PI, 0, -0.1], scale: [0.05, 0.09, 0.045], name: 'tooth-right',
+  });
+  const cheekL = sphere(materials, 'blush', { pos: [-0.56, -0.12, 0.55], scale: [0.14, 0.1, 0.05], name: 'cheek-left' });
+  const cheekR = sphere(materials, 'blush', { pos: [0.56, -0.12, 0.55], scale: [0.14, 0.1, 0.05], name: 'cheek-right' });
+
+  head.add(earL, earR, eyeL, eyeR, glintL, glintR, muzzle, nostrilL, nostrilR, mouth, toothL, toothR, cheekL, cheekR);
+
+  const neck = anchor(group, [0, 1.42, 0.78], 'anchor-neck');
+  const hat = anchor(head, [0, 0.6, 0.12], 'anchor-hat');
+  const glasses = anchor(head, [0, 0.1, 0.72], 'anchor-glasses');
+
+  group.add(body, belly, legL, legR, pawL, pawR, armL, armR, tailPivot, head, neck);
+
+  return {
+    id: 'hippo', group, head, body, belly, ears: [earL, earR], eyes: [eyeL, eyeR],
+    glints: [glintL, glintR], tail: tailPivot, feet: [legL, legR], arms: [armL, armR],
+    cheeks: [cheekL, cheekR], mouth, anchors: { neck, hat, glasses }, materials,
+    base: { belly: belly.scale.clone(), headRotX: 0, headRotZ: 0, tailRot: 0 },
+    seed: 27, accessories: {}, blinkSeed: 33, fluffSeed: 37,
+  };
+};
+
+
 const applyPosture = (instance) => {
   const { id, group, body, belly, head, feet, arms, tail } = instance;
   const shift = (dy) => {
@@ -2030,6 +2109,19 @@ const applyPosture = (instance) => {
     instance.ears[1].rotation.z = -0.1;
     base.headRotX = 0.03;
     base.headRotZ = 0.02;
+  } else if (id === 'hippo') {
+    shift(-0.1);
+    feet[0].position.set(-0.36, 0.18, 0.18);
+    feet[1].position.set(0.36, 0.18, 0.18);
+    move('paw-left', -0.36, 0.07, 0.34);
+    move('paw-right', 0.36, 0.07, 0.34);
+    arms[0].position.set(-0.9, 0.88, 0.26);
+    arms[0].rotation.set(0.5, 0, 0.5);
+    arms[1].position.set(0.9, 0.88, 0.26);
+    arms[1].rotation.set(0.5, 0, -0.5);
+    body.rotation.x = -0.02;
+    base.headRotX = 0.02;
+    base.headRotZ = 0.03;
   } else if (id === 'fold') {
     shift(-0.12);
     feet[0].position.set(-0.3, 0.11, 0.1);
@@ -2076,7 +2168,7 @@ const applyCutePass = (instance) => {
   }
 };
 
-const BUILDERS = { bear: buildBear, bunny: buildBunny, penguin: buildPenguin, shiba: buildShiba, koala: buildKoala, conure: buildConure, fold: buildFold };
+const BUILDERS = { bear: buildBear, bunny: buildBunny, penguin: buildPenguin, shiba: buildShiba, koala: buildKoala, hippo: buildHippo, conure: buildConure, fold: buildFold };
 
 
 /* ------------------------------------------------------------ coat system */
@@ -2140,6 +2232,17 @@ const COAT_CONFIG = {
       { mesh: 'ear-left', role: 'main', count: 320, len: [0.03, 0.055], radius: [0.004, 0.008], maxZ: 0.25, droop: 0.05, tilt: 0.8, stretch: [1.02, 1.12, 1.02] },
       { mesh: 'ear-right', role: 'main', count: 320, len: [0.03, 0.055], radius: [0.004, 0.008], maxZ: 0.25, droop: 0.05, tilt: 0.8, stretch: [1.02, 1.12, 1.02] },
       { mesh: 'tail', role: 'main', count: 140, len: [0.02, 0.04], radius: [0.0035, 0.007], droop: 0.2, tilt: 0.8 },
+    ],
+  },
+  hippo: {
+    kind: 'fur',
+    zones: [
+      { mesh: 'body', role: 'main', count: 470, len: [0.05, 0.11], radius: [0.006, 0.012], minY: -0.45, droop: 0.28, tilt: 0.5 },
+      { mesh: 'belly', role: 'belly', count: 150, len: [0.035, 0.08], radius: [0.005, 0.009], minZ: 0.15, droop: 0.14, tilt: 0.4 },
+      { mesh: 'head-mesh', role: 'main', count: 220, len: [0.04, 0.09], radius: [0.005, 0.01], minY: -0.05, maxZ: 0.5, droop: 0.1, tilt: 0.5 },
+      { mesh: 'ear-left', role: 'main', count: 60, len: [0.04, 0.08], radius: [0.005, 0.009], droop: 0.1, tilt: 0.7 },
+      { mesh: 'ear-right', role: 'main', count: 60, len: [0.04, 0.08], radius: [0.005, 0.009], droop: 0.1, tilt: 0.7 },
+      { mesh: 'tail', role: 'main', count: 40, len: [0.03, 0.07], radius: [0.004, 0.008], droop: 0.2, tilt: 0.7 },
     ],
   },
   conure: {
@@ -3757,6 +3860,8 @@ const applyI18n = () => {
   for (const node of $$('[data-i18n-aria]')) node.setAttribute('aria-label', t(node.dataset.i18nAria));
   for (const node of $$('[data-i18n-placeholder]')) node.setAttribute('placeholder', t(node.dataset.i18nPlaceholder));
   for (const node of $$('[data-lang-opt]')) node.classList.toggle('is-active', node.dataset.langOpt === lang);
+  const animalsNote = $('[data-i18n="section.animalsNote"]');
+  if (animalsNote) animalsNote.textContent = t('section.animalsNote', { n: ANIMALS.length });
   document.title = t('meta.title');
   const desc = $('meta[name="description"]');
   if (desc) desc.setAttribute('content', t('meta.desc'));
@@ -4732,7 +4837,7 @@ const runSelfTest = async () => {
   await check('Shadows enabled (PCFSoft)', () => renderer.shadowMap.enabled && renderer.shadowMap.type === THREE.PCFSoftShadowMap);
   await check('Canvas uses alpha', () => renderer.getContext().getContextAttributes().alpha === true);
   await check('OrbitControls damping on', () => controls.enableDamping === true);
-  await check('All seven animal builders', () =>
+  await check('All eight animal builders', () =>
     ANIMALS.every((id) => typeof BUILDERS[id] === 'function' && countMeshes(BUILDERS[id](makeMaterials(DEFAULT_COLORS[id])).group) > 18),
   );
   await check('Rigs expose eyes, ears, tail, belly', () => {
@@ -4932,7 +5037,7 @@ const boot = () => {
 
   window.__cute3d = {
     ready: true,
-    version: '1.7.0',
+    version: '1.8.0',
     engine: ENGINE,
     state,
     scene,
