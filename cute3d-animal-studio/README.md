@@ -40,6 +40,7 @@ Add `--force` to overwrite an existing folder.
 | `references/RELEASE.md` | docs set, state file, Pages, catalog publishing |
 | `assets/reference/` | the complete shipped source |
 | `assets/preview.png` | the live studio |
+| `assets/preview-velvet.png`, `preview-vfx.png`, `preview-film.png`, `preview-fold-film.png` | outer-coat references |
 | `assets/og-card.png` | social card reference |
 | `scripts/scaffold.mjs` | copy the reference into a new project |
 

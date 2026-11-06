@@ -1,7 +1,7 @@
 ---
 name: Cute3D Animal Studio
-description: Build a release-grade, zero-asset 3D animal character studio with seven original procedural Three.js pets, layered fur and feather shells, a universal base coat plus a koala-only outer row (Pelt / Velvet / VFX) with rooted skin attachment, with an inherited wind fan, species postures, idle/click animations, live colours/accessories, Web Audio, a bilingual EN/TH UI, local presets, transparent PNG export, four test layers and GitHub Pages.
-version: 1.5.1
+description: Build a release-grade, zero-asset 3D animal character studio with seven original procedural Three.js pets, layered fur and feather shells, a universal base coat plus a koala/fold outer row (Pelt / Velvet / VFX / Film) with rooted skin attachment, an optional walk loop, an inherited wind fan, species postures, idle/click animations, live colours/accessories, Web Audio, a bilingual EN/TH UI, local presets, transparent PNG export, four test layers and GitHub Pages.
+version: 1.7.0
 ---
 
 # Cute3D Animal Studio
@@ -12,7 +12,7 @@ breathing/blinking/jumping life, a bilingual customizer, local presets, transpar
 tests and a live URL.
 
 This skill is written from a completed build: **Cute3D: Procedural Code-Only Animal Studio** —
-19 engine, 84 repository, 26 browser and 20 in-page checks, zero console errors. The shipped reference
+19 engine, 87 repository, 28 browser and 21 in-page checks, zero console errors. The shipped reference
 source is in `assets/reference/`; the live product is at
 <https://somphol.github.io/cute3d-animal-studio/>.
 
@@ -36,11 +36,11 @@ Do not stop at "it renders". A release has all of these:
 | Gate | Command | Expected |
 | --- | --- | --- |
 | Engine | `node --test tests/engine.test.mjs` | 19/19 |
-| Repository | `node --test tests/static.test.mjs` | 84/84 |
-| Browser | `node tests/browser.test.mjs` | 26/26, zero console errors |
-| In-page | `/?selftest` | 20/20 |
-| Live copy | `TEST_URL=https://… node tests/browser.test.mjs` | 26/26 |
-| Visuals | `node scripts/screenshot.mjs` | 14 fresh assets |
+| Repository | `node --test tests/static.test.mjs` | 87/87 |
+| Browser | `node tests/browser.test.mjs` | 28/28, zero console errors |
+| In-page | `/?selftest` | 21/21 |
+| Live copy | `TEST_URL=https://… node tests/browser.test.mjs` | 28/28 |
+| Visuals | `node scripts/screenshot.mjs` | 18 fresh assets |
 | Docs | README, AGENTS, 14 docs, community files | links resolve |
 | Metadata | `state.json`, licence, sitemap, OG card | shape valid |
 | Handoff | `AGENTS.md` in the **same push** | current |
@@ -66,12 +66,17 @@ If a number is lower, fix the cause; never edit the claim.
 6. **Attach accessories to head/neck anchors.** Never re-add a head-parented anchor to the animal group.
 7. **Test the look, not just the DOM.** Assert transparency, accessory visibility, eye scale, line
    counts, i18n parity and zero console errors.
-8. **Shells for all, strands for the koala, optional VFX for the koala.** Layered alpha-tested shells give the plush/feather body on
-   all seven animals. The koala adds up to 100k opaque, depth-writing ribbons with tangent-plane flow;
-   other animals stay shell-only. The `STRAND_UNIFORMS` keys must match GLSL exactly (`uTime`,
-   `uBreeze`, …); a mismatch zeroes length/wind and collapses every strand to a dot. See
-   `references/RIGS.md` and `references/SCENE.md`.
-9. **Ship the handoff.** `AGENTS.md` with commands, architecture, decisions, known issues and continuity
+8. **Two-row coat: shells for all, outer modes for the koala and the fold.** Layered alpha-tested
+   shells give the plush/feather body on all seven animals. `Outer coat` (None/Pelt/Velvet/VFX/Film)
+   applies only to `OUTER_ANIMALS = ['koala','fold']`: Pelt adds up to 100k opaque, depth-writing
+   ribbons; Velvet adds a thick cushion + light shells; VFX adds a ~133k rooted groom; Film removes the
+   coat and adds a fresnel rim shell plus a warm key/cool fill pair. The `STRAND_UNIFORMS` keys must
+   match GLSL exactly (`uTime`, `uBreeze`, …); a mismatch zeroes length/wind and collapses every strand
+   to a dot. See `references/RIGS.md` and `references/SCENE.md`.
+9. **Walking is opt-in.** A persisted `Walk` toggle moves the pet on a slow ellipse (offset left of
+   centre so the default fan is not walked through) with alternating feet/arms and a damped facing
+   turn. It is not in share links, and the snapshot path zeroes `group.position.x/z` and `rotation.y`.
+10. **Ship the handoff.** `AGENTS.md` with commands, architecture, decisions, known issues and continuity
    must be in the same push as the release.
 
 ## Build sequence
@@ -86,13 +91,15 @@ If a number is lower, fix the cause; never edit the claim.
 5. **Seven rigs:** bear 25, bunny 27, penguin 19, shiba 26, koala 23, conure 50, fold 32 base meshes.
    Follow the rig contract in `references/RIGS.md`; keep belly patches forward and counts distinct.
 6. **Coat:** layered shells (5/10 fur, 6/12 koala, 4/8 feather), fine canvas alpha + colour map + bump,
-   shader masks for face/ears/belly. Add up to 100k opaque koala ribbons with tangent flow, root-tip
-   shading, wind/curl/clump/cursor uniforms and shell layer visibility tied to density. Add a
+   shader masks for face/ears/belly. Add the `Outer coat` row for koala/fold: Pelt ribbons with tangent
+   flow and wind/curl/clump/cursor uniforms, Velvet cushion + light shells, VFX rooted groom, Film
+   fresnel shells + two point lights. Fasten every layer to the source mesh (roots at ~1.008). Add a
    `COAT_CONFIG` entry per animal; never hard-code fur into a builder.
 7. **Posture and moods:** apply species posture before coats; implement Studio / Cloud Sky / Cozy Desk
    lighting presets and the five fur sliders.
 8. **Accessories:** bowtie, party hat, glasses; parent to `anchors.neck/hat/glasses`.
-9. **Animation:** damped expression blend, float, breath, deterministic blink, ear/tail, reaction.
+9. **Animation:** damped expression blend, float, breath, deterministic blink, ear/tail, reaction,
+   optional walk loop with planted feet that settle back to the centre.
 10. **UI:** character, expression, fur, scene, colours, accessories, tools, presets, language, toasts,
    mobile sheet, keyboard shortcuts.
 11. **Snapshot/share:** dedicated square camera, transparent 2048² PNG, query-string look incl. `f=`.
@@ -118,7 +125,9 @@ accessories and captures `earBases`. Recolour through `rig.materials` roles (`ma
 | Snapshot resets orbit | main camera + `resize()` | dedicated snapshot camera |
 | Selftest accessories fail | builders don't create accessories | test `ACCESSORY_BUILDERS` |
 | Static suite fails | `state.json` line counts stale | regenerate after source edits |
-| Fur invisible | strands buried inside shells | sample roots at `mesh.scale * 1.16` |
+| Fur invisible | strands buried inside shells | sample roots in local space at `1.008` and parent to the source mesh |
+| Dark H-shape on the bare belly | body and belly surfaces nearly coplanar | push the belly forward (fold `z = 0.62`) |
+| Film mode halo | rim shell scaled or strengthened too far | keep the fresnel shell at `1.006×`, strength ≈ 0.34 |
 | Fur looks dusty or collapsed | `STRAND_UNIFORMS` names don't match GLSL, so length is 0 | rename to `uTime/uBreeze/uLength/uCurl/uClump/uCursor`; verify on the koala |
 | Feet float | whole group bobs | counter-translate feet by the idle bob |
 | Pose hidden by fur | posture applied after coat | pose before `applyCoat` |

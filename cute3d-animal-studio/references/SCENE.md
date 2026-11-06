@@ -73,20 +73,25 @@ on desktop and fills the remaining viewport on mobile. `ResizeObserver` handles 
 ## Strand fur pass
 
 - One tapered ribbon geometry (4 rows, ~6 tris), shared; one InstancedMesh per coat zone.
-- Roots sampled at `mesh.scale * 1.16`, outside 8 shell layers.
+- Roots sampled in the source mesh's local space at `1.008`; the InstancedMesh is parented to that mesh,
+  so breathing and head/ear motion carry the coat.
 - `STRAND_UNIFORMS`: time, breeze, length, curl, clump, cursor. Vertex shader bends by `h²`; cursor is
   raycast onto plane z = 0.
 - Density changes `InstancedMesh.count`; never rebuild geometry on slider input.
-- Two-row fur studio: base `Coat` (Smooth/Soft/Plush) is universal; koala-only `Outer coat` is
-  None/Pelt/Velvet/VFX.
+- Two-row fur studio: base `Coat` (Smooth/Soft/Plush) is universal; `Outer coat` is
+  None/Pelt/Velvet/VFX/Film and applies only to `OUTER_ANIMALS = ['koala','fold']`.
 - Pelt strand material is opaque, `depthWrite:true`, tinted toward the main role colour, root-to-tip
   vertex shading, tangent-plane flow.
 - Velvet is a 1.018 cushion + 24 light shells + sheen; no micro-strand blizzard.
+- Film removes the coat: five fresnel rim shells at 1.006× (strength 0.34), a warm `#ffd2ab` rim light
+  and a cool `#a9c4ff` fill, plus a small glossy-roughness drop on `main`/`belly`. It must restore both
+  on exit. The koala gets four flattened surface lobes per ear; the fold gets none.
 - Shells, cushions and strand InstancedMeshes are children of the source mesh. VFX roots are local at
   1.008; the ribbon starts inside the skin. Never parent to `mesh.parent` or use 1.2× roots.
-- Koala VFX: no decorative shells; a dark undercoat per zone plus ~133k strands (190k target) with
-  uniform random sphere roots, per-instance normal/seed/tint/role/guard/clump, and a custom Kajiya–Kay
-  shader. VFX is disabled for other animals and falls back to Pelt.
+- VFX: no decorative shells; a dark undercoat per zone plus ~133k strands (190k target) with uniform
+  random sphere roots, per-instance normal/seed/tint/role/guard/clump, and a custom Kajiya–Kay shader.
+  Fold zones are body/belly/head/tail (its blush cheeks are too thin to root fur on). VFX is disabled
+  outside `OUTER_ANIMALS` and falls back to Pelt.
 - Max 100k at density 1/Plush; ~45k at Soft. Other animals are shell-only.
 - `STRAND_UNIFORMS` keys must match the GLSL exactly: `uTime`, `uBreeze`, `uLength`, `uCurl`, `uClump`,
   `uCursor`. A name mismatch silently leaves them zero and collapses the coat into dots.
@@ -110,3 +115,13 @@ on desktop and fills the remaining viewport on mobile. `ResizeObserver` handles 
 - `fanAngle` persists; wind direction = fan head → pet centre.
 - Shell fur displaces by layer², gusts, flattens windward, arc-corrects by stiffness.
 - Hidden in transparent snapshots.
+
+## Walk loop
+
+- `state.walk` is a persisted boolean, off by default and excluded from share links.
+- Ellipse: `x = -0.12 + cos(phase) * 0.92`, `z = -0.08 + sin(phase) * 0.58`, `phase += dt * 0.85 * blend`.
+- Facing: `atan2(-sin(phase) * 0.92, cos(phase) * 0.58)`, damped shortest-path into `group.rotation.y`.
+- Limbs: `stride = sin(phase * 6.2)`, feet `baseRotX + stride * 0.32`, arms
+  `baseRotX - stride * 0.30`, plus a `|stride| * 0.045` step bob.
+- Pauses when a reaction is playing or reduced motion is on; the pet eases back to the centre and faces
+  front. `captureSnapshot()` zeroes position, yaw and limb poses for the transparent PNG.

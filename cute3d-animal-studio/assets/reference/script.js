@@ -19,7 +19,8 @@ const createStudioEngine = () => {
   const PRESET_LIMIT = 10;
   const COAT_LEVELS = ['off', 'soft', 'plush'];
   const DEFAULT_COAT = 'soft';
-  const OUTER_LEVELS = ['none', 'pelt', 'velvet', 'vfx'];
+  const OUTER_LEVELS = ['none', 'pelt', 'velvet', 'vfx', 'film'];
+  const OUTER_ANIMALS = ['koala', 'fold'];
   const DEFAULT_OUTER = 'pelt';
   const LIGHTING_PRESETS = ['studio', 'sky', 'desk'];
   const DEFAULT_LIGHTING = 'studio';
@@ -344,6 +345,7 @@ const createStudioEngine = () => {
     COAT_LEVELS,
     DEFAULT_COAT,
     OUTER_LEVELS,
+    OUTER_ANIMALS,
     DEFAULT_OUTER,
     LIGHTING_PRESETS,
     DEFAULT_LIGHTING,
@@ -395,6 +397,9 @@ const I18N = {
     'stage.hint': 'Drag to orbit · Scroll to zoom · Click the pet · Drag the fan',
     'stage.meshes': 'meshes',
     'stage.react': 'React',
+    'stage.walk': 'Walk',
+    'toast.walkOn': 'Off for a stroll',
+    'toast.walkOff': 'Back to the stage',
     'panel.open': 'Customize',
     'panel.title': 'Studio',
     'panel.sub': 'Seven friends, zero model files.',
@@ -440,17 +445,12 @@ const I18N = {
     'coat.soft': 'Soft',
     'coat.plush': 'Plush',
     'coat.vfx': 'VFX',
-    'coat.outer': 'ชั้นนอก',
-    'coat.outerHint': 'เฉพาะโคอาล่า',
-    'coat.none': 'ไม่มี',
-    'coat.pelt': 'ขนชั้นนอก',
-    'coat.velvet': 'กำมะหยี่',
-    'a11y.outerCoat': 'เลือกชั้นขนด้านนอก',
     'coat.outer': 'Outer coat',
-    'coat.outerHint': 'Koala only',
+    'coat.outerHint': 'Koala & Fold',
     'coat.none': 'None',
     'coat.pelt': 'Pelt',
     'coat.velvet': 'Velvet',
+    'coat.film': 'Film',
     'a11y.outerCoat': 'Choose the outer coat layer',
     'coat.hint': 'Soft shells plus thousands of GPU strands that move with the breeze.',
     'coat.strands': '{n} strands',
@@ -491,6 +491,7 @@ const I18N = {
     'a11y.lang': 'Switch between English and Thai',
     'a11y.stage': 'Interactive 3D animal studio. Drag to orbit, scroll to zoom, click the pet to make it react.',
     'a11y.react': 'Make the pet react',
+    'a11y.walk': 'Toggle walking around the stage',
     'a11y.panel': 'Studio customizer',
     'a11y.close': 'Close the customizer',
     'a11y.animals': 'Choose a character',
@@ -540,6 +541,9 @@ const I18N = {
     'stage.hint': 'ลากเพื่อหมุน · เลื่อนเพื่อซูม · คลิกที่สัตว์ · ลากพัดลม',
     'stage.meshes': 'ชิ้นโมเดล',
     'stage.react': 'เล่นด้วย',
+    'stage.walk': 'เดินเล่น',
+    'toast.walkOn': 'ออกเดินเล่นกัน',
+    'toast.walkOff': 'กลับมาอยู่กับที่',
     'panel.open': 'แต่งตัว',
     'panel.title': 'สตูดิโอ',
     'panel.sub': 'เจ็ดเพื่อนน้อย ไม่มีไฟล์โมเดล',
@@ -586,17 +590,12 @@ const I18N = {
     'coat.plush': 'ฟูหนา',
     'coat.vfx': 'VFX',
     'coat.outer': 'ชั้นนอก',
-    'coat.outerHint': 'เฉพาะโคอาล่า',
+    'coat.outerHint': 'โคอาล่าและสก็อตติชโฟลด์',
     'coat.none': 'ไม่มี',
     'coat.pelt': 'ขนชั้นนอก',
     'coat.velvet': 'กำมะหยี่',
+    'coat.film': 'ฟิล์ม',
     'a11y.outerCoat': 'เลือกชั้นขนด้านนอก',
-    'coat.outer': 'Outer coat',
-    'coat.outerHint': 'Koala only',
-    'coat.none': 'None',
-    'coat.pelt': 'Pelt',
-    'coat.velvet': 'Velvet',
-    'a11y.outerCoat': 'Choose the outer coat layer',
     'coat.hint': 'เปลือกขนนุ่ม ๆ พร้อมเส้นขนหลายพันเส้นขยับตามลม',
     'coat.strands': '{n} เส้น',
     'fur.length': 'ความยาว',
@@ -636,6 +635,7 @@ const I18N = {
     'a11y.lang': 'สลับภาษาอังกฤษและภาษาไทย',
     'a11y.stage': 'สตูดิโอสัตว์ 3D แบบโต้ตอบ ลากเพื่อหมุน เลื่อนเพื่อซูม คลิกที่สัตว์เพื่อให้แสดงท่า',
     'a11y.react': 'ให้สัตว์แสดงท่าทาง',
+    'a11y.walk': 'เปิดหรือปิดการเดินเล่นรอบเวที',
     'a11y.panel': 'แผงแต่งตัวสตูดิโอ',
     'a11y.close': 'ปิดแผงแต่งตัว',
     'a11y.animals': 'เลือกตัวละคร',
@@ -686,7 +686,7 @@ import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
 const ENGINE = createStudioEngine();
 const {
   ANIMALS, EXPRESSIONS, ACCESSORIES, COLOR_KEYS, PRESET_LIMIT,
-  DEFAULT_COLORS, PALETTES, COAT_LEVELS, DEFAULT_COAT, OUTER_LEVELS, DEFAULT_OUTER, LIGHTING_PRESETS, DEFAULT_LIGHTING, DEFAULT_FUR,
+  DEFAULT_COLORS, PALETTES, COAT_LEVELS, DEFAULT_COAT, OUTER_LEVELS, OUTER_ANIMALS, DEFAULT_OUTER, LIGHTING_PRESETS, DEFAULT_LIGHTING, DEFAULT_FUR,
   clamp, damp, lerp, smoothstep, easeOutCubic, normalizeHex, mixHex, shade, blinkScale, expressionPose,
   sanitizeColors, sanitizeCoat, sanitizeOuter, sanitizeLighting, sanitizeFur,
   sanitizePresets, snapshotFilename, encodeShareState, decodeShareState,
@@ -717,6 +717,7 @@ const defaultState = () => ({
   coat: DEFAULT_COAT,
   outer: DEFAULT_OUTER,
   lighting: DEFAULT_LIGHTING,
+  walk: false,
   fanAngle: 0.6,
   fur: { ...DEFAULT_FUR },
   colors: Object.fromEntries(ANIMALS.map((id) => [id, { ...DEFAULT_COLORS[id] }])),
@@ -751,6 +752,7 @@ if (stored && typeof stored === 'object') {
   state.outer = sanitizeOuter(stored.outer);
   if (stored.coat === 'vfx') { state.coat = 'plush'; state.outer = 'vfx'; }
   state.lighting = sanitizeLighting(stored.lighting);
+  if (typeof stored.walk === 'boolean') state.walk = stored.walk;
   state.fur = sanitizeFur(stored.fur);
   state.fanAngle = Number.isFinite(stored.fanAngle) ? stored.fanAngle : 0.6;
   for (const id of ANIMALS) state.colors[id] = sanitizeColors(stored.colors?.[id], id);
@@ -1865,7 +1867,7 @@ const buildConure = (materials) => {
 const buildFold = (materials) => {
   const group = new THREE.Group();
   const body = sphere(materials, 'main', { pos: [0, 0.99, 0], scale: [0.86, 0.94, 0.82], name: 'body' });
-  const belly = sphere(materials, 'belly', { pos: [0, 0.97, 0.58], scale: [0.55, 0.62, 0.26], name: 'belly' });
+  const belly = sphere(materials, 'belly', { pos: [0, 0.97, 0.62], scale: [0.55, 0.62, 0.26], name: 'belly' });
   const legL = capsule(0.13, 0.22, materials, 'main', { pos: [-0.34, 0.22, 0.02], rot: [0.08, 0, 0], name: 'leg-left' });
   const legR = capsule(0.13, 0.22, materials, 'main', { pos: [0.34, 0.22, 0.02], rot: [0.08, 0, 0], name: 'leg-right' });
   const pawL = sphere(materials, 'belly', { pos: [-0.34, 0.11, 0.13], scale: [0.15, 0.1, 0.17], name: 'paw-left' });
@@ -2875,7 +2877,9 @@ const sampleVfxRoots = (mesh, zone, target, rand, rootScale = 1.008) => {
 const buildVelvetCushion = (instance) => {
   if (!instance?.group) return 0;
   instance.vfxUndercoat = [];
-  const zones = ['body', 'belly', 'head-mesh', 'ear-left', 'ear-right', 'tail'];
+  const zones = instance.id === 'fold'
+    ? ['body', 'belly', 'head-mesh', 'cheek-left', 'cheek-right', 'tail']
+    : ['body', 'belly', 'head-mesh', 'ear-left', 'ear-right', 'tail'];
   let added = 0;
   for (const name of zones) {
     const mesh = instance.group.getObjectByName(name);
@@ -2912,26 +2916,29 @@ const buildVelvetCushion = (instance) => {
   return added;
 };
 
-const buildVfxKoala = (instance, level, mode = 'vfx') => {
-  disposeStrands(instance);
-  const budget = mode === 'velvet'
-    ? (level === 'plush' ? (window.innerWidth < 800 ? 40000 : 75000) : 40000)
-    : (level === 'plush' ? (window.innerWidth < 800 ? 80000 : 190000) : 90000);
-  const zones = mode === 'velvet' ? [
-    { mesh: 'body', role: 'main', weight: 46, len: [0.02, 0.045], radius: [0.006, 0.01], minY: -0.45 },
-    { mesh: 'belly', role: 'belly', weight: 14, len: [0.012, 0.028], radius: [0.005, 0.0085], minZ: 0.1 },
-    { mesh: 'head-mesh', role: 'main', weight: 22, len: [0.016, 0.038], radius: [0.0055, 0.009], skipFace: true },
-    { mesh: 'ear-left', role: 'main', weight: 6, len: [0.02, 0.045], radius: [0.0058, 0.0095], maxZ: 0.22 },
-    { mesh: 'ear-right', role: 'main', weight: 6, len: [0.02, 0.045], radius: [0.0058, 0.0095], maxZ: 0.22 },
-    { mesh: 'tail', role: 'main', weight: 2, len: [0.012, 0.028], radius: [0.005, 0.0085] },
-  ] : [
+const VFX_ZONES = {
+  koala: [
     { mesh: 'body', role: 'main', weight: 48, len: [0.03, 0.06], radius: [0.004, 0.007], minY: -0.45, skipBelly: true },
     { mesh: 'belly', role: 'belly', weight: 12, len: [0.02, 0.04], radius: [0.0035, 0.006], minZ: 0.1 },
     { mesh: 'head-mesh', role: 'main', weight: 21, len: [0.025, 0.05], radius: [0.003, 0.0056], skipFace: true },
     { mesh: 'ear-left', role: 'main', weight: 6, len: [0.04, 0.08], radius: [0.0035, 0.0062], maxZ: 0.25 },
     { mesh: 'ear-right', role: 'main', weight: 6, len: [0.04, 0.08], radius: [0.0035, 0.0062], maxZ: 0.25 },
     { mesh: 'tail', role: 'main', weight: 2, len: [0.015, 0.03], radius: [0.0028, 0.0048] },
-  ];
+  ],
+  fold: [
+    { mesh: 'body', role: 'main', weight: 52, len: [0.03, 0.06], radius: [0.004, 0.007], minY: -0.45, skipBelly: true },
+    { mesh: 'belly', role: 'belly', weight: 12, len: [0.018, 0.035], radius: [0.0035, 0.006], minZ: 0.1 },
+    { mesh: 'head-mesh', role: 'main', weight: 32, len: [0.025, 0.05], radius: [0.003, 0.0056], skipFace: true },
+    { mesh: 'tail', role: 'main', weight: 4, len: [0.015, 0.03], radius: [0.0028, 0.0048] },
+  ],
+};
+
+const buildVfxKoala = (instance, level, mode = 'vfx') => {
+  disposeStrands(instance);
+  const budget = mode === 'velvet'
+    ? (level === 'plush' ? (window.innerWidth < 800 ? 40000 : 75000) : 40000)
+    : (level === 'plush' ? (window.innerWidth < 800 ? 80000 : 190000) : 90000);
+  const zones = VFX_ZONES[instance.id] || VFX_ZONES.koala;
   const totalWeight = zones.reduce((sum, zone) => sum + zone.weight, 0);
   const rand = mulberry32((instance.fluffSeed || 23) * 503);
   instance.strandMeshes = [];
@@ -3102,7 +3109,7 @@ const sampleStrandRoots = (mesh, zone, target, rand, skipBelly = false) => {
 };
 
 const buildStrands = (instance, level) => {
-  if (!instance || instance.id !== 'koala') return 0;
+  if (!instance || !OUTER_ANIMALS.includes(instance.id)) return 0;
   if (level === 'off') {
     disposeStrands(instance);
     return 0;
@@ -3111,7 +3118,7 @@ const buildStrands = (instance, level) => {
   if (!config) return 0;
   disposeStrands(instance);
   const koala = instance.id === 'koala';
-  const maxStrands = level === 'plush' ? (instance.id === 'koala' ? 100000 : 60000) : 45000;
+  const maxStrands = level === 'plush' ? (koala ? 100000 : 60000) : 45000;
   const totalWeight = config.zones.reduce((sum, zone) => sum + zone.count, 0) || 1;
   const rand = mulberry32((instance.fluffSeed || 11) * 131 + 7);
   instance.strandMeshes = [];
@@ -3417,13 +3424,147 @@ const applySpriteDensity = (instance = rig) => {
 };
 
 
+const disposeFilm = (instance) => {
+  for (const entry of instance?.filmMaterials || []) {
+    entry.material.roughness = entry.roughness;
+  }
+  for (const shell of instance?.filmShells || []) {
+    if (shell.mesh.parent) shell.mesh.parent.remove(shell.mesh);
+  }
+  instance?.filmShells?.[0]?.mesh?.material?.dispose?.();
+  if (instance) instance.filmShells = [];
+  instance && (instance.filmMaterials = []);
+  for (const light of [instance?.filmLight, instance?.filmFill]) {
+    if (!light) continue;
+    if (light.parent) light.parent.remove(light);
+    light.dispose?.();
+  }
+  if (instance) {
+    instance.filmLight = null;
+    instance.filmFill = null;
+  }
+};
+
+const FILM_UP = new THREE.Vector3(0, 1, 0);
+
+const buildFilmCoat = (instance) => {
+  if (!instance) return 0;
+  const isFold = instance.id === 'fold';
+  const head = instance.head;
+  const body = instance.body;
+  if (!head || !body) return 0;
+  const main = strandRoleColor(instance, 'main');
+  const tuftMaterial = new THREE.MeshPhysicalMaterial({
+    color: main,
+    roughness: 0.6,
+    metalness: 0,
+    sheen: 0.35,
+    sheenColor: new THREE.Color(main).lerp(new THREE.Color('#ffffff'), 0.35),
+    sheenRoughness: 0.65,
+  });
+  const tufts = [];
+  const got = (name) => instance.group.getObjectByName(name);
+  const addTuft = (parent, dir, size, spin = 0, radius = 0.97) => {
+    if (!parent) return;
+    const d = new THREE.Vector3(dir[0], dir[1], dir[2]).normalize();
+    const node = new THREE.Mesh(SHARED_GEO.sphere, tuftMaterial);
+    node.position.copy(d).multiplyScalar(radius);
+    node.quaternion.setFromUnitVectors(FILM_UP, d);
+    node.rotateY(spin);
+    node.scale.set(size[0], size[1], size[2]);
+    node.castShadow = false;
+    node.receiveShadow = false;
+    node.userData.filmTuft = true;
+    parent.add(node);
+    tufts.push({ mesh: node, role: 'main' });
+  };
+
+  // Clean sculpted coat: no shells and no strands. A soft warm rim shell plus a warm
+  // key/cool fill pair gives the smooth, filmic "animated film" read.
+  const rimShellMaterial = new THREE.ShaderMaterial({
+    uniforms: {
+      uColor: { value: new THREE.Color('#ffd9b8') },
+      uPower: { value: 3.2 },
+      uStrength: { value: 0.34 },
+    },
+    vertexShader: `
+      varying vec3 vN;
+      varying vec3 vV;
+      void main() {
+        vec4 mv = modelViewMatrix * vec4(position, 1.0);
+        vN = normalize(normalMatrix * normal);
+        vV = normalize(-mv.xyz);
+        gl_Position = projectionMatrix * mv;
+      }
+    `,
+    fragmentShader: `
+      uniform vec3 uColor;
+      uniform float uPower;
+      uniform float uStrength;
+      varying vec3 vN;
+      varying vec3 vV;
+      void main() {
+        float f = pow(1.0 - clamp(dot(normalize(vN), normalize(vV)), 0.0, 1.0), uPower);
+        gl_FragColor = vec4(uColor, f * uStrength);
+      }
+    `,
+    transparent: true,
+    blending: THREE.AdditiveBlending,
+    depthWrite: false,
+    side: THREE.FrontSide,
+  });
+  const shellNames = ['body', 'belly', 'head-mesh', 'ear-left', 'ear-right'];
+  for (const name of shellNames) {
+    const source = instance.group.getObjectByName(name);
+    if (!source || !source.isMesh) continue;
+    const glow = new THREE.Mesh(source.geometry, rimShellMaterial);
+    glow.name = `film-rim-${name}`;
+    glow.position.set(0, 0, 0);
+    glow.quaternion.identity();
+    glow.scale.setScalar(1.006);
+    glow.castShadow = false;
+    glow.receiveShadow = false;
+    glow.renderOrder = 3;
+    source.add(glow);
+    tufts.push({ mesh: glow, role: 'rim' });
+  }
+  if (!isFold) {
+    for (const side of [-1, 1]) {
+      const ear = got(side < 0 ? 'ear-left' : 'ear-right');
+      for (const [a, b] of [[0.72, 0.6], [0.16, 0.98], [-0.42, 0.9], [0.92, 0.06]]) {
+        addTuft(ear, [side * a, b, 0.14], [0.4, 0.13, 0.34], side * 0.4, 0.9);
+      }
+    }
+  }
+  instance.fluffCount = 0;
+  instance.strandCount = 0;
+  instance.filmShells = tufts;
+  for (const tuft of tufts) instance.fluff.push(tuft.mesh);
+  instance.filmMaterials = [];
+  for (const key of ['main', 'belly']) {
+    const material = instance.materials?.[key];
+    if (!material) continue;
+    instance.filmMaterials.push({ material, roughness: material.roughness });
+    material.roughness = key === 'main' ? 0.62 : 0.72;
+  }
+  const rim = new THREE.PointLight(0xffd2ab, 20, 8, 2);
+  rim.position.set(-2.4, 3.4, -1.8);
+  const cool = new THREE.PointLight(0xa9c4ff, 9, 9, 2);
+  cool.position.set(2.6, 2.6, -1.6);
+  instance.group.add(rim, cool);
+  instance.filmLight = rim;
+  instance.filmFill = cool;
+  return tufts.length;
+};
+
 const applyCoat = (instance, level, outer = state.outer) => {
   if (!instance) return 0;
   const next = sanitizeCoat(level);
-  const outerNext = instance.id === 'koala' && next !== 'off' ? sanitizeOuter(outer) : 'pelt';
+  const outerNext = OUTER_ANIMALS.includes(instance.id) && next !== 'off' ? sanitizeOuter(outer) : 'pelt';
   const key = `${next}:${outerNext}`;
   if (instance.coatState === key) return instance.fluffCount;
   disposeCoat(instance);
+  disposeFilm(instance);
   disposeSpriteFur(instance);
   disposeStrands(instance);
   instance.coatState = key;
@@ -3435,6 +3576,10 @@ const applyCoat = (instance, level, outer = state.outer) => {
   const config = COAT_CONFIG[instance.id];
   if (!config) return 0;
   const rand = mulberry32((instance.fluffSeed || 11) * 97);
+  if (outerNext === 'film') {
+    buildFilmCoat(instance);
+    return instance.fluffCount;
+  }
   let count = 0;
   if (outerNext !== 'vfx') {
     for (const zone of config.zones) count += addCoatZone(instance, zone, next, rand, outerNext);
@@ -3453,7 +3598,9 @@ const refreshCoatColors = (instance) => {
     const color = strandRoleColor(instance, role);
     for (const material of materials) {
       const layer = material.userData.layer || 0;
-      if (instance.outerLevel === 'velvet') {
+      if (instance.outerLevel === 'film') {
+        material.color.copy(color);
+      } else if (instance.outerLevel === 'velvet') {
         material.color.copy(color).multiplyScalar(0.9 + layer * 0.005).lerp(white, Math.min(0.05, layer * 0.003));
       } else if (instance.id === 'koala') {
         material.color.copy(color).multiplyScalar(0.62 + layer * 0.026).lerp(white, Math.min(0.08, layer * 0.006));
@@ -3469,6 +3616,13 @@ const refreshCoatColors = (instance) => {
 let rig = null;
 let react = { active: false, time: 0, duration: 0.92, dir: 1, landed: false };
 const pose = { ...expressionPose(state.expression) };
+const walk = { phase: 0, blend: 0, heading: 0 };
+const WALK_PATH = { x: 0.92, z: 0.58, cx: -0.12, cz: -0.08, speed: 0.85, stride: 6.2 };
+const dampAngle = (current, target, lambda, dt) => {
+  const twoPi = Math.PI * 2;
+  let delta = ((target - current + Math.PI) % twoPi + twoPi) % twoPi - Math.PI;
+  return current + delta * (1 - Math.exp(-lambda * dt));
+};
 
 const disposeRig = (instance) => {
   if (!instance) return;
@@ -3501,7 +3655,11 @@ const buildAnimal = (id, colors) => {
   instance.strandMeshes = [];
   instance.strandMaterials = new Map();
   instance.strandCount = 0;
-  instance.feet.forEach((foot) => { foot.userData.baseY = foot.position.y; });
+  instance.feet.forEach((foot) => {
+    foot.userData.baseY = foot.position.y;
+    foot.userData.baseRotX = foot.rotation.x;
+  });
+  (instance.arms || []).forEach((arm) => { arm.userData.baseRotX = arm.rotation.x; });
   applyCoat(instance, sanitizeCoat(state.coat), sanitizeOuter(state.outer));
   for (const key of ACCESSORIES) {
     const accessory = ACCESSORY_BUILDERS[key]();
@@ -3741,14 +3899,32 @@ const setLighting = (name, { quiet = false } = {}) => {
 };
 
 const syncOuterButtons = () => {
-  const isKoala = state.animal === 'koala';
+  const hasOuter = OUTER_ANIMALS.includes(state.animal);
   const row = $('#outer-row');
-  if (row) row.hidden = !isKoala;
+  if (row) row.hidden = !hasOuter;
   for (const button of $$('[data-outer]')) {
     const active = button.dataset.outer === state.outer;
     button.classList.toggle('is-active', active);
     button.setAttribute('aria-pressed', String(active));
-    button.disabled = !isKoala;
+    button.disabled = !hasOuter;
+  }
+};
+
+const syncWalkButton = () => {
+  const button = $('#walk-toggle');
+  if (!button) return;
+  const on = Boolean(state.walk);
+  button.classList.toggle('is-active', on);
+  button.setAttribute('aria-pressed', String(on));
+};
+
+const setWalk = (on, { quiet = false } = {}) => {
+  state.walk = Boolean(on);
+  syncWalkButton();
+  persistState();
+  if (!quiet) {
+    toast(t(state.walk ? 'toast.walkOn' : 'toast.walkOff'), '👣');
+    audio.play('pop');
   }
 };
 
@@ -3759,6 +3935,7 @@ const syncCoatButtons = () => {
     button.setAttribute('aria-pressed', String(active));
   }
   syncOuterButtons();
+  syncWalkButton();
   const count = $('#coat-strand-count');
   if (count) {
     const n = ((rig?.fluffCount || 0) + (rig?.strandCount || 0)).toLocaleString(state.lang === 'th' ? 'th-TH' : 'en-US');
@@ -3792,6 +3969,9 @@ const setAnimal = (id, { quiet = false } = {}) => {
     return;
   }
   disposeRig(rig);
+  walk.phase = 0;
+  walk.blend = 0;
+  walk.heading = 0;
   state.animal = id;
   const colors = state.colors[id];
   rig = buildAnimal(id, colors);
@@ -3839,17 +4019,19 @@ const setCoat = (level, { quiet = false } = {}) => {
   applyCoat(rig, level, state.outer);
   applyColors(rig, state.colors[state.animal]);
   syncCoatButtons();
+  updateMeshCount();
   persistState();
   audio.play('pop');
   if (!quiet) toast(t('toast.coat', { name: t(`coat.${level}`) }), '🧶');
 };
 
 const setOuter = (level, { quiet = false } = {}) => {
-  if (!OUTER_LEVELS.includes(level) || !rig || state.animal !== 'koala') return;
+  if (!OUTER_LEVELS.includes(level) || !rig || !OUTER_ANIMALS.includes(state.animal)) return;
   state.outer = level;
   applyCoat(rig, state.coat, level);
   applyColors(rig, state.colors[state.animal]);
   syncCoatButtons();
+  updateMeshCount();
   persistState();
   audio.play('pop');
   if (!quiet) toast(t('toast.coat', { name: t(`coat.${level}`) }), '🧶');
@@ -4144,12 +4326,42 @@ const captureSnapshot = (size = 2048) => {
   const studioProps = [pedestal, pedestalRim, propGroup, sparkles, cloudGroup, deskGroup, perchGroup, fanGroup];
   const previousVisibility = studioProps.map((node) => node.visible);
 
+  const walkSnapshot = rig
+    ? {
+      x: rig.group.position.x,
+      z: rig.group.position.z,
+      rotY: rig.group.rotation.y,
+      feet: rig.feet.map((foot) => ({ y: foot.position.y, rotX: foot.rotation.x })),
+      arms: (rig.arms || []).map((arm) => arm.rotation.x),
+    }
+    : null;
+  if (rig) {
+    rig.group.position.x = 0;
+    rig.group.position.z = 0;
+    rig.group.rotation.y = 0;
+    rig.feet.forEach((foot) => {
+      foot.position.y = foot.userData.baseY ?? foot.position.y;
+      foot.rotation.x = foot.userData.baseRotX ?? foot.rotation.x;
+    });
+    (rig.arms || []).forEach((arm) => { arm.rotation.x = arm.userData.baseRotX ?? arm.rotation.x; });
+    rig.group.updateMatrixWorld(true);
+  }
   scene.background = null;
   renderer.setPixelRatio(1);
   renderer.setSize(pixels, pixels, false);
   renderer.setClearColor(0x000000, 0);
   for (const node of studioProps) node.visible = false;
   renderer.render(scene, snapshotCamera);
+  if (walkSnapshot && rig) {
+    rig.group.position.x = walkSnapshot.x;
+    rig.group.position.z = walkSnapshot.z;
+    rig.group.rotation.y = walkSnapshot.rotY;
+    rig.feet.forEach((foot, index) => {
+      foot.position.y = walkSnapshot.feet[index].y;
+      foot.rotation.x = walkSnapshot.feet[index].rotX;
+    });
+    (rig.arms || []).forEach((arm, index) => { arm.rotation.x = walkSnapshot.arms[index]; });
+  }
   const dataUrl = renderer.domElement.toDataURL('image/png');
 
   studioProps.forEach((node, index) => { node.visible = previousVisibility[index]; });
@@ -4268,6 +4480,7 @@ $('#sound-toggle')?.addEventListener('click', () => setSound(!state.sound));
 $('#sound-toggle-panel')?.addEventListener('click', () => setSound(!state.sound));
 $('#lang-toggle')?.addEventListener('click', () => setLang(state.lang === 'en' ? 'th' : 'en'));
 $('#pet-action')?.addEventListener('click', reactPet);
+$('#walk-toggle')?.addEventListener('click', () => setWalk(!state.walk));
 $('#snapshot-btn')?.addEventListener('click', downloadSnapshot);
 $('#save-preset')?.addEventListener('click', savePreset);
 $('#share-btn')?.addEventListener('click', copyShareLink);
@@ -4367,12 +4580,34 @@ const animate = () => {
       }
     }
 
-    rig.group.position.y = (rig.base.liftY || 0) + bob + jump;
-    rig.feet.forEach((foot) => {
-      foot.position.y = foot.userData.baseY - (react.active ? 0 : bob);
+    const walking = state.walk && !react.active && !reducedMotion;
+    walk.blend = damp(walk.blend, walking ? 1 : 0, 3.2, dt);
+    if (walk.blend > 0.001) walk.phase += dt * WALK_PATH.speed * walk.blend;
+    const pathX = WALK_PATH.cx + Math.cos(walk.phase) * WALK_PATH.x;
+    const pathZ = WALK_PATH.cz + Math.sin(walk.phase) * WALK_PATH.z;
+    const velX = -Math.sin(walk.phase) * WALK_PATH.x;
+    const velZ = Math.cos(walk.phase) * WALK_PATH.z;
+    const headingTarget = walk.blend > 0.02 ? Math.atan2(velX, velZ) : 0;
+    walk.heading = dampAngle(walk.heading, headingTarget, walk.blend > 0.02 ? 3.4 : 8, dt);
+    walk.heading = Math.atan2(Math.sin(walk.heading), Math.cos(walk.heading));
+    if (walk.blend < 0.001 && Math.abs(walk.heading) < 0.02) walk.heading = 0;
+    const stride = Math.sin(walk.phase * WALK_PATH.stride) * walk.blend;
+    const stepBob = Math.abs(Math.sin(walk.phase * WALK_PATH.stride)) * 0.045 * walk.blend;
+
+    rig.group.position.x = pathX * walk.blend;
+    rig.group.position.z = pathZ * walk.blend;
+    rig.group.position.y = (rig.base.liftY || 0) + bob + jump + stepBob;
+    rig.feet.forEach((foot, index) => {
+      const swing = Math.sin(walk.phase * WALK_PATH.stride + index * Math.PI);
+      foot.position.y = foot.userData.baseY - (react.active ? 0 : bob) + Math.max(0, swing) * 0.05 * walk.blend;
+      foot.rotation.x = (foot.userData.baseRotX || 0) + swing * 0.32 * walk.blend;
     });
-    rig.group.rotation.y = spin;
-    rig.group.rotation.z = Math.sin(elapsed * 1.1) * 0.012 * pose.floatAmp;
+    (rig.arms || []).forEach((arm, index) => {
+      const swing = Math.sin(walk.phase * WALK_PATH.stride + index * Math.PI);
+      arm.rotation.x = (arm.userData.baseRotX || 0) - swing * 0.3 * walk.blend;
+    });
+    rig.group.rotation.y = spin + walk.heading;
+    rig.group.rotation.z = Math.sin(elapsed * 1.1) * 0.012 * pose.floatAmp + stride * 0.014;
     rig.group.scale.set(squash, 2 - squash, squash);
 
     rig.body.scale.set(
@@ -4555,7 +4790,7 @@ const runSelfTest = async () => {
       decoded.accessories.bowtie && decoded.accessories.glasses;
   });
   await check('Snapshot filename is safe', () => /^cute3d-[a-z]+-\d{4}-\d{2}-\d{2}\.png$/.test(snapshotFilename('bear', new Date('2026-11-04T12:00:00Z'))));
-  await check('Coat builds shells, koala strands, and smooth clears both', () => {
+  await check('Coat builds shells, strands, velvet and Film', () => {
     const bear = buildAnimal('bear', DEFAULT_COLORS.bear);
     const plush = applyCoat(bear, 'plush');
     const shells = bear.fluff.length > 2 && plush > 300 && bear.strandMeshes.length === 0;
@@ -4569,8 +4804,21 @@ const runSelfTest = async () => {
     const vfx = koala.strandMeshes.length >= 4 && koala.strandCount > 50000;
     applyCoat(koala, 'plush', 'velvet');
     const velvet = koala.fluffCount > 10000 && koala.strandCount === 0;
+    applyCoat(koala, 'plush', 'film');
+    const filmKoala = koala.fluffCount === 0 && koala.strandCount === 0 && Boolean(koala.filmLight) && koala.filmShells.length >= 4;
     disposeRig(koala);
-    return shells && cleared && strands && vfx && velvet;
+    const fold = buildAnimal('fold', DEFAULT_COLORS.fold);
+    applyCoat(fold, 'plush', 'film');
+    const filmFold = Boolean(fold.filmLight) && fold.strandMeshes.length === 0 && fold.filmShells.length >= 4;
+    disposeRig(fold);
+    return shells && cleared && strands && vfx && velvet && filmKoala && filmFold;
+  });
+  await check('Walk toggle is wired', () => {
+    const original = state.walk;
+    setWalk(true, { quiet: true });
+    const on = state.walk === true && $('#walk-toggle')?.getAttribute('aria-pressed') === 'true';
+    setWalk(original, { quiet: true });
+    return on && state.walk === original;
   });
   await check('Three accessories are built', () =>
     ACCESSORIES.every((key) => {
@@ -4684,7 +4932,7 @@ const boot = () => {
 
   window.__cute3d = {
     ready: true,
-    version: '1.6.0',
+    version: '1.7.0',
     engine: ENGINE,
     state,
     scene,
@@ -4703,6 +4951,8 @@ const boot = () => {
     setColors: (colors) => setColors(colors, { quiet: true }),
     setCoat: (level) => setCoat(level, { quiet: true }),
     setOuter: (level) => setOuter(level, { quiet: true }),
+    setWalk: (on) => setWalk(on, { quiet: true }),
+    walkState: () => ({ ...walk, on: state.walk }),
     setFanAngle: (angle) => updateFanPose(angle, { persist: true }),
     fanPosition: () => fanGroup.position.toArray(),
     setFur: (key, value) => setFur(key, value),

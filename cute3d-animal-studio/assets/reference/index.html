@@ -111,6 +111,10 @@
           <h1 class="pet-name" id="pet-name">Mochi the Chibi Bear</h1>
           <p class="pet-tagline" id="pet-tagline">Soft, round, and always ready for a hug.</p>
         </div>
+        <button class="pet-action pet-walk" id="walk-toggle" type="button" aria-pressed="false" aria-label="Toggle walking around the stage" data-i18n-aria="a11y.walk">
+          <span aria-hidden="true">👣</span>
+          <span data-i18n="stage.walk">Walk</span>
+        </button>
         <button class="pet-action" id="pet-action" type="button" aria-label="Make the pet react" data-i18n-aria="a11y.react">
           <span aria-hidden="true">✦</span>
           <span data-i18n="stage.react">React</span>
@@ -235,7 +239,7 @@
           <div class="outer-row" id="outer-row" hidden>
             <div class="outer-head">
               <span data-i18n="coat.outer">Outer coat</span>
-              <small data-i18n="coat.outerHint">Koala only</small>
+              <small data-i18n="coat.outerHint">Koala &amp; Fold</small>
             </div>
             <div class="coat-grid coat-grid-outer" role="group" aria-label="Choose the outer coat layer" data-i18n-aria="a11y.outerCoat">
               <button class="coat-btn" type="button" data-outer="none" aria-pressed="false">
@@ -253,6 +257,10 @@
               <button class="coat-btn" type="button" data-outer="vfx" aria-pressed="false">
                 <span class="coat-mark" aria-hidden="true">✦</span>
                 <span data-i18n="coat.vfx">VFX</span>
+              </button>
+              <button class="coat-btn" type="button" data-outer="film" aria-pressed="false">
+                <span class="coat-mark" aria-hidden="true">◉</span>
+                <span data-i18n="coat.film">Film</span>
               </button>
             </div>
           </div>

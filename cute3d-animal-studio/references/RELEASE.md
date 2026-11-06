@@ -58,7 +58,7 @@ is added as a skill source.
 
 ## Final checklist
 
-- [ ] 19 engine / 82 repository / 25 browser / 20 in-page
+- [ ] 19 engine / 87 repository / 28 browser / 21 in-page
 - [ ] Live suite 25/25
 - [ ] zero console errors
 - [ ] assets regenerated from the app

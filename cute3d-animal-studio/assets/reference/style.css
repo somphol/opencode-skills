@@ -559,6 +559,29 @@ a:hover {
   transition: transform 0.18s var(--ease-spring), background 0.18s;
 }
 
+.pet-walk {
+  background: var(--glass-strong);
+  color: var(--ink);
+  box-shadow: 0 6px 16px rgba(92, 60, 70, 0.12);
+  border: 1px solid var(--line-strong);
+}
+
+.pet-walk:hover {
+  background: #fff;
+  color: var(--ink);
+}
+
+.pet-walk.is-active {
+  background: var(--ink);
+  color: #fff;
+  border-color: transparent;
+}
+
+.pet-walk.is-active:hover {
+  background: #4a3a40;
+  color: #fff;
+}
+
 .pet-action:hover {
   transform: translateY(-2px) scale(1.03);
   background: #4a3a40;
@@ -823,7 +846,8 @@ a:hover {
   letter-spacing: 0.04em;
 }
 
-.coat-grid-outer { grid-template-columns: repeat(4, 1fr); }
+.coat-grid-outer { grid-template-columns: repeat(5, 1fr); }
+.coat-grid-outer .coat-btn span:last-child { font-size: 9px; }
 
 .outer-head small {
   color: var(--ink-faint);
