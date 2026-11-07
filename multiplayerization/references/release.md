@@ -61,6 +61,28 @@ Wait 800–900 ms for modal entry animations.
 Report cache reads separately. Credit the harness and model in the README, About/credits UI and footer,
 not only in JSON.
 
+## Force reload and cache busting
+
+A normal reload can keep old ES modules. Make the version visible and the reload real:
+
+- Show `vX.Y.Z` in the footer and the lobby/mode overlay.
+- Add `?v=X.Y.Z` to the CSS and entry script, **and to every static ES module import** (`./transport.js?v=X.Y.Z`, etc.).
+- Bump all five strings with the app version; a static check should fail on drift.
+- **Reload** navigates with `?v=<timestamp>`, preserves room/mode params, removes any passcode param, and confirms if a room/match is active.
+- Poll `state.json` (or a small `/version.json`) with `cache: "no-store"`; if a newer version exists, show an update banner with Reload.
+- Query-string busting on the page alone is not enough; the module graph is cached by URL.
+- Do not put the passcode in the URL; remove it before reload.
+
+## Diagnostics
+
+Ship a **Troubleshoot** panel:
+
+- Version, URL, secure context, transport loaded, role, room code, peer IDs, connections, pending count, last error/stage.
+- Guest probe with PIN and without PIN; host returns reachability, PIN required/accepted, approval, started and free seats **without creating a pending seat request**.
+- Copy report to clipboard.
+- Distinguish broker timeout, host timeout, ICE failure, wrong PIN and denied approval.
+- Host warning: keep the tab open/awake; optional wake lock.
+
 ## Publish
 
 1. local server + full verification
