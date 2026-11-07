@@ -49,6 +49,12 @@
       "license": "MIT"
     },
     {
+      "name": "calibre-scroll-studio",
+      "source": "~/.config/opencode/skills/calibre-scroll-studio",
+      "description": "Build a release-grade, zero-asset Three.js luxury watch that disassembles over scroll — procedural case, dial and movement, normalized scroll timeline, two-stage explosion, callouts, mobile, a 24-check headless gate and GitHub Pages.",
+      "license": "MIT"
+    },
+    {
       "name": "3d-puzzle-solver-studio",
       "source": "~/.config/opencode/skills/3d-puzzle-solver-studio",
       "description": "Build a tactile 3D sliding-puzzle studio with a parity-safe shuffle, an A* solver in a Web Worker, bilingual UI, local records, headless verification and a GitHub Pages release.",

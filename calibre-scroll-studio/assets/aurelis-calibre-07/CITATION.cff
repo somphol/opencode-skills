@@ -1,0 +1,27 @@
+cff-version: 1.2.0
+message: "If you use or adapt this study, cite the repository and the original concept reference."
+title: "Aurelis Calibre 07 — Anatomy of a Second"
+type: software
+authors:
+  - name: "The Aurelis Study"
+version: 1.0.0
+date-released: 2026-11-06
+url: "https://somphol.github.io/aurelis-calibre-07/"
+repository-code: "https://github.com/somphol/aurelis-calibre-07"
+license: MIT
+abstract: >-
+  A single-page WebGL study of a fictional mechanical wristwatch that disassembles as the
+  visitor scrolls. The site, watch geometry, dial artwork and environment are procedural and
+  offline-first. It was built in one OpenCode session with DeepSeek V4.1 Flash from a
+  one-sentence brief.
+keywords:
+  - Three.js
+  - WebGL
+  - procedural
+  - horology
+  - scroll
+  - interaction design
+references:
+  - type: video
+    title: "Concept reference — scroll-driven watch"
+    url: "https://www.youtube.com/watch?v=jTFGF4tCKTM"

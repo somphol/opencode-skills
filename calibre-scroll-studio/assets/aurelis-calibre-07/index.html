@@ -1,0 +1,277 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Aurelis Calibre 07 — Anatomy of a Second</title>
+    <meta
+      name="description"
+      content="Aurelis Calibre 07 — Anatomy of a Second. A procedural luxury watch that disassembles as you scroll, built from a one-sentence brief with OpenCode and DeepSeek V4.1 Flash."
+    />
+    <meta name="theme-color" content="#08080a" />
+    <link rel="canonical" href="https://somphol.github.io/aurelis-calibre-07/" />
+    <meta property="og:title" content="Aurelis Calibre 07 — Anatomy of a Second" />
+    <meta
+      property="og:description"
+      content="312 parts. One heartbeat. A procedural WebGL watch, disassembled by scroll — and built from one sentence."
+    />
+    <meta property="og:url" content="https://somphol.github.io/aurelis-calibre-07/" />
+    <meta property="og:type" content="website" />
+    <meta
+      property="og:image"
+      content="https://somphol.github.io/aurelis-calibre-07/screenshots/aurelis-hero.png"
+    />
+    <meta name="twitter:card" content="summary_large_image" />
+    <link
+      rel="icon"
+      href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' fill='%2308080a'/%3E%3Ccircle cx='32' cy='32' r='21' fill='none' stroke='%23c8a063' stroke-width='1.5'/%3E%3Ccircle cx='32' cy='32' r='15' fill='none' stroke='%23c8a063' stroke-width='.75' opacity='.5'/%3E%3Cpath d='M32 18v14l9 6' fill='none' stroke='%23f1ece2' stroke-width='1.5' stroke-linecap='round'/%3E%3C/svg%3E"
+    />
+    <link rel="preload" href="./fonts/bodoni-moda-latin.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <div class="loader" id="loader" role="status" aria-live="polite">
+      <div class="loader__inner">
+        <span class="loader__mark">Aurelis</span>
+        <span class="loader__sub">Genève</span>
+        <div class="loader__line"><span id="loader-bar"></span></div>
+        <span class="loader__caption" id="loader-caption">Assembling the calibre</span>
+      </div>
+    </div>
+
+    <header class="topbar">
+      <a class="wordmark" href="#chapter-hero" aria-label="Aurelis, back to the beginning">
+        <span class="wordmark__name">Aurelis</span>
+        <span class="wordmark__city">Genève</span>
+      </a>
+      <p class="topbar__model">Calibre 07 <span>Automatique</span></p>
+      <button class="btn btn--quiet" type="button" data-open-dialog>Enquire</button>
+    </header>
+
+    <aside class="rail" aria-label="Chapters">
+      <nav class="rail__nav">
+        <a class="rail__item is-active" href="#chapter-hero" data-chapter-link="0"><span>01</span><b>The Watch</b></a>
+        <a class="rail__item" href="#chapter-dial" data-chapter-link="1"><span>02</span><b>The Dial</b></a>
+        <a class="rail__item" href="#chapter-movement" data-chapter-link="2"><span>03</span><b>The Movement</b></a>
+        <a class="rail__item" href="#chapter-case" data-chapter-link="3"><span>04</span><b>The Case</b></a>
+        <a class="rail__item" href="#chapter-sum" data-chapter-link="4"><span>05</span><b>The Whole</b></a>
+      </nav>
+      <div class="rail__track"><span class="rail__fill" id="rail-fill"></span></div>
+    </aside>
+
+    <main>
+      <div class="stage" id="stage">
+        <div class="stage__halo" aria-hidden="true"></div>
+        <canvas id="scene" aria-hidden="true"></canvas>
+
+        <div class="callouts" id="callouts" aria-hidden="true">
+          <div class="callout" data-label="crystal">
+            <i class="callout__dot"></i><span class="callout__line"></span>
+            <span class="callout__text"><b>Sapphire crystal</b><em>Domed · 1.8 mm</em></span>
+          </div>
+          <div class="callout" data-label="barrel">
+            <i class="callout__dot"></i><span class="callout__line"></span>
+            <span class="callout__text"><b>Mainspring barrel</b><em>72-hour reserve</em></span>
+          </div>
+          <div class="callout" data-label="balance">
+            <i class="callout__dot"></i><span class="callout__line"></span>
+            <span class="callout__text"><b>Balance wheel</b><em>28,800 vph</em></span>
+          </div>
+          <div class="callout" data-label="caseband">
+            <i class="callout__dot"></i><span class="callout__line"></span>
+            <span class="callout__text"><b>904L steel case</b><em>41 mm · 9.8 mm</em></span>
+          </div>
+          <div class="callout" data-label="rotor">
+            <i class="callout__dot"></i><span class="callout__line"></span>
+            <span class="callout__text"><b>Skeleton rotor</b><em>18k gold</em></span>
+          </div>
+        </div>
+
+        <p class="stage__hint" id="stage-hint"><span>Drag to inspect</span></p>
+        <div class="stage__fallback" id="stage-fallback" hidden>
+          <p>This study requires WebGL. The calibre cannot be assembled in this browser.</p>
+        </div>
+      </div>
+
+      <section class="chapter chapter--hero" id="chapter-hero" data-chapter="0" aria-labelledby="hero-title">
+        <div class="chapter__inner">
+          <p class="eyebrow"><span class="rule"></span>Aurelis Manufacture — Genève</p>
+          <h1 id="hero-title">Calibre<br /><em>07</em></h1>
+          <p class="chapter__lede">A mechanical wristwatch,<br />revealed part by part.</p>
+          <div class="hero-meta">
+            <span>41 mm</span><span>904L steel</span><span>72-hour reserve</span>
+          </div>
+          <p class="scroll-cue"><span class="scroll-cue__line"></span>Scroll to disassemble</p>
+        </div>
+      </section>
+
+      <section class="chapter" id="chapter-dial" data-chapter="1" aria-labelledby="dial-title">
+        <div class="chapter__inner">
+          <p class="eyebrow"><span>02</span>The Dial</p>
+          <h2 id="dial-title">Enamel,<br /><em>fired twice.</em></h2>
+          <p class="chapter__body">
+            Grand feu enamel is laid by hand and fired at 800 °C until it becomes glass. Beneath it,
+            eleven applied indices in 18k gold catch whatever light the room will give. The hands are
+            blued steel, shaped and polished one at a time.
+          </p>
+          <dl class="facts">
+            <div><dt>Surface</dt><dd>Grand feu enamel</dd></div>
+            <div><dt>Indices</dt><dd>18k applied gold</dd></div>
+            <div><dt>Hands</dt><dd>Blued steel</dd></div>
+          </dl>
+        </div>
+      </section>
+
+      <section class="chapter" id="chapter-movement" data-chapter="2" aria-labelledby="movement-title">
+        <div class="chapter__inner">
+          <p class="eyebrow"><span>03</span>The Movement</p>
+          <h2 id="movement-title">Three hundred and twelve parts.<br /><em>One heartbeat.</em></h2>
+          <p class="chapter__body">
+            The Calibre 07 beats 28,800 times an hour and holds seventy-two hours of reserve. Every
+            bridge is chamfered, every screw blued, every jewel set by hand — a finish you were never
+            meant to see this closely.
+          </p>
+          <dl class="facts">
+            <div><dt>Calibre</dt><dd>07 · automatic</dd></div>
+            <div><dt>Jewels</dt><dd>31 · 28,800 vph</dd></div>
+            <div><dt>Reserve</dt><dd>72 hours</dd></div>
+          </dl>
+        </div>
+      </section>
+
+      <section class="chapter" id="chapter-case" data-chapter="3" aria-labelledby="case-title">
+        <div class="chapter__inner">
+          <p class="eyebrow"><span>04</span>The Case</p>
+          <h2 id="case-title">Forty-one millimetres<br /><em>of quiet.</em></h2>
+          <p class="chapter__body">
+            A case in 904L steel, cold-forged and finished over nine hours. The bezel is polished to a
+            mirror; the flanks are brushed by hand. A domed sapphire crystal, 1.8 mm at its crown, sits
+            almost flush with the dial.
+          </p>
+          <dl class="facts">
+            <div><dt>Diameter</dt><dd>41 mm · 9.8 mm thin</dd></div>
+            <div><dt>Material</dt><dd>904L steel</dd></div>
+            <div><dt>Water</dt><dd>50 metres</dd></div>
+          </dl>
+        </div>
+      </section>
+
+      <section class="chapter chapter--sum" id="chapter-sum" data-chapter="4" aria-labelledby="sum-title">
+        <div class="chapter__inner">
+          <p class="eyebrow"><span>05</span>The Whole</p>
+          <h2 id="sum-title">Every part<br /><em>returns.</em></h2>
+          <p class="chapter__body">
+            Thirty-one jewels. Three hundred and twelve parts. One object, made to be worn for a
+            lifetime and then handed on. The Calibre 07 is produced in sixty pieces a year.
+          </p>
+
+          <div class="spec-grid">
+            <div><span>Case</span><b>41 mm · 904L</b></div>
+            <div><span>Movement</span><b>Calibre 07</b></div>
+            <div><span>Reserve</span><b>72 hours</b></div>
+            <div><span>Jewels</span><b>31</b></div>
+          </div>
+
+          <div class="purchase">
+            <p class="purchase__price">CHF 24,800</p>
+            <button class="btn btn--solid" type="button" data-open-dialog>Request a private viewing</button>
+          </div>
+
+          <footer class="site-foot">
+            <p>A fictional maison · Anatomy of a Second</p>
+            <p class="site-foot__credit">
+              Built with Three.js · OpenCode × DeepSeek V4.1 Flash ·
+              <button class="text-link" type="button" data-open-colophon>Colophon</button>
+            </p>
+          </footer>
+        </div>
+      </section>
+    </main>
+
+    <dialog class="enquiry" id="enquiry" aria-labelledby="enquiry-title">
+      <button class="enquiry__close" type="button" data-close-dialog aria-label="Close">×</button>
+      <form class="enquiry__form" id="enquiry-form" novalidate>
+        <p class="eyebrow"><span class="rule"></span>Private viewing</p>
+        <h2 id="enquiry-title">Request an appointment</h2>
+        <p class="enquiry__intro">
+          The Calibre 07 is shown by appointment at our Geneva atelier. Tell us how to reach you.
+        </p>
+        <label class="field">
+          <span>Name</span>
+          <input name="name" type="text" autocomplete="name" required />
+        </label>
+        <label class="field">
+          <span>Email</span>
+          <input name="email" type="email" autocomplete="email" required />
+        </label>
+        <label class="field">
+          <span>Preferred month</span>
+          <select name="month">
+            <option>February</option>
+            <option>March</option>
+            <option>April</option>
+            <option>May</option>
+          </select>
+        </label>
+        <p class="enquiry__error" id="enquiry-error" role="alert" hidden>Please add your name and a valid email.</p>
+        <button class="btn btn--solid" type="submit">Request viewing</button>
+        <p class="enquiry__note">A fictional maison. Nothing is sent, stored or shared.</p>
+      </form>
+      <div class="enquiry__sent" id="enquiry-sent" hidden>
+        <p class="eyebrow"><span class="rule"></span>Received</p>
+        <h2>We will be in touch.</h2>
+        <p class="enquiry__intro">
+          Thank you. In a real maison, a concierge would write within two working days. Here, the
+          appointment lives only in your imagination.
+        </p>
+        <button class="btn btn--solid" type="button" data-close-dialog>Close</button>
+      </div>
+    </dialog>
+
+    <dialog class="enquiry colophon" id="colophon" aria-labelledby="colophon-title">
+      <button class="enquiry__close" type="button" data-close-colophon aria-label="Close">×</button>
+      <p class="eyebrow"><span class="rule"></span>Colophon</p>
+      <h2 id="colophon-title">Anatomy of a Second</h2>
+      <p class="enquiry__intro">A procedural horology study, built from a single sentence.</p>
+
+      <div class="colophon__block">
+        <p class="colophon__label">The brief</p>
+        <blockquote>
+          “Build an immersive single-page 3D website showcasing a luxury mechancal wristwatch
+          that disassembles as the user scrolls.”
+        </blockquote>
+        <p>
+          That was the whole prompt — the typo included. The source video carries a much longer
+          brief. This study was an attempt to see how far a small prompt could go with
+          <b>DeepSeek V4.1 Flash</b> in <b>OpenCode</b>.
+        </p>
+      </div>
+
+      <dl class="colophon__meta">
+        <div><dt>Build</dt><dd id="colophon-build">One OpenCode session</dd></div>
+        <div><dt>Model</dt><dd>DeepSeek V4.1 Flash · opencode-go</dd></div>
+        <div><dt>Session</dt><dd id="colophon-session">Ledger in STATE.md</dd></div>
+        <div><dt>Verification</dt><dd>24 headless checks</dd></div>
+      </dl>
+
+      <p class="colophon__links">
+        <a href="https://www.youtube.com/watch?v=jTFGF4tCKTM" target="_blank" rel="noopener noreferrer">Concept reference</a>
+        <span>·</span>
+        <a href="./STATE.md">Session ledger</a>
+        <span>·</span>
+        <a href="./README.md">Source notes</a>
+      </p>
+
+      <p class="enquiry__note">A fictional maison. No data leaves this page.</p>
+    </dialog>
+
+    <script type="importmap">
+      {
+        "imports": {
+          "three": "./vendor/three.module.min.js"
+        }
+      }
+    </script>
+    <script type="module" src="./src/main.js"></script>
+  </body>
+</html>

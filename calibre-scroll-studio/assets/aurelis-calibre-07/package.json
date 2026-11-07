@@ -1,0 +1,21 @@
+{
+  "name": "aurelis-calibre-07",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Aurelis Calibre 07 \u2014 Anatomy of a Second. A scroll-driven, procedural WebGL watch disassembly.",
+  "scripts": {
+    "start": "python3 -m http.server 4173",
+    "serve": "python3 -m http.server 4173",
+    "verify": "node scripts/verify.mjs",
+    "test": "node scripts/verify.mjs",
+    "state": "node scripts/state.mjs",
+    "screenshots": "node scripts/shoot.mjs"
+  },
+  "devDependencies": {
+    "puppeteer-core": "^23.11.1"
+  },
+  "engines": {
+    "node": ">=22"
+  }
+}

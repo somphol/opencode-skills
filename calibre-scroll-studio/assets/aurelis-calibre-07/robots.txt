@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://somphol.github.io/aurelis-calibre-07/sitemap.xml
