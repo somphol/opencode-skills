@@ -25,6 +25,12 @@
       "license": "see repository"
     },
     {
+      "name": "session-to-catalog",
+      "source": "~/.config/opencode/skills/session-to-catalog",
+      "description": "Share a finished OpenCode session to GitHub — mine the local session database, distil the reusable knowledge into a skill, publish it through a content-hashed HTTP catalog, and keep raw transcripts on a private archive.",
+      "license": "see repository"
+    },
+    {
       "name": "skill-publish",
       "source": "~/.config/opencode/skills/skill-publish",
       "description": "Publish an OpenCode skill to GitHub — validate it, lay it out as skills/<id>/, write the handoff and attribution notes, and serve it through an HTTP catalog with GitHub Pages.",

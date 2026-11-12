@@ -10,6 +10,9 @@ discoverable.
 node sync.mjs              # copy each skill from skills.json sources, rewrite index.json
 node sync.mjs --check      # verify the tree matches index.json (CI)
 node sync.mjs city-miniature
+node sync.mjs --preview            # partial catalog of changed skills in preview/
+node sync.mjs --preview <name>     # force one skill into preview/
+node sync.mjs --check --preview    # verify preview/index.json is current
 ```
 
 After a push, GitHub Pages serves the new `index.json` within a minute or two. Clients refresh a
@@ -24,6 +27,8 @@ skill when its `version` string changes, which `sync.mjs` derives from the conte
   `index.json`.
 - `<skill-name>/` — generated copies. **Never edit these by hand**; the next sync overwrites them.
 - `index.json` — generated manifest read by OpenCode: `skills[].{name,version,files}`.
+- `preview/` — generated, partial catalog of skills that differ from `index.json`; same schema, with
+  `p-` version prefixes and a `BUILD.json` stamp. Commit it only while testing.
 
 ## Constraints
 
@@ -48,6 +53,8 @@ skill when its `version` string changes, which `sync.mjs` derives from the conte
 - The catalog is a full copy, not a reference: every skill's assets are duplicated in this repository
   (currently ~2.2 MB for `city-miniature`). Fine at this size; revisit if it grows.
 - Pages caching means a client may need to wait for the CDN, not the push.
+- `preview/` is partial and never pruned automatically: rebuild it after a stable sync, or it will
+  advertise a `p-` version for a skill that is already stable. `--check --preview` reports staleness.
 
 ## Continuity
 
@@ -55,6 +62,8 @@ skill when its `version` string changes, which `sync.mjs` derives from the conte
 - `city-miniature` source of truth: <https://github.com/somphol/city-miniature>
 - Installed copy of that skill: `~/.config/opencode/skills/city-miniature`
 - Session transcripts: local only, `~/opencode-transcripts`; never published.
+- `session-to-catalog` source: `~/.config/opencode/skills/session-to-catalog`; it documents this
+  repository's own pipeline (skills.json → sync.mjs → index.json → Pages).
 - `khan-trig-studio` source: `~/.config/opencode/skills/khan-trig-studio`; reference app at
   <https://github.com/somphol/khan-trig-unit4-equations-identities-studio>.
 - `city-3d-tour-guide` source: `~/.config/opencode/skills/city-3d-tour-guide`; reference app at

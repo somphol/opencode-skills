@@ -22,6 +22,7 @@ so a changed skill refreshes in the client's cache.
 | [`multiplayerization`](multiplayerization/SKILL.md) | Add **real-time multiplayer** to any app: authority/transport choice, rooms, versioned protocol, host approval, strong passcode generator, per-participant projection, chat/voice, abuse caps, two-client tests and release docs. |
 | [`session-export`](session-export/SKILL.md) | Export OpenCode sessions to Markdown with a maintained TOC and JSON index, sanitized. Local master, optional private mirror. |
 | [`session-to-skill`](session-to-skill/SKILL.md) | Turn a finished session or project into a reusable skill: extract the template, write the instructions, prove it by scaffolding. |
+| [`session-to-catalog`](session-to-catalog/SKILL.md) | Share a finished session to GitHub: mine the local session DB, distil a skill, rebuild and verify the content-hashed catalog, keep transcripts private. |
 | [`skill-publish`](skill-publish/SKILL.md) | Publish a skill to GitHub: validate, lay out `skills/<id>/`, write handoff and attribution notes, serve an HTTP catalog via Pages. |
 | [`khan-trig-studio`](khan-trig-studio/SKILL.md) | Build a bilingual, offline trigonometry studio with three canvas modules, exact math, practice persistence, headless checks and a Pages release. |
 | [`leab-tui-studio`](leab-tui-studio/SKILL.md) — [Leab-Tui 3D](https://somphol.github.io/leab-tui-3d/) | Build a bilingual, static 3D **trick-taking studio** for a traditional tile game: rules contract, pure engine, heuristic AI, coach, undo, persistence, headless verification and a release handoff. |
@@ -34,6 +35,22 @@ so a changed skill refreshes in the client's cache.
 | [`calibre-scroll-studio`](calibre-scroll-studio/SKILL.md) — [Aurelis 07](https://somphol.github.io/aurelis-calibre-07/) | Build a release-grade, zero-asset 3D luxury watch that disassembles over scroll: procedural case, dial and movement, normalized scroll timeline, two-stage explosion, callouts, mobile, a 24-check headless gate, docs, session ledger and GitHub Pages. Includes the working reference and a scaffold. |
 | [`vu-project-ideas-studio`](vu-project-ideas-studio/SKILL.md) — [VU Project Ideas](https://somphol.github.io/vu_project_ideas/) | Turn a long prompt list into a release-grade, searchable project-brief catalog: parse blocks, merge duplicates, curate metadata, one request prefix, 54 copy-ready Markdown files, search/filters/deep links, 390 px verification and a Pages release. Includes the working reference and a scaffold. |
 | [`lucky-draw-3d-studio`](lucky-draw-3d-studio/SKILL.md) — [Lucky Draw Studio](https://somphol.github.io/full-3d-lucky-draw-studio/) | Build a release-grade 3D lucky-draw prize wheel: cryptographically fair pick before the spin, textured 3D wheel, roster/presets, confetti, bilingual UI, local history, JSON/CSV export, four test layers and a Pages release. Includes a runnable reference and scaffold script. |
+
+## Preview channel
+
+Test unpublished changes without touching the stable catalog:
+
+```sh
+node sync.mjs --preview              # every skill that differs from index.json
+node sync.mjs --preview <name>       # force one skill
+node sync.mjs --check --preview      # verify preview/index.json is current
+```
+
+Point a test client at `https://somphol.github.io/opencode-skills/preview/`. How to tell the two
+apart: stable versions are 12 hex characters, preview versions are prefixed `p-`, and
+`preview/BUILD.json` records the commit, the dirty flag and the build time. Preview is a **partial**
+catalog by design — only changed skills appear. Commit `preview/` for Pages to serve it, and rebuild
+it after every stable sync so it never looks like a live test when it is stale.
 
 ## Local install instead
 
