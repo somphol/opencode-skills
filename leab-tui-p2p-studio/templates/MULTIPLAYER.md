@@ -32,7 +32,8 @@
 
 - PeerJS public broker for signalling; STUN for NAT; no TURN.
 - Host must keep the tab open.
-- Room reload is not resumable.
+- A same-tab host reload restores the room and rotates the PIN; guests auto-rejoin. A full tab close
+  still ends the room (host state lives in `sessionStorage`).
 
 ## Troubleshooting
 

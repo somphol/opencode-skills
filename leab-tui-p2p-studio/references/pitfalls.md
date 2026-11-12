@@ -85,3 +85,21 @@ specific transition and the privacy invariant, and wait for the expected phase.
 The README said 25 checks after the suite grew to 35; the save version said 1.1.0. Update README,
 AGENTS, STATE, state.json, CHANGELOG, CITATION and the check thresholds together, then run the static
 check which fails on drift.
+
+## 16. A panel suppressed the table render
+
+While the log/history panel was open, the table stopped re-rendering to save frames. On close the
+player saw a board several moves old — it looked like desync, but the state was correct. Re-render
+from the current state on panel close, and re-apply the pending snapshot if one arrived meanwhile.
+
+## 17. A deploy ended the room
+
+Pressing update reloaded the page and dropped host and guests to the join prompt mid-match. Fix:
+host recovery in `sessionStorage` (same room code, rotated PIN, restored match), a guest rejoin intent,
+and an update banner that promises the table survives. Full tab close can still end the room — say so.
+
+## 18. Late join had no safe seat
+
+The first attempt could seat a late guest over a connected human, losing that player's hand and score.
+Only replace a bot or empty slot, carry the bot's hand/score to the new human, or approve as a viewer
+with a fully ghosted table and no dock, chat or voice.

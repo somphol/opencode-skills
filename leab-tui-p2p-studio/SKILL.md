@@ -1,7 +1,7 @@
 ---
 name: Leab-Tui P2P Studio
-description: Add serverless, host-authoritative WebRTC multiplayer to a static Three.js table game — room lobby, two-human start, bot fill, per-seat redaction, ghost meshes, disconnect-to-bot, a two-browser test harness and a release-grade handoff.
-version: 1.0.0
+description: Add serverless, host-authoritative WebRTC multiplayer to a static Three.js table game — room lobby, two-human start, bot fill, per-seat redaction, ghost meshes, late join and viewers, host reload recovery, disconnect-to-bot, a two-browser test harness and a release-grade handoff.
+version: 1.1.0
 ---
 
 # Leab-Tui P2P Studio
@@ -173,6 +173,14 @@ remaining cards appear to reshuffle. Deriving from the real tile id (even a hash
 - A guest who leaves mid-game: keep seat/hand/score, swap profile to bot, publish, schedule AI if it
   is their turn. Do not reseat.
 - Host leaves: send `closed`, guests show "Table closed" + Play solo. No host migration.
+- **Late join (started table):** queue the request; the host may deny, approve into a *bot* seat
+  (bot's hand and score carry over, no reseat of humans), approve as a hidden viewer, or pause joins
+  for 30 minutes. Viewers get ghosted hands, no dock/chat/voice and no actions.
+- **Host reload:** keep a `sessionStorage` recovery blob (profiles, hands, scores, phase, rev). On
+  reload, reopen the same code, rotate the PIN, restore the match and let guests auto-rejoin. A
+  version reload keeps the table too; never bounce a live player to the join prompt.
+- **Stale panel:** if the table stops rendering while the log/history panel is open, re-render on
+  close, or returning players see a board several moves old.
 
 ## Wire protocol (minimum)
 
