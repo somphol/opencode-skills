@@ -142,6 +142,18 @@
       ]
     },
     {
+      "name": "ipad-testing",
+      "version": "10b5de113aa9",
+      "description": "Debug and test web apps on iPad — pick Chrome CDP device emulation for fast loops, the Xcode iPad Simulator for real Safari, or a physical iPad for safe-area and performance truth; drive both orientations, capture screenshots, measure layout, and run the tablet checklist.",
+      "license": "MIT",
+      "files": [
+        "SKILL.md",
+        "references/emulation-vs-simulator.md",
+        "references/ipad-checklist.md",
+        "templates/ipad-check.mjs"
+      ]
+    },
+    {
       "name": "khan-trig-studio",
       "version": "e8403d06584f",
       "description": "Build a bilingual, offline, canvas-based Khan Trig Companion studio with three interactive modules, exact math, practice persistence, headless checks and a GitHub Pages release.",

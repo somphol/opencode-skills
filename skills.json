@@ -3,7 +3,7 @@
     {
       "name": "city-miniature",
       "source": "~/Projects/city-miniature/skills/city-miniature",
-      "description": "Build an interactive 3D miniature of a city from scratch as one offline HTML file — city-specific geography, landmarks, traffic, day/night and bilingual UI. Existing miniatures are mechanism references only, never templates to reskin.",
+      "description": "Build an interactive 3D miniature of a city from scratch as one offline HTML file \u2014 city-specific geography, landmarks, traffic, day/night and bilingual UI. Existing miniatures are mechanism references only, never templates to reskin.",
       "license": "see repository"
     },
     {
@@ -21,20 +21,26 @@
     {
       "name": "session-to-skill",
       "source": "~/.config/opencode/skills/session-to-skill",
-      "description": "Turn a finished session or project into a reusable OpenCode skill — extract the working artifact as a template, write the instructions and references, and prove it by scaffolding a fresh project from it.",
+      "description": "Turn a finished session or project into a reusable OpenCode skill \u2014 extract the working artifact as a template, write the instructions and references, and prove it by scaffolding a fresh project from it.",
       "license": "see repository"
     },
     {
       "name": "session-to-catalog",
       "source": "~/.config/opencode/skills/session-to-catalog",
-      "description": "Share a finished OpenCode session to GitHub — mine the local session database, distil the reusable knowledge into a skill, publish it through a content-hashed HTTP catalog, and keep raw transcripts on a private archive.",
+      "description": "Share a finished OpenCode session to GitHub \u2014 mine the local session database, distil the reusable knowledge into a skill, publish it through a content-hashed HTTP catalog, and keep raw transcripts on a private archive.",
       "license": "see repository"
     },
     {
       "name": "skill-publish",
       "source": "~/.config/opencode/skills/skill-publish",
-      "description": "Publish an OpenCode skill to GitHub — validate it, lay it out as skills/<id>/, write the handoff and attribution notes, and serve it through an HTTP catalog with GitHub Pages.",
+      "description": "Publish an OpenCode skill to GitHub \u2014 validate it, lay it out as skills/<id>/, write the handoff and attribution notes, and serve it through an HTTP catalog with GitHub Pages.",
       "license": "see repository"
+    },
+    {
+      "name": "ipad-testing",
+      "source": "~/.config/opencode/skills/ipad-testing",
+      "description": "Debug and test web apps on iPad \u2014 pick Chrome CDP device emulation for fast loops, the Xcode iPad Simulator for real Safari, or a physical iPad for safe-area and performance truth; drive both orientations, capture screenshots, measure layout, and run the tablet checklist.",
+      "license": "MIT"
     },
     {
       "name": "khan-trig-studio",
@@ -51,13 +57,13 @@
     {
       "name": "leab-tui-studio",
       "source": "~/.config/opencode/skills/leab-tui-studio",
-      "description": "Build a bilingual, static 3D trick-taking studio for a traditional tile or card game — research and freeze the rules, write a pure engine, add a 3D table, heuristic AI, coach, persistence, headless verification and a release-grade handoff.",
+      "description": "Build a bilingual, static 3D trick-taking studio for a traditional tile or card game \u2014 research and freeze the rules, write a pure engine, add a 3D table, heuristic AI, coach, persistence, headless verification and a release-grade handoff.",
       "license": "MIT"
     },
     {
       "name": "calibre-scroll-studio",
       "source": "~/.config/opencode/skills/calibre-scroll-studio",
-      "description": "Build a release-grade, zero-asset Three.js luxury watch that disassembles over scroll — procedural case, dial and movement, normalized scroll timeline, two-stage explosion, callouts, mobile, a 24-check headless gate and GitHub Pages.",
+      "description": "Build a release-grade, zero-asset Three.js luxury watch that disassembles over scroll \u2014 procedural case, dial and movement, normalized scroll timeline, two-stage explosion, callouts, mobile, a 24-check headless gate and GitHub Pages.",
       "license": "MIT"
     },
     {
@@ -87,7 +93,7 @@
     {
       "name": "suatsync-3d-studio",
       "source": "~/.config/opencode/skills/suatsync-3d-studio",
-      "description": "Build a bilingual, static 3D chanting and karaoke studio around a sacred or traditional text — synchronized lines, a calibratable timeline, YouTube/local/timer audio, streaks, a procedural mandala, headless verification and a GitHub Pages release.",
+      "description": "Build a bilingual, static 3D chanting and karaoke studio around a sacred or traditional text \u2014 synchronized lines, a calibratable timeline, YouTube/local/timer audio, streaks, a procedural mandala, headless verification and a GitHub Pages release.",
       "license": "MIT"
     },
     {
@@ -99,25 +105,25 @@
     {
       "name": "vu-project-ideas-studio",
       "source": "~/.config/opencode/skills/vu-project-ideas-studio",
-      "description": "Turn a long, messy prompt list into a release-grade, searchable project-brief catalog — parse blocks, merge duplicates, curate metadata, compose one current request prefix, generate copy-ready Markdown, add search/filters/deep links, verify at 390 px, publish to GitHub Pages and record elapsed time and tokens.",
+      "description": "Turn a long, messy prompt list into a release-grade, searchable project-brief catalog \u2014 parse blocks, merge duplicates, curate metadata, compose one current request prefix, generate copy-ready Markdown, add search/filters/deep links, verify at 390 px, publish to GitHub Pages and record elapsed time and tokens.",
       "license": "MIT"
     },
     {
       "name": "wanderlust-3d-studio",
       "source": "~/.config/opencode/skills/wanderlust-3d-studio",
-      "description": "Build and release a zero-build, photography-led travel atlas — 3 regions × 5 curated destinations, verified Unsplash imagery, hero slider, live search and interest/budget filters, destination modals with deep links, a localStorage itinerary, headless verification, professional docs and GitHub Pages.",
+      "description": "Build and release a zero-build, photography-led travel atlas \u2014 3 regions \u00d7 5 curated destinations, verified Unsplash imagery, hero slider, live search and interest/budget filters, destination modals with deep links, a localStorage itinerary, headless verification, professional docs and GitHub Pages.",
       "license": "MIT"
     },
     {
       "name": "leab-tui-p2p-studio",
       "source": "~/.config/opencode/skills/leab-tui-p2p-studio",
-      "description": "Add serverless, host-authoritative WebRTC multiplayer to a static Three.js table game — room lobby, two-human start, bot fill, per-seat redaction, ghost meshes, disconnect-to-bot, a two-browser test harness and a release-grade handoff.",
+      "description": "Add serverless, host-authoritative WebRTC multiplayer to a static Three.js table game \u2014 room lobby, two-human start, bot fill, per-seat redaction, ghost meshes, disconnect-to-bot, a two-browser test harness and a release-grade handoff.",
       "license": "MIT"
     },
     {
       "name": "multiplayerization",
       "source": "~/.config/opencode/skills/multiplayerization",
-      "description": "Add real-time multiplayer to any app — choose authority and transport, design rooms and a versioned protocol, gate access with approval and strong passcodes, project private state, add chat/voice, test with two clients and release without a backend (or with one).",
+      "description": "Add real-time multiplayer to any app \u2014 choose authority and transport, design rooms and a versioned protocol, gate access with approval and strong passcodes, project private state, add chat/voice, test with two clients and release without a backend (or with one).",
       "license": "MIT"
     }
   ]
