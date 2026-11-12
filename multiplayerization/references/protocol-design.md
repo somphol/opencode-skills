@@ -100,18 +100,23 @@ with a readable message.
 ## Revision and ordering
 
 - `rev` is a number owned by the host.
-- The client ignores `rev <= current`.
+- The client ignores `rev <= current`, except a snapshot explicitly tagged as a repair.
 - A reconnect gets a full snapshot, not a replay, unless you have a durable op log.
 - Do not use timestamps for ordering; clocks differ.
 - If you add optimistic UI, keep a local overlay and reconcile on the next snapshot.
+- Heartbeat the snapshot during live play and `pulse {rev}` when idle; otherwise a missed message
+  freezes the client with no way to notice. Full ladder: `resilience-and-rejoin.md`.
 
 ## Reconnect and host epochs
 
 Reconnect is optional. If you add it:
 
-- Issue a random `clientToken` at first join; keep it in `sessionStorage`, not a URL.
+- Issue a random `clientToken` **per slot** at first join; keep it in `sessionStorage`, not a URL.
+- Check the token **before** the passcode/approval gate; a returning guest should not need credentials
+  they were never shown.
 - Reserve the slot for a grace window.
-- On return, verify the token and send a fresh snapshot.
+- On return, verify the token and send a fresh snapshot with a `rejoin` marker.
+- Clear the token on intentional leave or denial, and expire any long-lived copy.
 - If the host changed, the epoch changed; discard stale state.
 
 Host migration is a separate feature:

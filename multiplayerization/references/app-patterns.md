@@ -7,7 +7,7 @@
 - Private: each player's hand/answer; stable placeholders for others.
 - Intent: `play` / `move`; host validates rules.
 - Disconnect: keep seat, replace with bot/placeholder.
-- Late join: reject `in-progress`; allow rematch.
+- Late join: host-approved seat (over a bot, keeping its hand/score) or viewer; never over a human.
 - Chat/voice: optional, but cheap to add once the room exists.
 - Do not add seats beyond the game's rule/board limit just because the SDK supports them.
 

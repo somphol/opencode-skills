@@ -23,6 +23,10 @@ idle
   -> onGuestLeave()
        keep slot and state
        convert to bot/placeholder OR mark offline
+  -> onHostReload()            (same tab)
+       restore match from sessionStorage
+       reopen the same code, rotate the PIN
+       guests auto-rejoin and re-enter the PIN
   -> closeRoom()
        send closed to everyone
        stop voice/tracks
@@ -172,7 +176,10 @@ async function digest(value) {
 - Keep connected humans in their slots.
 - Fill every empty slot with a bot/placeholder **before** the first state.
 - Send `start`, then the first snapshot.
-- Late joins: reject `in-progress` unless you explicitly support spectators.
+- Late joins into a running session: let the host **Deny**, **Approve as a seat** (take over a bot,
+  keeping that bot's hand and score) or **Approve as viewer**, or **Pause joins** for 30 minutes.
+  Approve never displaces a connected human — only a bot or empty slot.
+- Viewers get a fully redacted snapshot: all private hands ghosted, no actions, no chat, no voice.
 - Rematch: keep the room, reset the session, reuse slots, publish a new snapshot.
 
 ## Disconnect and host loss
@@ -183,6 +190,31 @@ async function digest(value) {
 - On host close, send `closed` before destroying the transport.
 - On guest close, remove pending requests and close media calls.
 - On rejection, set a client flag so the subsequent transport close is not shown as “host left”.
+
+## Reload, live updates and stale views
+
+A reload is not a disconnect, and a deploy is not a room reset. Both cost a support cycle when they
+are treated as one.
+
+- **Host reload (same tab):** keep a `sessionStorage` recovery blob — code, PIN digest flag, seat
+  profiles, hands, scores, phase, revision, queued requests. On boot, restore the match, reopen the
+  **same** room code (close the page-hide peer first so the code is free), rotate the PIN, and let
+  guests return through their seat tokens — no PIN, no re-approval. `sessionStorage` dies with the
+  tab, which is the right lifetime for a host recovery.
+- **Guest rejoin:** keep a small `sessionStorage` intent (role, code, name) plus a seat token, so a
+  reload or a brief signalling loss rejoins the seat instead of the lobby. Say “Reconnecting to your
+  seat”, not “Host left”.
+- **Liveness:** heartbeat the snapshot (~4 s) and ping (~5 s); mark a slot offline after ~20 s and
+  convert a silent human turn to a bot after ~30 s, keeping the token. The guest watchdog (~15 s)
+  must be shorter than the turn timeout. Details: `resilience-and-rejoin.md`.
+- **Update banner:** before reloading for a new version, confirm that the table and room will be
+  restored and guests reconnect. Preserve room/mode params, drop any passcode param, bump a version
+  stamp on the match so history rows can be read across releases.
+- **Stale views:** if you skip snapshot rendering while a log/history/modal panel is open, re-render
+  the table when it closes. Otherwise a player returns from the log to a board that is one or more
+  moves old — the most confusing desync report because the state is actually correct.
+- **Context loss:** on WebGL context loss, show a clear reload prompt and remember the seat; a guest
+  rejoins, the host restores from the recovery blob.
 
 ## Hosting UI
 
@@ -210,6 +242,10 @@ below the main surface.
 - [ ] Approval defaults on; pending expires; reject closes.
 - [ ] Start refuses with one human.
 - [ ] Empty seats fill and stay stable.
+- [ ] Late join offers deny / seat / viewer / pause and never replaces a live human.
+- [ ] A host reload restores the same room and guests rejoin.
+- [ ] A version reload keeps the table for solo and guests.
+- [ ] Closing a panel/overlay re-renders the latest snapshot.
 - [ ] Disconnect keeps the slot.
 - [ ] Host close notifies guests.
 - [ ] Caps/rate limits enforced.

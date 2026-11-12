@@ -99,6 +99,14 @@ without a microphone. Test the real permission path manually in Chrome/Safari/Fi
 - Guest close mid-turn (expect bot/placeholder).
 - Host close (expect closed panel, no fake resume).
 - Voice call from an unknown peer id (expect close).
+- Guest reload → auto-rejoin to the same slot, board current, no approval prompt.
+- Host reload (same tab) → same room code reopens, guest reconnects, passcode rotated.
+- Double-send one `actionId` → applied once, ack returned twice.
+- Stall the channel → guest watchdog reconnects within the documented window.
+- Approve mid-turn → viewer/audience state immediately, promotion at the boundary.
+- Close a full-screen panel after state changed → board is current, not the pre-panel frame.
+
+See `resilience-and-rejoin.md` for the timers these depend on.
 
 ## Load
 

@@ -1,7 +1,7 @@
 ---
 name: Multiplayerization
-description: Add real-time multiplayer to an existing app — choose the authority and transport, design rooms and a versioned protocol, gate access with approval and passcodes, project private state per participant, add chat/voice, test with two clients and release without a backend (or with one).
-version: 1.0.0
+description: Add real-time multiplayer to an existing app — choose the authority and transport, design rooms and a versioned protocol, gate access with approval and passcodes, project private state per participant, add chat/voice, recover reloads and stale clients, test with two clients and release without a backend (or with one).
+version: 1.2.0
 ---
 
 # Multiplayerization
@@ -164,21 +164,54 @@ Rules:
 - **Passcode**: if used, generate it automatically (20 chars, four classes); **New PIN** rotates it. Store only a digest in memory. Never put it in the invite URL. Policy details belong behind an ⓘ, not a wall of text.
 - **Copy invite link** sends the URL only; **Copy room info** may include the passcode, with a warning.
 - Show a roster, pending requests, connection status and a way to leave.
+- **Late join:** while a session runs, the host may deny, approve into a bot seat (keeping its hand and
+  score) or approve as a redacted viewer, or pause joins for 30 minutes. Never displace a live human.
 
 Assume the code and policy are public. A passcode is a brute-force cost, not authentication. Approval
 is the access-control decision.
 
-### 8. Resilience
+### 8. Resilience: assume a stale view, not lost commands
 
-- **Disconnect:** keep the participant's slot and state; mark offline or replace with a bot/placeholder.
-  Never renumber live roles.
-- **Host loss:** end the room clearly, or implement host migration with a handoff snapshot and a new
-  authority epoch. Do not silently fork.
-- **Reconnect:** a client token + grace window if the product needs it; otherwise say "not resumable".
-- **Timeouts:** pending approvals, idle turns, media calls.
-- **Idempotency:** an intent carries a client id; ignore duplicates.
-- **Ordering:** revision numbers; drop stale snapshots.
+A host-authoritative room does not diverge when a guest message is dropped — the play simply never
+happened. The failure you will actually debug is a **stale view**: a guest showing "Bot is thinking"
+for a bot that moved a minute ago. Repair the view; do not replay the log.
+
+- **Self-sufficient snapshots:** any snapshot plus the render path must produce a correct screen. Then
+  catch-up is one snapshot, and "latest revision wins" is idempotent.
+- **Catch-up ladder:** host sends a full redacted snapshot on every accepted change and every ~4 s
+  during live play; on idle/summary screens it sends a cheap `pulse {rev}`. A guest behind sends
+  `resync` (rate-limited); the host answers with a snapshot tagged `resync: true`. A snapshot tagged
+  as a repair is accepted even at an older revision.
+- **Idempotent intents:** every action carries `actionId`; the host stores the last id + ack per
+  participant and never applies one twice. `action-ack {actionId, ok, reason, rev}`. No ack in ~3.5 s
+  means "refresh and confirm", never "silently play again".
+- **Liveness:** any inbound message refreshes `lastSeen`; a participant is offline after ~20 s. A
+  guest watchdogs ~15 s without traffic and reconnects with its token. If a human's active turn has
+  run ~30 s, the host converts the slot to a bot/placeholder **keeping its state and token**, sends a
+  `seat-timeout`, and closes the stale connection. Keep watchdog < turn timeout, or you convert a
+  seat that was about to heal itself.
+- **Disconnect:** keep the participant's slot, hand/score and identity; mark offline or replace with a
+  placeholder. Never renumber live roles.
+- **Reconnect:** a per-seat bearer token (16 random bytes) delivered in `welcome`, stored in
+  `sessionStorage` plus an optional name-bound, TTL'd `localStorage` card, and checked **before** the
+  passcode/approval gate. Never in the roster, state, URL or export. A rejoin reclaims a slot; it
+  never mints a new one.
+- **Host reload is not host loss:** persist `{code, state, roster with tokens, chat, queue}` to
+  `sessionStorage` on `pagehide`, close the peer to free the room code, reopen the same code on boot,
+  hydrate, rotate the PIN, and let guests retry/rejoin. A closed tab or another device still ends the
+  room — say so plainly instead of implying migration.
+- **Late join:** approve into a free or placeholder slot; mid-turn, reserve the slot, seat the guest as
+  a redacted **viewer immediately**, and promote at the next turn boundary. Hold the reservation for a
+  few minutes so a reload can reattach. Never displace a live human.
+- **Audience is public:** if watching is possible, carry the viewer list in every state/welcome/lobby
+  and show a watcher count to every human, not just the host.
+- **Timeouts:** pending approvals, idle turns, action acks, media calls.
 - **Persistence:** room state usually memory-only. Do not persist secrets or private state.
+- **Stale views:** re-render on panel close if snapshots were skipped while it was open; re-apply a
+  snapshot that arrived meanwhile.
+
+Numbers, envelopes, failure tests and the symptom→cause table:
+`references/resilience-and-rejoin.md`.
 
 ### 9. Chat
 
@@ -244,9 +277,12 @@ Keep network-dependent tests separate from offline CI. A loopback test is not a 
 - [ ] Guests cannot write authoritative state or read another participant's private data.
 - [ ] Placeholder ids are stable; no visible reshuffle.
 - [ ] Disconnect/host-close behavior is explicit and tested.
+- [ ] A dropped snapshot, a reloaded guest and a stalled turn all recover without a manual reload.
+- [ ] An action retried with the same id is applied once; a stale guest can resync on demand.
 - [ ] Chat is escaped and rate-limited; voice is opt-in and allowlisted.
 - [ ] Caps exist for connections, messages, payloads and intents.
 - [ ] Two real clients pass the end-to-end test; offline CI does not need the network.
+- [ ] Late join, viewer redaction and host reload are implemented or explicitly declared unsupported.
 - [ ] Docs and state file are current; credits name the harness and model.
 
 ## Critical traps
@@ -265,6 +301,15 @@ Keep network-dependent tests separate from offline CI. A loopback test is not a 
 | Mic mute stops track | call dies | `track.enabled = false` |
 | Deafen changes mic | confusing state | only remote `<audio>.muted` |
 | Assuming P2P is DDoS-proof | outage | caps + server if needed |
+| Panel skips snapshot rendering | returning player sees an old board | re-render on overlay close |
+| Reload treated as host loss | room dies on every deploy | `sessionStorage` recovery + fresh PIN |
+| Late join takes a live seat | a human loses hand/score | replace bots only; else viewer |
+| Resync checked after approval | returning guest never gets in | token check before passcode/approval |
+| Retry without an action id | the same play happens twice | `actionId` + stored ack |
+| Watchdog longer than turn timeout | converts a healthy seat to a bot | watchdog < turn timeout |
+| Stale peer holds the room code | host reload gets "room not found" | close the old peer before reopening |
+| Queue seated with no feedback | guest thinks the join failed | viewer welcome now, promote at boundary |
+| Watcher list host-only | guests cannot see the audience | `viewers` in every state/welcome/lobby |
 
 More in `references/`.
 
@@ -272,8 +317,11 @@ More in `references/`.
 
 - `references/decision-guide.md` — authority/transport selection.
 - `references/protocol-design.md` — envelopes, revisions, intents, projection, reconnect.
+- `references/resilience-and-rejoin.md` — catch-up ladder, acks, liveness timers, seat tokens,
+  queued late join, host reload, failure tests.
 - `references/access-and-security.md` — approval, passcodes, caps, threat model.
 - `references/chat-and-voice.md` — text relay, voice mesh, mute/deafen, speaking meter.
+- `references/hosting-and-auto.md` — lifecycle, passcode policy, late join, reload recovery, live updates.
 - `references/testing.md` — pure, static, two-client, failure and media tests.
 - `references/app-patterns.md` — games, editors, quizzes, dashboards, watch parties.
 - `references/release.md` — docs, screenshots, state, publishing.
@@ -286,5 +334,8 @@ More in `references/`.
 ## Provenance
 
 Original skill by Somphol Boonjing, distilled from the Leab-Tui 3D 1.6.0 multiplayer build and
-generalized to non-game apps. PeerJS and Three.js are MIT. No brand marks, credentials or private data
-are included. See `ATTRIBUTION.md`.
+extended with the 1.9.18 late-join, viewer, host-reload and live-update lessons, then the 1.10.x
+reliability pass (sequence catch-up, action acks, liveness timers, seat tokens, queued joins,
+watchers). Generalized to non-game apps. PeerJS and Three.js are MIT. No brand marks, credentials or
+private data are included.
+See `ATTRIBUTION.md`.
