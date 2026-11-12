@@ -235,7 +235,7 @@
     },
     {
       "name": "leab-tui-studio",
-      "version": "727838a9c017",
+      "version": "ef79b1789d06",
       "description": "Build a bilingual, static 3D trick-taking studio for a traditional tile or card game — research and freeze the rules, write a pure engine, add a 3D table, heuristic AI, coach, persistence, headless verification and a release-grade handoff.",
       "license": "MIT",
       "files": [
@@ -245,6 +245,7 @@
         "references/build-log.md",
         "references/publishing.md",
         "references/rules-research.md",
+        "references/tablet-and-branching.md",
         "references/verification.md",
         "scripts/browser-check.mjs",
         "templates/AGENTS.md",

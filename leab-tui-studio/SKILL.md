@@ -1,7 +1,7 @@
 ---
 name: Leab-Tui Studio
-description: Build a bilingual, static 3D trick-taking studio for a traditional tile or card game — research and freeze the rules, write a pure engine, add a 3D table, heuristic AI, coach, persistence, headless verification and a release-grade handoff.
-version: 1.0.0
+description: Build a bilingual, static 3D trick-taking studio for a traditional tile or card game — research and freeze the rules, write a pure engine, add a 3D table, heuristic AI, coach, tablet layout, persistence, headless verification, a feature train and a release-grade handoff.
+version: 1.1.0
 ---
 
 # Leab-Tui Studio
@@ -86,6 +86,9 @@ script.js    data → rules → AI → state → flow → 3D → audio → UI �
 | Auto-reveal | bluff/conservation disappears | always allow face-down; only revealed sets compete |
 | Restarting tweens on every render | tiles jitter or never arrive | skip a target within ~0.004 units |
 | Modal screenshot too early | card looks transparent | wait 800–900 ms for the entry animation |
+| Width-only rail check | iPad landscape loses both nav sets | same `(max-width: 1024px), (pointer: coarse)` query in CSS and JS |
+| Dock height guessed | top view crops the rim or hides the hand | measure the dock, then `fitTopFraming()` |
+| Feature branched from `main` | release train derails, hotfixes collide | branch from `develop`; version strings only on release branches |
 
 ## Definition of done
 
@@ -95,7 +98,7 @@ script.js    data → rules → AI → state → flow → 3D → audio → UI �
 - [ ] Face-down play works and never wins.
 - [ ] A full round, undo, next round, match end and reload-resume are verified.
 - [ ] EN/TH dictionaries have the same keys; every visible control switches.
-- [ ] The 3D hand is visible on desktop and 390×844; the dock does not cover it.
+- [ ] The 3D hand is visible on desktop and 390×844, and on an iPad in **both** orientations.
 - [ ] No console exceptions, no autoplay warnings, no remote assets except the pinned CDN.
 - [ ] README, AGENTS, STATE, state.json and the full docs set are current.
 - [ ] Screenshots exist for desktop EN, desktop TH, rules and phone.
@@ -123,6 +126,8 @@ state. `?seed=123` makes the shuffle reproducible.
 - [references/verification.md](references/verification.md) — dependency-free Chrome harness and flow tests.
 - [references/publishing.md](references/publishing.md) — keychain-safe GitHub, Pages, docs set, catalog.
 - [references/build-log.md](references/build-log.md) — the Leab-Tui case study, bugs and timings.
+- [references/tablet-and-branching.md](references/tablet-and-branching.md) — iPad layout rules, the
+  one-report-one-fix loop, and the `develop` feature train.
 - [templates/RULES.md](templates/RULES.md) — a rules contract scaffold.
 - [templates/AGENTS.md](templates/AGENTS.md) — a repository handoff scaffold.
 - [scripts/browser-check.mjs](scripts/browser-check.mjs) — reusable CDP harness (Node 22+, Chrome).
@@ -139,6 +144,6 @@ state. `?seed=123` makes the shuffle reproducible.
 
 ## Provenance
 
-Original skill by Somphol Boonjing, built from the Leab-Tui 3D release. The rules reference is Navee
+Original skill by Somphol Boonjing, built from the Leab-Tui 3D release, extended with the 1.10.x tablet-layout and feature-train lessons. The rules reference is Navee
 Angsuputiphant's 2016 Thai article; Three.js is MIT. No third-party brand marks are redistributed. See
 [ATTRIBUTION.md](ATTRIBUTION.md).
